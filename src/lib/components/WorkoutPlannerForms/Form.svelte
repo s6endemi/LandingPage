@@ -8,6 +8,7 @@
   import TrainingDuration from "./TrainingDuration.svelte";
   import Goals from "./Goals.svelte";
   import TrainingLocation from "./TrainingLocation.svelte";
+  import { LucideChevronLeft, LucideChevronRight } from "lucide-svelte";
 
   interface ButtonsProps {
     variables: (string | Level | TrainingGoal | number | null)[];
@@ -106,7 +107,7 @@
   variables: (string | number | Location | Level | TrainingGoal | null)[],
   direction: "forward" | "back" | "both"
 )}
-  <div class="mt-5 text-center">
+  <div class="pt-5 text-center">
     {#if direction === "both" || direction === "back"}
       <button type="button" onclick={handlePreviousStep} class="btn btn-neutral"> Zurück </button>
     {/if}
@@ -119,6 +120,7 @@
         class="btn {variables.some((value) => value === null) ? 'btn-disabled' : 'btn-secondary'} ml-4"
       >
         Weiter
+        <LucideChevronRight />
       </button>
     {/if}
   </div>
