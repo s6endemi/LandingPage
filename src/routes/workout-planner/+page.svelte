@@ -1,5 +1,5 @@
 <script lang="ts">
-  import WorkoutPlannerForm from "$lib/components/WorkoutPlannerForm.svelte";
+  import WorkoutPlannerForm from "$lib/components/WorkoutPlannerForms/Form.svelte";
 
   export let data;
 </script>
