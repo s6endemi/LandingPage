@@ -18,9 +18,11 @@ export interface Exercise extends FilterableItem {
   priority: number;
 }
 
-export interface Filters {
-  [key: string]: string | null;
-}
+export type Filters = {
+  category: string[];
+  level: string[];
+  mechanic: string[];
+};
 
 export type MediaType = "image" | "video";
 
@@ -66,7 +68,7 @@ export interface ExerciseWithAlternatives {
   totalTime: number;
 }
 
-export type AuthModal = "signIn" | "register" | "forgotPassword" | null;
+export type AuthModal = "resetPassword" | "signIn" | "register" | "forgotPassword" | null;
 
 export interface Profile {
   firstName: string;
