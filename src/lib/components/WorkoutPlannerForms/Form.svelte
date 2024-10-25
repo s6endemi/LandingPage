@@ -9,6 +9,11 @@
   import Goals from "./Goals.svelte";
   import TrainingLocation from "./TrainingLocation.svelte";
 
+  interface ButtonsProps {
+    variables: (string | Level | TrainingGoal | number | null)[];
+    direction: "both" | "back" | "forward";
+  }
+
   interface Props {
     exercises: Exercise[];
   }
@@ -17,7 +22,7 @@
 
   let frequency = $state(4); // Frequenz des Trainings
   let duration = $state(60); // Initialwert für die Dauer
-  let level: Level = $state(Level.Beginner);
+  let level: Level | null = $state(null);
   let isLoading = $state(false);
   let progress: number = $state(0);
   let goal: TrainingGoal = $state(TrainingGoal.Hypertrophy);
@@ -85,7 +90,7 @@
         if (progress >= 100) {
           clearInterval(interval);
           isLoading = false;
-          customSplit = createSplit(exercises, frequency, duration, level, goal);
+          customSplit = createSplit(exercises, frequency, duration, level || Level.Beginner, goal);
         }
       },
       ((Math.random() * 1000) % 300) + 100
@@ -97,22 +102,21 @@
   }
 </script>
 
-{#snippet buttons(direction: string)}
+{#snippet buttons(
+  variables: (string | number | Location | Level | TrainingGoal | null)[],
+  direction: "forward" | "back" | "both"
+)}
   <div class="mt-5 text-center">
     {#if direction === "both" || direction === "back"}
-      <button
-        type="button"
-        onclick={handlePreviousStep}
-        class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
-      >
-        Zurück
-      </button>
+      <button type="button" onclick={handlePreviousStep} class="btn btn-neutral"> Zurück </button>
     {/if}
+
     {#if direction === "both" || direction === "forward"}
       <button
         type="button"
         onclick={handleNextStep}
-        class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
+        disabled={variables.some((value) => value === null)}
+        class="btn {variables.some((value) => value === null) ? 'btn-disabled' : 'btn-secondary'} ml-4"
       >
         Weiter
       </button>
@@ -120,9 +124,9 @@
   </div>
 {/snippet}
 
-<main class="container mx-auto max-w-xl px-4">
+<main class="container mx-auto max-w-5xl px-4">
   {#if customSplit.length === 0}
-    <form onsubmit={handleSubmit} class="space-y-6">
+    <form class="space-y-6">
       <h1 class="text-neutral-content-content mb-6 text-left text-3xl font-bold">Workout Planner</h1>
 
       <!-- Progress Bar mit Zurück-Button -->
@@ -157,27 +161,27 @@
       <div class="w-full">
         {#if currentStep === 1}
           <ExperienceLevel bind:level />
-          {@render buttons("forward")}
+          {@render buttons([level], "forward")}
         {/if}
 
         {#if currentStep === 2}
           <WeeklyFrequency bind:frequency />
-          {@render buttons("both")}
+          {@render buttons([frequency], "both")}
         {/if}
 
         {#if currentStep === 3}
           <TrainingDuration bind:duration />
-          {@render buttons("both")}
+          {@render buttons([duration], "both")}
         {/if}
 
         {#if currentStep === 4}
           <Goals bind:goal bind:furtherGoals />
-          {@render buttons("both")}
+          {@render buttons([goal, ...furtherGoals], "both")}
         {/if}
 
         {#if currentStep === 5}
           <TrainingLocation bind:trainingLocation />
-          {@render buttons("both")}
+          {@render buttons([location], "both")}
         {/if}
       </div>
 
