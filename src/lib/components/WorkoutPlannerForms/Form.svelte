@@ -97,6 +97,29 @@
   }
 </script>
 
+{#snippet buttons(direction: string)}
+  <div class="mt-5 text-center">
+    {#if direction === "both" || direction === "back"}
+      <button
+        type="button"
+        onclick={handlePreviousStep}
+        class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
+      >
+        Zurück
+      </button>
+    {/if}
+    {#if direction === "both" || direction === "forward"}
+      <button
+        type="button"
+        onclick={handleNextStep}
+        class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
+      >
+        Weiter
+      </button>
+    {/if}
+  </div>
+{/snippet}
+
 <main class="container mx-auto max-w-xl px-4">
   {#if customSplit.length === 0}
     <form onsubmit={handleSubmit} class="space-y-6">
@@ -134,95 +157,27 @@
       <div class="w-full">
         {#if currentStep === 1}
           <ExperienceLevel bind:level />
-          <div class="mt-5 text-center">
-            <button
-              type="button"
-              onclick={handleNextStep}
-              class="rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
-            >
-              Weiter
-            </button>
-          </div>
+          {@render buttons("forward")}
         {/if}
 
         {#if currentStep === 2}
           <WeeklyFrequency bind:frequency />
-          <div class="mt-5 text-center">
-            <button
-              type="button"
-              onclick={handlePreviousStep}
-              class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
-            >
-              Zurück
-            </button>
-            <button
-              type="button"
-              onclick={handleNextStep}
-              class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
-            >
-              Weiter
-            </button>
-          </div>
+          {@render buttons("both")}
         {/if}
 
         {#if currentStep === 3}
           <TrainingDuration bind:duration />
-          <div class="mt-5 text-center">
-            <button
-              type="button"
-              onclick={handlePreviousStep}
-              class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
-            >
-              Zurück
-            </button>
-            <button
-              type="button"
-              onclick={handleNextStep}
-              class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
-            >
-              Weiter
-            </button>
-          </div>
+          {@render buttons("both")}
         {/if}
 
         {#if currentStep === 4}
           <Goals bind:goal bind:furtherGoals />
-          <div class="mt-5 text-center">
-            <button
-              type="button"
-              onclick={handlePreviousStep}
-              class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
-            >
-              Zurück
-            </button>
-            <button
-              type="button"
-              onclick={handleNextStep}
-              class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
-            >
-              Weiter
-            </button>
-          </div>
+          {@render buttons("both")}
         {/if}
 
         {#if currentStep === 5}
           <TrainingLocation bind:trainingLocation />
-          <div class="mt-5 text-center">
-            <button
-              type="button"
-              onclick={handlePreviousStep}
-              class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
-            >
-              Zurück
-            </button>
-            <button
-              type="button"
-              onclick={handleNextStep}
-              class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
-            >
-              Weiter
-            </button>
-          </div>
+          {@render buttons("both")}
         {/if}
       </div>
 
