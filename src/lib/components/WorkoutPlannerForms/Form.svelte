@@ -9,31 +9,35 @@
   import Goals from "./Goals.svelte";
   import TrainingLocation from "./TrainingLocation.svelte";
 
-  export let exercises: Exercise[];
+  interface Props {
+    exercises: Exercise[];
+  }
 
-  let frequency = 4; // Frequenz des Trainings
-  let duration = 60; // Initialwert für die Dauer
-  let level: Level = Level.Beginner;
-  let isLoading = false;
-  let progress: number = 0;
-  let goal: TrainingGoal = TrainingGoal.Hypertrophy;
-  let customSplit: ExercisePlan[] = [];
-  let trainingLocation: "Zuhause" | "Gym" = "Zuhause";
+  let { exercises }: Props = $props();
 
-  let currentStep = 1;
+  let frequency = $state(4); // Frequenz des Trainings
+  let duration = $state(60); // Initialwert für die Dauer
+  let level: Level = $state(Level.Beginner);
+  let isLoading = $state(false);
+  let progress: number = $state(0);
+  let goal: TrainingGoal = $state(TrainingGoal.Hypertrophy);
+  let customSplit: ExercisePlan[] = $state([]);
+  let trainingLocation: "Zuhause" | "Gym" = $state("Zuhause");
+
+  let currentStep = $state(1);
   const totalSteps = 6;
   let showInfo = false;
 
-  let furtherGoals = [
+  let furtherGoals = $state([
     "Gesund sein",
     "Athletisch werden",
     "Flexibilität verbessern",
     "Gewicht verlieren",
     "Muskeldefinition",
     "Stress abbauen",
-  ];
+  ]);
 
-  $: progressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
+  let progressPercentage = $derived(((currentStep - 1) / (totalSteps - 1)) * 100);
 
   onMount(() => {
     const restDayHint = document.getElementById("restDayHint");
@@ -95,7 +99,7 @@
 
 <main class="container mx-auto max-w-xl px-4">
   {#if customSplit.length === 0}
-    <form on:submit={handleSubmit} class="space-y-6">
+    <form onsubmit={handleSubmit} class="space-y-6">
       <h1 class="text-neutral-content-content mb-6 text-left text-3xl font-bold">Workout Planner</h1>
 
       <!-- Progress Bar mit Zurück-Button -->
@@ -103,7 +107,7 @@
         {#if currentStep > 1}
           <button
             type="button"
-            on:click={handlePreviousStep}
+            onclick={handlePreviousStep}
             class="absolute -left-6 transform cursor-pointer text-2xl font-bold text-blue-800 transition hover:scale-110"
             aria-label="Zurück"
           >
@@ -133,7 +137,7 @@
           <div class="mt-5 text-center">
             <button
               type="button"
-              on:click={handleNextStep}
+              onclick={handleNextStep}
               class="rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
             >
               Weiter
@@ -146,14 +150,14 @@
           <div class="mt-5 text-center">
             <button
               type="button"
-              on:click={handlePreviousStep}
+              onclick={handlePreviousStep}
               class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
             >
               Zurück
             </button>
             <button
               type="button"
-              on:click={handleNextStep}
+              onclick={handleNextStep}
               class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
             >
               Weiter
@@ -166,14 +170,14 @@
           <div class="mt-5 text-center">
             <button
               type="button"
-              on:click={handlePreviousStep}
+              onclick={handlePreviousStep}
               class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
             >
               Zurück
             </button>
             <button
               type="button"
-              on:click={handleNextStep}
+              onclick={handleNextStep}
               class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
             >
               Weiter
@@ -186,14 +190,14 @@
           <div class="mt-5 text-center">
             <button
               type="button"
-              on:click={handlePreviousStep}
+              onclick={handlePreviousStep}
               class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
             >
               Zurück
             </button>
             <button
               type="button"
-              on:click={handleNextStep}
+              onclick={handleNextStep}
               class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
             >
               Weiter
@@ -206,14 +210,14 @@
           <div class="mt-5 text-center">
             <button
               type="button"
-              on:click={handlePreviousStep}
+              onclick={handlePreviousStep}
               class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
             >
               Zurück
             </button>
             <button
               type="button"
-              on:click={handleNextStep}
+              onclick={handleNextStep}
               class="ml-4 rounded bg-blue-500 px-4 py-2 text-white transition duration-300 hover:bg-blue-600"
             >
               Weiter
