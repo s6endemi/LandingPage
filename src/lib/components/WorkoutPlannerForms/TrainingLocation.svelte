@@ -1,57 +1,121 @@
 <script lang="ts">
+  import { Info, Home, Building2, Dumbbell, Timer, Users, Clock, ShieldCheck } from "lucide-svelte";
+
   let { trainingLocation = $bindable() } = $props();
+
+  const locations = [
+    {
+      value: "Home",
+      title: "Zuhause",
+      description: "Flexibles Training ohne Equipment",
+      icon: Home,
+      benefits: [
+        {
+          text: "Keine Anfahrt nötig",
+          icon: Clock,
+        },
+        {
+          text: "Maximale Flexibilität",
+          icon: Timer,
+        },
+        {
+          text: "Privatsphäre",
+          icon: ShieldCheck,
+        },
+      ],
+      advice: "Perfekt für flexibles Training von Zuhause oder im Park",
+    },
+    {
+      value: "Gym",
+      title: "Fitnessstudio",
+      description: "Professionelles Equipment und motivierende Atmosphäre",
+      icon: Building2,
+      benefits: [
+        {
+          text: "Vielfältiges Equipment",
+          icon: Dumbbell,
+        },
+        {
+          text: "Community & Support",
+          icon: Users,
+        },
+        {
+          text: "Professionelle Umgebung",
+          icon: ShieldCheck,
+        },
+      ],
+      advice: "Ideal bei bestehender oder geplanter Gym-Mitgliedschaft",
+    },
+  ];
 </script>
 
-<div class="m-2 space-y-6">
-  <div class="space-y-3">
-    <label class="text-xl font-bold text-neutral-content" for="training-location">
-      Wo möchtest du trainieren?
-      <div class="tooltip tooltip-right" data-tip="Wähle deinen bevorzugten Trainingsort: Zuhause oder im Gym.">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-info"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 16v-4" />
-          <path d="M12 8h.01" />
-        </svg>
+<div class="container mx-auto p-6">
+  <div class="space-y-6">
+    <div class="flex items-center gap-2">
+      <label for="location" class="text-2xl font-bold">Wo möchtest du trainieren?</label>
+      <div
+        id="loaction"
+        class="tooltip tooltip-right"
+        data-tip="Wähle deinen bevorzugten Trainingsort: Zuhause oder im Gym."
+      >
+        <Info class="h-5 w-5 opacity-70" />
       </div>
-    </label>
+    </div>
 
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <button
-        class="max-h-lg card w-full max-w-72 transform cursor-pointer bg-neutral text-center shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-content hover:shadow-2xl"
-        onclick={() => (trainingLocation = "Zuhause")}
-        aria-label="Zuhause"
-      >
-        <div class="card-body">
-          <div class="flex justify-center">
-            <img src="/path-to-home-image.jpg" alt="Zuhause Bild" class="h-40 w-full object-cover" />
-          </div>
-          <h2 class="mt-2 text-lg font-bold">Zuhause</h2>
-        </div>
-      </button>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {#each locations as location}
+        <button
+          class="group relative overflow-hidden rounded-xl border-2 transition-all duration-300
+            {trainingLocation === location.value
+            ? 'border-primary bg-primary/10 shadow-lg'
+            : 'border-base-content/10 hover:border-primary/50 hover:bg-base-200'}"
+          onclick={() => (trainingLocation = location.value)}
+        >
+          <div class="relative p-6">
+            <!-- Header with Icon -->
+            <div class="mb-4 flex items-center gap-4">
+              <div
+                class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10
+                  transition-all duration-300 group-hover:scale-110
+                  {trainingLocation === location.value ? 'bg-primary/20' : ''}"
+              >
+                <location.icon
+                  size={32}
+                  class="text-primary {trainingLocation === location.value ? 'text-primary' : 'text-base-content'}"
+                />
+              </div>
+              <div class="flex flex-col">
+                <h3 class="text-start text-xl font-semibold">{location.title}</h3>
+                <p class="text-sm text-base-content/70">{location.description}</p>
+              </div>
+            </div>
 
-      <button
-        class="max-h-lg card w-full max-w-72 transform cursor-pointer bg-neutral text-center shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:bg-secondary hover:text-secondary-content hover:shadow-2xl"
-        onclick={() => (trainingLocation = "Gym")}
-        aria-label="Gym"
-      >
-        <div class="card-body">
-          <div class="flex justify-center">
-            <img src="/path-to-gym-image.jpg" alt="Gym Bild" class="h-40 w-full object-cover" />
+            <!-- Benefits -->
+            <div class="mb-4 flex flex-wrap gap-4">
+              {#each location.benefits as benefit}
+                <div class="flex items-center gap-2">
+                  <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                    <benefit.icon size={16} class="text-primary" />
+                  </div>
+                  <span class="text-sm">{benefit.text}</span>
+                </div>
+              {/each}
+            </div>
+
+            <!-- Features -->
+            <div class="mt-4 flex items-center gap-2 text-sm">
+              <Info size={16} class="text-base-content/70" />
+              <span class="text-base-content/70">{location.advice}</span>
+            </div>
           </div>
-          <h2 class="mt-2 text-lg font-bold">Gym</h2>
-        </div>
-      </button>
+
+          <!-- Hover Effect Gradient -->
+          <div
+            class="absolute inset-0 -z-10 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0
+              transition-opacity duration-300 group-hover:opacity-100"
+          ></div>
+        </button>
+      {/each}
     </div>
   </div>
 </div>

@@ -1,64 +1,89 @@
 <script lang="ts">
+  import { CheckCircle2, Info, Clock, Hourglass, Timer } from "lucide-svelte";
+
   let { duration = $bindable() } = $props();
+
+  const options = [
+    {
+      value: 45,
+      title: "Kurz",
+      description: "Ideal für ein effektives und zeitsparenden Workout",
+      timeRange: "30-60 Minuten",
+      icon: Hourglass,
+      stats: "Effizientes Training • Fokus auf Hauptübungen",
+    },
+    {
+      value: 60,
+      title: "Normal",
+      description: "Ausgewogene Zeit für ein vollständiges Training",
+      timeRange: "60-90 Minuten",
+      icon: Clock,
+      stats: "Optimale Balance • Zeit für Warm-up & Cool-down",
+    },
+    {
+      value: 90,
+      title: "Lang",
+      description: "Ausführliches Training mit Raum für Zusatzübungen",
+      timeRange: "90-120 Minuten",
+      icon: Timer,
+      stats: "Umfangreiches Training • Zeit für Details",
+    },
+  ];
 </script>
 
-<div class="m-2 mt-6 space-y-6">
-  <div class="space-y-3">
-    <label class="text-xl font-bold text-neutral-content" for="duration">
-      Wie lange möchtest du trainieren?
-      <div class="tooltip tooltip-right" data-tip="Wähle die ungefähre Trainingsdauer aus">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-info"
-        >
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 16v-4" />
-          <path d="M12 8h.01" />
-        </svg>
-      </div>
-    </label>
-
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+<div class="flex flex-col items-center justify-center p-4">
+  <h1 class="mb-8 text-center text-3xl font-bold">Wie lange möchtest du trainieren?</h1>
+  <div class="flex w-full max-w-2xl flex-col gap-4">
+    {#each options as option}
       <button
-        class="max-h-lg card w-full max-w-72 transform cursor-pointer bg-neutral text-left shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:bg-primary hover:text-primary-content hover:shadow-2xl"
-        onclick={() => (duration = 45)}
-        aria-label="Kurz (30-60 Minuten)"
+        class="group relative overflow-hidden rounded-xl border-2 transition-all duration-300
+            {duration === option.value
+          ? 'border-primary bg-primary/10 shadow-lg'
+          : 'border-base-content/10 hover:border-primary/50 hover:bg-base-200'}"
+        onclick={() => (duration = option.value)}
       >
-        <div class="card-body">
-          <h2 class="card-title">Kurz</h2>
-          <p class="text-sm text-neutral-content">30-60 Minuten</p>
-        </div>
-      </button>
+        <div class="relative flex items-center gap-4 p-6">
+          <!-- Icon Container -->
+          <div
+            class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10
+                transition-all duration-300 group-hover:scale-110
+                {duration === option.value ? 'bg-primary/20' : ''}"
+          >
+            <option.icon
+              size={32}
+              class="text-primary {duration === option.value ? 'text-primary' : 'text-base-content'}"
+            />
+          </div>
 
-      <button
-        class="max-h-lg card w-full max-w-72 transform cursor-pointer bg-neutral text-left shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:bg-secondary hover:text-secondary-content hover:shadow-2xl"
-        onclick={() => (duration = 60)}
-        aria-label="Normal (60-90 Minuten)"
-      >
-        <div class="card-body">
-          <h2 class="card-title">Normal</h2>
-          <p class="text-sm text-neutral-content">60-90 Minuten</p>
-        </div>
-      </button>
+          <!-- Content -->
+          <div class="flex flex-col items-start text-left">
+            <div class="flex items-center gap-3">
+              <h3 class="text-xl font-semibold">{option.title}</h3>
+              <span class="text-sm font-medium text-base-content/70">{option.timeRange}</span>
+            </div>
+            <p class="text-sm text-base-content/70">{option.description}</p>
+            <div class="mt-2 flex items-center gap-2 text-sm">
+              <Info size={16} class="text-base-content/70" />
+              <span class="text-base-content/70">{option.stats}</span>
+            </div>
+          </div>
 
-      <button
-        class="max-h-lg card w-full max-w-72 transform cursor-pointer bg-neutral text-left shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:bg-accent hover:text-accent-content hover:shadow-2xl"
-        onclick={() => (duration = 90)}
-        aria-label="Lang (90-120 Minuten)"
-      >
-        <div class="card-body">
-          <h2 class="card-title">Lang</h2>
-          <p class="text-sm text-neutral-content">90-120 Minuten</p>
+          <!-- Check Icon (visible when selected) -->
+          <div class="absolute right-6 top-1/2 -translate-y-1/2 transform">
+            <CheckCircle2
+              size={24}
+              class="transition-all duration-300
+                     {duration === option.value ? 'text-primary opacity-100' : 'opacity-0'}"
+            />
+          </div>
         </div>
+
+        <!-- Hover Effect Gradient -->
+        <div
+          class="absolute inset-0 -z-10 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0
+              transition-opacity duration-300 group-hover:opacity-100"
+        ></div>
       </button>
-    </div>
+    {/each}
   </div>
 </div>

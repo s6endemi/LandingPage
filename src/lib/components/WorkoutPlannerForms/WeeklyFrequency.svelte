@@ -8,24 +8,27 @@
   const options = [
     {
       value: 1,
-      title: "Einstiegstraining (1 mal)",
+      title: "Einstiegstraining",
       description: "Perfekt für Einsteiger oder zur Aufrechterhaltung",
       icon: Baby, // Alternative options: Activity, HeartPulse, Footprints
       stats: "Grundlegende Routine • Fokus auf Ganzkörperübungen",
+      range: "1",
     },
     {
       value: 2,
-      title: "Regelmäßiges Training (2-3 mal)",
+      title: "Regelmäßiges Training",
       description: "Ideal für konstanten Fortschritt und ausgewogenes Training",
       icon: CalendarCheck, // Alternative options: Repeat, Timer, Activity
       stats: "Ausgewogene Routine • Fokus auf Hauptmuskelgruppen",
+      range: "2-3",
     },
     {
       value: 3,
-      title: "Häufiges Training (4+ mal)",
+      title: "Häufiges Training",
       description: "Für fortgeschrittene Athleten mit hoher Trainingsbereitschaft",
       icon: Trophy, // Alternative options: Flame, Target, Crown
       stats: "Intensive Routine • Fokus auf einzelne Muskeln",
+      range: "4+",
     },
   ];
 </script>
@@ -36,7 +39,7 @@
     {#each options as option}
       <button
         class="group relative overflow-hidden rounded-xl border-2 transition-all duration-300
-               {frequency === option.value
+            {frequency === option.value
           ? 'border-primary bg-primary/10 shadow-lg'
           : 'border-base-content/10 hover:border-primary/50 hover:bg-base-200'}"
         onclick={() => (frequency = option.value)}
@@ -45,8 +48,8 @@
           <!-- Icon Container -->
           <div
             class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-primary/10
-                      transition-all duration-300 group-hover:scale-110
-                      {frequency === option.value ? 'bg-primary/20' : ''}"
+                transition-all duration-300 group-hover:scale-110
+                {frequency === option.value ? 'bg-primary/20' : ''}"
           >
             <option.icon
               size={32}
@@ -56,7 +59,10 @@
 
           <!-- Content -->
           <div class="flex flex-col items-start text-left">
-            <h3 class="text-xl font-semibold">{option.title}</h3>
+            <div class="flex items-center gap-3">
+              <h3 class="text-xl font-semibold">{option.title}</h3>
+              <span class="text-sm font-medium text-base-content/70">{option.range} mal pro Woche</span>
+            </div>
             <p class="text-sm text-base-content/70">{option.description}</p>
             <div class="mt-2 flex items-center gap-2 text-sm">
               <Info size={16} class="text-base-content/70" />
@@ -77,7 +83,7 @@
         <!-- Hover Effect Gradient -->
         <div
           class="absolute inset-0 -z-10 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0
-                    transition-opacity duration-300 group-hover:opacity-100"
+              transition-opacity duration-300 group-hover:opacity-100"
         ></div>
       </button>
     {/each}

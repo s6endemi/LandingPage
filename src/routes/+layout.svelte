@@ -53,7 +53,7 @@
       <p class="text-xl font-black">TrainTech</p>
     </a>
     <div class="navbar-center hidden space-x-4 lg:flex">
-      <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/Dietplanner')}" href="/Dietplanner">
+      <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/dietplanner')}" href="/dietplanner">
         Ernährungsplan erstellen
       </a>
       <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/workout-planner')}" href="/workout-planner">
