@@ -44,6 +44,11 @@
   function toggleLevel(newLevel: Level) {
     level = newLevel === level ? null : newLevel;
   }
+
+  // leave this in
+  const _successClasses = "bg-success/80 text-success-content hover:bg-success/80 hover:text-success-content";
+  const _warningClasses = "bg-warning/80 text-warning-content hover:bg-warning/80 hover:text-warning-content";
+  const _errorClasses = "bg-error/80 text-error-content hover:bg-error/80 hover:text-error-content";
 </script>
 
 {#snippet cardButton(properties: CardButtonProps)}
