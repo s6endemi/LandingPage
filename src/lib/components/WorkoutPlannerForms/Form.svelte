@@ -9,10 +9,6 @@
 
   type TrainingLocationType = "Home" | "Gym" | null;
 
-  interface Props {
-    exercises: Exercise[];
-  }
-
   // State management
   let frequency = $state<number | null>(null);
   let duration = $state<number | null>(null);
@@ -43,7 +39,6 @@
   }
 
   type Direction = "forward" | "back" | "both";
-  type Variable = string | number | Level | TrainingGoal | TrainingLocationType | null;
 
   function isStepValid(step: number): boolean {
     switch (step) {

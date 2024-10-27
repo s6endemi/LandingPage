@@ -47,11 +47,15 @@
 </script>
 
 <div class="flex min-h-screen flex-col">
-  <div class="navbar sticky top-0 z-50 mb-8 bg-base-100 px-20 opacity-95 shadow-lg">
-    <a href="/" class="navbar-start flex items-center">
-      <Logo className="mr-2 fill-base-content pt-1" width="32" />
-      <p class="text-xl font-black">TrainTech</p>
-    </a>
+  <!-- Navbar -->
+  <div class="navbar sticky top-0 z-50 bg-base-100 px-4 opacity-95 shadow-lg lg:px-20">
+    <div class="navbar-start">
+      <a href="/" class="flex items-center">
+        <Logo className="mr-2 fill-base-content pt-1" width="32" />
+        <p class="text-xl font-black">TrainTech</p>
+      </a>
+    </div>
+
     <div class="navbar-center hidden space-x-4 lg:flex">
       <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/dietplanner')}" href="/dietplanner">
         Ernährungsplan erstellen
@@ -63,41 +67,47 @@
         Übungsübersicht
       </a>
     </div>
-    <div class="navbar-end flex items-center space-x-4">
-      <label class="swap swap-rotate">
-        <input type="checkbox" class="theme-controller" value="dim" />
-        <Sun class="swap-on" size="30" aria-hidden="true" />
-        <Moon class="swap-off" size="30" aria-hidden="true" />
-      </label>
 
-      {#if profile}
-        <div class="dropdown dropdown-end">
-          <button id="profile-dropdown" class="btn btn-secondary btn-sm rounded-md">{profile.firstName}</button>
-          <form method="POST" action="/auth?/logout" use:enhance={enhanceLogout}>
-            <ul
-              class="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
-              aria-labelledby="profile-dropdown"
-            >
-              <li><a href="/private/profile">Profil</a></li>
-              <li><a href="/private/settings">Einstellungen</a></li>
-              <li>
-                <button type="submit" class="w-full text-left">Ausloggen</button>
-              </li>
-            </ul>
-          </form>
-        </div>
-      {:else}
-        <button on:click={toggleModal} class="btn btn-secondary btn-sm rounded-md">Anmelden</button>
-      {/if}
+    <div class="navbar-end">
+      <div class="flex items-center space-x-4">
+        <label class="swap swap-rotate">
+          <input type="checkbox" class="theme-controller" value="dim" />
+          <Sun class="swap-on" size="30" aria-hidden="true" />
+          <Moon class="swap-off" size="30" aria-hidden="true" />
+        </label>
+
+        {#if profile}
+          <div class="dropdown dropdown-end">
+            <button id="profile-dropdown" class="btn btn-secondary btn-sm rounded-md">{profile.firstName}</button>
+            <form method="POST" action="/auth?/logout" use:enhance={enhanceLogout}>
+              <ul
+                class="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
+                aria-labelledby="profile-dropdown"
+              >
+                <li><a href="/private/profile">Profil</a></li>
+                <li><a href="/private/settings">Einstellungen</a></li>
+                <li>
+                  <button type="submit" class="w-full text-left">Ausloggen</button>
+                </li>
+              </ul>
+            </form>
+          </div>
+        {:else}
+          <button on:click={toggleModal} class="btn btn-secondary btn-sm rounded-md">Anmelden</button>
+        {/if}
+      </div>
     </div>
   </div>
 
+  <!-- Auth Modal -->
   <AuthControllerModal bind:modalState on:close={invalidateAuth} />
 
-  <main class="flex-grow p-4">
+  <!-- Main Content -->
+  <main class="container mx-auto flex-1 px-4 py-8">
     <slot />
   </main>
 
+  <!-- Footer -->
   <footer class="footer items-center bg-neutral p-4 text-neutral-content">
     <aside class="grid-flow-col items-center">
       <Logo className="fill-base-content pt-1" width="32" />
