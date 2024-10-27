@@ -15,9 +15,9 @@
   const totalSteps = 7;
 
   let progressPercentage = $derived(((currentStep - 1) / (totalSteps - 1)) * 100);
-  let gymFrequency: string | null = null;
-  let dailyActivity: string | null = null;
-  let dietPreferences: string[] = [];
+  let gymFrequency: string | null = $state(null);
+  let dailyActivity: string | null = $state(null);
+  let dietPreferences: string[] = $state([]);
   let goal: TrainingGoal | null = $state(null);
 
   function handleNextStep() {

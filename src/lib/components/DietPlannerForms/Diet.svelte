@@ -16,7 +16,7 @@
   ];
 
   // Lokaler Zustand für die markierten Diätpräferenzen
-  let localDietPreferences = [...dietPreferences];
+  let localDietPreferences = $state([...dietPreferences]);
 
   function toggleDietPreference(value: string) {
     // Toggle-Logik für die Auswahl
@@ -31,7 +31,7 @@
   }
 
   // Variable für spezifische Allergien
-  let specificAllergies = "";
+  let specificAllergies = $state("");
 </script>
 
 <div class="container mx-auto p-6">
