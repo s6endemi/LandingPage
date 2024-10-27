@@ -64,6 +64,44 @@
       ((Math.random() * 1000) % 300) + 100
     );
   }
+  import { Gender } from "$lib/types";
+  import maleImg from "$lib/assets/male.png";
+  import femaleImg from "$lib/assets/female.png";
+  import { Info } from "lucide-svelte";
+
+  // Definiere Props
+  export let gender: Gender | null = null;
+
+  // Schnittstelle für Karteneigenschaften
+  interface CardButtonProps {
+    gender: Gender;
+    title: string;
+    description: string;
+    imageSrc: string;
+    color: string;
+  }
+
+  // Definition der `male` und `female` Karten
+  const male: CardButtonProps = {
+    gender: Gender.Male,
+    title: "Männlich",
+    description: "Männliche Ernährungsempfehlungen basierend auf durchschnittlichem Stoffwechsel und Kalorienbedarf.",
+    imageSrc: maleImg,
+    color: "primary",
+  };
+
+  const female: CardButtonProps = {
+    gender: Gender.Female,
+    title: "Weiblich",
+    description: "Weibliche Ernährungsempfehlungen basierend auf durchschnittlichem Stoffwechsel und Kalorienbedarf.",
+    imageSrc: femaleImg,
+    color: "secondary",
+  };
+
+  // Funktion zum Umschalten des Geschlechts
+  function toggleGender(newGender: Gender) {
+    gender = newGender === gender ? null : newGender;
+  }
 </script>
 
 <main class="container mx-auto max-w-xl px-4">
@@ -101,6 +139,51 @@
       </div>
 
       {#if currentStep === 1}
+        {#snippet cardButton(properties: CardButtonProps)}
+          <button
+            class="card w-full transition-all duration-300 ease-in-out hover:shadow-lg
+           {gender === properties.gender
+              ? `bg-${properties.color}/80 text-${properties.color}-content scale-105 shadow-xl`
+              : `bg-base-200 hover:bg-${properties.color}/80 hover:text-${properties.color}-content hover:scale-102`}"
+            onclick={() => toggleGender(properties.gender)}
+            aria-label={properties.title}
+          >
+            <figure class="relative px-6 pt-6">
+              <img
+                src={properties.imageSrc}
+                alt={`${properties.gender.toString()} image`}
+                class="aspect-square w-full rounded-xl object-cover shadow-md"
+              />
+            </figure>
+            <div class="card-body items-start gap-2">
+              <h2 class="card-title font-bold tracking-tight">
+                {properties.title}
+              </h2>
+              <p class="text-start text-sm leading-relaxed opacity-90">
+                {properties.description}
+              </p>
+            </div>
+          </button>
+        {/snippet}
+
+        <div class="container mx-auto p-6">
+          <div class="space-y-6">
+            <div class="flex items-center gap-2">
+              <label class="text-2xl font-bold" for="gender-selection"> Welches Geschlecht hast du? </label>
+              <div
+                class="tooltip tooltip-right"
+                data-tip="Wähle dein biologisches Geschlecht für personalisierte Ernährungsempfehlungen."
+              >
+                <Info class="h-5 w-5 opacity-70" />
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {@render cardButton(male)}
+              {@render cardButton(female)}
+            </div>
+          </div>
+        </div>
+        //
         <div class="space-y-3">
           <label class="text-xl font-bold text-neutral-content">Was ist dein Ernährungsziel?</label>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -116,6 +199,7 @@
               </button>
             {/each}
           </div>
+          //
         </div>
 
         <div class="mt-5 text-center">

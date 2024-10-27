@@ -50,6 +50,14 @@ export enum TrainingGoal {
   Endurance,
   Hypertrophy,
   Strength,
+  MaintainWeight,
+  BuildMuscle,
+  LoseWeight,
+  GetDefined,
+  WeightLoss,
+  MuscleGain,
+  Definition,
+  GeneralFitness,
 }
 
 export interface ExercisePlan {

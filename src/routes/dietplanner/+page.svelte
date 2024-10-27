@@ -1,6 +1,8 @@
 <script lang="ts">
-  import DietPlannerForm from "$lib/components/DietPlannerForm.svelte";
-  export let data;
+  import Dietplanner from "$lib/components/DietPlannerForms/Dietplanner.svelte";
+  import Diet from "$lib/components/DietPlannerForms/Dietplanner.svelte";
 </script>
 
-<DietPlannerForm dietaryGoals={data.dietaryGoals} restrictions={data.restrictions} mealOptions={data.mealOptions} />
+<div class="min-h-screen bg-base-100 py-8">
+  <Dietplanner />
+</div>
