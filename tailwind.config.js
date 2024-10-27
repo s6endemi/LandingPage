@@ -3,10 +3,48 @@ import daisyui from "daisyui";
 import themes from "daisyui/src/theming/themes";
 import typography from "@tailwindcss/typography";
 import plugin from "tailwindcss/plugin";
+import colors from "tailwindcss/colors";
 
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
+    colors: {
+      transparent: "transparent",
+      current: "currentColor",
+      slate: colors.slate,
+      gray: colors.gray,
+      zinc: colors.zinc,
+      neutral: colors.neutral,
+      stone: colors.stone,
+      red: colors.red,
+      orange: colors.orange,
+      amber: colors.amber,
+      yellow: colors.yellow,
+      lime: colors.lime,
+      green: colors.green,
+      emerald: colors.emerald,
+      teal: colors.teal,
+      cyan: colors.cyan,
+      sky: colors.sky,
+      blue: colors.blue,
+      indigo: colors.indigo,
+      violet: colors.violet,
+      purple: colors.purple,
+      fuchsia: colors.fuchsia,
+      pink: colors.pink,
+      rose: colors.rose,
+      gold: {
+        100: "#FFF7D6", // Lightest - very pale gold
+        200: "#FFEFAD", // Light pale gold
+        300: "#FFE785", // Pale gold
+        400: "#FFDF5C", // Light gold
+        500: "#FFD700", // Base gold color
+        600: "#DBB700", // Slightly darker gold
+        700: "#B79800", // Darker gold
+        800: "#937A00", // Very dark gold
+        900: "#705D00", // Darkest gold
+      },
+    },
     extend: {
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(16rem, 1fr))",

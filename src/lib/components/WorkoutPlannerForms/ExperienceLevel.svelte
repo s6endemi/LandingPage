@@ -10,8 +10,7 @@
     title: string;
     description: string;
     imageSrc: string;
-    color: string;
-    badge?: string;
+    stats: string;
   }
 
   const beginner: CardButtonProps = {
@@ -19,8 +18,7 @@
     title: "Anfänger",
     description: "Du trainierst seit weniger als einem Jahr oder startest gerade erst mit dem Krafttraining.",
     imageSrc: beginnerImg,
-    color: "success",
-    badge: "Neu",
+    stats: "Grundlegendes Training • Fokus auf Technik",
   };
 
   const intermediate: CardButtonProps = {
@@ -28,7 +26,7 @@
     title: "Fortgeschritten",
     description: "Du trainierst regelmäßig seit 1-3 Jahren und kennst die wichtigsten Grundübungen.",
     imageSrc: intermediateImg,
-    color: "warning",
+    stats: "Fortgeschrittenes Training • Fokus auf Progression",
   };
 
   const expert: CardButtonProps = {
@@ -36,44 +34,35 @@
     title: "Experte",
     description: "Du trainierst seit mehr als 3 Jahren konsequent und kennst deinen Körper und deine Grenzen genau.",
     imageSrc: expertImg,
-    color: "error",
+    stats: "Spezialisiertes Training • Fokus auf Optimierung",
   };
 
-  let { level = $bindable() } = $props();
+  let { level = $bindable() }: { level: Level | null } = $props();
 
   function toggleLevel(newLevel: Level) {
     level = newLevel === level ? null : newLevel;
   }
-
-  // leave this in
-  const _successClasses = "bg-success/80 text-success-content hover:bg-success/80 hover:text-success-content";
-  const _warningClasses = "bg-warning/80 text-warning-content hover:bg-warning/80 hover:text-warning-content";
-  const _errorClasses = "bg-error/80 text-error-content hover:bg-error/80 hover:text-error-content";
 </script>
 
-{#snippet cardButton(properties: CardButtonProps)}
-  <button
-    class="card w-full transition-all duration-300 ease-in-out hover:shadow-lg
-           {level === properties.level
-      ? `bg-${properties.color}/80 text-${properties.color}-content scale-105 shadow-xl`
-      : `bg-base-200 hover:bg-${properties.color}/80 hover:text-${properties.color}-content hover:scale-102`}"
-    onclick={() => toggleLevel(properties.level)}
-    aria-label={properties.title}
-  >
-    <figure class="relative px-6 pt-6">
-      <img
-        src={properties.imageSrc}
-        alt={`${properties.level.toString()} image`}
-        class="aspect-square w-full rounded-xl object-cover shadow-md"
-      />
-    </figure>
-    <div class="card-body items-start gap-2">
-      <h2 class="card-title font-bold tracking-tight">
-        {properties.title}
-      </h2>
-      <p class="text-start text-sm leading-relaxed opacity-90">
-        {properties.description}
-      </p>
+{#snippet button(option: CardButtonProps, buttonClasses: string)}
+  <button class={buttonClasses} onclick={() => toggleLevel(option.level)} aria-label={option.title}>
+    <div class="relative p-6">
+      <figure class="mb-4">
+        <img
+          src={option.imageSrc}
+          alt={`${option.level.toString()} image`}
+          class="aspect-square w-full rounded-xl object-cover shadow-md transition-transform duration-300 group-hover:scale-105"
+        />
+      </figure>
+
+      <div class="flex flex-col items-start gap-2">
+        <h3 class="text-xl font-semibold">{option.title}</h3>
+        <p class="text-start text-sm text-base-content/70">{option.description}</p>
+        <div class="mt-2 flex items-center gap-2 text-sm">
+          <Info size={16} class="text-base-content/70" />
+          <span class="text-base-content/70">{option.stats}</span>
+        </div>
+      </div>
     </div>
   </button>
 {/snippet}
@@ -81,7 +70,7 @@
 <div class="container mx-auto p-6">
   <div class="space-y-6">
     <div class="flex items-center gap-2">
-      <label class="text-2xl font-bold" for="experience-level"> Wie erfahren bist du? </label>
+      <h1 class="text-3xl font-bold">Wie erfahren bist du?</h1>
       <div
         class="tooltip tooltip-right"
         data-tip="Wähle deine Erfahrungsstufe: Anfänger, Fortgeschritten oder Experte."
@@ -90,9 +79,18 @@
       </div>
     </div>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-      {@render cardButton(beginner)}
-      {@render cardButton(intermediate)}
-      {@render cardButton(expert)}
+      {#each [beginner, intermediate, expert] as option}
+        {#if option.level === Level.Beginner}
+          {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-green-500 bg-green-500/10 shadow-lg" : "border-base-content/10 hover:border-green-500/50 hover:bg-base-100"}`}
+          {@render button(option, classes)}
+        {:else if option.level === Level.Intermediate}
+          {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-yellow-500 bg-yellow-500/10 shadow-lg" : "border-base-content/10 hover:border-yellow-500/50 hover:bg-base-100"}`}
+          {@render button(option, classes)}
+        {:else}
+          {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-red-500 bg-red-500/10 shadow-lg" : "border-base-content/10 hover:border-red-500/50 hover:bg-base-100"}`}
+          {@render button(option, classes)}
+        {/if}
+      {/each}
     </div>
   </div>
 </div>
