@@ -9,7 +9,7 @@
     <div class="hero-content max-w-4xl text-center">
       <div>
         <h1 class="mb-6 text-4xl font-bold lg:text-5xl">
-          Dein KI-gesteuerter<br />
+          Deine KI-gesteuerte<br />
           <span class="text-primary">Fitness Journey</span>
         </h1>
         <p class="mx-auto mb-8 max-w-2xl text-lg text-base-content/80">
