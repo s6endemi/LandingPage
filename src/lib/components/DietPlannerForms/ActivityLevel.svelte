@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Info, Move } from "lucide-svelte";
+  import { Activity, UserCircle2, Move } from "lucide-svelte";
 
   interface Props {
     gymFrequency: string | null;
@@ -9,15 +9,39 @@
   let { gymFrequency = $bindable(), dailyActivity = $bindable() }: Props = $props();
 
   const gymOptions = [
-    { value: "1x", title: "1 Mal pro Woche", description: "Gelegentliches Training." },
-    { value: "2-3x", title: "2-3 Mal pro Woche", description: "Regelmäßiges Training." },
-    { value: "4+", title: "4+ Mal pro Woche", description: "Intensives Training." },
+    {
+      value: "1x",
+      title: "Once Weekly",
+      description: "Building foundations",
+    },
+    {
+      value: "2-3x",
+      title: "2-3 Times Weekly",
+      description: "Regular training routine",
+    },
+    {
+      value: "4+",
+      title: "4+ Times Weekly",
+      description: "Advanced commitment",
+    },
   ];
 
   const dailyOptions = [
-    { value: "Büro", title: "Büro sitzen", description: "Überwiegend sitzende Tätigkeit." },
-    { value: "Aktiv", title: "Viel Bewegung", description: "Aktive Tätigkeit, z.B. Handwerker." },
-    { value: "Sportlich", title: "Sportlich aktiv", description: "Aktiv im Alltag, z.B. Sportler." },
+    {
+      value: "office",
+      title: "Office Work",
+      description: "Predominantly seated position",
+    },
+    {
+      value: "active",
+      title: "Active Profession",
+      description: "Regular physical activity",
+    },
+    {
+      value: "dynamic",
+      title: "Dynamic Lifestyle",
+      description: "Constant movement required",
+    },
   ];
 
   function selectGymOption(optionValue: string) {
@@ -29,78 +53,100 @@
   }
 </script>
 
-<div class="container mx-auto p-6">
-  <!-- Gym Activity Level -->
-  <div class="space-y-6">
-    <div class="flex items-center gap-2">
-      <label class="text-2xl font-bold" for="gymFrequency">Wie oft trainierst du im Fitnessstudio?</label>
-      <div id="gymFrequency" class="tooltip tooltip-right" data-tip="Wähle deine Trainingshäufigkeit im Fitnessstudio.">
-        <Info class="h-5 w-5 opacity-70" />
+<div class="container mx-auto max-w-5xl space-y-12 p-6">
+  <!-- Gym Activity Section -->
+  <section class="space-y-6">
+    <div class="flex items-center gap-3">
+      <h2 class="text-2xl font-light tracking-wide">Exercise Frequency</h2>
+      <div class="tooltip tooltip-right" data-tip="Select your typical weekly exercise routine">
+        <Activity class="h-5 w-5 opacity-50" />
       </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
       {#each gymOptions as option}
         <button
-          class="group relative overflow-hidden rounded-xl border-2 transition-all duration-300
+          class="group relative overflow-hidden rounded-xl border transition-all duration-300 ease-in-out
             {gymFrequency === option.value
-            ? 'border-blue-500 bg-blue-500/10 shadow-lg'
-            : 'border-base-content/10 hover:border-blue-500/50 hover:bg-base-200'}"
-          onclick={() => selectGymOption(option.value)}
+            ? 'border-primary/30 bg-primary/5 shadow-lg'
+            : 'border-base-content/10 hover:border-primary/20 hover:bg-base-200/30'}"
+          on:click={() => selectGymOption(option.value)}
         >
-          <div class="relative flex items-center gap-4 px-6 pt-2">
-            <div
-              class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/10
-                transition-all duration-300 group-hover:scale-110
-                {gymFrequency === option.value ? 'bg-blue-500/20' : ''}"
-            >
-              <Move size={32} class={gymFrequency === option.value ? "text-blue-500" : "text-base-content"} />
-            </div>
-
-            <div class="flex flex-col items-start text-left">
-              <h3 class="text-xl font-semibold">{option.title}</h3>
-              <p class="text-sm text-base-content/70">{option.description}</p>
+          <div class="p-6">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0">
+                <div
+                  class="flex h-12 w-12 items-center justify-center rounded-lg
+                    transition-all duration-300 ease-in-out
+                    {gymFrequency === option.value ? 'bg-primary/10' : 'bg-base-200 group-hover:bg-primary/5'}"
+                >
+                  <Move
+                    class="h-6 w-6 transition-colors duration-300
+                      {gymFrequency === option.value ? 'text-primary' : 'text-base-content/70'}"
+                  />
+                </div>
+              </div>
+              <div class="flex flex-col items-start text-left">
+                <h3
+                  class="text-lg font-medium tracking-wide
+                  {gymFrequency === option.value ? 'text-primary' : ''}"
+                >
+                  {option.title}
+                </h3>
+                <p class="mt-1 text-sm text-base-content/60">{option.description}</p>
+              </div>
             </div>
           </div>
         </button>
       {/each}
     </div>
-  </div>
+  </section>
 
-  <!-- Daily Activity Level -->
-  <div class="mt-8 space-y-6">
-    <div class="flex items-center gap-2">
-      <label class="text-2xl font-bold" for="dailyActivity">Wie viel bewegst du dich sonst?</label>
-      <div id="dailyActivity" class="tooltip tooltip-right" data-tip="Wähle deine berufliche Aktivität.">
-        <Info class="h-5 w-5 opacity-70" />
+  <!-- Daily Activity Section -->
+  <section class="space-y-6">
+    <div class="flex items-center gap-3">
+      <h2 class="text-2xl font-light tracking-wide">Daily Activity Level</h2>
+      <div class="tooltip tooltip-right" data-tip="Select your typical daily activity pattern">
+        <UserCircle2 class="h-5 w-5 opacity-50" />
       </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
       {#each dailyOptions as option}
         <button
-          class="group relative overflow-hidden rounded-xl border-2 transition-all duration-300
+          class="group relative overflow-hidden rounded-xl border transition-all duration-300 ease-in-out
             {dailyActivity === option.value
-            ? 'border-green-500 bg-green-500/10 shadow-lg'
-            : 'border-base-content/10 hover:border-green-500/50 hover:bg-base-200'}"
-          onclick={() => selectDailyOption(option.value)}
+            ? 'border-secondary/30 bg-secondary/5 shadow-lg'
+            : 'border-base-content/10 hover:border-secondary/20 hover:bg-base-200/30'}"
+          on:click={() => selectDailyOption(option.value)}
         >
-          <div class="relative flex items-center gap-4 px-6 pt-2">
-            <div
-              class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-green-500/10
-                transition-all duration-300 group-hover:scale-110
-                {dailyActivity === option.value ? 'bg-green-500/20' : ''}"
-            >
-              <Move size={32} class={dailyActivity === option.value ? "text-green-500" : "text-base-content"} />
-            </div>
-
-            <div class="flex flex-col items-start text-left">
-              <h3 class="text-xl font-semibold">{option.title}</h3>
-              <p class="text-sm text-base-content/70">{option.description}</p>
+          <div class="p-6">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0">
+                <div
+                  class="flex h-12 w-12 items-center justify-center rounded-lg
+                    transition-all duration-300 ease-in-out
+                    {dailyActivity === option.value ? 'bg-secondary/10' : 'bg-base-200 group-hover:bg-secondary/5'}"
+                >
+                  <UserCircle2
+                    class="h-6 w-6 transition-colors duration-300
+                      {dailyActivity === option.value ? 'text-secondary' : 'text-base-content/70'}"
+                  />
+                </div>
+              </div>
+              <div class="flex flex-col items-start text-left">
+                <h3
+                  class="text-lg font-medium tracking-wide
+                  {dailyActivity === option.value ? 'text-secondary' : ''}"
+                >
+                  {option.title}
+                </h3>
+                <p class="mt-1 text-sm text-base-content/60">{option.description}</p>
+              </div>
             </div>
           </div>
         </button>
       {/each}
     </div>
-  </div>
+  </section>
 </div>
