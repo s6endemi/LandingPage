@@ -6,6 +6,8 @@
   import Goals from "./Goals.svelte";
   import TrainingLocation from "./TrainingLocation.svelte";
   import { ChevronLeft, ChevronRight } from "lucide-svelte";
+  import SplitPreview from "./SplitPreview.svelte";
+  import { goto } from "$app/navigation";
 
   type TrainingLocationType = "Home" | "Gym" | null;
 
@@ -18,9 +20,10 @@
   let trainingLocation = $state<TrainingLocationType>(null);
   let currentStep = $state(1);
   let customSplit = $state<ExercisePlan[]>([]);
+  let selectedSplit = $state<string | null>(null);
 
   // Constants
-  const TOTAL_STEPS = 6;
+  const TOTAL_STEPS = 7;
 
   // Computed values
   let progressPercentage = $derived(((currentStep - 1) / (TOTAL_STEPS - 1)) * 100);
@@ -38,6 +41,14 @@
     }
   }
 
+  $effect(() => {
+    if (currentStep === TOTAL_STEPS) {
+      setTimeout(() => {
+        goto("/workout-planner/result");
+      }, 3000);
+    }
+  });
+
   type Direction = "forward" | "back" | "both";
 
   function isStepValid(step: number): boolean {
@@ -52,6 +63,8 @@
         return goal !== null;
       case 5:
         return trainingLocation !== null;
+      case 6:
+        return selectedSplit !== null;
       default:
         return false;
     }
@@ -134,6 +147,11 @@
 
         {#if currentStep === 5}
           <TrainingLocation bind:trainingLocation />
+          {@render navigationButtons("both")}
+        {/if}
+
+        {#if currentStep === 6}
+          <SplitPreview {frequency} bind:selectedSplit />
           {@render navigationButtons("both")}
         {/if}
 
