@@ -20,6 +20,10 @@
   let dietPreferences: string[] = $state([]);
   let goal: TrainingGoal | null = $state(null);
 
+  // Add new state for weight/height validation
+  let weightHeightValid = $state(false);
+  let age: string | null = $state(null);
+
   function handleNextStep() {
     if (currentStep < totalSteps) {
       currentStep += 1;
@@ -34,22 +38,49 @@
 
   function handleWeightHeightSubmit(event: CustomEvent) {
     console.log("Weight and Height submitted:", event.detail);
-    handleNextStep();
+    weightHeightValid = true;
+    // Don't automatically go to next step - let user click "Weiter"
+  }
+
+  function handleAgeSubmit(event: CustomEvent) {
+    age = event.detail;
+  }
+
+  // Helper function to determine if current step is valid
+  function isCurrentStepValid() {
+    switch (currentStep) {
+      case 1:
+        return gender !== null;
+      case 2:
+        return age !== null;
+      case 3:
+        return weightHeightValid;
+      case 4:
+        return true; // Adjust based on Zustand component requirements
+      case 5:
+        return gymFrequency !== null && dailyActivity !== null;
+      case 6:
+        return dietPreferences.length > 0;
+      case 7:
+        return goal !== null;
+      default:
+        return false;
+    }
   }
 </script>
 
-{#snippet buttons(variables: Gender | TrainingGoal | null, direction: "forward" | "back" | "both")}
+{#snippet buttons(direction: "forward" | "back" | "both")}
   <div class="pt-5 text-center">
     {#if direction === "both" || direction === "back"}
-      <button type="button" onclick={handlePreviousStep} class="btn btn-neutral">Zurück</button>
+      <button type="button" on:click={handlePreviousStep} class="btn btn-neutral">Zurück</button>
     {/if}
 
     {#if direction === "both" || direction === "forward"}
       <button
         type="button"
-        onclick={handleNextStep}
-        disabled={variables === null}
-        class="btn {variables === null ? 'btn-disabled' : 'btn-secondary'} ml-4"
+        on:click={handleNextStep}
+        disabled={!isCurrentStepValid()}
+        class="btn {!isCurrentStepValid() ? 'btn-disabled' : 'btn-secondary'} ml-4"
       >
         Weiter
         <ChevronRight />
@@ -66,7 +97,7 @@
       {#if currentStep > 1}
         <button
           type="button"
-          onclick={handlePreviousStep}
+          on:click={handlePreviousStep}
           class="absolute -left-6 transform cursor-pointer text-2xl font-bold text-blue-800 transition hover:scale-110"
           aria-label="Zurück"
         >
@@ -84,37 +115,37 @@
     <div class="w-full">
       {#if currentStep === 1}
         <GenderSelection bind:gender />
-        {@render buttons(gender, "forward")}
+        {@render buttons("forward")}
       {/if}
 
       {#if currentStep === 2}
-        <Age />
-        {@render buttons(gender, "both")}
+        <Age on:submit={handleAgeSubmit} />
+        {@render buttons("both")}
       {/if}
 
       {#if currentStep === 3}
         <WeightHeight on:submit={handleWeightHeightSubmit} />
-        {@render buttons(gender, "both")}
+        {@render buttons("both")}
       {/if}
 
       {#if currentStep === 4}
         <Zustand />
-        {@render buttons(gender, "both")}
+        {@render buttons("both")}
       {/if}
 
       {#if currentStep === 5}
         <ActivityLevel bind:gymFrequency bind:dailyActivity />
-        {@render buttons(gender, "both")}
+        {@render buttons("both")}
       {/if}
 
       {#if currentStep === 6}
         <Diet bind:dietPreferences />
-        {@render buttons(gender, "both")}
+        {@render buttons("both")}
       {/if}
 
       {#if currentStep === 7}
         <Ziel bind:goal />
-        {@render buttons(goal, "both")}
+        {@render buttons("both")}
       {/if}
     </div>
   </form>
