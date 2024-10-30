@@ -13,7 +13,7 @@ export const redis = new Redis({
 });
 
 // Type-safe wrapper functions
-export async function setValue<T>(
+export async function setRedisValue<T>(
   key: string,
   value: T,
   expirationSeconds?: number
@@ -29,7 +29,7 @@ export async function setValue<T>(
   }
 }
 
-export async function getValue<T>(key: string): Promise<T | null> {
+export async function getRedisValue<T>(key: string): Promise<T | null> {
   try {
     return await redis.get(key);
   } catch (error) {
@@ -38,7 +38,7 @@ export async function getValue<T>(key: string): Promise<T | null> {
   }
 }
 
-export async function deleteKey(key: string): Promise<number> {
+export async function deleteRedisKey(key: string): Promise<number> {
   try {
     return await redis.del(key);
   } catch (error) {
