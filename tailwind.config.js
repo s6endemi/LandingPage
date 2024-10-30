@@ -79,10 +79,88 @@ export default {
           neutral: "#f9fafb",
           "neutral-content": "#1c212b",
         },
+        /**
+        dim: {
+          ...themes["dim"],
+
+          // Primary (Red) Scale
+          primary: "#B70401", // Base
+          "primary-focus": "#8F0301", // Darker for hover/focus
+          "primary-content": "#ffffff", // Always white for contrast
+
+          // Lighter primary shades (for backgrounds, etc)
+          "primary-50": "#FEE7E7",
+          "primary-100": "#FDCFCF",
+          "primary-200": "#FB9F9E",
+          "primary-300": "#F96F6D",
+          "primary-400": "#F63F3D",
+          "primary-500": "#B70401", // Your base
+          "primary-600": "#8F0301",
+          "primary-700": "#670200",
+          "primary-800": "#3F0100",
+          "primary-900": "#170000",
+
+          // Secondary (Blue) Scale
+          secondary: "#195E9F", // Base
+          "secondary-focus": "#134B7F", // Darker for hover/focus
+          "secondary-content": "#ffffff", // White for contrast
+
+          // Lighter secondary shades
+          "secondary-50": "#E9F2FA",
+          "secondary-100": "#D3E5F5",
+          "secondary-200": "#A7CBEB",
+          "secondary-300": "#7BB1E1",
+          "secondary-400": "#4F97D7",
+          "secondary-500": "#195E9F", // Your base
+          "secondary-600": "#134B7F",
+          "secondary-700": "#0E385F",
+          "secondary-800": "#08253F",
+          "secondary-900": "#03121F",
+
+          // Accent (Bright Green) Scale
+          accent: "#B5F514", // Base
+          "accent-focus": "#91C410", // Darker for hover/focus
+          "accent-content": "#000000", // Black for contrast with bright green
+
+          // Lighter accent shades
+          "accent-50": "#F7FEE7",
+          "accent-100": "#EFFDD0",
+          "accent-200": "#DFFBA1",
+          "accent-300": "#CFF972",
+          "accent-400": "#BFF743",
+          "accent-500": "#B5F514", // Your base
+          "accent-600": "#91C410",
+          "accent-700": "#6D930C",
+          "accent-800": "#496208",
+          "accent-900": "#243104",
+
+          // Neutral Scale
+          neutral: "#3C362A", // Base
+          "neutral-focus": "#302B22", // Darker for hover/focus
+          "neutral-content": "#ffffff", // White for contrast
+
+          // Full neutral scale
+          "neutral-50": "#ECEAE7",
+          "neutral-100": "#D9D5CF",
+          "neutral-200": "#B3ABA0",
+          "neutral-300": "#8D8270",
+          "neutral-400": "#675841",
+          "neutral-500": "#3C362A", // Your base
+          "neutral-600": "#302B22",
+          "neutral-700": "#242019",
+          "neutral-800": "#181511",
+          "neutral-900": "#0C0A08",
+
+          // Base colors for backgrounds etc
+          "base-100": "#1d1d1d", // Main background
+          "base-200": "#2a2a2a", // Slightly lighter
+          "base-300": "#373737", // Even lighter
+          "base-content": "#ffffff", // Main content color
+        },
+        */
       },
       "light",
       "sunset",
-      "dim",
     ], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "dim", // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default
