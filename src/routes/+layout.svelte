@@ -47,41 +47,67 @@
 </script>
 
 <div class="flex min-h-screen flex-col">
-  <!-- Navbar -->
-  <div class="navbar sticky top-0 z-50 bg-base-100 px-4 opacity-95 shadow-lg lg:px-20">
-    <div class="navbar-start">
+  <!-- Navbar - made slimmer with reduced padding and max-width -->
+  <nav class="sticky top-2 z-50">
+    <div class="mx-auto flex max-w-2xl items-center justify-between rounded-lg bg-base-100 px-3 py-1.5 shadow-md">
+      <!-- Logo with display font -->
       <a href="/" class="flex items-center">
-        <Logo className="mr-2 fill-base-content pt-1" width="32" />
-        <p class="text-xl font-black">TrainTech</p>
+        <Logo className="mr-1.5 fill-base-content" width="28" />
+        <p class="font-display text-lg font-bold tracking-tight">TrainTech</p>
       </a>
-    </div>
 
-    <div class="navbar-center hidden space-x-4 lg:flex">
-      <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/dietplanner')}" href="/dietplanner">
-        Ernährungsplan erstellen
-      </a>
-      <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/workout-planner')}" href="/workout-planner">
-        Trainingsplan erstellen
-      </a>
-      <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/exercises')}" href="/exercises">
-        Übungsübersicht
-      </a>
-    </div>
+      <!-- Navigation Links - adjusted spacing -->
+      <div class="hidden lg:flex">
+        <a
+          class="px-3 py-1.5 font-sans text-sm text-base-content/70 transition-colors hover:text-base-content {isActive(
+            '/dietplanner'
+          )
+            ? 'text-base-content'
+            : ''}"
+          href="/dietplanner"
+        >
+          Ernährungsplan
+        </a>
 
-    <div class="navbar-end">
-      <div class="flex items-center space-x-4">
+        <a
+          class="px-3 py-1.5 font-sans text-sm text-base-content/70 transition-colors hover:text-base-content {isActive(
+            '/workout-planner'
+          )
+            ? 'text-base-content'
+            : ''}"
+          href="/workout-planner"
+        >
+          Trainingsplan
+        </a>
+
+        <a
+          class="px-3 py-1.5 font-sans text-sm text-base-content/70 transition-colors hover:text-base-content {isActive(
+            '/exercises'
+          )
+            ? 'text-base-content'
+            : ''}"
+          href="/exercises"
+        >
+          Übungen
+        </a>
+      </div>
+
+      <!-- Right Side Controls - adjusted sizing -->
+      <div class="flex items-center gap-2">
         <label class="swap swap-rotate">
           <input type="checkbox" class="theme-controller" value="dim" />
-          <Sun class="swap-on" size="30" aria-hidden="true" />
-          <Moon class="swap-off" size="30" aria-hidden="true" />
+          <Sun class="swap-on" size="18" aria-hidden="true" />
+          <Moon class="swap-off" size="18" aria-hidden="true" />
         </label>
 
         {#if profile}
           <div class="dropdown dropdown-end">
-            <button id="profile-dropdown" class="btn btn-secondary btn-sm rounded-md">{profile.firstName}</button>
+            <button id="profile-dropdown" class="btn btn-secondary btn-sm h-7 min-h-0 rounded-md px-2 text-sm">
+              {profile.firstName}
+            </button>
             <form method="POST" action="/auth?/logout" use:enhance={enhanceLogout}>
               <ul
-                class="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
+                class="menu dropdown-content z-[1] mt-1 w-48 rounded-lg bg-base-100 p-2 text-sm shadow-lg"
                 aria-labelledby="profile-dropdown"
               >
                 <li><a href="/private/profile">Profil</a></li>
@@ -93,29 +119,31 @@
             </form>
           </div>
         {:else}
-          <button on:click={toggleModal} class="btn btn-secondary btn-sm rounded-md">Anmelden</button>
+          <button on:click={toggleModal} class="btn btn-secondary btn-sm h-7 min-h-0 rounded-md px-3 text-sm">
+            Anmelden
+          </button>
         {/if}
       </div>
     </div>
-  </div>
+  </nav>
 
   <!-- Auth Modal -->
   <AuthControllerModal bind:modalState on:close={invalidateAuth} />
 
-  <!-- Main Content -->
-  <main class="container mx-auto flex-1 px-4 py-8">
+  <!-- Main Content with base font -->
+  <main class="container mx-auto flex-1 px-4 py-8 font-sans">
     <slot />
   </main>
 
   <!-- Footer -->
   <footer class="footer items-center bg-neutral p-4 text-neutral-content">
     <aside class="grid-flow-col items-center">
-      <Logo className="fill-base-content pt-1" width="32" />
-      <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>
+      <Logo className="fill-base-content pt-1" width="28" />
+      <p class="font-sans text-sm">Copyright © {new Date().getFullYear()} - All rights reserved</p>
     </aside>
     <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-      <a href="/help/privacy-policy" class="link-hover link">Datenschutz</a>
-      <a href="/help/terms-of-service" class="link-hover link">Nutzungsbedingungen</a>
+      <a href="/help/privacy-policy" class="link-hover link text-sm">Datenschutz</a>
+      <a href="/help/terms-of-service" class="link-hover link text-sm">Nutzungsbedingungen</a>
     </nav>
   </footer>
 </div>

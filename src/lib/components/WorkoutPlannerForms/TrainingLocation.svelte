@@ -47,15 +47,6 @@
       stats: "Ideal bei bestehender oder geplanter Gym-Mitgliedschaft",
     },
   ];
-
-  // Custom gold color classes
-  const goldClasses = {
-    border: "border-gold-500",
-    bg: "bg-gold-500/10",
-    hoverBorder: "hover:border-gold-500/50",
-    text: "text-gold-500",
-    bgHover: "bg-gold-500/20",
-  };
 </script>
 
 <div class="container mx-auto flex flex-col items-center p-6">
@@ -72,22 +63,22 @@
         <button
           class="group relative overflow-hidden rounded-xl border-2 transition-all duration-300
             {trainingLocation === location.value
-            ? `${goldClasses.border} ${goldClasses.bg} shadow-lg`
-            : `border-base-content/10 ${goldClasses.hoverBorder} hover:bg-base-200`}"
+            ? `border-secondary bg-secondary/10 shadow-lg`
+            : `border-base-content/10 hover:border-secondary/50 hover:bg-base-200`}"
           onclick={() => (trainingLocation = location.value)}
         >
           <div class="relative p-6">
             <!-- Header with Icon -->
             <div class="flex items-center gap-4">
               <div
-                class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg ${goldClasses.bg}
+                class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg bg-secondary/10
                   transition-all duration-300 group-hover:scale-110
-                  {trainingLocation === location.value ? goldClasses.bgHover : ''}"
+                  {trainingLocation === location.value ? 'hover:bg-secondary' : ''}"
               >
                 <location.icon
                   size={32}
                   class="transition-colors duration-300 {trainingLocation === location.value
-                    ? goldClasses.text
+                    ? 'text-secondary'
                     : 'text-base-content'}"
                 />
               </div>
@@ -101,7 +92,7 @@
                 <CheckCircle2
                   size={24}
                   class="transition-all duration-300
-                         {trainingLocation === location.value ? `${goldClasses.text} opacity-100` : 'opacity-0'}"
+                         {trainingLocation === location.value ? `text-secondary opacity-100` : 'opacity-0'}"
                 />
               </div>
             </div>
@@ -110,8 +101,8 @@
             <div class="mt-4 flex flex-wrap gap-4">
               {#each location.benefits as benefit}
                 <div class="flex items-center gap-2">
-                  <div class="flex h-8 w-8 items-center justify-center rounded-lg {goldClasses.bg}">
-                    <benefit.icon size={16} class={goldClasses.text} />
+                  <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary/10">
+                    <benefit.icon size={16} class="text-secondary" />
                   </div>
                   <span class="text-sm">{benefit.text}</span>
                 </div>

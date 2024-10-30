@@ -4,6 +4,7 @@ import themes from "daisyui/src/theming/themes";
 import typography from "@tailwindcss/typography";
 import plugin from "tailwindcss/plugin";
 import colors from "tailwindcss/colors";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
@@ -49,6 +50,14 @@ export default {
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(16rem, 1fr))",
         "auto-fill": "repeat(auto-fill, minmax(16rem, 1fr))",
+      },
+      fontFamily: {
+        // Modern sans-serif for UI elements and body text
+        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+        // Display font for headlines and hero sections
+        display: ["Cal Sans", ...defaultTheme.fontFamily.sans],
+        // Monospace for technical content or metrics
+        mono: ["JetBrains Mono", ...defaultTheme.fontFamily.mono],
       },
     },
   },
