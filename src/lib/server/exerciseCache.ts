@@ -3,10 +3,10 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 let cachedExercises: Exercise[] | null = null;
 
-export async function getAllExercises(supabase: SupabaseClient): Promise<Exercise[] | null> {
+export async function getAllExercises(supabase: SupabaseClient | null): Promise<Exercise[] | null> {
   if (cachedExercises) {
     return cachedExercises;
-  }
+  } else if (!supabase) return null;
   const { data, error } = await supabase.from("exercises").select("*");
   if (error) {
     console.error("Error fetching exercises:", error);

@@ -7,7 +7,7 @@
   import TrainingLocation from "./TrainingLocation.svelte";
   import { ChevronLeft, ChevronRight } from "lucide-svelte";
   import SplitPreview from "./SplitPreview.svelte";
-  import { goto } from "$app/navigation";
+  import { enhance } from "$app/forms";
 
   type TrainingLocationType = "Home" | "Gym" | null;
 
@@ -41,15 +41,7 @@
     }
   }
 
-  $effect(() => {
-    if (currentStep === TOTAL_STEPS) {
-      setTimeout(() => {
-        goto("/workout-planner/result");
-      }, 3000);
-    }
-  });
-
-  type Direction = "forward" | "back" | "both";
+  type Direction = "forward" | "both" | "finish";
 
   function isStepValid(step: number): boolean {
     switch (step) {
@@ -73,7 +65,7 @@
 
 {#snippet navigationButtons(direction: Direction)}
   <div class="flex justify-center gap-4 pt-5">
-    {#if direction === "both" || direction === "back"}
+    {#if direction === "both" || direction === "finish"}
       <button type="button" onclick={handlePreviousStep} class="btn btn-neutral gap-2">
         <ChevronLeft size={20} />
         Zurück
@@ -90,6 +82,22 @@
         Weiter
         <ChevronRight size={20} />
       </button>
+    {:else if direction === "finish"}
+      <form method="POST" use:enhance action="">
+        <input name="frequency" value={frequency} hidden />
+        <input name="duration" value={duration} hidden />
+        <input name="level" value={level} hidden />
+        <input name="goal" value={goal} hidden />
+        <input name="furtherGoals" value={furtherGoals} hidden />
+        <input name="location" value={level} hidden />
+        <button
+          type="submit"
+          disabled={!isStepValid(currentStep)}
+          class="btn gap-2 {!isStepValid(currentStep) ? 'btn-disabled' : 'btn-secondary'}"
+        >
+          Fertig
+        </button>
+      </form>
     {/if}
   </div>
 {/snippet}
@@ -152,7 +160,7 @@
 
         {#if currentStep === 6}
           <SplitPreview {frequency} bind:selectedSplit />
-          {@render navigationButtons("both")}
+          {@render navigationButtons("finish")}
         {/if}
 
         {#if currentStep === TOTAL_STEPS}
