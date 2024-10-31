@@ -49,7 +49,9 @@
 <div class="flex min-h-screen flex-col">
   <!-- Navbar - made slimmer with reduced padding and max-width -->
   <nav class="sticky top-2 z-50">
-    <div class="mx-auto flex max-w-2xl items-center justify-between rounded-lg bg-base-100 px-3 py-1.5 shadow-md">
+    <div
+      class="mx-auto flex max-w-2xl items-center justify-between rounded-lg bg-neutral-content px-3 py-1.5 shadow-md"
+    >
       <!-- Logo with display font -->
       <a href="/" class="flex items-center">
         <Logo className="mr-1.5 fill-base-content" width="28" />
@@ -59,7 +61,7 @@
       <!-- Navigation Links - adjusted spacing -->
       <div class="hidden lg:flex">
         <a
-          class="px-3 py-1.5 font-sans text-sm text-base-content/70 transition-colors hover:text-base-content {isActive(
+          class="text-md px-3 py-1.5 font-sans text-neutral transition-colors hover:font-medium {isActive(
             '/dietplanner'
           )
             ? 'text-base-content'
@@ -70,7 +72,7 @@
         </a>
 
         <a
-          class="px-3 py-1.5 font-sans text-sm text-base-content/70 transition-colors hover:text-base-content {isActive(
+          class="text-md px-3 py-1.5 font-sans text-neutral transition-colors hover:font-medium {isActive(
             '/workout-planner'
           )
             ? 'text-base-content'
@@ -81,9 +83,7 @@
         </a>
 
         <a
-          class="px-3 py-1.5 font-sans text-sm text-base-content/70 transition-colors hover:text-base-content {isActive(
-            '/exercises'
-          )
+          class="text-md px-3 py-1.5 font-sans text-neutral transition-colors hover:font-medium {isActive('/exercises')
             ? 'text-base-content'
             : ''}"
           href="/exercises"
@@ -93,11 +93,11 @@
       </div>
 
       <!-- Right Side Controls - adjusted sizing -->
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-3">
         <label class="swap swap-rotate">
-          <input type="checkbox" class="theme-controller" value="dim" />
-          <Sun class="swap-on" size="18" aria-hidden="true" />
-          <Moon class="swap-off" size="18" aria-hidden="true" />
+          <input type="checkbox" class="theme-controller" value="dark" />
+          <Sun class="swap-on" size="24" aria-hidden="true" />
+          <Moon class="swap-off" size="24" aria-hidden="true" />
         </label>
 
         {#if profile}
@@ -119,9 +119,7 @@
             </form>
           </div>
         {:else}
-          <button on:click={toggleModal} class="btn btn-secondary btn-sm h-7 min-h-0 rounded-md px-3 text-sm">
-            Anmelden
-          </button>
+          <button on:click={toggleModal} class="btn btn-primary btn-md h-7 min-h-0 px-3 text-sm"> Anmelden </button>
         {/if}
       </div>
     </div>
@@ -136,7 +134,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="footer items-center bg-neutral p-4 text-neutral-content">
+  <footer class="footer items-center bg-neutral-content p-4 text-neutral">
     <aside class="grid-flow-col items-center">
       <Logo className="fill-base-content pt-1" width="28" />
       <p class="font-sans text-sm">Copyright © {new Date().getFullYear()} - All rights reserved</p>
