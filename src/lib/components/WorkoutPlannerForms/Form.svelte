@@ -41,6 +41,10 @@
     }
   }
 
+  const handleSubmit = () => {
+    handleNextStep();
+  };
+
   type Direction = "forward" | "both" | "finish";
 
   function isStepValid(step: number): boolean {
@@ -83,7 +87,7 @@
         <ChevronRight size={20} />
       </button>
     {:else if direction === "finish"}
-      <form method="POST" use:enhance action="">
+      <form method="POST" use:enhance={handleSubmit}>
         <input name="frequency" value={frequency} hidden />
         <input name="duration" value={duration} hidden />
         <input name="level" value={level} hidden />

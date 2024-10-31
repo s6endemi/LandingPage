@@ -18,10 +18,11 @@ export const actions: Actions = {
     const split = createSplit(exercises || [], frequency, duration, level, goal);
 
     const uuid = crypto.randomUUID();
-    setRedisValue(`split:${uuid}`, split);
+    setRedisValue(`split:${uuid}`, split, 5000);
 
     const uri = new URL("/workout-planner/result", request.url);
     uri.searchParams.append("id", uuid);
+    await new Promise((r) => setTimeout(r, 2000));
     throw redirect(303, uri);
   },
 };
