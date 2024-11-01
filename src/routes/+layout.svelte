@@ -83,28 +83,28 @@
         <p class="font-black transition-all {isScrolled ? 'text-lg' : 'text-xl'}">TrainTech</p>
       </a>
 
-    <div class="navbar-center hidden space-x-4 lg:flex">
-      <a
-        class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/dietplanner')} {isScrolled ? 'btn-sm' : ''}"
-        href="/dietplanner"
-      >
-        Ernährungsplan erstellen
-      </a>
-      <a
-        class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/workout-planner')} {isScrolled
-          ? 'btn-sm'
-          : ''}"
-        href="/workout-planner"
-      >
-        Trainingsplan erstellen
-      </a>
-      <a
-        class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/exercises')} {isScrolled ? 'btn-sm' : ''}"
-        href="/exercises"
-      >
-        Übungsübersicht
-      </a>
-    </div>
+      <div class="navbar-center hidden space-x-4 lg:flex">
+        <a
+          class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/dietplanner')} {isScrolled ? 'btn-sm' : ''}"
+          href="/dietplanner"
+        >
+          Ernährungsplan erstellen
+        </a>
+        <a
+          class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/workout-planner')} {isScrolled
+            ? 'btn-sm'
+            : ''}"
+          href="/workout-planner"
+        >
+          Trainingsplan erstellen
+        </a>
+        <a
+          class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/exercises')} {isScrolled ? 'btn-sm' : ''}"
+          href="/exercises"
+        >
+          Übungsübersicht
+        </a>
+      </div>
       <!-- Right Side Controls - adjusted sizing -->
       <div class="flex items-center gap-3">
         <label class="swap swap-rotate">
@@ -115,7 +115,6 @@
 
         {#if profile}
           <div class="dropdown dropdown-end">
-
             <button
               id="profile-dropdown"
               class="btn btn-secondary rounded-md transition-all {isScrolled ? 'btn-sm text-sm' : 'text-base'}"
@@ -145,7 +144,7 @@
         {/if}
       </div>
     </div>
-  </nav>
+  </div>
 
   <!-- Spacer to prevent content from going under navbar -->
   <div class={isScrolled ? "h-12" : "h-16"} />

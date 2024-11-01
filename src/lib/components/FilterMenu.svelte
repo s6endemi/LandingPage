@@ -66,7 +66,7 @@
     dispatch("search", searchQuery);
   }
 
-  function toggleDropdown(cat...egory: keyof Filters) {
+  function toggleDropdown(category: keyof Filters) {
     const url = new URL($page.url);
     if (openDropdown === category) {
       url.searchParams.delete("open");
