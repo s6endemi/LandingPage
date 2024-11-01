@@ -82,7 +82,6 @@
         <Logo className="mr-2 fill-base-content transition-all {isScrolled ? 'w-6' : 'w-8'}" />
         <p class="font-black transition-all {isScrolled ? 'text-lg' : 'text-xl'}">TrainTech</p>
       </a>
-    </div>
 
     <div class="navbar-center hidden space-x-4 lg:flex">
       <a
@@ -106,9 +105,8 @@
         Übungsübersicht
       </a>
     </div>
-
-    <div class="navbar-end">
-      <div class="flex items-center space-x-4">
+      <!-- Right Side Controls - adjusted sizing -->
+      <div class="flex items-center gap-3">
         <label class="swap swap-rotate">
           <input type="checkbox" class="theme-controller" value="dim" />
           <Sun class="swap-on {isScrolled ? 'h-5 w-5' : 'h-7 w-7'}" aria-hidden="true" />
@@ -117,6 +115,7 @@
 
         {#if profile}
           <div class="dropdown dropdown-end">
+
             <button
               id="profile-dropdown"
               class="btn btn-secondary rounded-md transition-all {isScrolled ? 'btn-sm text-sm' : 'text-base'}"
@@ -125,7 +124,7 @@
             </button>
             <form method="POST" action="/auth?/logout" use:enhance={enhanceLogout}>
               <ul
-                class="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
+                class="menu dropdown-content z-[1] mt-1 w-48 rounded-lg bg-base-100 p-2 text-sm shadow-lg"
                 aria-labelledby="profile-dropdown"
               >
                 <li><a href="/private/profile">Profil</a></li>
@@ -146,7 +145,7 @@
         {/if}
       </div>
     </div>
-  </div>
+  </nav>
 
   <!-- Spacer to prevent content from going under navbar -->
   <div class={isScrolled ? "h-12" : "h-16"} />
@@ -154,20 +153,20 @@
   <!-- Auth Modal -->
   <AuthControllerModal bind:modalState on:close={invalidateAuth} />
 
-  <!-- Main Content -->
-  <main class="container mx-auto flex-1 px-4 py-8">
+  <!-- Main Content with base font -->
+  <main class="container mx-auto flex-1 px-4 py-8 font-sans">
     <slot />
   </main>
 
   <!-- Footer -->
-  <footer class="footer items-center bg-neutral p-4 text-neutral-content">
+  <footer class="footer items-center bg-neutral-content p-4 text-neutral">
     <aside class="grid-flow-col items-center">
-      <Logo className="fill-base-content pt-1" width="32" />
-      <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>
+      <Logo className="fill-base-content pt-1" width="28" />
+      <p class="font-sans text-sm">Copyright © {new Date().getFullYear()} - All rights reserved</p>
     </aside>
     <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-      <a href="/help/privacy-policy" class="link-hover link">Datenschutz</a>
-      <a href="/help/terms-of-service" class="link-hover link">Nutzungsbedingungen</a>
+      <a href="/help/privacy-policy" class="link-hover link text-sm">Datenschutz</a>
+      <a href="/help/terms-of-service" class="link-hover link text-sm">Nutzungsbedingungen</a>
     </nav>
   </footer>
 </div>

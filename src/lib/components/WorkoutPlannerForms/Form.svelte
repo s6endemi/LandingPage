@@ -7,6 +7,8 @@
   import TrainingLocation from "./TrainingLocation.svelte";
   import TrainingSplit from "./Split.svelte";
   import { ChevronLeft, ChevronRight } from "lucide-svelte";
+  import SplitPreview from "./SplitPreview.svelte";
+  import { enhance } from "$app/forms";
 
   type TrainingLocationType = "Home" | "Gym" | null;
 
@@ -20,6 +22,7 @@
   let trainingLocation = $state<TrainingLocationType>(null);
   let currentStep = $state(1);
   let customSplit = $state<ExercisePlan[]>([]);
+  let selectedSplit = $state<string | null>(null);
 
   // Constants
   const TOTAL_STEPS = 7;
@@ -40,7 +43,11 @@
     }
   }
 
-  type Direction = "forward" | "back" | "both";
+  const handleSubmit = () => {
+    handleNextStep();
+  };
+
+  type Direction = "forward" | "both" | "finish";
 
   function isStepValid(step: number): boolean {
     switch (step) {
@@ -55,7 +62,7 @@
       case 5:
         return trainingLocation !== null;
       case 6:
-        return split !== null;
+        return selectedSplit !== null;
       default:
         return false;
     }
@@ -64,7 +71,7 @@
 
 {#snippet navigationButtons(direction: Direction)}
   <div class="flex justify-center gap-4 pt-5">
-    {#if direction === "both" || direction === "back"}
+    {#if direction === "both" || direction === "finish"}
       <button type="button" onclick={handlePreviousStep} class="btn btn-neutral gap-2">
         <ChevronLeft size={20} />
         Zurück
@@ -81,6 +88,22 @@
         Weiter
         <ChevronRight size={20} />
       </button>
+    {:else if direction === "finish"}
+      <form method="POST" use:enhance={handleSubmit}>
+        <input name="frequency" value={frequency} hidden />
+        <input name="duration" value={duration} hidden />
+        <input name="level" value={level} hidden />
+        <input name="goal" value={goal} hidden />
+        <input name="furtherGoals" value={furtherGoals} hidden />
+        <input name="location" value={level} hidden />
+        <button
+          type="submit"
+          disabled={!isStepValid(currentStep)}
+          class="btn gap-2 {!isStepValid(currentStep) ? 'btn-disabled' : 'btn-secondary'}"
+        >
+          Fertig
+        </button>
+      </form>
     {/if}
   </div>
 {/snippet}
@@ -142,8 +165,8 @@
         {/if}
 
         {#if currentStep === 6}
-          <TrainingSplit bind:split />
-          {@render navigationButtons("both")}
+          <SplitPreview {frequency} bind:selectedSplit />
+          {@render navigationButtons("finish")}
         {/if}
 
         {#if currentStep === TOTAL_STEPS}

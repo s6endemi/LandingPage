@@ -4,6 +4,7 @@ import themes from "daisyui/src/theming/themes";
 import typography from "@tailwindcss/typography";
 import plugin from "tailwindcss/plugin";
 import colors from "tailwindcss/colors";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
@@ -50,6 +51,14 @@ export default {
         "auto-fit": "repeat(auto-fit, minmax(16rem, 1fr))",
         "auto-fill": "repeat(auto-fill, minmax(16rem, 1fr))",
       },
+      fontFamily: {
+        // Modern sans-serif for UI elements and body text
+        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+        // Display font for headlines and hero sections
+        display: ["Cal Sans", ...defaultTheme.fontFamily.sans],
+        // Monospace for technical content or metrics
+        mono: ["JetBrains Mono", ...defaultTheme.fontFamily.mono],
+      },
     },
   },
   extend: {},
@@ -70,12 +79,56 @@ export default {
           neutral: "#f9fafb",
           "neutral-content": "#1c212b",
         },
+        light: {
+          primary: "#CA2B30",
+          // purple: #af125a, green: #3c896d, blue: #064789,
+          "primary-content": "#ffffff",
+          secondary: "#60A5E6",
+          "secondary-content": "#030a13",
+          accent: "#ABEB0A",
+          "accent-content": "#0b1300",
+          neutral: "#080707",
+          "neutral-content": "#f8f7f7",
+          "base-100": "#f3f4f6",
+          "base-200": "#e5e7eb",
+          "base-300": "#d7dae0",
+          "base-content": "#141415",
+          info: "#00BEFF",
+          "info-content": "#000d16",
+          success: "#038100",
+          "success-content": "#d3e6d0",
+          warning: "#ea7000",
+          "warning-content": "#130400",
+          error: "#e5254b",
+          "error-content": "#120002",
+        },
+        dark: {
+          primary: "#B70401",
+          "primary-content": "#f7d4ce",
+          secondary: "#195E9F",
+          "secondary-content": "#d1deed",
+          accent: "#B5F514",
+          "accent-content": "#0c1500",
+          neutral: "#f8f7f7",
+          "neutral-content": "080707",
+          "base-100": "#1d1d1d",
+          "base-200": "#2a2a2a",
+          "base-300": "#373737",
+          "base-content": "#c8c4c4",
+          info: "#00BEFF",
+          "info-content": "#000d16",
+          success: "#038100",
+          "success-content": "#d3e6d0",
+          warning: "#ea7000",
+          "warning-content": "#130400",
+          error: "#e5254b",
+          "error-content": "#120002",
+        },
       },
-      "light",
       "sunset",
       "dim",
     ], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
-    darkTheme: "dim", // name of one of the included themes for dark mode
+    darkTheme: "dark", // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default
     styled: true, // include daisyUI colors and design decisions for all components
     utils: true, // adds responsive and modifier utility classes
