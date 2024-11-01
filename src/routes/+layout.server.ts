@@ -1,12 +1,12 @@
 import { getAllExercises } from "$lib/server/exerciseCache";
-import { getValue, setValue } from "$lib/server/redis";
+import { getRedisValue, setRedisValue } from "$lib/server/redis";
 import { supabase } from "$lib/server/supabaseClient";
 import { type Gender, type Profile } from "$lib/types";
 import type { LayoutServerLoad } from "./$types";
 
 async function getProfileById(id: string | undefined): Promise<Profile | null> {
   if (id === undefined) return null;
-  const cachedProfile = await getValue<Profile>(`profile:${id}`);
+  const cachedProfile = await getRedisValue<Profile>(`profile:${id}`);
   if (cachedProfile) return cachedProfile;
 
   const { data, error } = await supabase.from("profiles").select("*").eq("id", id).single();
@@ -24,7 +24,7 @@ async function getProfileById(id: string | undefined): Promise<Profile | null> {
     gender: data.gender as Gender,
   };
   // cache for 5 minutes
-  setValue(`profile:${id}`, profile, 300);
+  setRedisValue(`profile:${id}`, profile, 300);
   return profile;
 }
 

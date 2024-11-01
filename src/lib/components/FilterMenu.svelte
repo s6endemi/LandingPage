@@ -98,9 +98,9 @@
   });
 </script>
 
-<div class="menu sticky top-28 z-10 rounded-box bg-neutral p-4 shadow-xl">
+<div class="menu sticky top-28 z-10 rounded-box bg-neutral-content p-4 shadow-xl">
   <div class="flex flex-col gap-4">
-    <h2 class="menu-title text-neutral-content">
+    <h2 class="menu-title text-neutral">
       <p>Filter</p>
     </h2>
     <div class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
@@ -111,7 +111,11 @@
             class="dropdown dropdown-bottom {openDropdown === typedCategory ? 'dropdown-open' : ''}"
             bind:this={dropdownContainer}
           >
-            <button tabindex="0" class="btn btn-sm m-1" on:click|stopPropagation={() => toggleDropdown(typedCategory)}>
+            <button
+              tabindex="0"
+              class="bg-base1 btn btn-sm m-1"
+              on:click|stopPropagation={() => toggleDropdown(typedCategory)}
+            >
               {capitalize(category)}
             </button>
             {#if openDropdown === typedCategory}
