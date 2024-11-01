@@ -208,3 +208,5 @@ function determineRestTime(exercise: Exercise, goal: TrainingGoal): number {
     return isCompound ? 3.5 : 3;
   } else return isCompound ? 2.5 : 2;
 }
+
+export const randomId = () => new Date().getUTCMilliseconds() + Math.random() * 64;

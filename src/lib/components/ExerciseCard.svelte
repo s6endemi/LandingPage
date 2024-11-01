@@ -31,7 +31,7 @@
       <div class="badge badge-secondary rounded-lg">{exercise.equipment}</div>
     </div>
     <div class="flex space-x-2">
-      <div class="flex h-52 w-52 items-center justify-center bg-gray-200">
+      <div class="flex h-52 w-52 items-center justify-center bg-base-200">
         <span>Loading...</span>
       </div>
     </div>
