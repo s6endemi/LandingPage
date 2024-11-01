@@ -48,7 +48,7 @@
 
 <div class="flex min-h-screen flex-col">
   <!-- Navbar - made slimmer with reduced padding and max-width -->
-  <nav class="sticky top-2 z-50">
+  <nav class="top-2 z-50 mt-2">
     <div
       class="mx-auto flex max-w-2xl items-center justify-between rounded-lg bg-neutral-content px-3 py-1.5 shadow-md"
     >
