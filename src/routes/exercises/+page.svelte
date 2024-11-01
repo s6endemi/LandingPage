@@ -63,7 +63,7 @@
   {#if showModal}
     <div class="fixed inset-0 z-[100] flex items-center justify-center" transition:fade={{ duration: 100 }}>
       <button
-        class="absolute inset-0 h-full w-full cursor-default bg-black opacity-50"
+        class="bg-black absolute inset-0 h-full w-full cursor-default opacity-50"
         on:click={closeModal}
         on:keydown={handleOverlayKeydown}
         aria-label="Close modal"

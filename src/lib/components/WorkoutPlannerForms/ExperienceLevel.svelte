@@ -44,6 +44,36 @@
   }
 </script>
 
+<div class="animate-slideDown container mx-auto p-6">
+  <div class="space-y-6">
+    <div class="flex items-center gap-2">
+      <h1 class="text-3xl font-bold">Wie erfahren bist du?</h1>
+      <div
+        class="tooltip tooltip-right"
+        data-tip="Wähle deine Erfahrungsstufe: Anfänger, Fortgeschritten oder Experte."
+      >
+        <Info class="h-5 w-5 opacity-70" />
+      </div>
+    </div>
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+      {#each [beginner, intermediate, expert] as option, i}
+        <div class="animate-slideDown" style="animation-delay: {100 + i * 100}ms">
+          {#if option.level === Level.Beginner}
+            {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-green-500 bg-green-500/10 shadow-lg" : "border-base-content/10 hover:border-green-500/50 hover:bg-base-100"}`}
+            {@render button(option, classes)}
+          {:else if option.level === Level.Intermediate}
+            {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-yellow-500 bg-yellow-500/10 shadow-lg" : "border-base-content/10 hover:border-yellow-500/50 hover:bg-base-100"}`}
+            {@render button(option, classes)}
+          {:else}
+            {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-red-500 bg-red-500/10 shadow-lg" : "border-base-content/10 hover:border-red-500/50 hover:bg-base-100"}`}
+            {@render button(option, classes)}
+          {/if}
+        </div>
+      {/each}
+    </div>
+  </div>
+</div>
+
 {#snippet button(option: CardButtonProps, buttonClasses: string)}
   <button class={buttonClasses} onclick={() => toggleLevel(option.level)} aria-label={option.title}>
     <div class="relative p-6">
@@ -67,30 +97,20 @@
   </button>
 {/snippet}
 
-<div class="container mx-auto p-6">
-  <div class="space-y-6">
-    <div class="flex items-center gap-2">
-      <h1 class="text-3xl font-bold">Wie erfahren bist du?</h1>
-      <div
-        class="tooltip tooltip-right"
-        data-tip="Wähle deine Erfahrungsstufe: Anfänger, Fortgeschritten oder Experte."
-      >
-        <Info class="h-5 w-5 opacity-70" />
-      </div>
-    </div>
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-      {#each [beginner, intermediate, expert] as option}
-        {#if option.level === Level.Beginner}
-          {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-green-500 bg-green-500/10 shadow-lg" : "border-base-content/10 hover:border-green-500/50 hover:bg-base-100"}`}
-          {@render button(option, classes)}
-        {:else if option.level === Level.Intermediate}
-          {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-yellow-500 bg-yellow-500/10 shadow-lg" : "border-base-content/10 hover:border-yellow-500/50 hover:bg-base-100"}`}
-          {@render button(option, classes)}
-        {:else}
-          {@const classes = `group relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${level === option.level ? "border-red-500 bg-red-500/10 shadow-lg" : "border-base-content/10 hover:border-red-500/50 hover:bg-base-100"}`}
-          {@render button(option, classes)}
-        {/if}
-      {/each}
-    </div>
-  </div>
-</div>
+<style>
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slideDown {
+    opacity: 0;
+    animation: slideDown 0.3s ease-out forwards;
+  }
+</style>

@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { Level, TrainingGoal, type Exercise, type ExercisePlan } from "$lib/types";
+  import { Level, TrainingGoal, Split, type Exercise, type ExercisePlan } from "$lib/types";
   import ExperienceLevel from "./ExperienceLevel.svelte";
   import WeeklyFrequency from "./WeeklyFrequency.svelte";
   import TrainingDuration from "./TrainingDuration.svelte";
   import Goals from "./Goals.svelte";
   import TrainingLocation from "./TrainingLocation.svelte";
+  import TrainingSplit from "./Split.svelte";
   import { ChevronLeft, ChevronRight } from "lucide-svelte";
   import SplitPreview from "./SplitPreview.svelte";
   import { enhance } from "$app/forms";
@@ -15,6 +16,7 @@
   let frequency = $state<number | null>(null);
   let duration = $state<number | null>(null);
   let level = $state<Level | null>(null);
+  let split = $state<Split | null>(null);
   let goal = $state<TrainingGoal | null>(null);
   let furtherGoals = $state<string[]>([]);
   let trainingLocation = $state<TrainingLocationType>(null);

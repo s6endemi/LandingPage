@@ -206,7 +206,7 @@
           <button
             type="button"
             on:click={handleNextStep}
-            class="rounded bg-green-500 px-4 py-2 text-white transition duration-300 hover:bg-green-600"
+            class="text-white rounded bg-green-500 px-4 py-2 transition duration-300 hover:bg-green-600"
           >
             Weiter
           </button>
@@ -237,14 +237,14 @@
           <button
             type="button"
             on:click={handlePreviousStep}
-            class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
+            class="text-white rounded bg-gray-400 px-4 py-2 transition duration-300 hover:bg-gray-500"
           >
             Zurück
           </button>
           <button
             type="button"
             on:click={handleNextStep}
-            class="ml-4 rounded bg-green-500 px-4 py-2 text-white transition duration-300 hover:bg-green-600"
+            class="text-white ml-4 rounded bg-green-500 px-4 py-2 transition duration-300 hover:bg-green-600"
           >
             Weiter
           </button>
@@ -262,8 +262,8 @@
                 class="w-auto rounded-full px-4 py-2 text-sm font-semibold transition duration-300 {dietaryRestrictions.includes(
                   restriction
                 )
-                  ? 'bg-green-500 text-white'
-                  : 'bg-gray-300 text-gray-800 hover:bg-green-500 hover:text-white'}"
+                  ? 'text-white bg-green-500'
+                  : 'hover:text-white bg-gray-300 text-gray-800 hover:bg-green-500'}"
               >
                 {restriction}
               </button>
@@ -275,14 +275,14 @@
           <button
             type="button"
             on:click={handlePreviousStep}
-            class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
+            class="text-white rounded bg-gray-400 px-4 py-2 transition duration-300 hover:bg-gray-500"
           >
             Zurück
           </button>
           <button
             type="button"
             on:click={handleNextStep}
-            class="ml-4 rounded bg-green-500 px-4 py-2 text-white transition duration-300 hover:bg-green-600"
+            class="text-white ml-4 rounded bg-green-500 px-4 py-2 transition duration-300 hover:bg-green-600"
           >
             Weiter
           </button>
@@ -300,8 +300,8 @@
                 class="w-auto rounded-full px-4 py-2 text-sm font-semibold transition duration-300 {preferredMeals.includes(
                   meal
                 )
-                  ? 'bg-green-500 text-white'
-                  : 'bg-gray-300 text-gray-800 hover:bg-green-500 hover:text-white'}"
+                  ? 'text-white bg-green-500'
+                  : 'hover:text-white bg-gray-300 text-gray-800 hover:bg-green-500'}"
               >
                 {meal}
               </button>
@@ -313,14 +313,14 @@
           <button
             type="button"
             on:click={handlePreviousStep}
-            class="rounded bg-gray-400 px-4 py-2 text-white transition duration-300 hover:bg-gray-500"
+            class="text-white rounded bg-gray-400 px-4 py-2 transition duration-300 hover:bg-gray-500"
           >
             Zurück
           </button>
           <button
             type="button"
             on:click={handleNextStep}
-            class="ml-4 rounded bg-green-500 px-4 py-2 text-white transition duration-300 hover:bg-green-600"
+            class="text-white ml-4 rounded bg-green-500 px-4 py-2 transition duration-300 hover:bg-green-600"
           >
             Weiter
           </button>
@@ -332,7 +332,7 @@
           <p class="text-lg">Bestätige deine Angaben, um den Ernährungsplan zu generieren.</p>
           <button
             type="submit"
-            class="mt-5 rounded bg-green-500 px-6 py-3 text-white transition duration-300 hover:bg-green-600"
+            class="text-white mt-5 rounded bg-green-500 px-6 py-3 transition duration-300 hover:bg-green-600"
           >
             Ernährungsplan erstellen
           </button>
