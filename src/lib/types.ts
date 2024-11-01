@@ -90,3 +90,8 @@ export enum Gender {
   Female = "Female",
   Other = "Other",
 }
+export enum Split {
+  FullBody = "FULL_BODY",
+  UpperLower = "UPPER_LOWER",
+  PPL = "PPL",
+}

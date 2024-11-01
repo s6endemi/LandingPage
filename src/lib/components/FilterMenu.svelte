@@ -98,7 +98,7 @@
   });
 </script>
 
-<div class="menu sticky top-28 z-10 rounded-box bg-neutral p-4 shadow-xl">
+<div class="menu sticky top-28 z-10 bg-neutral p-4 shadow-xl">
   <div class="flex flex-col gap-4">
     <h2 class="menu-title text-neutral-content">
       <p>Filter</p>

@@ -2,40 +2,39 @@
   import { Gender } from "$lib/types";
   import maleImage from "$lib/assets/male.svg";
   import femaleImage from "$lib/assets/female.svg";
-  import otherImage from "$lib/assets/genderless.svg"; // Füge hier das SVG für "Sonstiges" hinzu
-  import { Info } from "lucide-svelte";
+  import otherImage from "$lib/assets/genderless.svg";
 
   interface CardButtonProps {
     gender: Gender;
     title: string;
     imageSrc: string;
-    activeColor: string;
-    hoverColor: string;
+    gradient: string;
+    description: string;
   }
 
-  const maleCard: CardButtonProps = {
-    gender: Gender.Male,
-    title: "Männlich",
-    imageSrc: maleImage,
-    activeColor: "bg-blue-500/90 text-white",
-    hoverColor: "hover:bg-blue-400/80 hover:text-white",
-  };
-
-  const femaleCard: CardButtonProps = {
-    gender: Gender.Female,
-    title: "Weiblich",
-    imageSrc: femaleImage,
-    activeColor: "bg-pink-500/90 text-white",
-    hoverColor: "hover:bg-pink-400/80 hover:text-white",
-  };
-
-  const otherCard: CardButtonProps = {
-    gender: Gender.Other, // Stelle sicher, dass "Other" in deinem Gender-Type definiert ist
-    title: "Sonstiges",
-    imageSrc: otherImage, // Das Bild für "Sonstiges"
-    activeColor: "bg-green-400/90 text-white",
-    hoverColor: "hover:bg-green-300 /80 hover:text-white",
-  };
+  const options: CardButtonProps[] = [
+    {
+      gender: Gender.Male,
+      title: "Männlich",
+      imageSrc: maleImage,
+      gradient: "from-blue-500 to-blue-600",
+      description: "Optimiert für männliche Körperstrukturen",
+    },
+    {
+      gender: Gender.Female,
+      title: "Weiblich",
+      imageSrc: femaleImage,
+      gradient: "from-rose-400 to-rose-500",
+      description: "Angepasst an weibliche Physiologie",
+    },
+    {
+      gender: Gender.Other,
+      title: "Sonstiges",
+      imageSrc: otherImage,
+      gradient: "from-purple-400 to-purple-500",
+      description: "Individuelle Anpassung möglich",
+    },
+  ];
 
   let { gender = $bindable() } = $props();
 
@@ -44,43 +43,81 @@
   }
 </script>
 
-{#snippet cardButton(properties: CardButtonProps)}
-  <button
-    class="card transform-gpu rounded-lg shadow-lg transition-all duration-200 ease-in-out hover:scale-105
-           {gender === properties.gender
-      ? `${properties.activeColor} scale-105 shadow-md ring ring-opacity-80 ring-offset-2 ring-offset-base-100`
-      : `bg-base-200 ${properties.hoverColor}`} "
-    onclick={() => toggleGender(properties.gender)}
-    aria-label={properties.title}
-  >
-    <figure class="flex flex-col items-center justify-center space-y-3 p-4">
-      <img
-        src={properties.imageSrc}
-        alt={`${properties.gender.toString()} icon`}
-        class="h-24 w-24 rounded-full object-contain shadow-sm
-              {gender === properties.gender ? 'brightness-100' : 'brightness-90'}"
-      />
-      <h2 class="text-lg font-semibold text-base-content">{properties.title}</h2>
-    </figure>
-  </button>
-{/snippet}
+<div class="min-h-[500px] bg-gradient-to-b from-base-200/50 to-base-100 p-8">
+  <div class="mx-auto max-w-3xl">
+    <!-- Header Section -->
+    <div class="mb-12 text-center">
+      <h2 class="mb-3 bg-gradient-to-r from-primary to-secondary bg-clip-text text-3xl font-bold text-transparent">
+        Dein Geschlecht
+      </h2>
+      <p class="text-base-content/60">Für ein optimal auf dich zugeschnittenes Trainingsprogramm</p>
+    </div>
 
-<div class="container mx-auto max-w-2xl p-4">
-  <div class="space-y-6">
-    <h2 class="text-center text-xl font-semibold">
-      Welches Geschlecht hast du?
-      <span
-        class="tooltip tooltip-right ml-2"
-        data-tip="Wähle dein biologisches Geschlecht für personalisierte Ernährungsempfehlungen."
-      >
-        <Info class="inline-block h-5 w-5 cursor-pointer text-info opacity-80" />
-      </span>
-    </h2>
-    <div class="flex justify-center gap-10">
-      {@render cardButton(maleCard)}
-      {@render cardButton(femaleCard)}
-      {@render cardButton(otherCard)}
-      <!-- Füge hier die neue Karte hinzu -->
+    <!-- Cards Container -->
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+      {#each options as option}
+        <button
+          class="group relative overflow-hidden rounded-2xl transition-all duration-300 ease-out
+                 {gender === option.gender ? 'scale-[1.02] shadow-lg' : 'hover:scale-[1.01] hover:shadow-md'}"
+          on:click={() => toggleGender(option.gender)}
+        >
+          <!-- Card Content -->
+          <div class="relative z-10 p-6">
+            <!-- Image Container -->
+            <div class="mb-6 flex justify-center">
+              <div
+                class="rounded-full p-4
+                         {gender === option.gender
+                  ? `bg-gradient-to-br ${option.gradient}`
+                  : 'bg-base-200 group-hover:bg-base-300'} 
+                         transition-colors duration-300"
+              >
+                <img
+                  src={option.imageSrc}
+                  alt={option.title}
+                  class="h-16 w-16 transition-transform duration-300
+                         {gender === option.gender ? 'scale-110 brightness-0 invert' : 'group-hover:scale-105'}"
+                />
+              </div>
+            </div>
+
+            <!-- Text Content -->
+            <div class="space-y-2 text-center">
+              <h3 class="text-lg font-semibold">
+                {option.title}
+              </h3>
+              <p class="text-sm text-base-content/60">
+                {option.description}
+              </p>
+            </div>
+          </div>
+
+          <!-- Background Effect -->
+          <div
+            class="absolute inset-0 transition-opacity duration-300
+                      {gender === option.gender ? 'opacity-100' : 'opacity-0 group-hover:opacity-5'}"
+          >
+            <div class="absolute inset-0 bg-gradient-to-br {option.gradient}"></div>
+          </div>
+
+          <!-- Border Effect -->
+          <div
+            class="absolute inset-0 rounded-2xl border-2 transition-colors duration-300
+                      {gender === option.gender
+              ? `border-${option.gradient.split('-')[2]}-500`
+              : 'group-hover:border-base-400 border-base-300'}"
+          ></div>
+        </button>
+      {/each}
+    </div>
+
+    <!-- Helper Text -->
+    <div class="mt-8 text-center text-sm text-base-content/60">
+      Diese Information hilft uns, dein Training und deine Ernährung optimal anzupassen
     </div>
   </div>
 </div>
+
+<style>
+  /* Optional: Add any custom animations or styles here */
+</style>

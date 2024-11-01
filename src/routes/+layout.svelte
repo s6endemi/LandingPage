@@ -13,13 +13,37 @@
   export let data;
   $: ({ session, supabase, profile } = data);
 
+  // Add scroll tracking
+  let scrollY: number;
+  let isScrolled = false;
+
   onMount(() => {
-    const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
+    // Auth listener
+    const { data: authData } = supabase.auth.onAuthStateChange((_, newSession) => {
       if (newSession?.expires_at !== session?.expires_at) {
         invalidate("supabase:auth");
       }
     });
-    return () => data.subscription.unsubscribe();
+
+    // Scroll listener with throttling
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          scrollY = window.scrollY;
+          isScrolled = scrollY > 50; // Change navbar after 50px scroll
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      authData.subscription.unsubscribe();
+      window.removeEventListener("scroll", handleScroll);
+    };
   });
 
   let modalState: AuthModal = null;
@@ -48,22 +72,37 @@
 
 <div class="flex min-h-screen flex-col">
   <!-- Navbar -->
-  <div class="navbar sticky top-0 z-50 bg-base-100 px-4 opacity-95 shadow-lg lg:px-20">
+  <div
+    class="navbar fixed top-0 z-50 w-full transition-all duration-300 {isScrolled
+      ? 'h-12 bg-base-100/95 shadow-lg'
+      : 'h-16 bg-base-100 shadow-sm'} px-4 lg:px-20"
+  >
     <div class="navbar-start">
       <a href="/" class="flex items-center">
-        <Logo className="mr-2 fill-base-content pt-1" width="32" />
-        <p class="text-xl font-black">TrainTech</p>
+        <Logo className="mr-2 fill-base-content transition-all {isScrolled ? 'w-6' : 'w-8'}" />
+        <p class="font-black transition-all {isScrolled ? 'text-lg' : 'text-xl'}">TrainTech</p>
       </a>
     </div>
 
     <div class="navbar-center hidden space-x-4 lg:flex">
-      <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/dietplanner')}" href="/dietplanner">
+      <a
+        class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/dietplanner')} {isScrolled ? 'btn-sm' : ''}"
+        href="/dietplanner"
+      >
         Ernährungsplan erstellen
       </a>
-      <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/workout-planner')}" href="/workout-planner">
+      <a
+        class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/workout-planner')} {isScrolled
+          ? 'btn-sm'
+          : ''}"
+        href="/workout-planner"
+      >
         Trainingsplan erstellen
       </a>
-      <a class="btn btn-ghost rounded-md hover:bg-inherit {isActive('/exercises')}" href="/exercises">
+      <a
+        class="hover:bg-inherit btn btn-ghost rounded-md p-2 {isActive('/exercises')} {isScrolled ? 'btn-sm' : ''}"
+        href="/exercises"
+      >
         Übungsübersicht
       </a>
     </div>
@@ -72,13 +111,18 @@
       <div class="flex items-center space-x-4">
         <label class="swap swap-rotate">
           <input type="checkbox" class="theme-controller" value="dim" />
-          <Sun class="swap-on" size="30" aria-hidden="true" />
-          <Moon class="swap-off" size="30" aria-hidden="true" />
+          <Sun class="swap-on {isScrolled ? 'h-5 w-5' : 'h-7 w-7'}" aria-hidden="true" />
+          <Moon class="swap-off {isScrolled ? 'h-5 w-5' : 'h-7 w-7'}" aria-hidden="true" />
         </label>
 
         {#if profile}
           <div class="dropdown dropdown-end">
-            <button id="profile-dropdown" class="btn btn-secondary btn-sm rounded-md">{profile.firstName}</button>
+            <button
+              id="profile-dropdown"
+              class="btn btn-secondary rounded-md transition-all {isScrolled ? 'btn-sm text-sm' : 'text-base'}"
+            >
+              {profile.firstName}
+            </button>
             <form method="POST" action="/auth?/logout" use:enhance={enhanceLogout}>
               <ul
                 class="menu dropdown-content z-[1] mt-4 w-52 rounded-box bg-base-100 p-2 shadow"
@@ -93,11 +137,19 @@
             </form>
           </div>
         {:else}
-          <button on:click={toggleModal} class="btn btn-secondary btn-sm rounded-md">Anmelden</button>
+          <button
+            on:click={toggleModal}
+            class="btn btn-secondary rounded-md transition-all {isScrolled ? 'btn-sm text-sm' : 'text-sm'}"
+          >
+            Anmelden
+          </button>
         {/if}
       </div>
     </div>
   </div>
+
+  <!-- Spacer to prevent content from going under navbar -->
+  <div class={isScrolled ? "h-12" : "h-16"} />
 
   <!-- Auth Modal -->
   <AuthControllerModal bind:modalState on:close={invalidateAuth} />
