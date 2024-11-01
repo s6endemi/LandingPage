@@ -1,47 +1,86 @@
 <script lang="ts">
-  import type { Exercise, ExerciseWithAlternatives } from "$lib/types";
-  import { createEventDispatcher } from "svelte";
+  import type { ExerciseWithAlternatives } from "$lib/types";
+  import { ChevronDown } from "lucide-svelte";
+  import { slide } from "svelte/transition";
+  import ExerciseCard from "./ExerciseCard.svelte";
+  import { randomId } from "$lib/utils";
 
-  export let exercise: ExerciseWithAlternatives;
+  interface Props {
+    exercise: ExerciseWithAlternatives;
+    activeCard: number | null;
+  }
 
-  const dispatch = createEventDispatcher();
+  let { exercise, activeCard = $bindable() }: Props = $props();
+  const id: number = randomId();
 
-  function showAlternatives() {
-    dispatch("showAlternatives", { alternatives: exercise.alternatives });
+  function toggleAlternatives(event: Event) {
+    event.stopPropagation(); // Prevent main card click
+    activeCard === id ? (activeCard = null) : (activeCard = id);
   }
 </script>
 
-<div class="max-h-lg card max-w-72 bg-neutral shadow-xl">
-  <div class="card-body">
-    <h2 class="card-title">{exercise.primaryExercise.name}</h2>
-    <div class="flex flex-wrap space-x-1">
-      <div class="badge">{exercise.primaryExercise.level}</div>
-      <div class="badge badge-neutral">{exercise.primaryExercise.category}</div>
-    </div>
-    <div class="flex flex-wrap space-x-1">
-      <div class="badge badge-secondary">
-        {exercise.primaryExercise.mechanic}
+<div class="relative w-full max-w-72">
+  <!-- Main Exercise Card -->
+  <div
+    class="max-h-lg card w-full transform cursor-pointer bg-neutral-content text-left shadow-md transition duration-200 ease-in-out hover:shadow-lg"
+    aria-label={`View details for ${exercise.primaryExercise.name}`}
+  >
+    <div class="card-body">
+      <h2 class="card-title">{exercise.primaryExercise.name}</h2>
+
+      <!-- Exercise metadata badges -->
+      <div class="flex flex-wrap gap-1">
+        <div class="badge badge-accent rounded-lg">
+          {exercise.primaryExercise.category}
+        </div>
+        <div class="badge rounded-lg bg-accent/50">
+          {exercise.primaryExercise.equipment}
+        </div>
       </div>
-    </div>
-    <div class="flex space-x-2">
-      <div class="flex h-52 w-52 items-center justify-center bg-gray-200">
-        <span>Loading...</span>
+
+      <!-- Image placeholder -->
+      <div class="flex space-x-2">
+        <div class="flex h-52 w-52 items-center justify-center bg-base-200">
+          <span>Loading...</span>
+        </div>
       </div>
-    </div>
-    <div class="grid grid-cols-auto-fit gap-4">
-      <div class="badge badge-accent">{exercise.primaryExercise.category}</div>
-    </div>
-    <div class="mt-4 flex h-6 justify-center">
-      {#if exercise.alternatives.length !== 0}
-        <button
-          on:click={showAlternatives}
-          class="btn btn-ghost btn-sm p-0 text-sm font-medium text-secondary hover:underline"
-        >
-          Alternativen ↓
-        </button>
-      {:else}
-        <span class="invisible" aria-hidden="true">Placeholder</span>
-      {/if}
+
+      <div class="flex flex-wrap gap-1">
+        <div class="badge rounded-lg">
+          {exercise.sets} × {exercise.repetitions[0]} - {exercise.repetitions[1]}
+        </div>
+        {#if exercise.warmupSet}
+          <div class="badge badge-primary rounded-lg">Warm-up</div>
+        {/if}
+      </div>
+
+      <!-- Alternatives button -->
+      <button
+        class="mt-2 flex flex-col items-center text-sm hover:font-semibold"
+        onclick={toggleAlternatives}
+        aria-expanded={activeCard === id}
+        aria-controls="alternatives-dropdown"
+      >
+        <span>Alternativen</span>
+        <ChevronDown class="h-4 w-4 transition-transform duration-200" />
+      </button>
     </div>
   </div>
+
+  <!-- Alternatives Dropdown -->
+  {#if activeCard === id}
+    <div
+      id="alternatives-dropdown"
+      class="absolute left-0 right-0 z-50 mt-2 w-max min-w-full"
+      transition:slide={{ duration: 200 }}
+    >
+      <div class="flex gap-4 overflow-x-auto rounded-lg bg-base-100 p-4 pb-4 shadow-xl scrollbar-hidden">
+        {#each exercise.alternatives as alternative (alternative.id)}
+          <div class="shrink-0">
+            <ExerciseCard exercise={alternative} on:click />
+          </div>
+        {/each}
+      </div>
+    </div>
+  {/if}
 </div>
