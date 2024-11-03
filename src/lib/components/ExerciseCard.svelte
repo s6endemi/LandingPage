@@ -1,24 +1,18 @@
 <script lang="ts">
   import type { Exercise } from "$lib/types";
-  import { createEventDispatcher } from "svelte";
 
   interface Props {
     exercise: Exercise;
+    onclick?: (exercise: Exercise) => void;
   }
 
-  let { exercise }: Props = $props();
-
-  const dispatch = createEventDispatcher();
-
-  function handleClick() {
-    dispatch("click", { exercise });
-  }
+  let { exercise, onclick: clickCard }: Props = $props();
 </script>
 
 <button
   class="max-h-lg card w-full max-w-72 transform cursor-pointer bg-neutral-content text-left shadow-xl transition duration-200 ease-in-out hover:scale-105 hover:shadow-2xl"
-  onclick={handleClick}
-  onkeydown={(e) => e.key === "Enter" && handleClick()}
+  onclick={() => clickCard?.(exercise)}
+  onkeydown={(e) => e.key === "Enter" && clickCard?.(exercise)}
   aria-label={`View details for ${exercise.name}`}
 >
   <div class="card-body">

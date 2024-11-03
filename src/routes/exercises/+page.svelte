@@ -16,8 +16,8 @@
   $: searchQuery = $page.url.searchParams.get("search") || "";
   $: filteredExercises = exercises.filter((ex) => ex.name.toLowerCase().includes(searchQuery));
 
-  function openModal(event: { detail: { exercise: Exercise | null } }) {
-    selectedExercise = event.detail.exercise;
+  function openModal(exercise: Exercise) {
+    selectedExercise = exercise;
     showModal = true;
   }
 
@@ -54,7 +54,7 @@
     {:else}
       <div class="grid grid-cols-auto-fill gap-4">
         {#each filteredExercises as exercise (exercise.id)}
-          <ExerciseCard {exercise} on:click={openModal} />
+          <ExerciseCard {exercise} onclick={openModal} />
         {/each}
       </div>
     {/if}
