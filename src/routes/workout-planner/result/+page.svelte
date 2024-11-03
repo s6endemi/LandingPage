@@ -1,6 +1,5 @@
 <script lang="ts">
   import { GalleryHorizontalEnd, LayoutList, Pencil, PencilOff, Plus, Trash2 } from "lucide-svelte";
-  import { onMount } from "svelte";
   import CardSlider from "$lib/components/CardSlider.svelte";
 
   let { data } = $props();
@@ -10,66 +9,40 @@
   let listView = $state(false);
   let activeCard: number | null = $state(null);
 
-  // Scroll handling
-  onMount(() => {
-    const setupHorizontalScroll = (container: HTMLElement) => {
-      container.addEventListener(
-        "wheel",
-        (evt: WheelEvent) => {
-          if (Math.abs(evt.deltaX) > Math.abs(evt.deltaY)) return;
-
-          // Only prevent default if no card is expanded
-          if (activeCard === null) {
-            evt.preventDefault();
-            const CARD_WIDTH = 256;
-            const scrollAmount = Math.sign(evt.deltaY) * CARD_WIDTH;
-            const maxScroll = container.scrollWidth - container.clientWidth;
-
-            container.scrollTo({
-              left: Math.max(0, Math.min(container.scrollLeft + scrollAmount, maxScroll)),
-              behavior: "smooth",
-            });
-          }
-        },
-        { passive: false }
-      );
-    };
-
-    document.querySelectorAll<HTMLElement>(".horizontal-scroll").forEach(setupHorizontalScroll);
-  });
-
   function addToProfile() {}
 </script>
 
 <main class="container mx-auto p-6">
   <!-- Header -->
-  <div class="navbar">
-    <div class="navbar-end"></div>
-    <div class="navbar-end">
-      <h1 class="flex-none text-3xl font-bold">Dein Trainingsplan</h1>
-      <div class="m-5 flex-none space-x-2">
-        <button class="btn btn-info btn-sm flex-none" title="List view" onclick={() => (listView = !listView)}>
-          {#if listView}
-            <LayoutList />
-          {:else}
-            <GalleryHorizontalEnd />
-          {/if}
-        </button>
-        <button class="btn btn-primary btn-sm flex-none" title="Edit" onclick={() => (editView = !editView)}>
-          {#if editView}
-            <PencilOff />
-          {:else}
-            <Pencil />
-          {/if}
-        </button>
-        {#if saved}
-          <button class="btn btn-error btn-sm flex-none" title="Delete"><Trash2 /></button>
+  <div class="mb-8 flex justify-end gap-4 max-sm:flex-col">
+    <h1 class="text-3xl font-bold">Dein Trainingsplan</h1>
+
+    <div class="flex items-center gap-2">
+      <button class="btn btn-info btn-sm" title="List view" onclick={() => (listView = !listView)}>
+        {#if listView}
+          <LayoutList size={20} />
         {:else}
-          <button class="btn btn-success btn-sm flex-none" title="Add to profile" onclick={addToProfile}
-            ><Plus /></button
-          >
+          <GalleryHorizontalEnd size={20} />
         {/if}
-      </div>
+      </button>
+
+      <button class="btn btn-primary btn-sm" title="Edit" onclick={() => (editView = !editView)}>
+        {#if editView}
+          <PencilOff size={20} />
+        {:else}
+          <Pencil size={20} />
+        {/if}
+      </button>
+
+      {#if saved}
+        <button class="btn btn-error btn-sm" title="Delete">
+          <Trash2 size={20} />
+        </button>
+      {:else}
+        <button class="btn btn-success btn-sm" title="Add to profile" onclick={addToProfile}>
+          <Plus size={20} />
+        </button>
+      {/if}
     </div>
   </div>
 
@@ -88,6 +61,33 @@
 
         {#if listView}
           <!-- ... list view ... -->
+          <div class="overflow-x-auto">
+            <table class="table">
+              <thead>
+                <tr class="text-base">
+                  <th>Übung</th>
+                  <th class="text-right">Volumen</th>
+                </tr>
+              </thead>
+              <tbody>
+                {#each workoutSplit.exercises as exercise}
+                  <tr class="hover:bg-base-200">
+                    <td class="font-medium">
+                      {exercise.primaryExercise.name}
+                      {#if exercise.warmupSet}
+                        <span class="badge badge-primary badge-xs ml-2">Warm-up</span>
+                      {/if}
+                    </td>
+                    <td class="text-right">
+                      <span class="font-mono">
+                        {exercise.sets} × {exercise.repetitions[0]}-{exercise.repetitions[1]}
+                      </span>
+                    </td>
+                  </tr>
+                {/each}
+              </tbody>
+            </table>
+          </div>
         {:else}
           <CardSlider cards={workoutSplit.exercises} />
         {/if}
