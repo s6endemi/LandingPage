@@ -37,7 +37,7 @@
 </script>
 
 <div class="relative">
-  <div class="carousel carousel-center max-w-full space-x-2 p-4" bind:this={carouselRef}>
+  <div class="carousel carousel-center max-w-full space-x-3 p-4 max-sm:space-x-7" bind:this={carouselRef}>
     {#each cards as exercise}
       <ExerciseCardWithAlternatives {exercise} class="carousel-item" />
     {/each}

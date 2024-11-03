@@ -72,10 +72,16 @@
         <!-- Alternatives button -->
         {#if exercise.alternatives.length > 0}
           <button class="btn" onclick={toggleAlternatives}>open modal</button>
-          <dialog id="alternatives_modal" class="modal mb-3 p-1 text-center text-2xl font-bold" bind:this={dialog}>
-            <div class="modal-box max-w-min rounded-lg bg-base-100 p-4">
-              <h1>Wähle eine Alternative</h1>
-              <div class="carousel carousel-center space-x-4 p-4">
+          <dialog id="alternatives_modal" class="modal text-center" bind:this={dialog}>
+            <div
+              class="modal-box rounded-lg bg-base-100 p-7"
+              class:max-w-sm={exercise.alternatives.length === 1}
+              class:max-w-2xl={exercise.alternatives.length === 2}
+              class:max-w-5xl={exercise.alternatives.length === 3}
+              class:max-w-7xl={exercise.alternatives.length === 4}
+            >
+              <h1 class="mb-6 text-2xl font-bold">Wähle eine Alternative</h1>
+              <div class="flex flex-wrap justify-center gap-4">
                 {#each exercise.alternatives as alternative}
                   <ExerciseCard exercise={alternative} onclick={swapPrimaryExercise} />
                 {/each}
