@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import type { Exercise, Filters } from "$lib/types";
+  import type { Filters } from "$lib/types";
   import { capitalize } from "$lib/utils";
   import { createEventDispatcher, onMount } from "svelte";
   import { X, RotateCcw, Search } from "lucide-svelte";
@@ -98,7 +98,7 @@
   });
 </script>
 
-<div class="menu sticky top-28 z-10 rounded-box bg-neutral-content p-4 shadow-xl">
+<div class="menu sticky top-28 z-10 rounded-md bg-neutral-content p-4 shadow-lg">
   <div class="flex flex-col gap-4">
     <h2 class="menu-title flex text-neutral">
       <p class="flex-1 items-center">Filter</p>
