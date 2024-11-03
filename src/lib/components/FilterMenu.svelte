@@ -100,11 +100,20 @@
 
 <div class="menu sticky top-28 z-10 rounded-box bg-neutral-content p-4 shadow-xl">
   <div class="flex flex-col gap-4">
-    <h2 class="menu-title text-neutral">
-      <p>Filter</p>
+    <h2 class="menu-title flex text-neutral">
+      <p class="flex-1 items-center">Filter</p>
+      <button
+        title="Reset Filters"
+        on:click={resetFilter}
+        class="btn btn-primary btn-sm m-1 flex-none sm:hidden {activeFilters.size === 0 ? 'hidden' : 'btn-error'}"
+        disabled={isResetDisabled}
+        aria-label="Reset Filters"
+      >
+        <RotateCcw size="15" />
+      </button>
     </h2>
     <div class="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-      <div class="flex flex-wrap gap-2 sm:flex-grow">
+      <div class="flex flex-wrap gap-1 sm:flex-grow">
         {#each Object.entries(filters) as [category, values]}
           {@const typedCategory = category as keyof Filters}
           <div
@@ -142,7 +151,7 @@
         <button
           title="Reset Filters"
           on:click={resetFilter}
-          class="btn btn-primary btn-sm m-1 {activeFilters.size === 0 ? 'btn-disabled' : 'btn-error'}"
+          class="btn btn-primary btn-sm m-1 max-sm:hidden {activeFilters.size === 0 ? 'hidden' : 'btn-error'}"
           disabled={isResetDisabled}
           aria-label="Reset Filters"
         >
