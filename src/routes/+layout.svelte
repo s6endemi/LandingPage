@@ -77,23 +77,25 @@
   <div class="drawer-content flex flex-col">
     <!-- Navbar -->
     <div class="navbar fixed top-0 z-50 h-16 w-full bg-base-100/95 px-4 shadow-sm transition-all duration-300 lg:px-8">
-      <!-- Mobile menu button -->
-      <div class="flex-none md:hidden">
-        <label for="navbar-drawer" class="btn btn-square btn-ghost">
-          <Menu class="h-6 w-6" />
-        </label>
-      </div>
+      <div class="navbar-start">
+        <!-- Mobile menu button -->
+        <div class="flex-none md:hidden">
+          <label for="navbar-drawer" class="btn btn-square btn-ghost">
+            <Menu class="h-6 w-6" />
+          </label>
+        </div>
 
-      <!-- Logo -->
-      <div class="flex-1">
-        <a href="/" class="flex items-center">
-          <Logo className="mr-2 h-8 w-8 fill-base-content" />
-          <span class="text-xl font-black">TrainTech</span>
-        </a>
+        <!-- Logo -->
+        <div class="flex-1">
+          <a href="/" class="flex items-center">
+            <Logo className="mr-2 h-8 w-8 fill-base-content" />
+            <span class="text-xl font-black">TrainTech</span>
+          </a>
+        </div>
       </div>
 
       <!-- Desktop Navigation -->
-      <div class="hidden flex-none gap-2 md:flex">
+      <div class="navbar-center hidden flex-none gap-2 md:flex">
         <a class="btn btn-ghost {isActive('/dietplanner')}" href="/dietplanner">
           <Apple class="h-5 w-5" />
           <span>Ernährung</span>
@@ -106,17 +108,17 @@
           <Book class="h-5 w-5" />
           <span>Übungen</span>
         </a>
+      </div>
 
+      <div class="navbar-end mr-2">
         <!-- Theme Toggle -->
-        <label class="btn btn-ghost swap swap-rotate">
+        <label class="btn btn-ghost swap swap-rotate hidden sm:flex">
           <input type="checkbox" class="theme-controller" value="dark" />
           <Sun class="swap-on h-5 w-5" />
           <Moon class="swap-off h-5 w-5" />
         </label>
 
         <!-- Auth Button/Profile -->
-      </div>
-      <div class="mr-2">
         {#if profile}
           <div class="dropdown dropdown-end">
             <button class="btn btn-secondary">
