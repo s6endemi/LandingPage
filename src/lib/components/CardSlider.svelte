@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ExerciseWithAlternatives } from "$lib/types";
-  import ExerciseCardWithAlternatives from "./ExerciseCardWithAlternatives.svelte";
   import { ChevronLeft, ChevronRight } from "lucide-svelte";
+  import ExerciseCardWithAlternatives from "./ExerciseCards/ExerciseCardWithAlternatives.svelte";
 
   let { cards }: { cards: ExerciseWithAlternatives[] } = $props();
   let currentIndex = $state(1);
