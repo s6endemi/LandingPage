@@ -29,6 +29,7 @@ export default tseslint.config(
   {
     rules: {
       "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "svelte/element-invalid-self-closing-tag": "off",
       semi: ["error", "always"],
       quotes: ["error", "double"],
     },

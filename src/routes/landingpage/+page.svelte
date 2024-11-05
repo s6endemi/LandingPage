@@ -237,31 +237,6 @@
 />
 
 <div class="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50">
-  <!-- Navigation blur effect -->
-  <div
-    class="fixed left-0 right-0 top-0 z-30 h-20 bg-slate-50/80 backdrop-blur-xl transition-opacity duration-300"
-    style="opacity: {Math.min(scrollY / 100, 1)}"
-  />
-
-  <!-- Navigation -->
-  <nav class="container relative z-40 mx-auto px-6 py-6">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4">
-        <span class="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-2xl font-bold text-transparent">
-          FitAI
-        </span>
-      </div>
-
-      <button
-        use:earlyAccessTrigger
-        class="rounded-2xl bg-blue-600 px-6 py-2.5 font-medium text-slate-50 shadow-lg shadow-blue-200
-               transition-all duration-300 hover:-translate-y-0.5 hover:shadow-blue-300"
-      >
-        Early Access
-      </button>
-    </div>
-  </nav>
-
   <!-- Hero Section -->
   <header class="container relative mx-auto px-6 pb-32 pt-24 text-center">
     <!-- Decorative elements -->
