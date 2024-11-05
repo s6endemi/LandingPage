@@ -76,7 +76,11 @@
 
   <div class="drawer-content flex flex-col">
     <!-- Navbar -->
-    <div class="navbar fixed top-0 z-50 h-16 w-full bg-base-100/95 px-4 shadow-sm transition-all duration-300 lg:px-8">
+    <div
+      class="bg-white/95 navbar fixed top-0 z-50 h-16 w-full px-4 shadow-sm
+           backdrop-blur-xl transition-all duration-300 lg:px-8
+           {isScrolled ? 'shadow-lg' : ''}"
+    >
       <div class="navbar-start">
         <!-- Mobile menu button -->
         <div class="flex-none md:hidden">
@@ -88,27 +92,42 @@
         <!-- Logo -->
         <div class="flex-1">
           <a href="/" class="flex items-center">
-            <Logo className="mr-2 h-8 w-8 fill-base-content" />
-            <span class="text-xl font-black">TrainTech</span>
+            <Logo className="mr-2 h-8 w-8 fill-slate-800" />
+            <span
+              class="bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-xl
+                         font-bold text-transparent"
+            >
+              TrainTech
+            </span>
           </a>
         </div>
       </div>
 
       <!-- Desktop Navigation -->
-      <div class="navbar-center hidden flex-none gap-2 md:flex">
-        <a class="btn btn-ghost {isActive('/dietplanner')}" href="/dietplanner">
-          <Apple class="h-5 w-5" />
-          <span>Ernährung</span>
-        </a>
-        <a class="btn btn-ghost {isActive('/workout-planner')}" href="/workout-planner">
-          <Dumbbell class="h-5 w-5" />
-          <span>Training</span>
-        </a>
-        <a class="btn btn-ghost {isActive('/exercises')}" href="/exercises">
-          <Book class="h-5 w-5" />
-          <span>Übungen</span>
-        </a>
-      </div>
+      <a
+        class="text-white btn rounded-xl border-none bg-gradient-to-r from-blue-500
+           to-blue-600 transition-all duration-300 hover:-translate-y-0.5
+           hover:shadow-lg hover:shadow-blue-200"
+        href="/landingpage"
+      >
+        <span>Early Access</span>
+      </a>
+
+      <div class="w-2"></div>
+      <!-- Spacer -->
+
+      <a class="btn btn-ghost {isActive('/dietplanner')}" href="/dietplanner">
+        <Apple class="h-5 w-5" />
+        <span>Ernährung</span>
+      </a>
+      <a class="btn btn-ghost {isActive('/workout-planner')}" href="/workout-planner">
+        <Dumbbell class="h-5 w-5" />
+        <span>Training</span>
+      </a>
+      <a class="btn btn-ghost {isActive('/exercises')}" href="/exercises">
+        <Book class="h-5 w-5" />
+        <span>Übungen</span>
+      </a>
 
       <div class="navbar-end mr-2">
         <!-- Theme Toggle -->
@@ -139,7 +158,6 @@
     </div>
 
     <!-- Page Content -->
-    <div class="h-16" />
     <main class="container mx-auto flex-1 px-4 py-8">
       <slot />
     </main>
