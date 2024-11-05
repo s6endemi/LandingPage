@@ -1,5 +1,18 @@
-<!-- src/routes/+page.svelte -->
-<script>
+<script lang="ts">
+  import { createDialog } from "@melt-ui/svelte";
+  import { fade, slide, fly } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
+  import { onMount } from "svelte";
+
+  let canvas: HTMLCanvasElement;
+  let ctx: CanvasRenderingContext2D;
+  let scrollY: number;
+  let particles: { x: number; y: number; size: number; speed: number; opacity: number }[] = [];
+
+  // Intersection Observer elements
+  let featuresSection: HTMLElement;
+  let isFeaturesVisible = false;
+
   const features = [
     {
       title: "Personalisierte KI-Anpassung",
@@ -21,72 +34,171 @@
       icon: "🌟",
     },
   ];
+
+  function initParticles() {
+    particles = Array(50)
+      .fill(null)
+      .map(() => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        size: Math.random() * 2 + 1,
+        speed: Math.random() * 0.5 + 0.1,
+        opacity: Math.random() * 0.5 + 0.2,
+      }));
+  }
+
+  function animateParticles() {
+    if (!ctx || !canvas) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((particle) => {
+      particle.y -= particle.speed;
+      if (particle.y < 0) particle.y = canvas.height;
+
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(59, 130, 246, ${particle.opacity})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(animateParticles);
+  }
+
+  function handleResize() {
+    if (canvas && window) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+  }
+
+  onMount(() => {
+    if (canvas) {
+      ctx = canvas.getContext("2d")!;
+      handleResize();
+      initParticles();
+      animateParticles();
+
+      window.addEventListener("resize", handleResize);
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === featuresSection) {
+            isFeaturesVisible = entry.isIntersecting;
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(featuresSection);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  });
 </script>
 
-<main class="bg-base-100">
+<canvas bind:this={canvas} class="pointer-events-none fixed inset-0 z-0 h-full w-full" />
+
+<div class="min-h-screen bg-gradient-to-b from-slate-50 to-blue-50">
+  <!-- Navigation blur effect -->
+  <div
+    class="bg-white/80 fixed left-0 right-0 top-0 z-30 h-20 backdrop-blur-xl transition-opacity duration-300"
+    style="opacity: {Math.min(scrollY / 100, 1)}"
+  />
+
   <!-- Hero Section -->
-  <section class="flex min-h-[80vh] items-center bg-gradient-to-br from-primary/10 to-secondary/10 px-4 py-16">
-    <div class="container mx-auto">
-      <div class="grid items-center gap-12 lg:grid-cols-2">
-        <div class="space-y-8">
-          <h1 class="text-5xl font-bold leading-tight">Der intelligente Weg zu Ihrem Fitnessziel</h1>
-          <p class="text-xl text-gray-600">
-            Erleben Sie die Zukunft des Personal Trainings mit unserem KI-gestützten Coach, der sich perfekt an Ihre
-            individuellen Bedürfnisse anpasst.
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <button class="btn btn-primary btn-lg">Kostenlos starten</button>
-            <button class="btn btn-outline btn-lg">Demo ansehen</button>
+  <header class="container relative mx-auto px-6 pb-24 pt-32 text-center">
+    <!-- Decorative elements -->
+    <div
+      class="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2
+                rounded-full bg-gradient-to-r from-blue-300/10 to-purple-300/10 blur-3xl"
+    />
+    <div
+      class="absolute left-1/3 top-1/3 h-[400px] w-[400px]
+                rounded-full bg-gradient-to-r from-blue-200/20 to-purple-200/20 blur-2xl"
+    />
+
+    <div class="relative">
+      <h1
+        class="mb-8 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-5xl font-bold
+               tracking-tight text-transparent md:text-7xl"
+        in:fly={{ y: 20, duration: 800, delay: 200 }}
+      >
+        Der intelligente Weg<br />zu Ihrem Fitnessziel
+      </h1>
+
+      <p
+        class="mx-auto mb-12 max-w-2xl text-xl leading-relaxed text-gray-600"
+        in:fly={{ y: 20, duration: 800, delay: 400 }}
+      >
+        Erleben Sie die Zukunft des Personal Trainings mit unserem KI-gestützten Coach.
+      </p>
+
+      <div
+        class="flex flex-col justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0"
+        in:fly={{ y: 20, duration: 800, delay: 600 }}
+      >
+        <button
+          class="text-white group rounded-2xl bg-blue-600 px-8 py-4 font-medium
+                 shadow-lg shadow-blue-200 transition-all duration-300
+                 hover:-translate-y-0.5 hover:shadow-blue-300"
+        >
+          Kostenlos starten
+          <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+        </button>
+        <button
+          class="bg-white rounded-2xl px-8 py-4 font-medium text-gray-600 shadow-lg
+                 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-gray-200"
+        >
+          Demo ansehen
+        </button>
+      </div>
+
+      <div class="mx-auto mt-16 grid max-w-2xl grid-cols-3 gap-8">
+        {#each [{ value: "10k+", label: "Aktive Nutzer" }, { value: "95%", label: "Zielerreichung" }, { value: "4.9★", label: "Bewertung" }] as stat}
+          <div class="transform text-center transition-transform duration-300 hover:-translate-y-1">
+            <div class="text-3xl font-bold text-blue-600">{stat.value}</div>
+            <div class="mt-1 text-sm text-gray-600">{stat.label}</div>
           </div>
-          <div class="grid grid-cols-3 gap-4">
-            <div class="text-center">
-              <div class="text-3xl font-bold text-primary">10k+</div>
-              <div class="text-sm text-gray-600">Aktive Nutzer</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-primary">95%</div>
-              <div class="text-sm text-gray-600">Zielerreichung</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-primary">4.9★</div>
-              <div class="text-sm text-gray-600">Bewertung</div>
-            </div>
-          </div>
-        </div>
-        <div class="relative">
-          <img
-            src="/api/placeholder/600/800"
-            alt="Fitness Training"
-            class="mx-auto w-full max-w-lg rounded-3xl shadow-2xl"
-          />
-        </div>
+        {/each}
       </div>
     </div>
-  </section>
+  </header>
 
   <!-- Features Section -->
-  <section class="bg-base-200 px-4 py-24">
-    <div class="container mx-auto">
-      <div class="mb-16 text-center">
-        <h2 class="mb-4 text-4xl font-bold">Ihr persönlicher KI-Coach</h2>
-        <p class="mx-auto max-w-2xl text-xl text-gray-600">
-          Erleben Sie ein völlig neues Level an personaliertem Training
-        </p>
-      </div>
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {#each features as feature}
-          <div class="card bg-base-100 shadow-xl">
-            <div class="card-body">
-              <div class="mb-4 text-4xl">{feature.icon}</div>
-              <h3 class="card-title mb-4 text-2xl">{feature.title}</h3>
-              <p class="mb-6 text-gray-600">{feature.description}</p>
-              <div class="grid grid-cols-1 gap-2">
-                {#each feature.stats as stat}
-                  <div class="rounded-lg bg-base-200 p-2 text-center text-sm">
-                    {stat}
-                  </div>
-                {/each}
-              </div>
+  <section bind:this={featuresSection} class="bg-white relative py-32">
+    <div class="container mx-auto px-6">
+      <h2
+        class="mb-16 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-center text-4xl
+                 font-bold text-transparent"
+      >
+        Ihr persönlicher KI-Coach
+      </h2>
+
+      <div class="grid gap-8 md:grid-cols-3">
+        {#each features as feature, i}
+          <div
+            class="from-white rounded-3xl bg-gradient-to-b to-blue-50 p-8 shadow-xl
+                   transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+            class:translate-y-0={isFeaturesVisible}
+            style="transition-delay: {i * 200}ms;"
+            class:translate-y-20={!isFeaturesVisible}
+          >
+            <div class="mb-6 text-4xl">{feature.icon}</div>
+            <h3 class="mb-4 text-xl font-semibold text-gray-800">{feature.title}</h3>
+            <p class="mb-6 text-gray-600">{feature.description}</p>
+            <div class="space-y-2">
+              {#each feature.stats as stat}
+                <div
+                  class="bg-white/50 hover:bg-white rounded-xl px-4 py-2 text-center text-sm
+                           text-gray-600 transition-colors duration-300"
+                >
+                  {stat}
+                </div>
+              {/each}
             </div>
           </div>
         {/each}
@@ -94,85 +206,29 @@
     </div>
   </section>
 
-  <!-- How It Works -->
-  <section class="px-4 py-24">
-    <div class="container mx-auto max-w-4xl">
-      <div class="mb-16 text-center">
-        <h2 class="mb-4 text-4xl font-bold">Wie es funktioniert</h2>
-        <p class="text-xl text-gray-600">Ihr Weg zum persönlichen Erfolg in drei einfachen Schritten</p>
-      </div>
-      <div class="space-y-8">
-        <div class="card bg-base-100 shadow-xl">
-          <div class="card-body">
-            <div class="flex items-start gap-6">
-              <div
-                class="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-content"
-              >
-                1
-              </div>
-              <div>
-                <h3 class="mb-2 text-2xl font-bold">Persönliches Profil erstellen</h3>
-                <p class="text-gray-600">
-                  Teilen Sie uns Ihre Ziele, Vorlieben und Einschränkungen mit. Unser KI-System analysiert Ihre Angaben
-                  und erstellt ein individuelles Profil.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card bg-base-100 shadow-xl">
-          <div class="card-body">
-            <div class="flex items-start gap-6">
-              <div
-                class="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-content"
-              >
-                2
-              </div>
-              <div>
-                <h3 class="mb-2 text-2xl font-bold">KI-Analyse & Planerstellung</h3>
-                <p class="text-gray-600">
-                  Basierend auf Ihrem Profil entwickelt unser System einen maßgeschneiderten Trainings- und
-                  Ernährungsplan.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card bg-base-100 shadow-xl">
-          <div class="card-body">
-            <div class="flex items-start gap-6">
-              <div
-                class="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-content"
-              >
-                3
-              </div>
-              <div>
-                <h3 class="mb-2 text-2xl font-bold">Dynamische Anpassung</h3>
-                <p class="text-gray-600">
-                  Ihr Plan entwickelt sich mit Ihnen. Das System lernt aus Ihren Fortschritten und passt sich
-                  kontinuierlich an.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CTA Section -->
-  <section class="bg-base-200 px-4 py-24">
-    <div class="container mx-auto">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="mb-6 text-4xl font-bold">Bereit für Ihre Transformation?</h2>
-        <p class="mb-8 text-xl text-gray-600">
-          Starten Sie heute mit Ihrem persönlichen KI-Coach und erleben Sie den Unterschied intelligenten Trainings.
-        </p>
-        <div class="flex flex-col justify-center gap-4 sm:flex-row">
-          <button class="btn btn-primary btn-lg">14 Tage kostenlos testen</button>
-          <button class="btn btn-outline btn-lg">Mehr erfahren</button>
-        </div>
-      </div>
+  <section class="to-white bg-gradient-to-b from-blue-50 py-24">
+    <div class="container mx-auto max-w-3xl px-6 text-center">
+      <h2 class="mb-8 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-4xl font-bold text-transparent">
+        Bereit für Ihre Transformation?
+      </h2>
+      <p class="mb-12 text-xl text-gray-600">
+        Starten Sie heute mit Ihrem persönlichen KI-Coach und erleben Sie den Unterschied.
+      </p>
+      <button
+        class="text-white group rounded-2xl bg-blue-600 px-8 py-4 font-medium
+               shadow-lg shadow-blue-200 transition-all duration-300
+               hover:-translate-y-0.5 hover:shadow-blue-300"
+      >
+        14 Tage kostenlos testen
+        <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </button>
     </div>
   </section>
-</main>
+</div>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+</style>
