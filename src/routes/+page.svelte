@@ -273,8 +273,6 @@
   });
 </script>
 
-<svelte:window bind:scrollY on:scroll={updateScrollProgress} />
-
 <!-- Particle Canvas -->
 <canvas
   bind:this={canvas}
