@@ -37,7 +37,7 @@
 
   // Canvas and Nodes
   let canvas: HTMLCanvasElement;
-  let ctx: CanvasRenderingContext2D;
+  let ctx: CanvasRenderingContext2D | null;
   let nodes: { x: number; y: number; size: number; speed: number; color: string; hue: number }[] = [];
 
   // Intersection Observer elements
@@ -284,15 +284,18 @@
 
   onMount(() => {
     if (browser) {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      ctx = canvas?.getContext("2d")!;
+      const initCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        if (!canvas || !canvas.getContext) return;
+        ctx = canvas.getContext("2d");
+        if (!ctx) return;
 
-      if (ctx) {
         initializeNodes();
-      } else {
-        console.error("Failed to get 2D context from canvas.");
-      }
+      };
+
+      initCanvas();
+      window.addEventListener("resize", initCanvas);
 
       // Set up intersection observer
       const observer = new IntersectionObserver(
@@ -321,13 +324,15 @@
 
       return () => {
         observer.disconnect();
+        window.removeEventListener("resize", initCanvas);
       };
     }
   });
 </script>
 
-<!-- Particle Canvas -->
-<canvas bind:this={canvas} class="pointer-events-none fixed inset-0 z-0 h-full w-full" width={0} height={0} />
+{#if browser}
+  <canvas bind:this={canvas} class="pointer-events-none fixed inset-0 z-0 h-full w-full" width={0} height={0} />
+{/if}
 
 <div class="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
   <!-- Hero Section -->
@@ -402,19 +407,21 @@
     <div class="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-gray-800/30 to-gray-900/50"></div>
 
     <!-- Animated Background Elements -->
-    {#each Array(8) as _, i}
-      <div
-        class="absolute rounded-full bg-gradient-to-r from-indigo-600/5 to-purple-600/5 blur-3xl"
-        style="
-          width: {200 + Math.random() * 300}px;
-          height: {200 + Math.random() * 300}px;
-          left: {Math.random() * 100}%;
-          top: {Math.random() * 100}%;
-          transform: scale({0.8 + Math.random() * 0.5});
-          animation: float-{i} {15 + Math.random() * 10}s infinite ease-in-out;
-        "
-      ></div>
-    {/each}
+    {#if browser}
+      {#each Array(8) as _, i}
+        <div
+          class="absolute rounded-full bg-gradient-to-r from-indigo-600/5 to-purple-600/5 blur-3xl"
+          style="
+            width: {200 + Math.random() * 300}px;
+            height: {200 + Math.random() * 300}px;
+            left: {Math.random() * 100}%;
+            top: {Math.random() * 100}%;
+            transform: scale({0.8 + Math.random() * 0.5});
+            animation: float-{i} {15 + Math.random() * 10}s infinite ease-in-out;
+          "
+        ></div>
+      {/each}
+    {/if}
 
     <div class="container relative mx-auto px-6">
       <!-- Section Header -->
