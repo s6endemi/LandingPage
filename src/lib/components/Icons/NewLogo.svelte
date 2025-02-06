@@ -1,0 +1,162 @@
+<script lang="ts">
+  export let className: string = "";
+</script>
+
+<svg
+  version="1.0"
+  xmlns="http://www.w3.org/2000/svg"
+  width="400pt"
+  height="400pt"
+  viewBox="0 0 400 400"
+  preserveAspectRatio="xMidYMid meet"
+  class={className}
+  {...$$restProps}
+>
+  <defs>
+    <radialGradient gradientUnits="userSpaceOnUse" cx="2000" cy="2000" r="2000" id="gradient-0" spreadMethod="reflect">
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="2368.937"
+      cy="2813.503"
+      r="261.063"
+      id="gradient-1"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="937.5"
+      cy="2645"
+      r="122.5"
+      id="gradient-2"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="3060.75"
+      cy="2645"
+      r="126.25"
+      id="gradient-3"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="1789.828"
+      cy="2304.5"
+      r="158.426"
+      id="gradient-4"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="2340"
+      cy="2077.204"
+      r="290"
+      id="gradient-5"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="1016.381"
+      cy="2034.459"
+      r="252.011"
+      id="gradient-6"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="1865.052"
+      cy="1713.509"
+      r="437.115"
+      id="gradient-7"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="2370.605"
+      cy="1244.003"
+      r="259.395"
+      id="gradient-8"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+    <radialGradient
+      gradientUnits="userSpaceOnUse"
+      cx="1998.235"
+      cy="805.046"
+      r="126.276"
+      id="gradient-9"
+      spreadMethod="reflect"
+    >
+      <stop offset="0" style="stop-color: rgb(37.255% 7.8431% 35.294% / 0.965)" />
+      <stop offset="1" style="stop-color: rgb(28.248% 0% 26.879% / 0.965)" />
+    </radialGradient>
+  </defs>
+  <g transform="matrix(0.1, 0, 0, -0.1, -17.427385, 396.680511)" fill="#000000" stroke="none">
+    <path
+      d="M0 2000 l0 -2000 2000 0 2000 0 0 2000 0 2000 -2000 0 -2000 0 0 -2000z m1643 1079 c136 -79 247 -146 247 -150 0 -5 -226 -138 -447 -263 l-73 -41 0 -54 c0 -43 3 -52 15 -47 8 3 105 57 215 121 424 244 603 347 830 479 129 75 241 136 249 136 8 0 89 -43 180 -96 91 -53 253 -146 359 -207 l192 -111 0 -422 0 -422 -197 -113 c-109 -62 -238 -137 -288 -166 l-90 -53 -5 307 -5 307 -40 23 c-22 12 -43 23 -47 23 -5 0 -8 -340 -8 -755 l0 -754 -32 -17 c-18 -9 -180 -102 -360 -205 -180 -104 -333 -189 -340 -189 -7 0 -56 25 -108 56 -52 31 -213 124 -357 206 l-263 151 0 328 c0 181 2 329 5 329 2 0 100 -55 217 -123 117 -68 236 -136 264 -152 l52 -29 45 30 45 29 -311 180 c-172 98 -316 185 -322 191 -5 7 -37 28 -70 47 -33 19 -181 104 -330 190 l-270 156 -3 424 -2 425 362 209 363 210 40 -22 c22 -12 151 -87 288 -166z"
+      style="fill: url(&quot;#gradient-0&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M2560 3086 c-30 -18 -143 -83 -250 -145 -107 -62 -198 -116 -202 -119 -4 -4 88 -62 205 -130 117 -67 236 -136 265 -153 l52 -31 0 306 c0 168 -3 306 -7 305 -5 0 -33 -15 -63 -33z"
+      style="fill: url(&quot;#gradient-1&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M852 2736 c-34 -32 -37 -38 -37 -91 0 -53 3 -59 37 -91 30 -27 46 -34 78 -34 79 0 130 49 130 125 0 76 -51 125 -130 125 -32 0 -48 -7 -78 -34z"
+      style="fill: url(&quot;#gradient-2&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M2990 2748 c-74 -50 -74 -156 0 -206 28 -19 44 -23 83 -19 152 14 152 230 0 244 -39 4 -55 0 -83 -19z"
+      style="fill: url(&quot;#gradient-3&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M1790 2640 l-155 -89 -3 -335 c-1 -185 -1 -336 2 -336 5 0 300 170 309 179 4 4 6 156 5 339 l-3 331 -155 -89z"
+      style="fill: url(&quot;#gradient-4&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M2050 2238 l1 -183 97 -54 c53 -30 177 -101 275 -158 98 -57 184 -106 192 -109 13 -5 15 19 15 174 l0 180 -267 155 c-148 85 -278 159 -290 166 l-23 12 0 -183z"
+      style="fill: url(&quot;#gradient-5&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M1003 2186 c-302 -174 -287 -146 -123 -239 52 -29 159 -91 238 -137 78 -45 145 -80 148 -78 2 3 3 140 2 305 l-3 300 -262 -151z"
+      style="fill: url(&quot;#gradient-6&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M1830 1879 c-85 -50 -202 -118 -260 -152 -58 -33 -115 -66 -128 -74 -23 -14 -23 -15 40 -52 98 -59 245 -141 251 -141 6 0 559 319 569 329 8 7 -275 174 -302 178 -8 1 -85 -38 -170 -88z"
+      style="fill: url(&quot;#gradient-7&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M2370 1404 c-135 -79 -251 -148 -258 -152 -8 -5 45 -41 150 -102 90 -51 195 -112 233 -135 39 -23 85 -50 103 -59 l32 -17 0 306 c0 168 -3 305 -7 304 -5 -1 -118 -66 -253 -145z"
+      style="fill: url(&quot;#gradient-8&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+    <path
+      d="M1944 920 c-30 -12 -62 -56 -70 -96 -14 -73 46 -144 120 -144 91 0 151 79 124 164 -22 69 -104 105 -174 76z"
+      style="fill: url(&quot;#gradient-9&quot;); paint-order: fill; fill-rule: nonzero;"
+    />
+  </g>
+</svg>

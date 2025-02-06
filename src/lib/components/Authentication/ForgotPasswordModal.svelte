@@ -43,22 +43,21 @@
       isLoading = false;
       await applyAction(result);
       if (result.type === "failure") {
-        errorMessage =
-          result.data?.message || "Fehler beim Senden der Passwort-Zurücksetz-E-Mail. Bitte versuchen Sie es erneut.";
+        errorMessage = result.data?.message || "Error sending the password reset email. Please try again.";
         update();
       } else if (result.type === "success") {
-        successMessage = "Eine E-Mail zum Zurücksetzen des Passworts wurde gesendet.";
+        successMessage = "A password reset email has been sent.";
         update();
       }
     };
   };
 </script>
 
-<h1 class="mb-4 text-2xl font-bold">Passwort vergessen?</h1>
+<h1 class="mb-4 text-2xl font-bold">Forgot Password?</h1>
 <form method="POST" action="/auth?/resetPassword" use:enhance={enhanceResetPassword} class="flex flex-col gap-4">
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">E-Mail</span>
+      <span class="label-text">Email</span>
     </div>
     <input
       name="email"
@@ -66,12 +65,12 @@
       bind:value={email}
       on:input={handleEmailInput}
       class="input input-bordered w-full {!isEmailValid && email ? 'input-error' : ''}"
-      placeholder="Geben Sie Ihre E-Mail ein"
+      placeholder="Enter your email"
       required
     />
     {#if !isEmailValid && email}
       <div class="label">
-        <span class="label-text-alt text-error">Bitte geben Sie eine gültige E-Mail-Adresse ein.</span>
+        <span class="label-text-alt text-error">Please enter a valid email address.</span>
       </div>
     {/if}
   </label>
@@ -79,7 +78,7 @@
     {#if isLoading}
       <span class="loading loading-spinner"></span>
     {:else}
-      Passwort zurücksetzen
+      Reset Password
     {/if}
   </button>
   {#if errorMessage}
@@ -110,6 +109,6 @@
   {/if}
 </form>
 <div class="mt-4 text-center">
-  <span>Erinnern Sie sich an Ihr Passwort?</span>
-  <button type="button" on:click={switchToSignIn} class="link link-primary ml-1">Hier anmelden</button>
+  <span>Remember your password?</span>
+  <button type="button" on:click={switchToSignIn} class="link link-primary ml-1">Sign in here</button>
 </div>

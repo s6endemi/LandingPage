@@ -35,10 +35,10 @@
     },
   ];
 
-  // Canvas and particles
+  // Canvas and Nodes
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
-  let particles: { x: number; y: number; size: number; speed: number; color: string }[] = [];
+  let nodes: { x: number; y: number; size: number; speed: number; color: string; hue: number }[] = [];
 
   // Intersection Observer elements
   let coachSection: HTMLElement;
@@ -49,6 +49,8 @@
   let isFeaturesVisible = false;
   let chatContainer: HTMLElement;
   let isChatVisible = false;
+  let heroSection: HTMLElement;
+  let isHeroVisible = false;
 
   // Demo messages
   const demoUserMessage = "I've been feeling stronger lately, so that sounds good!";
@@ -57,7 +59,6 @@
 
   // Add to your existing script section
   let activeFeatureIndex = 0;
-  let hoverEffect = { x: 50, y: 50 };
 
   const futureFeatures = [
     {
@@ -86,39 +87,92 @@
     },
   ];
 
-  function initializeParticles() {
-    if (!canvas || !ctx) return;
+  function initializeNodes() {
+    if (!canvas || !ctx) {
+      console.warn("Canvas or context not ready, delaying node initialization.");
+      return;
+    }
 
-    // Create particles
-    for (let i = 0; i < 50; i++) {
-      particles.push({
+    // Create nodes with color properties
+    nodes = [];
+    for (let i = 0; i < 80; i++) {
+      nodes.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        size: Math.random() * 2 + 1,
-        speed: Math.random() * 0.5 + 0.1,
-        color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.15)`,
+        size: Math.random() * 3 + 1,
+        speed: Math.random() * 0.3 + 0.1,
+        color: `rgba(150, 150, 150, 0.3)`,
+        // Add hue for gradient connections
+        hue: Math.random() * 360,
       });
     }
 
-    const gradientColors = [
-      "rgba(99, 102, 241, 0.15)", // Indigo
-      "rgba(139, 92, 246, 0.15)", // Purple
-      "rgba(236, 72, 153, 0.15)", // Pink
-    ];
+    function drawConnections() {
+      if (!ctx || !canvas) return;
+
+      ctx.lineCap = "round";
+      ctx.lineWidth = 0.8;
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 130) {
+            // Create gradient for each connection
+            const gradient = ctx.createLinearGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+
+            // Calculate opacity based on distance
+            const opacity = 1 - distance / 120;
+
+            // Create gradient with subtle color transitions
+            gradient.addColorStop(0, `hsla(${nodes[i].hue}, 70%, 70%, ${opacity * 0.2})`);
+            gradient.addColorStop(1, `hsla(${nodes[j].hue}, 70%, 70%, ${opacity * 0.2})`);
+
+            ctx.beginPath();
+            ctx.strokeStyle = gradient;
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+
+            // Add subtle glow effect
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = `hsla(${(nodes[i].hue + nodes[j].hue) / 2}, 70%, 70%, ${opacity * 0.3})`;
+          }
+        }
+      }
+      // Reset shadow effect
+      ctx.shadowBlur = 0;
+    }
 
     function animate() {
       if (!ctx || !canvas) return;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((particle) => {
-        particle.y -= particle.speed;
-        if (particle.y < 0) particle.y = canvas.height;
 
-        ctx.fillStyle = particle.color;
+      // Update node positions
+      nodes.forEach((node) => {
+        node.y -= node.speed;
+        if (node.y < 0) {
+          node.y = canvas.height;
+          // Update hue when particle resets
+          node.hue = (node.hue + 1) % 360;
+        }
+      });
+
+      drawConnections();
+
+      // Draw nodes with subtle glow
+      nodes.forEach((node) => {
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${node.hue}, 70%, 70%, 0.3)`;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = `hsla(${node.hue}, 70%, 70%, 0.5)`;
+        ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
         ctx.fill();
       });
+
       requestAnimationFrame(animate);
     }
 
@@ -228,25 +282,23 @@
     { value: "<2min", label: "Response Time" },
   ];
 
-  // Add this function to handle mouse movement
-  function handleMouseMove(event: MouseEvent) {
-    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    hoverEffect = {
-      x: ((event.clientX - rect.left) / rect.width) * 100,
-      y: ((event.clientY - rect.top) / rect.height) * 100,
-    };
-  }
-
   onMount(() => {
     if (browser) {
-      // Initialize canvas and particles
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       ctx = canvas?.getContext("2d")!;
-      initializeParticles();
+
+      if (ctx) {
+        initializeNodes();
+      } else {
+        console.error("Failed to get 2D context from canvas.");
+      }
 
       // Set up intersection observer
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
+            if (entry.target === heroSection) isHeroVisible = entry.isIntersecting;
             if (entry.target === coachSection) isCoachVisible = entry.isIntersecting;
             if (entry.target === statsSection) isStatsVisible = entry.isIntersecting;
             if (entry.target === featuresSection) isFeaturesVisible = entry.isIntersecting;
@@ -261,6 +313,7 @@
         { threshold: 0.5 }
       );
 
+      observer.observe(heroSection);
       observer.observe(coachSection);
       observer.observe(statsSection);
       observer.observe(featuresSection);
@@ -274,16 +327,15 @@
 </script>
 
 <!-- Particle Canvas -->
-<canvas
-  bind:this={canvas}
-  class="pointer-events-none fixed inset-0 z-0 h-full w-full"
-  width={window.innerWidth}
-  height={window.innerHeight}
-/>
+<canvas bind:this={canvas} class="pointer-events-none fixed inset-0 z-0 h-full w-full" width={0} height={0} />
 
 <div class="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
   <!-- Hero Section -->
-  <header class="container relative mx-auto px-6 pb-32 pt-24 text-center">
+  <header
+    bind:this={heroSection}
+    class="container relative mx-auto px-6 pb-32 pt-24 text-center"
+    class:is-visible={isHeroVisible}
+  >
     <!-- Updated decorative elements with premium dark theme -->
     <div
       class="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2
@@ -300,7 +352,7 @@
                font-bold tracking-tight text-transparent md:text-7xl"
         in:fly={{ y: 20, duration: 800, delay: 200 }}
       >
-        Train Smarter<br />with AI
+        A new Era of Assistance
       </h1>
 
       <p
@@ -309,6 +361,15 @@
       >
         Experience a new era of personal fitness with intelligent coaching that understands and adapts to your unique
         journey.
+      </p>
+      <p
+        class="mx-auto mb-12 max-w-2xl text-xl leading-relaxed text-gray-300"
+        in:fly={{ y: 20, duration: 850, delay: 450 }}
+      >
+        Powered by advanced neural networks and real-time biometric analysis, our platform combines cutting-edge AI
+        technology with deep learning algorithms to revolutionize your fitness journey. Experience personalized coaching
+        that adapts in real-time, backed by quantum computing capabilities and precise motion tracking that's trusted by
+        professional athletes and sports scientists worldwide.
       </p>
 
       <div
@@ -336,21 +397,112 @@
     </div>
   </header>
   <!-- Features Section -->
-  <section id="features" bind:this={featuresSection} class="relative bg-gray-900/50 py-32">
-    <div class="container mx-auto px-6">
-      <div class="grid gap-8 md:grid-cols-3">
-        {#each features as feature, i}
-          <div
-            class="transform rounded-3xl bg-gradient-to-b from-gray-800/50 to-gray-900/50 p-8
-                   shadow-xl shadow-purple-500/5 backdrop-blur-sm transition-all duration-500
-                   hover:-translate-y-1 hover:shadow-indigo-500/10"
-            class:translate-y-0={isFeaturesVisible}
-            style="transition-delay: {i * 100}ms;"
-            class:translate-y-20={!isFeaturesVisible}
+  <section id="features" bind:this={featuresSection} class="relative mt-[50vh] overflow-hidden py-32">
+    <!-- Gradient Background -->
+    <div class="absolute inset-0 bg-gradient-to-b from-gray-900/50 via-gray-800/30 to-gray-900/50"></div>
+
+    <!-- Animated Background Elements -->
+    {#each Array(8) as _, i}
+      <div
+        class="absolute rounded-full bg-gradient-to-r from-indigo-600/5 to-purple-600/5 blur-3xl"
+        style="
+          width: {200 + Math.random() * 300}px;
+          height: {200 + Math.random() * 300}px;
+          left: {Math.random() * 100}%;
+          top: {Math.random() * 100}%;
+          transform: scale({0.8 + Math.random() * 0.5});
+          animation: float-{i} {15 + Math.random() * 10}s infinite ease-in-out;
+        "
+      ></div>
+    {/each}
+
+    <div class="container relative mx-auto px-6">
+      <!-- Section Header -->
+      <div
+        class="mb-20 transform text-center transition-all duration-700"
+        class:translate-y-0={isFeaturesVisible}
+        class:translate-y-20={!isFeaturesVisible}
+        style="transition-delay: 100ms;"
+      >
+        <h2
+          class="mb-6 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-bold text-transparent md:text-5xl"
+        >
+          Core Features
+        </h2>
+        <div class="mt-6 flex flex-wrap justify-center gap-4">
+          <span class="rounded-full border border-indigo-500/20 bg-indigo-500/10 px-4 py-2 text-sm text-indigo-300"
+            >Neural Networks</span
           >
-            <div class="mb-6 text-4xl">{feature.icon}</div>
-            <h3 class="mb-4 text-xl font-semibold text-gray-100">{feature.title}</h3>
-            <p class="leading-relaxed text-gray-400">{feature.description}</p>
+          <span class="rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-2 text-sm text-purple-300"
+            >Quantum Processing</span
+          >
+          <span class="rounded-full border border-pink-500/20 bg-pink-500/10 px-4 py-2 text-sm text-pink-300"
+            >Motion Tracking</span
+          >
+          <span class="rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-300"
+            >Biometric Analysis</span
+          >
+        </div>
+      </div>
+
+      <!-- Enhanced Features Grid -->
+      <div class="relative z-10 grid gap-8 md:grid-cols-3">
+        {#each [{ icon: "⚡️", title: "Advanced AI Coaching", description: "Harness the power of neural networks for personalized workout plans that evolve with your progress, ensuring optimal performance at every level.", metrics: ["98% Accuracy", "24/7 Availability", "Real-time Adaptation"], gradient: "from-indigo-600 to-blue-600" }, { icon: "🎯", title: "Precision Analytics", description: "Track every aspect of your performance with medical-grade accuracy and actionable insights, designed for athletes of all skill levels.", metrics: ["0.1% Margin of Error", "3D Motion Analysis", "Predictive Modeling"], gradient: "from-purple-600 to-pink-600" }, { icon: "✨", title: "Smart Progress Engine", description: "Our AI continuously optimizes your training based on thousands of data points and latest research, providing you with real-time feedback and form correction.", metrics: ["Adaptive Learning", "Bio-Feedback", "Goal Optimization"], gradient: "from-pink-600 to-indigo-600" }] as feature, i}
+          <div
+            class="group relative transform transition-all duration-700 hover:scale-105"
+            class:translate-y-0={isFeaturesVisible}
+            class:translate-y-20={!isFeaturesVisible}
+            style="transition-delay: {i * 150}ms;"
+          >
+            <!-- Card Container -->
+            <div class="relative h-full rounded-3xl p-1 transition-all duration-300">
+              <!-- Gradient Border -->
+              <div class="absolute inset-0 rounded-3xl bg-gradient-to-r {feature.gradient} opacity-20 blur"></div>
+
+              <!-- Glass Background -->
+              <div class="relative h-full overflow-hidden rounded-3xl bg-gray-800/40 p-8 backdrop-blur-xl">
+                <!-- Animated Background Gradient -->
+                <div
+                  class="absolute inset-0 bg-gradient-to-r {feature.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-10"
+                ></div>
+
+                <!-- Content -->
+                <div class="relative z-10">
+                  <!-- Icon with Glow -->
+                  <div class="mb-6 transform text-5xl transition-transform duration-300 group-hover:scale-110">
+                    <span class="relative">
+                      {feature.icon}
+                      <div class="bg-white/20 absolute inset-0 blur-lg"></div>
+                    </span>
+                  </div>
+
+                  <!-- Title -->
+                  <h3 class="mb-4 bg-gradient-to-r text-2xl font-bold {feature.gradient} bg-clip-text text-transparent">
+                    {feature.title}
+                  </h3>
+
+                  <!-- Description -->
+                  <p class="mb-6 leading-relaxed text-gray-300">
+                    {feature.description}
+                  </p>
+
+                  <!-- Metrics -->
+                  <div class="space-y-2">
+                    {#each feature.metrics as metric}
+                      <div class="flex items-center space-x-2">
+                        <div class="h-1.5 w-1.5 rounded-full bg-gradient-to-r {feature.gradient}"></div>
+                        <span class="text-sm text-gray-400">{metric}</span>
+                      </div>
+                    {/each}
+                  </div>
+
+                  <!-- Hover Effect Decoration -->
+                  <div
+                    class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r {feature.gradient} scale-x-0 transform transition-transform duration-300 group-hover:scale-x-100"
+                  ></div>
+                </div>
+              </div>
+            </div>
           </div>
         {/each}
       </div>
@@ -673,24 +825,13 @@
         <div class="space-y-6">
           {#each futureFeatures as feature, index}
             <div
-              class="group relative cursor-pointer rounded-2xl p-8 transition-all duration-500 {activeFeatureIndex ===
-              index
-                ? 'bg-gradient-to-r from-gray-800/50 to-gray-900/50'
-                : ''}"
+              class="group relative cursor-pointer rounded-2xl p-8 transition-all duration-300 hover:bg-gray-800/50"
               on:mouseenter={() => (activeFeatureIndex = index)}
-              on:mousemove={handleMouseMove}
             >
-              <!-- Hover Effect -->
+              <!-- Static Gradient Background -->
               <div
                 class="absolute inset-0 rounded-2xl bg-gradient-to-r opacity-0 transition-opacity
-                       duration-500 group-hover:opacity-100 {feature.gradient}"
-                style="
-                  background: radial-gradient(
-                    circle at {hoverEffect.x}% {hoverEffect.y}%,
-                    rgba(255, 255, 255, 0.1) 0%,
-                    transparent 50%
-                  )
-                "
+                       duration-300 group-hover:opacity-10 {feature.gradient}"
               />
 
               <div class="relative">
@@ -708,27 +849,13 @@
                   {#each feature.metrics as metric}
                     <div
                       class="rounded-full bg-gray-800 px-3 py-1 text-sm text-gray-300
-                             group-hover:bg-gradient-to-r group-hover:{feature.gradient}
-                             group-hover:text-white transition-all duration-300"
+                             transition-all duration-300 group-hover:bg-gradient-to-r
+                             group-hover:{feature.gradient} group-hover:text-white"
                     >
                       {metric}
                     </div>
                   {/each}
                 </div>
-              </div>
-
-              <!-- Animated Border -->
-              <div
-                class="absolute inset-0 overflow-hidden rounded-2xl opacity-0
-                       transition-opacity duration-500 group-hover:opacity-100"
-              >
-                <div
-                  class="absolute inset-0 bg-gradient-to-r {feature.gradient} blur-sm"
-                  style="
-                    transform: translateY(100%) rotate(45deg);
-                    animation: slide 3s linear infinite;
-                  "
-                />
               </div>
             </div>
           {/each}
@@ -924,5 +1051,33 @@
 
   .animate-float {
     animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.05);
+    }
+  }
+
+  :global(.group:hover .blur) {
+    animation: pulse 4s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  header.is-visible {
+    /* Add styles if needed when hero section is visible */
   }
 </style>

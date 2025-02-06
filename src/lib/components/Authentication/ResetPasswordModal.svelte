@@ -37,10 +37,10 @@
       isLoading = false;
       await applyAction(result);
       if (result.type === "failure") {
-        errorMessage = result.data?.message || "Fehler beim Zurücksetzen des Passworts. Bitte versuchen Sie es erneut.";
+        errorMessage = result.data?.message || "Error resetting password. Please try again.";
         update();
       } else if (result.type === "success") {
-        successMessage = "Ihr Passwort wurde erfolgreich zurückgesetzt.";
+        successMessage = "Your password has been reset successfully.";
         update();
         setTimeout(() => {
           closeModal();
@@ -52,11 +52,11 @@
 
 <div class="modal modal-open">
   <div class="modal-box">
-    <h3 class="mb-4 text-lg font-bold">Passwort zurücksetzen</h3>
+    <h3 class="mb-4 text-lg font-bold">Reset Password</h3>
     <form method="POST" action="/auth?/updatePassword" use:enhance={enhancePasswordRecover} class="space-y-4">
       <div class="form-control">
         <label class="label" for="newPassword">
-          <span class="label-text">Neues Passwort</span>
+          <span class="label-text">New Password</span>
         </label>
         <input
           type="password"
@@ -65,14 +65,14 @@
           bind:value={newPassword}
           on:input={handlePasswordInput}
           class="input input-bordered w-full {!isPasswordValid && newPassword ? 'input-error' : ''}"
-          placeholder="Geben Sie Ihr neues Passwort ein"
+          placeholder="Enter your new password"
           required
         />
         {#if !isPasswordValid && newPassword}
           <label class="label" for="newPassword">
             <span class="label-text-alt text-error">
-              Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Großbuchstaben, einen
-              Kleinbuchstaben und eine Zahl enthalten.
+              Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase
+              letter, and one number.
             </span>
           </label>
         {/if}
@@ -80,7 +80,7 @@
 
       <div class="form-control">
         <label class="label" for="confirmPassword">
-          <span class="label-text">Passwort bestätigen</span>
+          <span class="label-text">Confirm Password</span>
         </label>
         <input
           type="password"
@@ -89,12 +89,12 @@
           bind:value={confirmPassword}
           on:input={handlePasswordInput}
           class="input input-bordered w-full {!passwordsMatch && confirmPassword ? 'input-error' : ''}"
-          placeholder="Bestätigen Sie Ihr neues Passwort"
+          placeholder="Confirm your new password"
           required
         />
         {#if !passwordsMatch && confirmPassword}
           <label class="label" for="confirmPassword">
-            <span class="label-text-alt text-error">Die Passwörter stimmen nicht überein.</span>
+            <span class="label-text-alt text-error">Passwords do not match.</span>
           </label>
         {/if}
       </div>
@@ -103,7 +103,7 @@
         {#if isLoading}
           <span class="loading loading-spinner"></span>
         {:else}
-          Passwort aktualisieren
+          Update Password
         {/if}
       </button>
     </form>
@@ -137,7 +137,7 @@
     {/if}
 
     <div class="modal-action">
-      <button class="btn" on:click={closeModal}>Schließen</button>
+      <button class="btn" on:click={closeModal}>Close</button>
     </div>
   </div>
 </div>

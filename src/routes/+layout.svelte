@@ -8,7 +8,7 @@
   import { Menu, Moon, Sun, Dumbbell, Apple } from "lucide-svelte";
   import { applyAction, enhance } from "$app/forms";
   import type { SubmitFunction } from "@sveltejs/kit";
-  import Logo from "$lib/components/Icons/Logo.svelte";
+  import Logo from "$lib/components/Icons/NewLogo.svelte";
 
   export let data;
   $: ({ session, supabase, profile } = data);
@@ -92,11 +92,10 @@
           <!-- Logo -->
           <div class="flex-1">
             <a href="/" class="group flex items-center">
-              <Logo className="mr-3 h-10 w-10 fill-gray-300 transition-transform duration-300 group-hover:scale-110" />
               <span
                 class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-2xl font-black text-transparent"
               >
-                TrainTech
+                Trainalyze
               </span>
             </a>
           </div>
@@ -109,7 +108,7 @@
             hover:scale-105 hover:bg-indigo-600/20 hover:text-indigo-300 {isActive('/landingpage')}"
             href="/landingpage"
           >
-            <span>Early Access</span>
+            <span>Upcoming</span>
           </a>
           <a
             class="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-gray-300
@@ -118,7 +117,7 @@
             href="/dietplanner"
           >
             <Apple class="h-5 w-5" />
-            <span>Ernährung</span>
+            <span>Diet</span>
           </a>
           <a
             class="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-gray-300
@@ -150,7 +149,7 @@
                   <li><a href="/private/settings" class="text-gray-300 hover:bg-indigo-900/30">Einstellungen</a></li>
                   <li>
                     <button type="submit" class="w-full text-left text-gray-300 hover:bg-indigo-900/30">
-                      Ausloggen
+                      Sign out
                     </button>
                   </li>
                 </ul>
@@ -162,7 +161,7 @@
               class="text-white btn border-none bg-gradient-to-r from-indigo-600 to-purple-600 px-6
               shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-indigo-500/40"
             >
-              Anmelden
+              Register
             </button>
           {/if}
         </div>
@@ -256,8 +255,8 @@
     <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>
   </aside>
   <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-    <a href="/help/privacy-policy" class="link-hover link text-gray-400 hover:text-indigo-400">Datenschutz</a>
-    <a href="/help/terms-of-service" class="link-hover link text-gray-400 hover:text-indigo-400">Nutzungsbedingungen</a>
+    <a href="/help/privacy-policy" class="link-hover link text-gray-400 hover:text-indigo-400">Data protection</a>
+    <a href="/help/terms-of-service" class="link-hover link text-gray-400 hover:text-indigo-400">Terms of Use</a>
   </nav>
 </footer>
 

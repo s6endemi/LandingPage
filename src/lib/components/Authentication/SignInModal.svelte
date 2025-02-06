@@ -20,8 +20,7 @@
       isLoading = false;
       await applyAction(result);
       if (result.type === "failure") {
-        errorMessage =
-          (result.data?.message as string) || "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Anmeldedaten.";
+        errorMessage = (result.data?.message as string) || "Login failed. Please check your credentials.";
         update();
       } else if (result.type === "success") {
         closeModal();
@@ -63,8 +62,7 @@
       isLoading = false;
       await applyAction(result);
       if (result.type === "failure") {
-        errorMessage =
-          (result.data?.message as string) || "Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.";
+        errorMessage = (result.data?.message as string) || "Registration failed. Please try again.";
         update();
       } else if (result.type === "success") {
         window.location.href = result.data?.url;
@@ -73,7 +71,7 @@
   };
 </script>
 
-<h1 class="mb-4 text-center text-3xl font-bold">Anmelden</h1>
+<h1 class="mb-4 text-center text-3xl font-bold">Sign In</h1>
 
 {#if errorMessage}
   <div class="alert alert-error" transition:fade={{ duration: 200 }}>
@@ -92,7 +90,7 @@
 <form method="POST" use:enhance={enhanceLogin} action="/auth?/login" class="space-y-4">
   <div>
     <div class="label">
-      <span class="label-text">E-Mail</span>
+      <span class="label-text">Email</span>
     </div>
     <label class="form-control w-full">
       <input
@@ -101,12 +99,12 @@
         bind:value={email}
         on:input={handleEmailInput}
         class="input input-bordered w-full {!isEmailValid && email ? 'input-error' : ''}"
-        placeholder="Geben Sie Ihre E-Mail ein"
+        placeholder="Enter your email"
         required
       />
       {#if !isEmailValid && email}
         <div class="label">
-          <span class="label-text-alt text-error">Bitte geben Sie eine gültige E-Mail-Adresse ein.</span>
+          <span class="label-text-alt text-error">Please enter a valid email address.</span>
         </div>
       {/if}
     </label>
@@ -114,9 +112,9 @@
 
   <div>
     <div class="label">
-      <span class="label-text">Passwort</span>
+      <span class="label-text">Password</span>
       <button type="button" on:click={handleForgotPassword} class="link label-text-alt link-primary">
-        Passwort vergessen?
+        Forgot password?
       </button>
     </div>
     <label class="form-control w-full">
@@ -127,7 +125,7 @@
             type="text"
             bind:value={password}
             class="input input-bordered w-full pr-10"
-            placeholder="Geben Sie Ihr Passwort ein"
+            placeholder="Enter your password"
             required
           />
         {:else}
@@ -136,7 +134,7 @@
             type="password"
             bind:value={password}
             class="input input-bordered w-full pr-10"
-            placeholder="Geben Sie Ihr Passwort ein"
+            placeholder="Enter your password"
             required
           />
         {/if}
@@ -159,13 +157,13 @@
     {#if isLoading}
       <span class="loading loading-spinner"></span>
     {:else}
-      Anmelden
+      Sign In
     {/if}
   </button>
   <input name="redirectTo" type="hidden" value={$page.url.toString()} />
 </form>
 
-<div class="divider my-4">ODER</div>
+<div class="divider my-4">OR</div>
 
 <form method="POST" use:enhance={enhanceGoogleSignIn}>
   <button formaction="/auth?/login&provider=google" type="submit" class="btn btn-outline w-full">
@@ -188,12 +186,12 @@
       />
       <path fill="none" d="M1 1h22v22H1z" />
     </svg>
-    Mit Google anmelden
+    Sign in with Google
   </button>
   <input name="redirectTo" type="hidden" value={$page.url.toString()} />
 </form>
 
 <div class="mt-4 text-center">
-  <span>Noch kein Konto?</span>
-  <button type="button" on:click={switchToRegister} class="link link-primary ml-1">Registrieren</button>
+  <span>No account yet?</span>
+  <button type="button" on:click={switchToRegister} class="link link-primary ml-1">Register</button>
 </div>

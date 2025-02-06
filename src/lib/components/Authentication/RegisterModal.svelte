@@ -63,8 +63,7 @@
       isLoading = false;
       await applyAction(result);
       if (result.type === "failure") {
-        errorMessage =
-          (result.data?.message as string) || "Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.";
+        errorMessage = (result.data?.message as string) || "Registration failed. Please try again.";
         update();
       } else if (result.type === "success") {
         closeModal();
@@ -79,8 +78,7 @@
       isLoading = false;
       await applyAction(result);
       if (result.type === "failure") {
-        errorMessage =
-          (result.data?.message as string) || "Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.";
+        errorMessage = (result.data?.message as string) || "Registration failed. Please try again.";
         update();
       } else if (result.type === "success") {
         window.location.href = result.data?.url;
@@ -89,7 +87,7 @@
   };
 </script>
 
-<h1 class="mb-4 text-center text-3xl font-bold">Konto erstellen</h1>
+<h1 class="mb-4 text-center text-3xl font-bold">Create Account</h1>
 
 {#if errorMessage}
   <div class="alert alert-error" transition:fade={{ duration: 200 }}>
@@ -108,7 +106,7 @@
 <form method="POST" action="/auth?/signup" use:enhance={enhanceRegister} class="space-y-4">
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">E-Mail</span>
+      <span class="label-text">Email</span>
     </div>
     <input
       name="email"
@@ -116,19 +114,19 @@
       bind:value={email}
       on:input={handleEmailInput}
       class="input input-bordered w-full {!isEmailValid && email ? 'input-error' : ''}"
-      placeholder="Geben Sie Ihre E-Mail ein"
+      placeholder="Enter your email"
       required
     />
     {#if !isEmailValid && email}
       <div class="label">
-        <span class="label-text-alt text-error">Bitte geben Sie eine gültige E-Mail-Adresse ein.</span>
+        <span class="label-text-alt text-error">Please enter a valid email address.</span>
       </div>
     {/if}
   </label>
 
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">Passwort</span>
+      <span class="label-text">Password</span>
     </div>
     <div class="relative">
       {#if showPassword}
@@ -138,7 +136,7 @@
           bind:value={password}
           on:input={handlePasswordInput}
           class="input input-bordered w-full pr-10"
-          placeholder="Geben Sie Ihr Passwort ein"
+          placeholder="Enter your password"
           required
         />
       {:else}
@@ -148,7 +146,7 @@
           bind:value={password}
           on:input={handlePasswordInput}
           class="input input-bordered w-full pr-10"
-          placeholder="Geben Sie Ihr Passwort ein"
+          placeholder="Enter your password"
           required
         />
       {/if}
@@ -167,18 +165,18 @@
   </label>
   {#if !isPasswordValid && password}
     <div class="mt-1 text-sm text-error">
-      <p>Das Passwort erfüllt nicht die Sicherheitsanforderungen. Bitte beachten Sie:</p>
+      <p>Password does not meet security requirements. Please note:</p>
       <ul class="mt-1 list-disc pl-5">
-        <li>Mindestens 8 Zeichen lang</li>
-        <li>Mindestens ein Großbuchstabe (A-Z)</li>
-        <li>Mindestens eine Zahl (0-9)</li>
+        <li>At least 8 characters long</li>
+        <li>At least one uppercase letter (A-Z)</li>
+        <li>At least one number (0-9)</li>
       </ul>
     </div>
   {/if}
 
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">Passwort bestätigen</span>
+      <span class="label-text">Confirm Password</span>
     </div>
     <div class="relative">
       {#if showConfirmPassword}
@@ -188,7 +186,7 @@
           bind:value={confirmPassword}
           on:input={handlePasswordInput}
           class="input input-bordered w-full pr-10 {!passwordsMatch && confirmPassword ? 'input-error' : ''}"
-          placeholder="Bestätigen Sie Ihr Passwort"
+          placeholder="Confirm your password"
           required
         />
       {:else}
@@ -198,7 +196,7 @@
           bind:value={confirmPassword}
           on:input={handlePasswordInput}
           class="input input-bordered w-full pr-10 {!passwordsMatch && confirmPassword ? 'input-error' : ''}"
-          placeholder="Bestätigen Sie Ihr Passwort"
+          placeholder="Confirm your password"
           required
         />
       {/if}
@@ -216,7 +214,7 @@
     </div>
     {#if !passwordsMatch && confirmPassword}
       <div class="label">
-        <span class="label-text-alt text-error">Die Passwörter stimmen nicht überein.</span>
+        <span class="label-text-alt text-error">Passwords do not match.</span>
       </div>
     {/if}
   </label>
@@ -225,9 +223,9 @@
     <label class="label cursor-pointer">
       <input name="acceptTerms" type="checkbox" class="checkbox" bind:checked={acceptTerms} required />
       <span class="label-text ml-2">
-        Ich akzeptiere die
+        I accept the
         <button type="button" on:click={openTermsAndConditions} class="link link-secondary">
-          Allgemeinen Geschäftsbedingungen
+          Terms and Conditions
         </button>
       </span>
     </label>
@@ -241,12 +239,12 @@
     {#if isLoading}
       <span class="loading loading-spinner"></span>
     {:else}
-      Konto erstellen
+      Create Account
     {/if}
   </button>
 </form>
 
-<div class="divider my-4">ODER</div>
+<div class="divider my-4">OR</div>
 
 <form method="POST" use:enhance={enhanceGoogleSignIn}>
   <button formaction="/auth?/login&provider=google" type="submit" class="btn btn-outline w-full">
@@ -269,12 +267,12 @@
       />
       <path fill="none" d="M1 1h22v22H1z" />
     </svg>
-    Mit Google registrieren
+    Register with Google
   </button>
   <input name="redirectTo" type="hidden" value={$page.url.toString()} />
 </form>
 
 <div class="mt-4 text-center">
-  <span>Bereits ein Konto?</span>
-  <button type="button" on:click={switchToSignIn} class="link link-primary ml-1">Anmelden</button>
+  <span>Already have an account?</span>
+  <button type="button" on:click={switchToSignIn} class="link link-primary ml-1">Sign in</button>
 </div>
