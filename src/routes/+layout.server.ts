@@ -1,4 +1,3 @@
-import { getAllExercises } from "$lib/server/exerciseCache";
 import { getRedisValue, setRedisValue } from "$lib/server/redis";
 import { supabase } from "$lib/server/supabaseClient";
 import { type Gender, type Profile } from "$lib/types";
@@ -35,7 +34,6 @@ export const load: LayoutServerLoad = async ({ locals: { safeGetSession }, cooki
   return {
     session,
     cookies: cookies.getAll(),
-    exercises: (await getAllExercises(supabase)) || [],
     profile: await getProfileById(session?.user.id),
   };
 };
