@@ -87,10 +87,12 @@
   };
 </script>
 
-<h1 class="mb-4 text-center text-3xl font-bold">Create Account</h1>
+<h1 class="mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-center text-3xl font-bold text-transparent">
+  Create Account
+</h1>
 
 {#if errorMessage}
-  <div class="alert alert-error" transition:fade={{ duration: 200 }}>
+  <div class="alert bg-red-900/50 text-red-200" transition:fade={{ duration: 200 }}>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
       <path
         stroke-linecap="round"
@@ -106,53 +108,43 @@
 <form method="POST" action="/auth?/signup" use:enhance={enhanceRegister} class="space-y-4">
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">Email</span>
+      <span class="label-text text-gray-300">Email</span>
     </div>
     <input
       name="email"
       type="email"
       bind:value={email}
       on:input={handleEmailInput}
-      class="input input-bordered w-full {!isEmailValid && email ? 'input-error' : ''}"
+      class="input border-gray-700 bg-gray-800/50 text-gray-200 placeholder-gray-500 backdrop-blur-xl
+             {!isEmailValid && email ? 'border-red-500' : 'focus:border-indigo-500'} w-full transition-colors"
       placeholder="Enter your email"
       required
     />
     {#if !isEmailValid && email}
       <div class="label">
-        <span class="label-text-alt text-error">Please enter a valid email address.</span>
+        <span class="label-text-alt text-red-400">Please enter a valid email address.</span>
       </div>
     {/if}
   </label>
 
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">Password</span>
+      <span class="label-text text-gray-300">Password</span>
     </div>
     <div class="relative">
-      {#if showPassword}
-        <input
-          name="password"
-          type="text"
-          bind:value={password}
-          on:input={handlePasswordInput}
-          class="input input-bordered w-full pr-10"
-          placeholder="Enter your password"
-          required
-        />
-      {:else}
-        <input
-          name="password"
-          type="password"
-          bind:value={password}
-          on:input={handlePasswordInput}
-          class="input input-bordered w-full pr-10"
-          placeholder="Enter your password"
-          required
-        />
-      {/if}
+      <input
+        name="password"
+        type={showPassword ? "text" : "password"}
+        bind:value={password}
+        on:input={handlePasswordInput}
+        class="input w-full border-gray-700 bg-gray-800/50 pr-10 text-gray-200 placeholder-gray-500 backdrop-blur-xl
+               focus:border-indigo-500 transition-colors"
+        placeholder="Enter your password"
+        required
+      />
       <button
         type="button"
-        class="btn-sm absolute right-2 top-1/2 -translate-y-1/2"
+        class="btn-ghost btn-sm absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
         on:click={togglePasswordVisibility}
       >
         {#if showPassword}
@@ -164,7 +156,7 @@
     </div>
   </label>
   {#if !isPasswordValid && password}
-    <div class="mt-1 text-sm text-error">
+    <div class="mt-1 text-sm text-red-400">
       <p>Password does not meet security requirements. Please note:</p>
       <ul class="mt-1 list-disc pl-5">
         <li>At least 8 characters long</li>
@@ -176,33 +168,22 @@
 
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">Confirm Password</span>
+      <span class="label-text text-gray-300">Confirm Password</span>
     </div>
     <div class="relative">
-      {#if showConfirmPassword}
-        <input
-          name="confirmPassword"
-          type="text"
-          bind:value={confirmPassword}
-          on:input={handlePasswordInput}
-          class="input input-bordered w-full pr-10 {!passwordsMatch && confirmPassword ? 'input-error' : ''}"
-          placeholder="Confirm your password"
-          required
-        />
-      {:else}
-        <input
-          name="confirmPassword"
-          type="password"
-          bind:value={confirmPassword}
-          on:input={handlePasswordInput}
-          class="input input-bordered w-full pr-10 {!passwordsMatch && confirmPassword ? 'input-error' : ''}"
-          placeholder="Confirm your password"
-          required
-        />
-      {/if}
+      <input
+        name="confirmPassword"
+        type={showConfirmPassword ? "text" : "password"}
+        bind:value={confirmPassword}
+        on:input={handlePasswordInput}
+        class="input w-full border-gray-700 bg-gray-800/50 pr-10 text-gray-200 placeholder-gray-500 backdrop-blur-xl
+               {!passwordsMatch && confirmPassword ? 'border-red-500' : 'focus:border-indigo-500'} transition-colors"
+        placeholder="Confirm your password"
+        required
+      />
       <button
         type="button"
-        class="btn-sm absolute right-2 top-1/2 -translate-y-1/2"
+        class="btn-ghost btn-sm absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
         on:click={toggleConfirmPasswordVisibility}
       >
         {#if showConfirmPassword}
@@ -214,17 +195,17 @@
     </div>
     {#if !passwordsMatch && confirmPassword}
       <div class="label">
-        <span class="label-text-alt text-error">Passwords do not match.</span>
+        <span class="label-text-alt text-red-400">Passwords do not match.</span>
       </div>
     {/if}
   </label>
 
   <div class="form-control">
     <label class="label cursor-pointer">
-      <input name="acceptTerms" type="checkbox" class="checkbox" bind:checked={acceptTerms} required />
-      <span class="label-text ml-2">
+      <input name="acceptTerms" type="checkbox" class="checkbox-primary checkbox" bind:checked={acceptTerms} required />
+      <span class="label-text ml-2 text-gray-300">
         I accept the
-        <button type="button" on:click={openTermsAndConditions} class="link link-secondary">
+        <button type="button" on:click={openTermsAndConditions} class="text-indigo-400 hover:text-indigo-300">
           Terms and Conditions
         </button>
       </span>
@@ -233,7 +214,8 @@
 
   <button
     type="submit"
-    class="btn btn-primary w-full"
+    class="btn w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg 
+           shadow-indigo-500/25 hover:-translate-y-0.5 hover:shadow-indigo-500/40 transition-all duration-300"
     disabled={!isPasswordValid || !isEmailValid || !passwordsMatch || !acceptTerms || isLoading}
   >
     {#if isLoading}
@@ -244,10 +226,16 @@
   </button>
 </form>
 
-<div class="divider my-4">OR</div>
+<div class="divider my-4 before:bg-gray-800 after:bg-gray-800">
+  <span class="text-gray-400">OR</span>
+</div>
 
 <form method="POST" use:enhance={enhanceGoogleSignIn}>
-  <button formaction="/auth?/login&provider=google" type="submit" class="btn btn-outline w-full">
+  <button 
+    formaction="/auth?/login&provider=google" 
+    type="submit" 
+    class="btn w-full border-gray-700 bg-gray-800/50 text-gray-200 hover:bg-gray-700/50"
+  >
     <svg viewBox="0 0 24 24" class="mr-2 h-5 w-5">
       <path
         fill="#4285F4"
@@ -272,7 +260,7 @@
   <input name="redirectTo" type="hidden" value={$page.url.toString()} />
 </form>
 
-<div class="mt-4 text-center">
+<div class="mt-4 text-center text-gray-300">
   <span>Already have an account?</span>
-  <button type="button" on:click={switchToSignIn} class="link link-primary ml-1">Sign in</button>
+  <button type="button" on:click={switchToSignIn} class="ml-1 text-indigo-400 hover:text-indigo-300">Sign in</button>
 </div>

@@ -75,12 +75,15 @@
       <div class="relative">
         <h1
           class="mb-8 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-5xl font-bold tracking-tight text-transparent md:text-7xl"
+          in:fly={{ y: 20, duration: 800, delay: 200 }}
         >
           Your Personal<br />
           AI Nutrition Plan
         </h1>
 
-        <p class="mx-auto mb-12 max-w-2xl text-xl leading-relaxed text-gray-300">
+        <p class="mx-auto mb-12 max-w-2xl text-xl leading-relaxed text-gray-300"
+          in:fly={{ y: 20, duration: 800, delay: 400 }}
+        >
           Create your scientifically-backed nutrition plan that perfectly fits your lifestyle. Powered by AI assistance
           and professional guidance to reach your goals.
         </p>

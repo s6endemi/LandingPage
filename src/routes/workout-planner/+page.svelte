@@ -504,7 +504,7 @@
               <!-- Sample Metrics -->
               <div class="grid grid-cols-2 gap-4">
                 {#each [{ label: "Workouts", value: "24", unit: "this month" }, { label: "Progress", value: "+15", unit: "% strength" }, { label: "Streak", value: "8", unit: "days" }, { label: "Form Score", value: "9.5", unit: "/10" }] as metric}
-                  <div class="rounded-lg bg-gray-900/50 p-4">
+                  <div class="rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 p-4">
                     <div class="text-sm text-gray-400">{metric.label}</div>
                     <div class="text-white text-2xl font-bold">{metric.value}</div>
                     <div class="text-xs text-gray-400">{metric.unit}</div>

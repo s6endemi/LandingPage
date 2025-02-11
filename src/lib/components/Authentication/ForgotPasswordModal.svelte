@@ -53,11 +53,12 @@
   };
 </script>
 
-<h1 class="mb-4 text-2xl font-bold">Forgot Password?</h1>
-<form method="POST" action="/auth?/resetPassword" use:enhance={enhanceResetPassword} class="flex flex-col gap-4">
+<h1 class="mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-center text-3xl font-bold text-transparent">
+  Forgot passwords
+</h1><form method="POST" action="/auth?/resetPassword" use:enhance={enhanceResetPassword} class="flex flex-col gap-4">
   <label class="form-control w-full">
     <div class="label">
-      <span class="label-text">Email</span>
+      <span class="label-text text-gray-600">Email</span>
     </div>
     <input
       name="email"
@@ -109,6 +110,6 @@
   {/if}
 </form>
 <div class="mt-4 text-center">
-  <span>Remember your password?</span>
+  <span class="text-gray-600">Remember your password?</span>
   <button type="button" on:click={switchToSignIn} class="link link-primary ml-1">Sign in here</button>
 </div>

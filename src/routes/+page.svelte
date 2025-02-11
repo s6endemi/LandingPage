@@ -93,16 +93,15 @@
       return;
     }
 
-    // Create nodes with color properties
+    // Create nodes with larger size properties
     nodes = [];
     for (let i = 0; i < 80; i++) {
       nodes.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        size: Math.random() * 3 + 1,
-        speed: Math.random() * 0.3 + 0.1,
+        size: Math.random() * 2+ 2,
+        speed: Math.random() * 0.4 + 0.2,
         color: `rgba(150, 150, 150, 0.3)`,
-        // Add hue for gradient connections
         hue: Math.random() * 360,
       });
     }
@@ -127,8 +126,8 @@
             const opacity = 1 - distance / 120;
 
             // Create gradient with subtle color transitions
-            gradient.addColorStop(0, `hsla(${nodes[i].hue}, 70%, 70%, ${opacity * 0.2})`);
-            gradient.addColorStop(1, `hsla(${nodes[j].hue}, 70%, 70%, ${opacity * 0.2})`);
+            gradient.addColorStop(0, `hsla(${nodes[i].hue}, 70%, 70%, ${opacity * 0.4})`);
+            gradient.addColorStop(1, `hsla(${nodes[j].hue}, 70%, 70%, ${opacity * 0.4})`);
 
             ctx.beginPath();
             ctx.strokeStyle = gradient;

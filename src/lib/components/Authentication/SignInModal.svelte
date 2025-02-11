@@ -71,10 +71,12 @@
   };
 </script>
 
-<h1 class="mb-4 text-center text-3xl font-bold">Sign In</h1>
+<h1 class="mb-4 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-center text-3xl font-bold text-transparent">
+  Sign In
+</h1>
 
 {#if errorMessage}
-  <div class="alert alert-error" transition:fade={{ duration: 200 }}>
+  <div class="alert bg-red-900/50 text-red-200" transition:fade={{ duration: 200 }}>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
       <path
         stroke-linecap="round"
@@ -90,7 +92,7 @@
 <form method="POST" use:enhance={enhanceLogin} action="/auth?/login" class="space-y-4">
   <div>
     <div class="label">
-      <span class="label-text">Email</span>
+      <span class="label-text text-gray-300">Email</span>
     </div>
     <label class="form-control w-full">
       <input
@@ -98,49 +100,44 @@
         type="email"
         bind:value={email}
         on:input={handleEmailInput}
-        class="input input-bordered w-full {!isEmailValid && email ? 'input-error' : ''}"
+        class="input w-full border-gray-700 bg-gray-800/50 text-gray-200 placeholder-gray-500 backdrop-blur-xl
+               {!isEmailValid && email ? 'border-red-500' : 'focus:border-indigo-500'} transition-colors"
         placeholder="Enter your email"
         required
       />
       {#if !isEmailValid && email}
         <div class="label">
-          <span class="label-text-alt text-error">Please enter a valid email address.</span>
+          <span class="label-text-alt text-red-400">Please enter a valid email address.</span>
         </div>
       {/if}
     </label>
   </div>
 
   <div>
-    <div class="label">
-      <span class="label-text">Password</span>
-      <button type="button" on:click={handleForgotPassword} class="link label-text-alt link-primary">
+    <div class="label flex justify-between">
+      <span class="label-text text-gray-300">Password</span>
+      <button 
+        type="button" 
+        on:click={handleForgotPassword} 
+        class="label-text-alt text-indigo-400 hover:text-indigo-300 transition-colors"
+      >
         Forgot password?
       </button>
     </div>
     <label class="form-control w-full">
       <div class="relative">
-        {#if showPassword}
-          <input
-            name="password"
-            type="text"
-            bind:value={password}
-            class="input input-bordered w-full pr-10"
-            placeholder="Enter your password"
-            required
-          />
-        {:else}
-          <input
-            name="password"
-            type="password"
-            bind:value={password}
-            class="input input-bordered w-full pr-10"
-            placeholder="Enter your password"
-            required
-          />
-        {/if}
+        <input
+          name="password"
+          type={showPassword ? "text" : "password"}
+          bind:value={password}
+          class="input w-full border-gray-700 bg-gray-800/50 pr-10 text-gray-200 placeholder-gray-500 backdrop-blur-xl
+                 focus:border-indigo-500 transition-colors"
+          placeholder="Enter your password"
+          required
+        />
         <button
           type="button"
-          class="btn-sm absolute right-2 top-1/2 -translate-y-1/2"
+          class="btn-ghost btn-sm absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
           on:click={togglePasswordVisibility}
         >
           {#if showPassword}
@@ -153,7 +150,12 @@
     </label>
   </div>
 
-  <button type="submit" class="btn btn-primary w-full" disabled={!isEmailValid || isLoading}>
+  <button
+    type="submit"
+    class="btn w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg 
+           shadow-indigo-500/25 hover:-translate-y-0.5 hover:shadow-indigo-500/40 transition-all duration-300"
+    disabled={!isEmailValid || isLoading}
+  >
     {#if isLoading}
       <span class="loading loading-spinner"></span>
     {:else}
@@ -163,10 +165,16 @@
   <input name="redirectTo" type="hidden" value={$page.url.toString()} />
 </form>
 
-<div class="divider my-4">OR</div>
+<div class="divider my-4 before:bg-gray-800 after:bg-gray-800">
+  <span class="text-gray-400">OR</span>
+</div>
 
 <form method="POST" use:enhance={enhanceGoogleSignIn}>
-  <button formaction="/auth?/login&provider=google" type="submit" class="btn btn-outline w-full">
+  <button 
+    formaction="/auth?/login&provider=google" 
+    type="submit" 
+    class="btn w-full border-gray-700 bg-gray-800/50 text-gray-200 hover:bg-gray-700/50"
+  >
     <svg viewBox="0 0 24 24" class="mr-2 h-5 w-5">
       <path
         fill="#4285F4"
@@ -191,7 +199,9 @@
   <input name="redirectTo" type="hidden" value={$page.url.toString()} />
 </form>
 
-<div class="mt-4 text-center">
+<div class="mt-4 text-center text-gray-300">
   <span>No account yet?</span>
-  <button type="button" on:click={switchToRegister} class="link link-primary ml-1">Register</button>
+  <button type="button" on:click={switchToRegister} class="ml-1 text-indigo-400 hover:text-indigo-300 transition-colors">
+    Register
+  </button>
 </div>
