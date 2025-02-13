@@ -285,7 +285,7 @@
   // Clipboard function
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText("0x742d35Cc6634C0532925a3b844Bc454e4438f44e");
+      await navigator.clipboard.writeText("4umDRgZApiuynKEcqtxP9o9x4BwLwde8nTWaiRKppump");
       isCopied = true;
       setTimeout(() => {
         isCopied = false;
@@ -423,8 +423,10 @@
             on:click={copyToClipboard}
           >
             <div class="flex flex-1 items-center space-x-2">
-              <span class="text-xs font-medium text-gray-500">CA:</span>
-              <span class="select-all font-mono text-sm text-gray-300"></span>
+              <span class="text-sm font-medium text-gray-500">CA:</span>
+              <span class="select-all font-mono text-sm text-gray-400"
+                >4umDRgZApiuynKEcqtxP9o9x4BwLwde8nTWaiRKppump</span
+              >
             </div>
             <div class="flex items-center space-x-3 pl-2">
               {#if isCopied}
