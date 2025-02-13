@@ -21,6 +21,7 @@
   let submitting = false;
   let scrollY: number;
   let scrollProgress = 0;
+  let isCopied = false;
 
   // Chat related state
   let userInput = "";
@@ -99,8 +100,8 @@
       nodes.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        size: Math.random() * 2 + 2,
-        speed: Math.random() * 0.4 + 0.2,
+        size: Math.random() * 2 + 1,
+        speed: Math.random() * 0.3 + 0.1,
         color: `rgba(150, 150, 150, 0.3)`,
         hue: Math.random() * 360,
       });
@@ -281,6 +282,19 @@
     { value: "<2min", label: "Response Time" },
   ];
 
+  // Clipboard function
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText("0x742d35Cc6634C0532925a3b844Bc454e4438f44e");
+      isCopied = true;
+      setTimeout(() => {
+        isCopied = false;
+      }, 2000); // Reset nach 2 Sekunden
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
+
   onMount(() => {
     if (browser) {
       const initCanvas = () => {
@@ -352,8 +366,8 @@
 
     <div class="relative">
       <h1
-        class="mb-8 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-5xl
-               font-bold tracking-tight text-transparent md:text-7xl"
+        class="mb-8 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text font-['General_Sans']
+              text-5xl font-normal tracking-tight text-transparent md:text-7xl"
         in:fly={{ y: 20, duration: 800, delay: 200 }}
       >
         A new Era of Assistance
@@ -398,6 +412,50 @@
           Learn More
         </a>
       </div>
+      <!-- Crypto Address Display -->
+      <div class="mx-auto mt-16 max-w-3xl">
+        <div class="group relative">
+          <div
+            class="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-indigo-500/20 to-purple-600/20 opacity-20 blur transition duration-300 group-hover:opacity-30"
+          ></div>
+          <div
+            class="border-white/5 relative flex cursor-pointer items-center justify-between rounded-lg border bg-gray-900/30 px-4 py-3 backdrop-blur-sm transition-all duration-300 hover:bg-gray-800/40"
+            on:click={copyToClipboard}
+          >
+            <div class="flex flex-1 items-center space-x-2">
+              <span class="text-xs font-medium text-gray-500">CA:</span>
+              <span class="select-all font-mono text-sm text-gray-300">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span>
+            </div>
+            <div class="flex items-center space-x-3 pl-2">
+              {#if isCopied}
+                <span
+                  class="text-xs text-emerald-400 opacity-100 transition-all duration-200"
+                  in:fade={{ duration: 200 }}
+                >
+                  Copied!
+                </span>
+              {:else}
+                <span class="text-xs text-gray-500 opacity-0 transition-all duration-200 group-hover:opacity-100">
+                  Click to copy
+                </span>
+              {/if}
+              <svg
+                class="h-4 w-4 text-gray-400 transition-colors duration-200 group-hover:text-indigo-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
   <!-- Features Section -->
@@ -431,7 +489,8 @@
         style="transition-delay: 100ms;"
       >
         <h2
-          class="mb-6 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-bold text-transparent md:text-5xl"
+          class="mb-6 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text font-['General_Sans']
+              text-4xl font-light text-transparent md:text-5xl"
         >
           Core Features
         </h2>
@@ -901,6 +960,36 @@
       </div>
     </div>
   </section>
+
+  <!-- Crypto Address Display -->
+  <div class="mx-auto mt-16 max-w-3xl">
+    <div class="group relative">
+      <div
+        class="absolute -inset-1 rounded-lg bg-gradient-to-r from-indigo-500/30 to-purple-600/30 opacity-20 blur transition duration-300 group-hover:opacity-30"
+      ></div>
+      <div
+        class="border-white/10 relative flex items-center justify-between rounded-lg border bg-gray-900/50 px-6 py-4 backdrop-blur-sm"
+      >
+        <div class="flex items-center space-x-3">
+          <span class="text-sm font-medium text-gray-400">CA:</span>
+          <span class="font-mono text-gray-200">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span>
+        </div>
+        <button
+          class="hover:bg-white/5 rounded-md p-2 text-indigo-500 transition-colors hover:text-indigo-400"
+          on:click={copyToClipboard}
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
@@ -1085,5 +1174,64 @@
 
   header.is-visible {
     /* Add styles if needed when hero section is visible */
+  }
+
+  :root {
+    --h1: 3.5rem; /* 56px */
+    --h2: 2.5rem; /* 40px */
+    --h3: 1.75rem; /* 28px */
+    --body: 1.125rem; /* 18px */
+    --deep-space: #0a0a12;
+    --quantum-blue: #2a34f5;
+    --neural-purple: #7c3aed;
+    --hologram-pink: #ec4899;
+    --interface-gray: #1f2937;
+  }
+
+  body {
+    font-family:
+      "General Sans",
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family:
+      "General Sans",
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    font-family:
+      "General Sans",
+      -apple-system,
+      BlinkMacSystemFont,
+      sans-serif;
+    font-size: clamp(1rem, 2vw + 0.5rem, var(--body));
+  }
+
+  .cta-button {
+    background: linear-gradient(45deg, var(--quantum-blue) 0%, var(--neural-purple) 100%);
+    transition: all 0.3s;
+  }
+
+  .cta-button:hover {
+    mix-blend-mode: screen;
+  }
+
+  .dark-surface {
+    background: linear-gradient(145deg, rgba(15, 15, 25, 0.95) 0%, rgba(32, 32, 54, 0.9) 100%);
+    backdrop-filter: blur(12px);
   }
 </style>
