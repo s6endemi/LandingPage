@@ -99,7 +99,7 @@
       nodes.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        size: Math.random() * 2+ 2,
+        size: Math.random() * 2 + 2,
         speed: Math.random() * 0.4 + 0.2,
         color: `rgba(150, 150, 150, 0.3)`,
         hue: Math.random() * 360,
@@ -530,7 +530,7 @@
             left: {50 + Math.sin(i * 1.5) * 50}%;
             top: {50 + Math.cos(i * 1.5) * 50}%;
             transform: translate(-50%, -50%);
-            animation: float-{i} {8 + i * 2}s infinite ease-in-out;
+            animation: float-{i} {10 + Math.random() * 20}s infinite ease-in-out;
           "
         />
       {/each}
