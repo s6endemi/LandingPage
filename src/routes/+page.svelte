@@ -2,10 +2,40 @@
   import { onMount } from "svelte";
   import { fade, fly, slide } from "svelte/transition";
   import { quintOut } from "svelte/easing";
-  import { Rocket, Brain, Building } from "lucide-svelte";
+  import { Rocket, Brain, Building, Terminal, Cpu, Shield, TrendingUp } from "lucide-svelte";
   import CircuitBackground from "$lib/assets/circuit-background.svg?raw";
 
   type SectionId = "hero" | "ventures" | "intel" | "architect";
+
+  // Stats für Live-Updates
+  let stats = {
+    activeProjects: 42,
+    totalInvestment: 100,
+    successRate: 94,
+    marketSentiment: 78,
+    networkNodes: 1337,
+    transactionsPerSecond: 9842,
+  };
+
+  // Terminal Command Simulation
+  let terminalLines: string[] = ["Initializing system...", "Connecting to network...", "Starting analysis..."];
+  const commands = [
+    "Analyzing market patterns... [✓]",
+    "Processing blockchain data... [LIVE]",
+    "Network status: Optimal ⚡",
+    "Smart contracts validated ✓",
+    "Gas optimization: 92% efficient",
+    "Network health: 99.99% uptime",
+    "AI models training: [===>] 87%",
+    "Scanning new opportunities... [LIVE]",
+    "Security protocols active 🛡️",
+    "Market sentiment: Bullish 📈",
+  ];
+
+  function addTerminalLine() {
+    const command = commands[Math.floor(Math.random() * commands.length)];
+    terminalLines = [...terminalLines.slice(-5), command];
+  }
 
   let sections: Record<SectionId, HTMLElement | null> = {
     hero: null,
@@ -47,36 +77,74 @@
       }
     });
 
-    return () => observer.disconnect();
+    // Start periodic updates
+    const statsInterval = setInterval(() => {
+      stats.activeProjects += Math.random() > 0.5 ? 1 : 0;
+      stats.totalInvestment += Math.random() > 0.7 ? 1 : 0;
+      stats.successRate = Math.min(99, stats.successRate + (Math.random() > 0.7 ? 1 : -1));
+      stats.marketSentiment = Math.min(100, Math.max(0, stats.marketSentiment + (Math.random() > 0.5 ? 1 : -1)));
+      stats.networkNodes += Math.floor(Math.random() * 10);
+      stats.transactionsPerSecond = Math.floor(9000 + Math.random() * 2000);
+      stats = stats; // Trigger reactivity
+    }, 2000);
+
+    const terminalInterval = setInterval(addTerminalLine, 1500);
+
+    return () => {
+      observer.disconnect();
+      clearInterval(statsInterval);
+      clearInterval(terminalInterval);
+    };
   });
 
-  const sectionData: Array<{
-    id: SectionId;
-    title: string;
-    description: string;
-    icon: any;
-    stats: string[];
-  }> = [
+  const sectionData = [
     {
-      id: "ventures",
+      id: "ventures" as const,
       title: "Ventures",
       description: "Strategic investments in groundbreaking Web3 projects.",
       icon: Rocket,
-      stats: ["50+ Projects", "$100M+ Invested", "30+ Countries"],
+      stats: [
+        { label: "Active Projects", value: () => stats.activeProjects, prefix: "", suffix: "" },
+        { label: "Total Investment", value: () => stats.totalInvestment, prefix: "$", suffix: "M" },
+        { label: "Success Rate", value: () => stats.successRate, prefix: "", suffix: "%" },
+      ],
+      features: [
+        { icon: TrendingUp, label: "Portfolio Growth" },
+        { icon: Shield, label: "Risk Management" },
+        { icon: Cpu, label: "Tech Innovation" },
+      ],
     },
     {
-      id: "intel",
+      id: "intel" as const,
       title: "Intel",
       description: "Deep market insights and technological innovation.",
       icon: Brain,
-      stats: ["24/7 Analysis", "AI-Powered", "Real-time Data"],
+      stats: [
+        { label: "Market Sentiment", value: () => stats.marketSentiment, prefix: "", suffix: "%" },
+        { label: "Active Nodes", value: () => stats.networkNodes, prefix: "", suffix: "+" },
+        { label: "Transactions/s", value: () => stats.transactionsPerSecond, prefix: "", suffix: "" },
+      ],
+      features: [
+        { icon: Terminal, label: "Real-time Analysis" },
+        { icon: Shield, label: "Secure Data" },
+        { icon: Cpu, label: "AI Powered" },
+      ],
     },
     {
-      id: "architect",
+      id: "architect" as const,
       title: "Architect",
       description: "Building the foundation of next-gen Web3 infrastructure.",
       icon: Building,
-      stats: ["Scalable", "Secure", "Future-proof"],
+      stats: [
+        { label: "Network Uptime", value: () => 99.99, prefix: "", suffix: "%" },
+        { label: "Protocol Version", value: () => "3.0", prefix: "v", suffix: "" },
+        { label: "Security Score", value: () => 98, prefix: "", suffix: "/100" },
+      ],
+      features: [
+        { icon: Shield, label: "Enterprise Grade" },
+        { icon: Cpu, label: "Scalable" },
+        { icon: Terminal, label: "Developer Ready" },
+      ],
     },
   ];
 </script>
@@ -130,8 +198,8 @@
       </p>
       <div class="flex flex-col justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
         <button
-          class="text-white group relative overflow-hidden rounded-lg bg-[#0052ff] px-8 py-4 font-medium
-                 transition-all duration-300 hover:-translate-y-0.5"
+          class="neon-button text-white group relative overflow-hidden rounded-lg bg-[#0052ff] px-8 py-4
+                 font-medium transition-all duration-300"
         >
           <div
             class="absolute inset-0 bg-gradient-to-r from-[#0052ff] to-[#00c7ff] opacity-0
@@ -143,44 +211,57 @@
           </span>
         </button>
         <button
-          class="text-white rounded-lg border border-[#0052ff]/20 bg-[#0052ff]/5 px-8 py-4 font-medium
-                 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0052ff]/10"
+          class="neon-button-secondary text-white rounded-lg border border-[#0052ff]/20 bg-[#0052ff]/5 px-8
+                 py-4 font-medium backdrop-blur-sm transition-all duration-300"
         >
           Learn More
         </button>
       </div>
-    </div>
 
-    <!-- Decorative Elements -->
-    <div class="pointer-events-none absolute inset-0">
-      {#each Array(3) as _, i}
-        <div
-          class="absolute h-px w-[200px] bg-gradient-to-r from-transparent via-[#0052ff]/30 to-transparent"
-          style="
-            left: {30 + i * 20}%;
-            top: {20 + i * 30}%;
-            transform: rotate({45 + i * 30}deg);
-          "
-        ></div>
-      {/each}
+      <!-- Terminal Preview -->
+      <div class="bg-black/20 mt-12 overflow-hidden rounded-lg border border-[#0052ff]/20 backdrop-blur-sm">
+        <div class="flex items-center justify-between border-b border-[#0052ff]/20 px-4 py-2">
+          <div class="flex items-center space-x-2">
+            <div class="h-3 w-3 rounded-full bg-red-500/20"></div>
+            <div class="h-3 w-3 rounded-full bg-yellow-500/20"></div>
+            <div class="h-3 w-3 rounded-full bg-green-500/20"></div>
+          </div>
+          <div class="text-xs text-[#0052ff]/60">terminal.web3</div>
+        </div>
+        <div class="p-4 font-mono text-sm">
+          {#each terminalLines as line}
+            <div class="terminal-line text-[#00c7ff] opacity-80" in:fade={{ duration: 150 }}>
+              <span class="text-[#0052ff]">></span>
+              {line}
+            </div>
+          {/each}
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Main Sections -->
-  {#each sectionData as { id, title, description, icon: Icon, stats }, i}
+  {#each sectionData as { id, title, description, icon: Icon, stats, features }, i}
     <section bind:this={sections[id]} data-section={id} class="relative min-h-screen py-24" {id}>
       <div class="container mx-auto px-6">
         <div
           class="grid gap-12 lg:grid-cols-2"
           class:opacity-100={visibility[id]}
-          class:translate-x-0={visibility[id]}
           class:opacity-0={!visibility[id]}
-          class:translate-x-20={!visibility[id]}
+          class:translate-x-20={!visibility[id] && id === "ventures"}
+          class:-translate-x-20={!visibility[id] && id === "intel"}
+          class:translate-y-20={!visibility[id] && id === "architect"}
+          class:translate-none={visibility[id]}
           style="transition: all 1s cubic-bezier(0.4, 0, 0.2, 1) {i * 0.2}s"
         >
           <!-- Content -->
-          <div class="flex flex-col justify-center">
-            <div class="mb-6 flex items-center space-x-4">
+          <div
+            class="flex flex-col justify-center"
+            class:order-2={id === "ventures"}
+            class:order-1={id === "intel"}
+            class:lg:col-span-2={id === "architect"}
+          >
+            <div class="mb-6 flex items-center space-x-4 {id === 'architect' ? 'justify-center' : ''}">
               <div
                 class="flex h-16 w-16 items-center justify-center rounded-xl bg-[#0052ff]/10
                        backdrop-blur-sm transition-transform duration-300 hover:scale-110"
@@ -194,44 +275,68 @@
                 {title}
               </h2>
             </div>
-            <p class="mb-8 text-xl font-light leading-relaxed text-gray-300">{description}</p>
+            <p class="mb-8 text-xl font-light leading-relaxed text-gray-300 {id === 'architect' ? 'text-center' : ''}">
+              {description}
+            </p>
 
             <!-- Stats Grid -->
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-3 gap-4 {id === 'architect' ? 'mx-auto max-w-2xl' : ''}">
               {#each stats as stat}
                 <div
                   class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm
                          transition-all duration-300 hover:-translate-y-1 hover:border-[#0052ff]/20
                          hover:bg-[#0052ff]/10"
                 >
-                  <p class="group-hover:text-white text-center text-sm font-medium text-gray-300 transition-colors">
-                    {stat}
+                  <p class="mb-1 text-xl font-light text-[#00c7ff]">
+                    {stat.prefix}{stat.value().toLocaleString()}{stat.suffix}
                   </p>
+                  <p class="text-sm text-gray-400">{stat.label}</p>
+                </div>
+              {/each}
+            </div>
+
+            <!-- Feature Icons -->
+            <div class="mt-8 flex space-x-6 {id === 'architect' ? 'justify-center' : ''}">
+              {#each features as feature}
+                <div class="group flex items-center space-x-2 text-gray-400">
+                  <svelte:component
+                    this={feature.icon}
+                    class="h-5 w-5 text-[#00c7ff] transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <span class="text-sm transition-colors duration-300 group-hover:text-[#00c7ff]">
+                    {feature.label}
+                  </span>
                 </div>
               {/each}
             </div>
           </div>
 
-          <!-- Visual Element -->
-          <div class="relative flex items-center justify-center lg:order-first">
-            <div class="relative h-[400px] w-[400px]">
-              <div
-                class="bg-gradient-radial absolute inset-0 rounded-full from-[#0052ff]/10 via-transparent
-                         to-transparent opacity-50"
-              ></div>
-              <!-- Animated lines -->
-              {#each Array(5) as _, i}
+          <!-- Visual Element - Nur für Ventures und Intel -->
+          {#if id !== "architect"}
+            <div
+              class="relative flex items-center justify-center"
+              class:order-1={id === "ventures"}
+              class:order-2={id === "intel"}
+            >
+              <div class="relative h-[400px] w-[400px]">
                 <div
-                  class="absolute h-px w-full bg-gradient-to-r from-transparent via-[#0052ff]/30 to-transparent"
-                  style="
-                    top: {20 + i * 20}%;
-                    transform: rotate({i * 30}deg);
-                    animation: glow {2 + i * 0.5}s infinite ease-in-out;
-                  "
+                  class="bg-gradient-radial absolute inset-0 rounded-full from-[#0052ff]/10 via-transparent
+                           to-transparent opacity-50"
                 ></div>
-              {/each}
+                <!-- Animated lines -->
+                {#each Array(5) as _, j}
+                  <div
+                    class="absolute h-px w-full bg-gradient-to-r from-transparent via-[#0052ff]/30 to-transparent"
+                    style="
+                      top: {20 + j * 20}%;
+                      transform: rotate({j * 30}deg);
+                      animation: glow {2 + j * 0.5}s infinite ease-in-out;
+                    "
+                  ></div>
+                {/each}
+              </div>
             </div>
-          </div>
+          {/if}
         </div>
       </div>
     </section>
@@ -241,6 +346,58 @@
 <style>
   :global(body) {
     font-family: "Space Grotesk", sans-serif;
+  }
+
+  .neon-glow {
+    text-shadow:
+      0 0 7px rgba(0, 199, 255, 0.3),
+      0 0 10px rgba(0, 199, 255, 0.2),
+      0 0 21px rgba(0, 199, 255, 0.1);
+  }
+
+  .neon-button {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+      0 0 10px rgba(0, 82, 255, 0.2),
+      0 0 20px rgba(0, 82, 255, 0.1);
+  }
+
+  .neon-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 0 15px rgba(0, 199, 255, 0.4),
+      0 0 30px rgba(0, 199, 255, 0.2),
+      0 0 45px rgba(0, 199, 255, 0.1);
+  }
+
+  .neon-button:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow:
+      0 0 20px rgba(0, 199, 255, 0.5),
+      0 0 40px rgba(0, 199, 255, 0.3),
+      0 0 60px rgba(0, 199, 255, 0.2);
+  }
+
+  .neon-button-secondary {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(0, 82, 255, 0.1);
+  }
+
+  .neon-button-secondary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 0 15px rgba(0, 199, 255, 0.2),
+      0 0 30px rgba(0, 199, 255, 0.1);
+    border-color: rgba(0, 199, 255, 0.4);
+  }
+
+  .neon-button-secondary:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow:
+      0 0 20px rgba(0, 199, 255, 0.3),
+      0 0 40px rgba(0, 199, 255, 0.2);
   }
 
   @keyframes glow {
@@ -255,6 +412,20 @@
     }
   }
 
+  .terminal-line {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+
   .bg-gradient-radial {
     background: radial-gradient(
       circle at center,
@@ -266,13 +437,5 @@
 
   :global(html) {
     scroll-behavior: smooth;
-  }
-
-  /* Neue Stile für den Neon-Glow-Effekt */
-  .neon-glow {
-    text-shadow:
-      0 0 7px rgba(0, 199, 255, 0.3),
-      0 0 10px rgba(0, 199, 255, 0.2),
-      0 0 21px rgba(0, 199, 255, 0.1);
   }
 </style>
