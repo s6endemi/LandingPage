@@ -5,7 +5,7 @@
   import { invalidate } from "$app/navigation";
   import { onMount } from "svelte";
   import AuthControllerModal from "$lib/components/Authentication/AuthControllerModal.svelte";
-  import { Menu, Moon, Sun, Dumbbell, Apple } from "lucide-svelte";
+  import { Menu, Moon, Sun, Dumbbell, Apple, Users, Map, FileText } from "lucide-svelte";
   import { applyAction, enhance } from "$app/forms";
   import type { SubmitFunction } from "@sveltejs/kit";
   import Logo from "$lib/components/Icons/NewLogo.svelte";
@@ -119,29 +119,31 @@
         <!-- Desktop Navigation -->
         <div class="navbar-center hidden flex-none gap-4 md:flex">
           <a
-            class="rounded-lg px-4 py-2 font-medium text-gray-300 transition-all duration-300
-                   hover:scale-105 hover:bg-[#0052ff]/10 hover:text-[#00c7ff] {isActive('/landingpage')}"
-            href="/landingpage"
-          >
-            <span>Upcoming</span>
-          </a>
-          <a
             class="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-gray-300
                    transition-all duration-300 hover:scale-105 hover:bg-[#0052ff]/10
-                   hover:text-[#00c7ff] {isActive('/dietplanner')}"
+                   hover:text-[#00c7ff] {isActive('/roadmap')}"
             href="/dietplanner"
           >
-            <Apple class="h-5 w-5" />
-            <span>Diet</span>
+            <Map class="h-5 w-5" />
+            <span>Roadmap</span>
           </a>
           <a
             class="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-gray-300
                    transition-all duration-300 hover:scale-105 hover:bg-[#0052ff]/10
-                   hover:text-[#00c7ff] {isActive('/workout-planner')}"
+                   hover:text-[#00c7ff] {isActive('/community')}"
+            href="/landingpage"
+          >
+            <Users class="h-5 w-5" />
+            <span>Community</span>
+          </a>
+          <a
+            class="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-gray-300
+                   transition-all duration-300 hover:scale-105 hover:bg-[#0052ff]/10
+                   hover:text-[#00c7ff] {isActive('/docs')}"
             href="/workout-planner"
           >
-            <Dumbbell class="h-5 w-5" />
-            <span>Training</span>
+            <FileText class="h-5 w-5" />
+            <span>Docs</span>
           </a>
         </div>
 

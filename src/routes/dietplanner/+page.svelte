@@ -1,295 +1,234 @@
+<!-- src/routes/roadmap/+page.svelte -->
 <script lang="ts">
-  import { ArrowRight, Apple, Brain, ChartLine, Utensils } from "lucide-svelte";
-  import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
-  import { fade, fly, slide } from "svelte/transition";
+  import { fly, slide } from "svelte/transition";
   import { quintOut } from "svelte/easing";
-  import { createDialog } from "@melt-ui/svelte";
+  import { Check, Zap, Globe, Cpu, Users, GitBranch, Shield } from "lucide-svelte";
+  import CircuitBackground from "$lib/assets/circuit-background.svg?raw";
 
-  let isStatsVisible = false;
-  let isFeaturesVisible = false;
-  let isHeroVisible = false;
-  let statsSection: HTMLElement;
-  let featuresSection: HTMLElement;
-  let heroSection: HTMLElement;
+  type Milestone = {
+    title: string;
+    date: string;
+    status: "completed" | "current" | "upcoming";
+    description: string;
+    icon: any;
+  };
 
-  // Dialog setup
-  const {
-    elements: {
-      trigger: earlyAccessTrigger,
-      content: earlyAccessContent,
-      title: earlyAccessTitle,
-      close: earlyAccessClose,
+  const milestones: Milestone[] = [
+    {
+      title: "Testnet Launch",
+      date: "Q2 2024",
+      status: "completed",
+      description: "Initial protocol deployment with basic swap functionality and AI prediction models",
+      icon: GitBranch,
     },
-    states: { open: earlyAccessOpen },
-  } = createDialog();
+    {
+      title: "Mainnet Launch",
+      date: "Q3 2024",
+      status: "current",
+      description: "Full protocol deployment with cross-chain capabilities and advanced risk management",
+      icon: Zap,
+    },
+    {
+      title: "Strategic Partnerships",
+      date: "Q4 2024",
+      status: "upcoming",
+      description: "Integration with major DeFi platforms and liquidity providers",
+      icon: Users,
+    },
+    {
+      title: "Mobile Suite Release",
+      date: "Q1 2025",
+      status: "upcoming",
+      description: "Native iOS/Android apps with biometric security and portfolio management",
+      icon: Cpu,
+    },
+    {
+      title: "DAO Governance",
+      date: "Q2 2025",
+      status: "upcoming",
+      description: "Full decentralization through community-controlled governance",
+      icon: Globe,
+    },
+    {
+      title: "Global Expansion",
+      date: "Q3 2025",
+      status: "upcoming",
+      description: "Localized services in 50+ countries with multi-language support",
+      icon: Shield,
+    },
+  ];
 
-  // Form state
-  let email = "";
-  let submitting = false;
-
-  // Form handling
-  async function handleSubmit() {
-    submitting = true;
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    submitting = false;
-    earlyAccessOpen.set(false);
-    email = "";
-  }
-
-  onMount(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.target === statsSection) isStatsVisible = entry.isIntersecting;
-          if (entry.target === featuresSection) isFeaturesVisible = entry.isIntersecting;
-          if (entry.target === heroSection) isHeroVisible = entry.isIntersecting;
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    observer.observe(statsSection);
-    observer.observe(featuresSection);
-    observer.observe(heroSection);
-
-    return () => {
-      observer.disconnect();
-    };
-  });
+  let visibleMilestones: boolean[] = Array(milestones.length).fill(false);
 </script>
 
-# file: +page.svelte
-<main class="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
-  <!-- Hero Section -->
-  <div bind:this={heroSection} class="relative overflow-hidden py-24">
-    <!-- Decorative elements -->
-    <div
-      class="absolute left-1/2 top-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-indigo-600/10 to-pink-600/10 blur-3xl"
-    />
-    <div
-      class="absolute left-1/3 top-1/3 h-[400px] w-[400px] rounded-full bg-gradient-to-r from-purple-600/20 to-indigo-600/20 blur-2xl"
-    />
+<svelte:head>
+  <title>Development Roadmap</title>
+</svelte:head>
 
-    <div class="container relative mx-auto px-6 text-center">
-      <div class="relative">
-        <h1
-          class="mb-8 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-5xl font-bold tracking-tight text-transparent md:text-7xl"
-          in:fly={{ y: 20, duration: 800, delay: 200 }}
-        >
-          Your Personal<br />
-          AI Nutrition Plan
-        </h1>
-
-        <p class="mx-auto mb-12 max-w-2xl text-xl leading-relaxed text-gray-300"
-          in:fly={{ y: 20, duration: 800, delay: 400 }}
-        >
-          Create your scientifically-backed nutrition plan that perfectly fits your lifestyle. Powered by AI assistance
-          and professional guidance to reach your goals.
-        </p>
-
-        <div class="flex flex-col justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-          <button
-            use:earlyAccessTrigger
-            class="text-white group rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 px-8
-                 py-4 font-medium shadow-lg shadow-indigo-500/25 transition-all duration-300
-                 hover:-translate-y-0.5 hover:shadow-indigo-500/40"
-          >
-            Start your diet!
-            <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </button>
-        </div>
-
-        <!-- Stats -->
-        <div class="mt-12 flex flex-wrap justify-center gap-8">
-          <div class="text-center">
-            <div
-              class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-4xl font-bold text-transparent"
-            >
-              8K+
-            </div>
-            <div class="text-gray-400">Satisfied Clients</div>
-          </div>
-          <div class="text-center">
-            <div class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-4xl font-bold text-transparent">
-              89%
-            </div>
-            <div class="text-gray-400">Goal Achievement</div>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="font-space-grotesk text-white bg-black min-h-screen">
+  <!-- Background -->
+  <div class="fixed inset-0 -z-10 opacity-20 mix-blend-screen">
+    {@html CircuitBackground}
   </div>
 
-  <!-- Features Grid -->
-  <section bind:this={featuresSection} class="relative py-32">
-    <div class="container mx-auto px-6">
-      <div class="grid gap-8 md:grid-cols-4">
-        {#each [{ icon: Apple, title: "Personalized", description: "Tailored plan based on your preferences" }, { icon: Brain, title: "AI Coach", description: "24/7 nutrition guidance through AI" }, { icon: ChartLine, title: "Progress", description: "Track your success simply & effectively" }, { icon: Utensils, title: "Recipes", description: "Over 1000+ healthy recipe suggestions" }] as feature, i}
+  <!-- Hero Section -->
+  <section class="relative px-6 pb-20 pt-32 text-center">
+    <div class="mx-auto max-w-4xl">
+      <h1
+        class="neon-glow mb-6 bg-gradient-to-r from-[#0052ff] via-[#00c7ff] to-[#73e4ff] bg-clip-text text-6xl font-light text-transparent"
+      >
+        Protocol Roadmap
+      </h1>
+      <p class="mb-12 text-xl font-light text-gray-300">
+        Strategic development phases building the future of decentralized intelligence
+      </p>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <div class="container relative mx-auto px-6">
+    <!-- Progress Line -->
+    <div class="absolute left-1/2 h-full w-1 bg-gradient-to-b from-[#0052ff] to-transparent opacity-20"></div>
+
+    {#each milestones as milestone, i}
+      <div
+        class="group relative py-12"
+        in:fly={{ y: i % 2 === 0 ? 50 : -50, duration: 800, easing: quintOut }}
+        out:slide
+      >
+        <!-- Timeline Point -->
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div class="relative">
+            <div
+              class={`absolute inset-0 animate-ping rounded-full bg-[#0052ff] ${milestone.status === "current" ? "opacity-40" : "opacity-0"}`}
+            ></div>
+            <div
+              class={`h-4 w-4 rounded-full ${
+                {
+                  completed: "bg-[#00c7ff]",
+                  current: "bg-[#0052ff]",
+                  upcoming: "bg-gray-600",
+                }[milestone.status]
+              }`}
+            ></div>
+            {#if milestone.status === "completed"}
+              <Check class="bg-black absolute -right-1 -top-1 h-5 w-5 rounded-full p-1 text-[#00c7ff]" />
+            {/if}
+          </div>
+        </div>
+
+        <!-- Card -->
+        <div class={`max-w-2xl ${i % 2 === 0 ? "mr-auto pr-16" : "ml-auto pl-16"} relative`}>
           <div
-            class="transform transition-all duration-700"
-            class:translate-y-0={isFeaturesVisible}
-            class:translate-y-20={!isFeaturesVisible}
-            style="transition-delay: {i * 150}ms;"
+            class={`rounded-xl border p-8 backdrop-blur-lg transition-all duration-300 ${
+              milestone.status === "current"
+                ? "border-[#0052ff]/30 bg-[#0052ff]/10 hover:bg-[#0052ff]/15"
+                : "bg-black/20 hover:bg-black/30 border-[#0052ff]/10"
+            }`}
           >
-            <div class="group relative h-full rounded-3xl p-1 transition-all duration-300">
+            <div class="flex items-start gap-6">
               <div
-                class="absolute inset-0 rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 opacity-20 blur"
-              ></div>
-              <div class="relative h-full rounded-3xl bg-gray-800/40 p-8 backdrop-blur-xl">
-                <div class="mb-6 transform text-4xl transition-transform duration-300 group-hover:scale-110">
-                  <svelte:component this={feature.icon} class="text-indigo-400" />
+                class={`rounded-lg p-3 ${
+                  {
+                    completed: "bg-[#00c7ff]/10",
+                    current: "bg-[#0052ff]/20",
+                    upcoming: "bg-gray-800/30",
+                  }[milestone.status]
+                }`}
+              >
+                <svelte:component
+                  this={milestone.icon}
+                  class={`h-8 w-8 ${
+                    milestone.status === "completed"
+                      ? "text-[#00c7ff]"
+                      : milestone.status === "current"
+                        ? "text-[#0052ff]"
+                        : "text-gray-500"
+                  }`}
+                />
+              </div>
+              <div class="flex-1">
+                <div class="mb-2 flex items-center gap-4">
+                  <h3 class="text-2xl font-light">{milestone.title}</h3>
+                  <span
+                    class={`rounded px-2 py-1 text-sm ${
+                      milestone.status === "completed"
+                        ? "bg-[#00c7ff]/10 text-[#00c7ff]"
+                        : milestone.status === "current"
+                          ? "bg-[#0052ff]/20 text-[#0052ff]"
+                          : "bg-gray-800/30 text-gray-500"
+                    }`}
+                  >
+                    {milestone.date}
+                  </span>
                 </div>
-                <h3 class="mb-4 text-xl font-bold text-gray-100">{feature.title}</h3>
-                <p class="text-gray-400">{feature.description}</p>
+                <p class="font-light leading-relaxed text-gray-400">
+                  {milestone.description}
+                </p>
+                {#if milestone.status === "current"}
+                  <div class="mt-4 border-t border-[#0052ff]/20 pt-4">
+                    <div class="flex items-center gap-2 text-sm text-[#00c7ff]">
+                      <div class="h-2 w-full overflow-hidden rounded-full bg-gray-800">
+                        <div
+                          class="h-full bg-gradient-to-r from-[#0052ff] to-[#00c7ff] transition-all duration-1000"
+                          style="width: 65%"
+                        ></div>
+                      </div>
+                      <span>65% Complete</span>
+                    </div>
+                  </div>
+                {/if}
               </div>
             </div>
           </div>
-        {/each}
-      </div>
-    </div>
-  </section>
 
-  <!-- Journey Section -->
-  <section bind:this={statsSection} class="relative overflow-hidden py-32">
-    <div class="container mx-auto px-6">
-      <h2
-        class="mb-16 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-center text-4xl font-bold text-transparent"
-      >
-        Your Path to Nutrition Success
-      </h2>
-
-      <div class="mx-auto max-w-3xl">
-        {#each [{ step: 1, title: "Analyze Your Needs", description: "Quick quiz about your goals and eating habits" }, { step: 2, title: "AI-Powered Plan", description: "Receive your personalized nutrition plan" }, { step: 3, title: "Easy Implementation", description: "Weekly recipes and shopping lists" }, { step: 4, title: "Continuous Support", description: "AI Coach supports you every step of the way" }] as step, i}
-          <div
-            class="mb-12 flex transform items-start gap-8 transition-all duration-700"
-            class:translate-x-0={isStatsVisible}
-            class:translate-x-20={!isStatsVisible}
-            style="transition-delay: {i * 150}ms;"
-          >
-            <div
-              class="text-white flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-xl font-bold"
-            >
-              {step.step}
+          <!-- Connector Line -->
+          {#if i < milestones.length - 1}
+            <div class={`absolute top-full -translate-y-6 ${i % 2 === 0 ? "right-0" : "left-0"}`}>
+              <svg class="h-12 w-12 text-[#0052ff]/30">
+                <path
+                  d={i % 2 === 0 ? "M0 0 L40 40" : "M40 0 L0 40"}
+                  stroke="currentColor"
+                  stroke-width="1"
+                  fill="none"
+                />
+              </svg>
             </div>
-            <div>
-              <h3 class="mb-2 text-xl font-bold text-gray-100">{step.title}</h3>
-              <p class="text-gray-400">{step.description}</p>
-            </div>
-          </div>
-        {/each}
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonial Section -->
-  <section class="relative py-32">
-    <div class="container mx-auto px-6">
-      <div class="mx-auto max-w-2xl rounded-3xl bg-gray-800/40 p-12 backdrop-blur-xl">
-        <div class="mb-6 flex justify-center gap-1">
-          {#each Array(5) as _}
-            <svg class="h-6 w-6 text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-              />
-            </svg>
-          {/each}
+          {/if}
         </div>
-        <p class="mb-6 text-center text-xl italic text-gray-300">
-          "The AI nutrition plan helped me reach my goals while keeping my love for food alive!"
-        </p>
-        <p class="text-center font-bold text-gray-400">- Sarah M.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Enhanced CTA Section -->
-  <section class="relative pb-32">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-        <button
-          use:earlyAccessTrigger
-          class="text-white group rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 px-8
-                 py-4 font-medium shadow-lg shadow-indigo-500/25 transition-all duration-300
-                 hover:-translate-y-0.5 hover:shadow-indigo-500/40"
-        >
-          Get Started
-          <span class="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-        </button>
-      </div>
-    </div>
-  </section>
-</main>
-
-{#if $earlyAccessOpen}
-  <div class="fixed inset-0 z-40 bg-gray-950/80 backdrop-blur-sm" transition:fade />
-
-  <div use:earlyAccessContent class="fixed inset-0 z-50 flex items-center justify-center p-4" transition:fade>
-    <div
-      class="w-full max-w-md rounded-3xl border border-gray-800 bg-gray-900 p-8 shadow-2xl"
-      role="dialog"
-      aria-modal="true"
-      in:slide={{ duration: 300, easing: quintOut }}
-    >
-      <h2 use:earlyAccessTitle class="mb-4 text-2xl font-bold text-gray-100">Join the Future of Fitness</h2>
-
-      <p class="mb-6 leading-relaxed text-gray-300">
-        Be among the first to experience our revolutionary AI fitness coach. Early members receive exclusive benefits
-        and founding member pricing.
-      </p>
-
-      <form on:submit|preventDefault={handleSubmit} class="space-y-4">
-        <input
-          type="email"
-          bind:value={email}
-          placeholder="Enter your email"
-          required
-          class="w-full rounded-xl border border-gray-700 bg-gray-800 px-4 py-3.5
-                 text-gray-200 placeholder-gray-500 transition-all duration-300
-                 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-        />
-
-        <button
-          type="submit"
-          disabled={submitting}
-          class="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3.5
-                 font-medium text-gray-50 shadow-lg shadow-indigo-500/25 transition-all duration-300
-                 hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-not-allowed
-                 disabled:opacity-50 disabled:hover:translate-y-0"
-        >
-          {submitting ? "Joining..." : "Join the Waitlist"}
-        </button>
-      </form>
-
-      <button
-        use:earlyAccessClose
-        class="absolute right-4 top-4 rounded-full p-2
-               text-gray-400 transition-colors hover:bg-gray-800 hover:text-gray-200"
-      >
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </div>
+    {/each}
   </div>
-{/if}
+
+  <!-- Current Focus Section -->
+  <section class="px-6 py-20">
+    <div class="mx-auto max-w-4xl text-center">
+      <div class="mb-8 inline-block rounded-full border border-[#0052ff]/20 bg-[#0052ff]/10 px-8 py-4">
+        <span class="text-[#00c7ff]">Current Focus</span>
+      </div>
+      <h2 class="mb-6 text-4xl font-light">Mainnet Optimization</h2>
+      <p class="mx-auto max-w-3xl text-xl font-light leading-relaxed text-gray-300">
+        Enhancing protocol scalability and security while integrating with major decentralized exchanges. Our current
+        efforts focus on achieving 100k TPS throughput with sub-second finality.
+      </p>
+    </div>
+  </section>
+</div>
 
 <style>
-  /* Add any additional styles here */
-  :global(.gradient-animate) {
-    background-size: 200% 200%;
-    animation: gradientFlow 15s ease infinite;
+  .neon-glow {
+    text-shadow:
+      0 0 10px rgba(0, 199, 255, 0.3),
+      0 0 20px rgba(0, 199, 255, 0.2),
+      0 0 30px rgba(0, 199, 255, 0.1);
   }
 
-  @keyframes gradientFlow {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
+  .timeline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 82, 255, 0.1);
+  }
+
+  path {
+    transition: stroke-opacity 0.3s ease;
   }
 </style>
