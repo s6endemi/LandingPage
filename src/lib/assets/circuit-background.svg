@@ -1,0 +1,126 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitionen für Gradienten und Filter -->
+  <defs>
+    <!-- Neon Glow Filter -->
+    <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0   0 0 0 0 0.8   0 0 0 0 1  0 0 0 1 0" result="neon"/>
+      <feMerge>
+        <feMergeNode in="neon"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Gradient für Linien -->
+    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0052ff;stop-opacity:0.2"/>
+      <stop offset="50%" style="stop-color:#00c7ff;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#0052ff;stop-opacity:0.2"/>
+    </linearGradient>
+    
+    <!-- Gradient für Knoten -->
+    <radialGradient id="nodeGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#00c7ff;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0052ff;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Hintergrund-Grid -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0052ff" stroke-width="0.1" opacity="0.3"/>
+  </pattern>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- Zentrale Chip-Architektur -->
+  <g transform="translate(400,300)" filter="url(#neonGlow)">
+    <!-- Zentrale Raute -->
+    <path d="M 0,-50 L 50,0 0,50 -50,0 Z" 
+          fill="none" 
+          stroke="#00c7ff" 
+          stroke-width="2"
+          opacity="0.8">
+      <animate attributeName="opacity"
+               values="0.8;0.4;0.8"
+               dur="3s"
+               repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Verbindungslinien -->
+    <g>
+      <!-- Horizontale Linie -->
+      <line x1="-150" y1="0" x2="150" y2="0" 
+            stroke="url(#lineGradient)" 
+            stroke-width="1">
+        <animate attributeName="stroke-dashoffset"
+                 values="200;0"
+                 dur="3s"
+                 repeatCount="indefinite"/>
+      </line>
+      
+      <!-- Vertikale Linie -->
+      <line x1="0" y1="-150" x2="0" y2="150" 
+            stroke="url(#lineGradient)" 
+            stroke-width="1">
+        <animate attributeName="stroke-dashoffset"
+                 values="200;0"
+                 dur="3s"
+                 repeatCount="indefinite"/>
+      </line>
+    </g>
+    
+    <!-- Pulsierende Knoten -->
+    <g>
+      <circle cx="-150" cy="0" r="5" fill="url(#nodeGradient)">
+        <animate attributeName="r"
+                 values="5;8;5"
+                 dur="2s"
+                 repeatCount="indefinite"/>
+      </circle>
+      <circle cx="150" cy="0" r="5" fill="url(#nodeGradient)">
+        <animate attributeName="r"
+                 values="5;8;5"
+                 dur="2s"
+                 repeatCount="indefinite"
+                 begin="0.5s"/>
+      </circle>
+      <circle cx="0" cy="-150" r="5" fill="url(#nodeGradient)">
+        <animate attributeName="r"
+                 values="5;8;5"
+                 dur="2s"
+                 repeatCount="indefinite"
+                 begin="1s"/>
+      </circle>
+      <circle cx="0" cy="150" r="5" fill="url(#nodeGradient)">
+        <animate attributeName="r"
+                 values="5;8;5"
+                 dur="2s"
+                 repeatCount="indefinite"
+                 begin="1.5s"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- Animierte Datenpfade -->
+  <g>
+    <path d="M 150,150 Q 400,150 650,150" 
+          fill="none" 
+          stroke="#00c7ff" 
+          stroke-width="1"
+          stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset"
+               values="100;0"
+               dur="4s"
+               repeatCount="indefinite"/>
+    </path>
+    <path d="M 150,450 Q 400,450 650,450" 
+          fill="none" 
+          stroke="#00c7ff" 
+          stroke-width="1"
+          stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset"
+               values="100;0"
+               dur="4s"
+               repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>

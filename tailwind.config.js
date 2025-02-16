@@ -7,7 +7,7 @@ import colors from "tailwindcss/colors";
 import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  content: ["./src/**/*.{html,js,svelte,ts}", "./svelte.config.js"],
   theme: {
     colors: {
       transparent: "transparent",
