@@ -148,64 +148,7 @@
         </div>
 
         <!-- Auth Area -->
-        <div class="navbar-end mr-2">
-          {#if profile}
-            <div class="dropdown dropdown-end">
-              <button
-                class="text-white group relative overflow-hidden rounded-lg bg-[#0052ff] px-6 py-2
-                       font-medium transition-all duration-300 hover:-translate-y-0.5"
-              >
-                <div
-                  class="absolute inset-0 bg-gradient-to-r from-[#0052ff] to-[#00c7ff] opacity-0
-                           transition-opacity duration-300 group-hover:opacity-100"
-                ></div>
-                <span class="relative">{profile.firstName}</span>
-              </button>
-              <form method="POST" action="/auth?/logout" use:enhance={enhanceLogout}>
-                <ul
-                  class="bg-black/80 menu dropdown-content z-[1] mt-2 w-48 rounded-lg border
-                         border-[#0052ff]/10 p-2 shadow-xl backdrop-blur-xl"
-                >
-                  <li>
-                    <a
-                      href="/private/profile"
-                      class="text-gray-300 transition-colors hover:bg-[#0052ff]/10
-                                                    hover:text-[#00c7ff]">Profile</a
-                    >
-                  </li>
-                  <li>
-                    <a
-                      href="/private/settings"
-                      class="text-gray-300 transition-colors hover:bg-[#0052ff]/10
-                                                     hover:text-[#00c7ff]">Settings</a
-                    >
-                  </li>
-                  <li>
-                    <button
-                      type="submit"
-                      class="w-full text-left text-gray-300 transition-colors
-                                                hover:bg-[#0052ff]/10 hover:text-[#00c7ff]"
-                    >
-                      Sign out
-                    </button>
-                  </li>
-                </ul>
-              </form>
-            </div>
-          {:else}
-            <button
-              on:click={toggleModal}
-              class="text-white group relative overflow-hidden rounded-lg bg-[#0052ff] px-6 py-2
-                     font-medium transition-all duration-300 hover:-translate-y-0.5"
-            >
-              <div
-                class="absolute inset-0 bg-gradient-to-r from-[#0052ff] to-[#00c7ff] opacity-0
-                         transition-opacity duration-300 group-hover:opacity-100"
-              ></div>
-              <span class="relative">Register</span>
-            </button>
-          {/if}
-        </div>
+        <div class="navbar-end mr-2"></div>
       </div>
 
       <!-- Gradient Transition -->
