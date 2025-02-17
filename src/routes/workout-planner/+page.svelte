@@ -34,9 +34,9 @@
       title: "Token Details",
       icon: Code,
       stats: {
-        totalSupply: "100,000,000",
+        totalSupply: "1,000,000,000",
         contract: "0x8920...c43e7",
-        chain: "Ethereum Mainnet",
+        chain: "Solana Mainnet",
       },
       distribution: [
         { label: "Liquidity Pool", value: 35 },
