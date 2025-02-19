@@ -22,10 +22,10 @@
 
   // Stats für Live-Updates
   let stats = {
-    activeProjects: 42,
-    totalInvestment: 100,
+    activeProjects: 6,
+    totalInvestment: 570,
     successRate: 94,
-    marketSentiment: 78,
+    marketSentiment: 92,
     networkNodes: 1337,
     transactionsPerSecond: 9842,
   };
@@ -163,7 +163,7 @@
       icon: Rocket,
       stats: [
         { label: "Active DApps", value: () => stats.activeProjects, prefix: "", suffix: "" },
-        { label: "TVL", value: () => stats.totalInvestment, prefix: "$", suffix: "M" },
+        { label: "TVL", value: () => stats.totalInvestment, prefix: "$", suffix: "K" },
         { label: "Protocol Growth", value: () => stats.successRate, prefix: "", suffix: "%" },
       ],
       features: [
@@ -197,7 +197,7 @@
       icon: Building,
       stats: [
         { label: "Network Uptime", value: () => 99.99, prefix: "", suffix: "%" },
-        { label: "TPS Capacity", value: () => "100K", prefix: "", suffix: "" },
+        { label: "Scalability", value: () => "Unlimited", prefix: "", suffix: "" },
         { label: "Security Score", value: () => 98, prefix: "", suffix: "/100" },
       ],
       features: [
@@ -523,15 +523,15 @@
           <button
             class="group relative inline-flex items-center gap-2 rounded-full border border-[#0052ff]/20 bg-[#0052ff]/5 px-6 py-2 backdrop-blur-sm transition-all duration-300 hover:border-[#0052ff]/40 hover:bg-[#0052ff]/10"
             on:click={() => {
-              navigator.clipboard.writeText("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
-              copiedAddress = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+              navigator.clipboard.writeText("");
+              copiedAddress = "";
               setTimeout(() => (copiedAddress = null), 2000);
             }}
           >
             <span class="text-sm text-gray-400">CA:</span>
-            <span class="font-mono text-sm text-[#00c7ff]">TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA</span>
+            <span class="font-mono text-sm text-[#00c7ff]"></span>
             <Link class="h-4 w-4 text-[#00c7ff] opacity-60 transition-opacity group-hover:opacity-100" />
-            {#if copiedAddress === "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"}
+            {#if copiedAddress === ""}
               <div
                 class="absolute -bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-[#0052ff]/20 px-3 py-1 text-xs text-[#00c7ff]"
               >
@@ -642,8 +642,8 @@
       <!-- Additional Token Info -->
       <div class="mt-20 grid gap-8 md:grid-cols-3">
         <div class="rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 text-center backdrop-blur-sm">
-          <div class="text-sm text-gray-400">Initial Market Cap</div>
-          <div class="text-2xl text-[#00c7ff]">$10M</div>
+          <div class="text-sm text-gray-400">Market Cap</div>
+          <div class="text-2xl text-[#00c7ff]">/</div>
         </div>
         <div class="rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 text-center backdrop-blur-sm">
           <div class="text-sm text-gray-400">Token Type</div>
@@ -697,28 +697,6 @@
           </div>
           <h3 class="mb-2 text-lg font-light text-[#00c7ff]">Cross-Chain Bridge</h3>
           <p class="text-sm text-gray-400">Seamlessly bridge assets across multiple blockchain networks</p>
-        </div>
-      </div>
-
-      <!-- Network Stats -->
-      <div class="mt-12 rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 backdrop-blur-sm">
-        <div class="grid gap-8 md:grid-cols-4">
-          <div class="text-center">
-            <div class="text-3xl font-light text-[#00c7ff]">65k</div>
-            <div class="text-sm text-gray-400">TPS</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-light text-[#00c7ff]">0.00001</div>
-            <div class="text-sm text-gray-400">Transaction Cost ($)</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-light text-[#00c7ff]">400ms</div>
-            <div class="text-sm text-gray-400">Block Time</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-light text-[#00c7ff]">1,000+</div>
-            <div class="text-sm text-gray-400">Active Validators</div>
-          </div>
         </div>
       </div>
     </div>

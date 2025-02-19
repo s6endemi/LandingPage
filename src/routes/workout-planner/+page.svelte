@@ -35,7 +35,7 @@
       icon: Code,
       stats: {
         totalSupply: "1,000,000,000",
-        mintAddress: "VGX8...yT9K",
+        mintAddress: "/",
         network: "Solana Mainnet",
       },
       distribution: [
@@ -82,12 +82,12 @@
       coreContracts: [
         {
           name: "Token Program",
-          address: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          address: "/",
           description: "SPL Token Program",
         },
         {
           name: "Stake Program",
-          address: "Stake11111111111111111111111111111111111111",
+          address: "",
           description: "Staking and Rewards Distribution",
         },
       ],
@@ -249,7 +249,7 @@ const token = new Token(
                 <div class="h-px bg-[#0052ff]/20"></div>
                 <div>
                   <div class="text-sm text-gray-400">Contact:</div>
-                  <div class="font-mono text-sm">security@protocol.xyz</div>
+                  <div class="font-mono text-sm">security@vigorprotocol.xyz</div>
                 </div>
               </div>
             </div>
