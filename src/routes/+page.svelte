@@ -2,7 +2,20 @@
   import { onMount } from "svelte";
   import { fade, fly, slide } from "svelte/transition";
   import { quintOut } from "svelte/easing";
-  import { Rocket, Brain, Building, Terminal, Cpu, Shield, TrendingUp, ChevronDown } from "lucide-svelte";
+  import {
+    Rocket,
+    Brain,
+    Building,
+    Terminal,
+    Cpu,
+    Shield,
+    TrendingUp,
+    ChevronDown,
+    Network,
+    Vote,
+    Wallet,
+    Link,
+  } from "lucide-svelte";
   import CircuitBackground from "$lib/assets/circuit-background.svg?raw";
 
   type SectionId = "hero" | "ventures" | "intel" | "architect" | "tokenomics";
@@ -85,7 +98,7 @@
     architect: null,
     tokenomics: null,
   };
-
+  let copiedAddress: string | null = null;
   let visibility: Record<SectionId, boolean> = {
     hero: false,
     ventures: false,
@@ -288,7 +301,7 @@
                    duration-300 group-hover:opacity-100"
           ></div>
           <span class="relative flex items-center space-x-2">
-            <span>Discover $MERIDIAN</span>
+            <span>Discover $VIGOR</span>
             <TrendingUp class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </span>
         </button>
@@ -497,13 +510,36 @@
       <div class="mb-20 text-center">
         <h2
           class="mb-6 bg-gradient-to-r from-[#0052ff] via-[#00c7ff] to-[#73e4ff] bg-clip-text text-4xl
-                   font-light text-transparent"
+             font-light text-transparent"
         >
           Tokenomics
         </h2>
         <p class="mx-auto max-w-2xl font-light text-gray-400">
           Designed for sustainable growth and community-driven development
         </p>
+
+        <!-- Contract Address -->
+        <div class="mt-8 flex items-center justify-center">
+          <button
+            class="group relative inline-flex items-center gap-2 rounded-full border border-[#0052ff]/20 bg-[#0052ff]/5 px-6 py-2 backdrop-blur-sm transition-all duration-300 hover:border-[#0052ff]/40 hover:bg-[#0052ff]/10"
+            on:click={() => {
+              navigator.clipboard.writeText("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA");
+              copiedAddress = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
+              setTimeout(() => (copiedAddress = null), 2000);
+            }}
+          >
+            <span class="text-sm text-gray-400">CA:</span>
+            <span class="font-mono text-sm text-[#00c7ff]">TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA</span>
+            <Link class="h-4 w-4 text-[#00c7ff] opacity-60 transition-opacity group-hover:opacity-100" />
+            {#if copiedAddress === "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"}
+              <div
+                class="absolute -bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-[#0052ff]/20 px-3 py-1 text-xs text-[#00c7ff]"
+              >
+                Copied!
+              </div>
+            {/if}
+          </button>
+        </div>
       </div>
 
       <!-- Tokenomics Grid -->
@@ -511,59 +547,44 @@
         <!-- Left Side: Interactive Circle -->
         <div class="relative aspect-square">
           <div
-            class="absolute inset-0 rounded-full bg-gradient-to-r from-[#0052ff]/10 to-transparent
-                      opacity-50 blur-2xl"
+            class="absolute inset-0 rounded-full bg-gradient-to-r from-[#0052ff]/10 to-transparent opacity-50 blur-2xl"
           ></div>
           <div class="relative h-full">
-            <!-- Development Slice -->
+            <!-- Circulating Supply Slice -->
             <div class="absolute inset-0 transition-all duration-300 hover:-translate-y-2 hover:scale-105">
               <div class="top 0 absolute left-1/2 h-1/2 w-px bg-[#0052ff]/20"></div>
               <div class="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2">
-                <div class="text-xl font-light text-[#00c7ff]">30%</div>
+                <div class="text-xl font-light text-[#00c7ff]">80%</div>
+                <div class="text-sm text-gray-500">Circulating Supply</div>
+              </div>
+            </div>
+            <!-- Locked Slice -->
+            <div
+              class="absolute inset-0 rotate-[90deg] transition-all duration-300 hover:-translate-y-2 hover:scale-105"
+            >
+              <div class="top 0 absolute left-1/2 h-1/2 w-px bg-[#0052ff]/20"></div>
+              <div class="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 -rotate-[90deg]">
+                <div class="text-xl font-light text-[#00c7ff]">10%</div>
+                <div class="text-sm text-gray-500">Locked</div>
+              </div>
+            </div>
+            <!-- Development Slice -->
+            <div
+              class="absolute inset-0 rotate-[180deg] transition-all duration-300 hover:-translate-y-2 hover:scale-105"
+            >
+              <div class="top 0 absolute left-1/2 h-1/2 w-px bg-[#0052ff]/20"></div>
+              <div class="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 -rotate-[180deg]">
+                <div class="text-xl font-light text-[#00c7ff]">5%</div>
                 <div class="text-sm text-gray-500">Development</div>
-              </div>
-            </div>
-            <!-- Staking Slice -->
-            <div
-              class="absolute inset-0 rotate-[72deg] transition-all duration-300 hover:-translate-y-2
-                        hover:scale-105"
-            >
-              <div class="top 0 absolute left-1/2 h-1/2 w-px bg-[#0052ff]/20"></div>
-              <div class="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 -rotate-[72deg]">
-                <div class="text-xl font-light text-[#00c7ff]">25%</div>
-                <div class="text-sm text-gray-500">Staking</div>
-              </div>
-            </div>
-            <!-- Liquidity Slice -->
-            <div
-              class="absolute inset-0 rotate-[144deg] transition-all duration-300 hover:-translate-y-2
-                        hover:scale-105"
-            >
-              <div class="top 0 absolute left-1/2 h-1/2 w-px bg-[#0052ff]/20"></div>
-              <div class="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 -rotate-[144deg]">
-                <div class="text-xl font-light text-[#00c7ff]">20%</div>
-                <div class="text-sm text-gray-500">Liquidity</div>
-              </div>
-            </div>
-            <!-- Community Slice -->
-            <div
-              class="absolute inset-0 rotate-[216deg] transition-all duration-300 hover:-translate-y-2
-                        hover:scale-105"
-            >
-              <div class="top 0 absolute left-1/2 h-1/2 w-px bg-[#0052ff]/20"></div>
-              <div class="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 -rotate-[216deg]">
-                <div class="text-xl font-light text-[#00c7ff]">15%</div>
-                <div class="text-sm text-gray-500">Community</div>
               </div>
             </div>
             <!-- Marketing Slice -->
             <div
-              class="absolute inset-0 rotate-[288deg] transition-all duration-300 hover:-translate-y-2
-                        hover:scale-105"
+              class="absolute inset-0 rotate-[270deg] transition-all duration-300 hover:-translate-y-2 hover:scale-105"
             >
               <div class="top 0 absolute left-1/2 h-1/2 w-px bg-[#0052ff]/20"></div>
-              <div class="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 -rotate-[288deg]">
-                <div class="text-xl font-light text-[#00c7ff]">10%</div>
+              <div class="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 -rotate-[270deg]">
+                <div class="text-xl font-light text-[#00c7ff]">5%</div>
                 <div class="text-sm text-gray-500">Marketing</div>
               </div>
             </div>
@@ -573,77 +594,131 @@
         <!-- Right Side: Details -->
         <div class="space-y-6">
           <div
-            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm
-                      transition-all duration-300 hover:-translate-y-1"
+            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
           >
             <div class="mb-2 flex items-center justify-between">
-              <div class="text-lg text-[#00c7ff]">Development & Research</div>
-              <div class="text-white text-2xl font-light">30%</div>
+              <div class="text-lg text-[#00c7ff]">Circulating Supply</div>
+              <div class="text-white text-2xl font-light">80%</div>
+            </div>
+            <p class="text-sm font-light text-gray-400">Available for public trading and community participation</p>
+          </div>
+
+          <div
+            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
+          >
+            <div class="mb-2 flex items-center justify-between">
+              <div class="text-lg text-[#00c7ff]">Strategic Reserve (Locked)</div>
+              <div class="text-white text-2xl font-light">10%</div>
+            </div>
+            <p class="text-sm font-light text-gray-400">Time-locked tokens for long-term ecosystem development</p>
+          </div>
+
+          <div
+            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
+          >
+            <div class="mb-2 flex items-center justify-between">
+              <div class="text-lg text-[#00c7ff]">Development Fund</div>
+              <div class="text-white text-2xl font-light">5%</div>
             </div>
             <p class="text-sm font-light text-gray-400">
-              Dedicated to continuous platform development, AI model training, and infrastructure scaling
+              Platform development, security audits, and infrastructure improvements
             </p>
           </div>
 
           <div
-            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm
-                      transition-all duration-300 hover:-translate-y-1"
-          >
-            <div class="mb-2 flex items-center justify-between">
-              <div class="text-lg text-[#00c7ff]">Staking Rewards</div>
-              <div class="text-white text-2xl font-light">25%</div>
-            </div>
-            <p class="text-sm font-light text-gray-400">
-              Incentivizing long-term holders and platform stability through staking mechanisms
-            </p>
-          </div>
-
-          <div
-            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm
-                      transition-all duration-300 hover:-translate-y-1"
-          >
-            <div class="mb-2 flex items-center justify-between">
-              <div class="text-lg text-[#00c7ff]">Liquidity Pool</div>
-              <div class="text-white text-2xl font-light">20%</div>
-            </div>
-            <p class="text-sm font-light text-gray-400">
-              Ensuring market stability and trading pair liquidity across major DEXs
-            </p>
-          </div>
-
-          <div
-            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm
-                      transition-all duration-300 hover:-translate-y-1"
-          >
-            <div class="mb-2 flex items-center justify-between">
-              <div class="text-lg text-[#00c7ff]">Community Treasury</div>
-              <div class="text-white text-2xl font-light">15%</div>
-            </div>
-            <p class="text-sm font-light text-gray-400">
-              Supporting community initiatives, governance, and ecosystem growth
-            </p>
-          </div>
-
-          <div
-            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm
-                      transition-all duration-300 hover:-translate-y-1"
+            class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1"
           >
             <div class="mb-2 flex items-center justify-between">
               <div class="text-lg text-[#00c7ff]">Marketing & Partnerships</div>
-              <div class="text-white text-2xl font-light">10%</div>
+              <div class="text-white text-2xl font-light">5%</div>
             </div>
             <p class="text-sm font-light text-gray-400">
-              Strategic partnerships, marketing initiatives, and ecosystem expansion
+              Marketing initiatives, community growth, and strategic partnerships
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Additional Info -->
-      <div class="mt-20 text-center">
-        <div class="inline-flex items-center space-x-2 font-light text-gray-400">
-          <span>Total Supply:</span>
-          <span class="text-[#00c7ff]">1B TOKENS</span>
+      <!-- Additional Token Info -->
+      <div class="mt-20 grid gap-8 md:grid-cols-3">
+        <div class="rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 text-center backdrop-blur-sm">
+          <div class="text-sm text-gray-400">Initial Market Cap</div>
+          <div class="text-2xl text-[#00c7ff]">$10M</div>
+        </div>
+        <div class="rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 text-center backdrop-blur-sm">
+          <div class="text-sm text-gray-400">Token Type</div>
+          <div class="text-2xl text-[#00c7ff]">SPL Token</div>
+        </div>
+        <div class="rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 text-center backdrop-blur-sm">
+          <div class="text-sm text-gray-400">Total Supply</div>
+          <div class="text-2xl text-[#00c7ff]">1B Tokens</div>
+        </div>
+      </div>
+
+      <!-- Token Utility & Benefits -->
+      <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div
+          class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-[#0052ff]/10"
+        >
+          <div class="mb-4 inline-block rounded-lg bg-[#0052ff]/10 p-3">
+            <Wallet class="h-6 w-6 text-[#00c7ff]" />
+          </div>
+          <h3 class="mb-2 text-lg font-light text-[#00c7ff]">Staking Rewards</h3>
+          <p class="text-sm text-gray-400">Earn up to 15% APY by staking your tokens in our protocol</p>
+        </div>
+
+        <div
+          class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-[#0052ff]/10"
+        >
+          <div class="mb-4 inline-block rounded-lg bg-[#0052ff]/10 p-3">
+            <Vote class="h-6 w-6 text-[#00c7ff]" />
+          </div>
+          <h3 class="mb-2 text-lg font-light text-[#00c7ff]">Governance Rights</h3>
+          <p class="text-sm text-gray-400">Participate in protocol decisions and shape the future of the ecosystem</p>
+        </div>
+
+        <div
+          class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-[#0052ff]/10"
+        >
+          <div class="mb-4 inline-block rounded-lg bg-[#0052ff]/10 p-3">
+            <Cpu class="h-6 w-6 text-[#00c7ff]" />
+          </div>
+          <h3 class="mb-2 text-lg font-light text-[#00c7ff]">AI Trading Signals</h3>
+          <p class="text-sm text-gray-400">
+            Access premium AI-powered Hyper-Finetuned market insights and trading signals
+          </p>
+        </div>
+
+        <div
+          class="group rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 backdrop-blur-sm transition-all duration-300 hover:bg-[#0052ff]/10"
+        >
+          <div class="mb-4 inline-block rounded-lg bg-[#0052ff]/10 p-3">
+            <Network class="h-6 w-6 text-[#00c7ff]" />
+          </div>
+          <h3 class="mb-2 text-lg font-light text-[#00c7ff]">Cross-Chain Bridge</h3>
+          <p class="text-sm text-gray-400">Seamlessly bridge assets across multiple blockchain networks</p>
+        </div>
+      </div>
+
+      <!-- Network Stats -->
+      <div class="mt-12 rounded-lg border border-[#0052ff]/10 bg-[#0052ff]/5 p-6 backdrop-blur-sm">
+        <div class="grid gap-8 md:grid-cols-4">
+          <div class="text-center">
+            <div class="text-3xl font-light text-[#00c7ff]">65k</div>
+            <div class="text-sm text-gray-400">TPS</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-light text-[#00c7ff]">0.00001</div>
+            <div class="text-sm text-gray-400">Transaction Cost ($)</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-light text-[#00c7ff]">400ms</div>
+            <div class="text-sm text-gray-400">Block Time</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-light text-[#00c7ff]">1,000+</div>
+            <div class="text-sm text-gray-400">Active Validators</div>
+          </div>
         </div>
       </div>
     </div>

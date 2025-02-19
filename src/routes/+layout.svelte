@@ -110,7 +110,7 @@
                 class="bg-gradient-to-r from-[#0052ff] to-[#00c7ff] bg-clip-text text-2xl
                           font-bold tracking-tight text-transparent"
               >
-                Trainalyze
+                VIGOR
               </span>
             </a>
           </div>
@@ -154,8 +154,8 @@
       <!-- Gradient Transition -->
       <div
         class="from-black/40 via-black/20 pointer-events-none fixed left-0 top-[79px] z-40
-               h-8 w-full bg-gradient-to-b to-transparent"
-      />
+          h-8 w-full bg-gradient-to-b to-transparent"
+      ></div>
     </div>
 
     <!-- Page Content -->
@@ -166,7 +166,7 @@
 
   <!-- Mobile Drawer -->
   <div class="drawer-side z-50">
-    <label for="navbar-drawer" class="drawer-overlay" />
+    <label for="navbar-drawer" class="drawer-overlay"></label>
     <div class="bg-black min-h-full w-80 p-4">
       <div class="flex flex-col gap-2">
         <a
@@ -199,7 +199,7 @@
 <footer class="bg-black border-t border-[#0052ff]/10 p-6 text-gray-300">
   <div class="container mx-auto flex flex-col items-center justify-between gap-4 md:flex-row">
     <div class="flex items-center gap-2">
-      <Logo className="fill-[#0052ff]" width="28" />
+      <Logo className="fill-[#0052ff]" width="28"></Logo>
       <p class="text-sm">Copyright © {new Date().getFullYear()} - All rights reserved</p>
     </div>
     <nav class="flex gap-6">
@@ -221,14 +221,15 @@
       target="_blank"
       rel="noopener"
       class="group relative flex items-center justify-center"
+      aria-label={link.name}
       on:mouseenter={() => (isHovered = link.name)}
       on:mouseleave={() => (isHovered = null)}
     >
       <div
         class="absolute -inset-2 rounded-full bg-gradient-to-r from-[#0052ff] to-[#00c7ff]
-               opacity-0 blur-lg transition-opacity duration-300"
+              opacity-0 blur-lg transition-opacity duration-300"
         class:opacity-30={isHovered === link.name}
-      />
+      ></div>
       <div
         class="bg-black/50 flex h-12 w-12 items-center justify-center rounded-xl backdrop-blur-xl
                transition-all duration-300 hover:bg-[#0052ff]/10 group-hover:-translate-y-1"
