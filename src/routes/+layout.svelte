@@ -124,7 +124,7 @@
             class="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-gray-300
                    transition-all duration-300 hover:scale-105 hover:bg-[#0052ff]/10
                    hover:text-[#00c7ff] {isActive('/roadmap')}"
-            href="/dietplanner"
+            href="/Roadmap"
           >
             <Map class="h-5 w-5" />
             <span>Roadmap</span>
@@ -133,7 +133,7 @@
             class="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-gray-300
                    transition-all duration-300 hover:scale-105 hover:bg-[#0052ff]/10
                    hover:text-[#00c7ff] {isActive('/community')}"
-            href="/landingpage"
+            href="/Community"
           >
             <Users class="h-5 w-5" />
             <span>Community</span>
@@ -142,7 +142,7 @@
             class="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-gray-300
                    transition-all duration-300 hover:scale-105 hover:bg-[#0052ff]/10
                    hover:text-[#00c7ff] {isActive('/docs')}"
-            href="/workout-planner"
+            href="/Documentation"
           >
             <FileText class="h-5 w-5" />
             <span>Docs</span>
