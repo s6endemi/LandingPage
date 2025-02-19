@@ -523,15 +523,15 @@
           <button
             class="group relative inline-flex items-center gap-2 rounded-full border border-[#0052ff]/20 bg-[#0052ff]/5 px-6 py-2 backdrop-blur-sm transition-all duration-300 hover:border-[#0052ff]/40 hover:bg-[#0052ff]/10"
             on:click={() => {
-              navigator.clipboard.writeText("");
+              navigator.clipboard.writeText("AB5ZXPQeTexkkKKuFWvC8af9nDhk153tkCBJaarvpump");
               copiedAddress = "";
               setTimeout(() => (copiedAddress = null), 2000);
             }}
           >
             <span class="text-sm text-gray-400">CA:</span>
-            <span class="font-mono text-sm text-[#00c7ff]"></span>
+            <span class="font-mono text-sm text-[#00c7ff]">AB5ZXPQeTexkkKKuFWvC8af9nDhk153tkCBJaarvpump</span>
             <Link class="h-4 w-4 text-[#00c7ff] opacity-60 transition-opacity group-hover:opacity-100" />
-            {#if copiedAddress === ""}
+            {#if copiedAddress === "AB5ZXPQeTexkkKKuFWvC8af9nDhk153tkCBJaarvpump"}
               <div
                 class="absolute -bottom-8 left-1/2 -translate-x-1/2 rounded-full bg-[#0052ff]/20 px-3 py-1 text-xs text-[#00c7ff]"
               >
