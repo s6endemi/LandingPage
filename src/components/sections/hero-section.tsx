@@ -1,513 +1,266 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
-import { ShimmerButton } from "@/components/magicui/shimmer-button";
-import { BorderBeam } from "@/components/magicui/border-beam";
-import { SparklesCore } from "@/components/aceternity/sparkles";
-import { Globe } from "@/components/magicui/globe";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Particles } from "@/components/magicui/particles";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(headlineRef, { once: false, amount: 0.3 });
-  const controls = useAnimation();
-  const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
-    if (isInView) {
-      controls.start("visible");
-    }
-  }, [controls, isInView]);
-
-  // Features mit Icons
-  const features = [
+  const [hoveredBenefit, setHoveredBenefit] = useState<number | null>(null);
+  
+  // Parallax scroll effect (subtler)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  
+  // Stylized benefit items with hover effect
+  const benefits = [
     {
-      title: "Kognitive Analyse",
-      description: "Versteht deinen Kontext & Prioritäten",
+      title: "Personalisierte Trainingspläne",
+      description: "Die sich kontinuierlich mit deinem Fortschritt entwickeln",
       icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 12L11 14L15 10M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" 
+            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       ),
     },
     {
-      title: "Adaptive Intelligenz",
-      description: "Lernt und wächst mit deinen Bedürfnissen",
+      title: "Ernährungscoaching",
+      description: "Maßgeschneiderte Ernährungspläne für optimale Ergebnisse",
       icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 18H21M3 12H21M3 6H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       ),
     },
     {
-      title: "Intuitive Integration",
-      description: "Funktioniert nahtlos mit allen deinen Tools",
+      title: "24/7 Motivation & Feedback",
+      description: "Dein persönlicher KI-Coach begleitet dich rund um die Uhr",
       icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 14V16M12 8V12M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" 
+            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       ),
     },
   ];
 
-  // Animation für die Headline-Striche
-  const strokeVariants = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: {
-      pathLength: 1,
-      opacity: 1,
-      transition: {
-        pathLength: { duration: 1.5, ease: "easeInOut" },
-        opacity: { duration: 0.3 }
-      }
-    }
-  };
-
-  // Animation für die Headline-Buchstaben
-  const letterVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: 0.05 * i,
-        duration: 0.5
-      }
-    })
-  };
-
-  // Headline Text
-  const headlineText = "SYNAPSE";
-  const headlineLetters = headlineText.split("");
-
   return (
-    <div className="relative min-h-screen overflow-hidden" ref={containerRef} id="hero">
-      {/* Hintergrund mit subtilen Elementen */}
-
-      {/* Subtile funkelnde Partikel */}
-      <div className="absolute inset-0 opacity-40">
-        <SparklesCore
-          id="hero-sparkles"
-          background="transparent"
-          minSize={0.2}
-          maxSize={1.0}
-          particleColor="#AAAAAA"
-          particleDensity={30}
+    <div 
+      id="hero" 
+      ref={containerRef}
+      className="relative min-h-screen overflow-hidden py-12"
+    >
+      {/* Very subtle particles background */}
+      <div className="absolute inset-0 -z-10 opacity-10">
+        <Particles
+          className="h-full w-full"
+          quantity={50}
+          color="#8AAE39"
+          size={1}
         />
       </div>
 
-      <motion.div
-        className="flex flex-col items-center justify-center px-4 py-24 min-h-screen"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="max-w-6xl mx-auto w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Linke Spalte: Text und CTA */}
-            <motion.div
-              className="lg:col-span-6 text-center lg:text-left"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+      <div className="container mx-auto px-4 py-16 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        {/* Content Column */}
+        <div className="flex-1 text-center lg:text-left z-10">
+          {/* Subtle logo animation */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
+          >
+            <svg 
+              className="w-12 h-12 mx-auto lg:mx-0"
+              viewBox="0 0 100 100" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
             >
-              {/* Neue Premium Headline mit SVG Animation statt MorphingText */}
-              <div className="mb-8 z-10 relative h-24" ref={headlineRef}>
-                <div className="relative">
-                  {/* SVG Hintergrund-Animation */}
-                  <svg
-                    className="absolute -top-6 -left-2 w-full h-40 opacity-50"
-                    viewBox="0 0 300 100"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <motion.path
-                      d="M10,50 C30,20 70,20 90,50 C110,80 150,80 170,50 C190,20 230,20 250,50 C270,80 310,80 330,50"
-                      stroke="url(#gradient)"
-                      strokeWidth="0.5"
-                      strokeLinecap="round"
-                      variants={strokeVariants}
-                      initial="hidden"
-                      animate={controls}
-                    />
-                    <motion.path
-                      d="M10,70 C50,40 90,100 130,70 C170,40 210,100 250,70 C290,40 330,100 370,70"
-                      stroke="url(#gradient)"
-                      strokeWidth="0.5"
-                      strokeLinecap="round"
-                      variants={strokeVariants}
-                      initial="hidden"
-                      animate={controls}
-                    />
-                    <defs>
-                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#888888" stopOpacity="0.1" />
-                        <stop offset="50%" stopColor="#DDDDDD" stopOpacity="0.8" />
-                        <stop offset="100%" stopColor="#888888" stopOpacity="0.1" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
+              <path 
+                d="M50 5L90 80H75L50 30L25 80H10L50 5Z" 
+                fill="#8AAE39" 
+              />
+              <path 
+                d="M25 80H75H90L75 100H25L10 80H25Z" 
+                fill="#8AAE39" 
+              />
+            </svg>
+          </motion.div>
 
-                  {/* Animierter Headline Text */}
-                  <div className="relative flex justify-center lg:justify-start">
-                    {headlineLetters.map((letter, i) => (
-                      <motion.span
-                        key={i}
-                        custom={i}
-                        variants={letterVariants}
-                        initial="hidden"
-                        animate={controls}
-                        className="text-5xl md:text-7xl font-bold tracking-tight [text-shadow:0_0_30px_rgba(180,180,220,0.3)] bg-clip-text text-transparent bg-gradient-to-b from-zinc-100 via-zinc-300 to-zinc-400"
-                      >
-                        {letter}
-                      </motion.span>
-                    ))}
+          {/* Headline with subtle animation */}
+          <div className="mb-5">
+            <motion.h1 
+              className="font-manrope text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
+              Dein persönlicher<br />
+              <span className="text-[#8AAE39] relative inline-block">
+                KI-Fitness Coach
+                {/* Elegante Unterstreichung mit Animation */}
+                <motion.div 
+                  className="absolute bottom-2 left-0 h-[3px] bg-[#8AAE39]/20"
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1.2, delay: 0.7, ease: "easeInOut" }}
+                ></motion.div>
+              </span>
+            </motion.h1>
+          </div>
+          
+          {/* Subheadline with subtle motion */}
+          <motion.p 
+            className="text-lg md:text-xl text-gray-600 mb-10 max-w-xl mx-auto lg:mx-0 font-light"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            Trainiere smarter mit KI, die sich an dich anpasst und dich rund um die Uhr begleitet.
+          </motion.p>
+          
+          {/* Benefits List with subtle hover */}
+          <div className="mb-10 space-y-5 max-w-lg mx-auto lg:mx-0">
+            {benefits.map((benefit, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
+                className={`flex items-start p-2 rounded-lg transition-all duration-300
+                  ${hoveredBenefit === index ? 'bg-white/30' : 'bg-transparent'}`}
+                onMouseEnter={() => setHoveredBenefit(index)}
+                onMouseLeave={() => setHoveredBenefit(null)}
+              >
+                <div className={`flex-shrink-0 p-2 rounded-full mr-3 transition-colors duration-300
+                  ${hoveredBenefit === index ? 'bg-[#8AAE39]/10 text-[#8AAE39]' : 'text-gray-500'}`}>
+                  {benefit.icon}
+                </div>
+                <div>
+                  <h3 className="font-medium text-gray-800 text-base">{benefit.title}</h3>
+                  <p className="text-gray-600 mt-1 text-sm">{benefit.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* CTA Buttons with subtle hover */}
+          <motion.div 
+            className="flex flex-wrap gap-4 mt-8 justify-center lg:justify-start"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
+            <button
+              className="relative bg-[#8AAE39] text-white rounded-lg px-6 py-3 font-medium shadow-sm hover:shadow-md hover:bg-[#8AAE39]/90 transition-all duration-300 overflow-hidden group"
+            >
+              {/* Subtle shine effect */}
+              <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+              <span className="flex items-center">
+                Jetzt starten
+                <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </span>
+            </button>
+            
+            <button className="bg-white/80 backdrop-blur-sm hover:bg-white border border-gray-200 text-gray-700 rounded-lg px-6 py-3 font-medium transition-all duration-300 hover:text-[#8AAE39] hover:border-[#8AAE39]/30">
+              Mehr erfahren
+            </button>
+          </motion.div>
+          
+          {/* Trust Indicators with subtle animation */}
+          <motion.div 
+            className="mt-14 flex flex-wrap justify-center lg:justify-start items-center gap-8 text-sm text-gray-500"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+          >
+            {[
+              { value: "30+", label: "aktive Tester" },
+              { value: "9,99€", label: "pro Monat" },
+              { value: "24/7", label: "Verfügbarkeit" }
+            ].map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <span className="font-semibold text-[#8AAE39] text-lg">{item.value}</span> 
+                <span className="text-gray-600">{item.label}</span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+        
+        {/* Image/Device Column with subtle parallax */}
+        <motion.div 
+          className="flex-1 z-10"
+          style={{ y }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          <div className="relative mx-auto max-w-[300px]">
+            {/* Very subtle glow behind the phone */}
+            <div className="absolute inset-0 -z-10 blur-3xl rounded-full bg-[#8AAE39]/5 animate-pulse" 
+                style={{ animationDuration: '10s' }}></div>
+            
+            {/* Simplified iPhone Mockup */}
+            <div className="relative rounded-[40px] border-[14px] border-[#111] bg-[#111] shadow-md">
+              {/* Empty Screen Content */}
+              <div className="relative overflow-hidden rounded-[26px] bg-[#f4f2ec] h-[520px]">
+                {/* Notch */}
+                <div className="absolute left-1/2 top-0 h-7 w-1/2 -translate-x-1/2 rounded-b-3xl bg-[#111]"></div>
+                
+                {/* Empty Screen with subtle gradient */}
+                <div className="h-full w-full bg-gradient-to-b from-[#f8f6f0] to-[#f4f2ec]">
+                  {/* App Bar with subtle gradient */}
+                  <div className="h-16 bg-gradient-to-r from-[#8AAE39] to-[#9abe4a] px-4 flex items-center">
+                    <div className="flex items-center">
+                      <svg className="h-5 w-5 text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 5L90 80H75L50 30L25 80H10L50 5Z" stroke="white" strokeWidth="3" />
+                        <path d="M25 80H75H90L75 100H25L10 80H25Z" stroke="white" strokeWidth="3" />
+                      </svg>
+                      <span className="ml-2 text-white font-medium text-sm">Athly</span>
+                    </div>
                   </div>
-
-                  {/* Glänzender Unterstreifen */}
-                  <motion.div
-                    className="absolute -bottom-2 left-0 h-0.5 bg-gradient-to-r from-transparent via-zinc-400 to-transparent"
-                    initial={{ width: 0, left: "50%" }}
-                    animate={{ width: "100%", left: "0%" }}
-                    transition={{ duration: 1.5, delay: 1 }}
-                  />
-
-                  {/* Glanzpunkte */}
-                  <motion.div
-                    className="absolute top-1/2 left-1/4 w-1 h-1 bg-white rounded-full opacity-0"
-                    animate={{
-                      opacity: [0, 1, 0],
-                      scale: [0.5, 1.5, 0.5]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatDelay: 3
-                    }}
-                  />
-                  <motion.div
-                    className="absolute top-0 right-1/3 w-1 h-1 bg-white rounded-full opacity-0"
-                    animate={{
-                      opacity: [0, 1, 0],
-                      scale: [0.5, 1.5, 0.5]
-                    }}
-                    transition={{
-                      duration: 2,
-                      delay: 1.5,
-                      repeat: Infinity,
-                      repeatDelay: 4
-                    }}
-                  />
                 </div>
               </div>
-
-              {/* Eleganter, statischer Untertitel */}
-              <h2 className="text-xl md:text-2xl font-light mb-8 text-zinc-300">
-                <span className="relative inline-block">
-                  Intelligenz, die dich wirklich versteht
-                  <motion.span
-                    className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-zinc-500/0 via-zinc-400/50 to-zinc-500/0"
-                    initial={{ width: 0, left: "50%" }}
-                    animate={{ width: "100%", left: "0%" }}
-                    transition={{ duration: 1.5, delay: 0.5 }}
-                  />
-                </span>
-              </h2>
-
-              <p className="text-zinc-400 text-lg max-w-xl mx-auto lg:mx-0 mb-8">
-                SYNAPSE erweitert deine kognitiven Fähigkeiten durch adaptive Intelligenz,
-                die dich wirklich kennt. Erlebe, wie eine KI dich endlich <em>versteht</em> und
-                proaktiv unterstützt – ohne dass du es erklären musst.
-              </p>
-
-              {/* Feature Liste */}
-              <div className="space-y-4 mb-8">
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-zinc-900/30 transition-colors duration-300 border border-transparent hover:border-zinc-800/50 group"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
-                    whileHover={{ x: 5 }}
-                  >
-                    <div className="bg-zinc-900/70 border border-zinc-800/50 rounded-full p-2 text-blue-400 group-hover:border-zinc-700 group-hover:text-blue-300 transition-colors duration-300">
-                      {feature.icon}
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-zinc-200 group-hover:text-zinc-100">{feature.title}</h3>
-                      <p className="text-zinc-500 text-sm group-hover:text-zinc-400">{feature.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* CTA Buttons */}
-              <motion.div
-                className="flex flex-wrap gap-4 mt-8"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-              >
-                <ShimmerButton
-                  className="rounded-full px-8 py-3.5 text-base font-semibold text-zinc-950 shadow-[0_0_20px_rgba(80,80,160,0.2)]"
-                  shimmerColor="rgba(180, 180, 220, 0.5)"
-                  shimmerDuration="2s"
-                  background="linear-gradient(110deg, #D1D1D1, #EEEEEE, #A1A1A1)"
-                >
-                  Frühen Zugang sichern
-                </ShimmerButton>
-
-                <motion.button
-                  whileHover={{ scale: 1.05, borderColor: "rgba(180, 180, 220, 0.5)" }}
-                  whileTap={{ scale: 0.98 }}
-                  className="rounded-full px-8 py-3.5 text-base font-medium bg-transparent border border-zinc-700 text-zinc-400 hover:text-zinc-200 hover:shadow-[0_0_20px_rgba(80,80,160,0.15)] transition-all duration-300"
-                >
-                  Demo erleben
-                </motion.button>
-              </motion.div>
-            </motion.div>
-
-            {/* Rechte Spalte: Visuelle Darstellung */}
+            </div>
+            
+            {/* Subtle floating tags */}
             <motion.div
-              className="lg:col-span-6"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              className="absolute -right-4 top-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm px-3 py-2 text-xs border border-gray-100"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
             >
-              <div
-                className="relative aspect-square max-w-xl mx-auto rounded-2xl overflow-hidden border border-zinc-800/30 bg-gradient-to-b from-zinc-900/5 to-zinc-900/10 backdrop-blur-[2px] shadow-[0_0_35px_rgba(0,0,0,0.2)]"
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-              >
-                <BorderBeam className="absolute inset-0 opacity-40" />
-
-                {/* Interaktive Visualisierung mit 3D-Effekt */}
-                                {/* Interaktive Visualisierung mit 3D-Effekt */}
-                                <motion.div
-                  className="absolute inset-0 flex items-center justify-center"
-                  animate={{
-                    scale: isHovering ? 1.05 : 1,
-                    rotateY: isHovering ? 5 : 0,
-                    rotateX: isHovering ? -5 : 0,
-                  }}
-                  transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                >
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    {/* Subtle glow behind the globe */}
-                    <div className="absolute w-2/3 h-2/3 rounded-full bg-blue-500/5 blur-2xl"></div>
-                    
-                    <Globe className="w-5/6 h-5/6 opacity-90 relative z-10" />
-
-                    {/* Enhanced orbital rings with beaming effects */}
-                    <motion.div
-                      className="absolute inset-0"
-                      animate={{ rotateZ: 360 }}
-                      transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-                    >
-                      {/* Outer orbit with animated gradient */}
-                      <div className="absolute top-1/2 left-1/2 w-[75%] h-[75%] -translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden">
-                        <div className="absolute inset-0 border border-zinc-700/30 rounded-full"></div>
-                        
-                        {/* Animated beam along the path */}
-                        <motion.div 
-                          className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400/70 rounded-full shadow-[0_0_10px_3px_rgba(120,170,255,0.4)]"
-                          animate={{ 
-                            rotate: 360
-                          }}
-                          transition={{ 
-                            duration: 8, 
-                            repeat: Infinity, 
-                            ease: "linear" 
-                          }}
-                        />
-                      </div>
-                    </motion.div>
-
-                    <motion.div
-                      className="absolute inset-0"
-                      animate={{ rotateZ: -360 }}
-                      transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-                    >
-                      {/* Inner orbit with animated gradient */}
-                      <div className="absolute top-1/2 left-1/2 w-[90%] h-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full overflow-hidden">
-                        <div className="absolute inset-0 border border-zinc-700/20 rounded-full"></div>
-                        
-                        {/* Animated beam along the path */}
-                        <motion.div 
-                          className="absolute top-0 right-1/2 translate-x-1/2 w-1 h-1 bg-indigo-400/70 rounded-full shadow-[0_0_10px_3px_rgba(130,130,255,0.4)]"
-                          animate={{ 
-                            rotate: -360
-                          }}
-                          transition={{ 
-                            duration: 12, 
-                            repeat: Infinity, 
-                            ease: "linear" 
-                          }}
-                        />
-                      </div>
-                    </motion.div>
-                    
-                    {/* Additional diagonal orbit for more dynamic look */}
-                    <motion.div
-                      className="absolute inset-0"
-                      animate={{ rotateZ: 180 }}
-                      transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-                      style={{ transform: "rotateX(60deg)" }}
-                    >
-                      <div className="absolute top-1/2 left-1/2 w-[65%] h-[65%] -translate-x-1/2 -translate-y-1/2 border border-zinc-700/15 rounded-full"></div>
-                      
-                      {/* Animated beam along the diagonal path */}
-                      <motion.div 
-                        className="absolute top-[8%] left-1/2 -translate-x-1/2 w-1 h-1 bg-violet-400/70 rounded-full shadow-[0_0_10px_3px_rgba(150,120,230,0.4)]"
-                        animate={{ 
-                          rotate: 360
-                        }}
-                        transition={{ 
-                          duration: 15, 
-                          repeat: Infinity, 
-                          ease: "linear" 
-                        }}
-                      />
-                    </motion.div>
-
-                    {/* Premium Pulsierende Punkte with enhanced glow */}
-                    {[...Array(5)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className="absolute w-1.5 h-1.5 rounded-full bg-zinc-300/70 shadow-[0_0_8px_2px_rgba(180,180,220,0.3)]"
-                        initial={{
-                          x: Math.random() * 300 - 150,
-                          y: Math.random() * 300 - 150,
-                        }}
-                        animate={{
-                          x: Math.random() * 300 - 150,
-                          y: Math.random() * 300 - 150,
-                          opacity: [0.3, 0.8, 0.3],
-                          scale: [0.7, 1.3, 0.7],
-                        }}
-                        transition={{
-                          duration: 5 + Math.random() * 10,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                        }}
-                      />
-                    ))}
-                    
-                    {/* Enhanced beam rays from center */}
-                    {[...Array(8)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className="absolute top-1/2 left-1/2 origin-center h-0.5 bg-gradient-to-r from-blue-400/40 to-transparent"
-                        style={{ 
-                          width: '30%', 
-                          rotate: `${i * 45}deg`,
-                          translateX: '-50%',
-                          translateY: '-50%'
-                        }}
-                        animate={{
-                          opacity: [0.1, 0.3, 0.1],
-                          width: ['30%', '35%', '30%']
-                        }}
-                        transition={{
-                          duration: 3,
-                          delay: i * 0.4,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                        }}
-                      />
-                    ))}
-                    
-                    {/* Enhanced central pulse */}
-                    <motion.div
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-zinc-800/50 backdrop-blur-sm rounded-full flex items-center justify-center z-10"
-                      animate={{ 
-                        boxShadow: [
-                          "0 0 0 0 rgba(120, 150, 220, 0)",
-                          "0 0 0 12px rgba(120, 150, 220, 0.15)",
-                          "0 0 0 25px rgba(120, 150, 220, 0)",
-                        ]
-                      }}
-                      transition={{ 
-                        duration: 2.5, 
-                        repeat: Infinity,
-                        ease: "easeInOut" 
-                      }}
-                    >
-                      <motion.div 
-                        className="w-4 h-4 rounded-full bg-gradient-to-b from-blue-400 to-indigo-600 shadow-[0_0_10px_2px_rgba(130,150,255,0.5)]"
-                        animate={{ 
-                          opacity: [0.7, 1, 0.7],
-                          scale: [0.9, 1.1, 0.9] 
-                        }}
-                        transition={{ 
-                          duration: 3, 
-                          repeat: Infinity,
-                          ease: "easeInOut" 
-                        }}
-                      />
-                    </motion.div>
-                  </div>
-                </motion.div>
+              <div className="flex items-center gap-2">
+                <svg className="h-4 w-4 text-[#8AAE39]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="font-medium text-gray-700">24/7 Verfügbar</span>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              className="absolute -left-4 bottom-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm px-3 py-2 text-xs border border-gray-100"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1 }}
+            >
+              <div className="flex items-center gap-2">
+                <svg className="h-4 w-4 text-[#8AAE39]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span className="font-medium text-gray-700">Personalisiert für dich</span>
               </div>
             </motion.div>
           </div>
-        </div>
-
-        {/* Statistiken unten */}
-        <motion.div
-          className="grid grid-cols-3 gap-8 mt-12 max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-        >
-          {[
-            { value: "97%", label: "Erkennungsrate" },
-            { value: "3.4x", label: "Produktivitätssteigerung" },
-            { value: "<10ms", label: "Reaktionszeit" }
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              className="text-center group"
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <motion.div
-                className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-100 to-zinc-400 mb-1 relative"
-                whileHover={{ scale: 1.05 }}
-              >
-                {stat.value}
-                <motion.div
-                  className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-transparent via-zinc-400/50 to-transparent"
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
-              <div className="text-zinc-500 text-sm group-hover:text-zinc-400 transition-colors">{stat.label}</div>
-            </motion.div>
-          ))}
         </motion.div>
-      </motion.div>
-
-      {/* Scroll-Indikator */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-zinc-500"
-        initial={{ opacity: 0 }}
-        animate={{
-          opacity: 1,
-          y: [0, 10, 0]
-        }}
-        transition={{
-          opacity: { delay: 1.5, duration: 1 },
-          y: { repeat: Infinity, duration: 2, ease: "easeInOut" }
-        }}
-      >
-        <span className="text-xs mb-2">Mehr entdecken</span>
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </motion.div>
+      </div>
     </div>
   );
 }
