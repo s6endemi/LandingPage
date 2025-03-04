@@ -1,8 +1,7 @@
-import { HeroSection } from "@/components/sections/hero-section";
-import { FeaturesBenefitsSection } from "@/components/sections/features-section";
-import { EnhancedShowcaseSection } from "@/components/sections/showcase-section";
-import { SocialProofSection } from "@/components/sections/testimonials-section";
-import { ProblemSection } from "@/components/sections/problem-section";
+import { ProfessionalHeroSection } from "@/components/sections/hero-section";
+import { AthlyFeatureSteps } from "@/components/sections/features-section";
+import { EnhancedSocialProofSection } from "@/components/sections/testimonials-section";
+import { ElegantProblemSection } from "@/components/sections/problem-section";
 import { SolutionSection } from "@/components/sections/solution-section";
 import { FinalCtaSection } from "@/components/sections/cta-section";
 
@@ -12,12 +11,11 @@ import { FinalCtaSection } from "@/components/sections/cta-section";
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <HeroSection />
-      <ProblemSection />
+      <ProfessionalHeroSection />
+      <ElegantProblemSection />
       <SolutionSection />
-      <FeaturesBenefitsSection />
-      <EnhancedShowcaseSection />
-      <SocialProofSection />
+      <AthlyFeatureSteps />
+      <EnhancedSocialProofSection />
       <FinalCtaSection />
       
       {/* Hier können später weitere Sektionen wie Preise, etc. hinzugefügt werden */}

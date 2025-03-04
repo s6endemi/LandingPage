@@ -34,7 +34,7 @@ export const AthlyAurora = ({
             repeating-linear-gradient(100deg, rgba(138,174,57,0.5) 10%, rgba(152,196,83,0.4) 15%, rgba(168,210,100,0.3) 20%, rgba(180,224,120,0.2) 25%, rgba(152,196,83,0.4) 30%);
           background-size: 300% 200%, 300% 200%;
           background-position: 0% 50%, 0% 50%;
-          animation: aurora 70s ease-in-out infinite; /* Langsamer und sanfter */
+          animation: aurora 60s ease-in-out infinite; /* Langsamer und sanfter */
         }
 
         .aurora-after {
@@ -46,7 +46,7 @@ export const AthlyAurora = ({
             repeating-linear-gradient(100deg, rgba(138,174,57,0.5) 10%, rgba(152,196,83,0.4) 15%, rgba(168,210,100,0.3) 20%, rgba(180,224,120,0.2) 25%, rgba(152,196,83,0.4) 30%);
           background-size: 300% 200%, 300% 200%;
           background-position: 0% 50%, 0% 50%;
-          animation: aurora 85s ease-in-out infinite; /* Langsamer und leicht verzögert */
+          animation: aurora 80s ease-in-out infinite; /* Langsamer und leicht verzögert */
           background-attachment: fixed;
           mix-blend-mode: difference;
         }
