@@ -16,11 +16,11 @@ export function HeroSection() {
   
   const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
   
-  // Stylized benefit items with hover effect
+  // Optimized benefits with clearer WHO/WHY focus
   const benefits = [
     {
-      title: "Personalisierte Trainingspläne",
-      description: "Die sich kontinuierlich mit deinem Fortschritt entwickeln",
+      title: "Individuelle Betreuung",
+      description: "Schluss mit generischen Trainingsplänen, die nicht zu dir passen",
       icon: (
         <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M9 12L11 14L15 10M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" 
@@ -29,8 +29,8 @@ export function HeroSection() {
       ),
     },
     {
-      title: "Ernährungscoaching",
-      description: "Maßgeschneiderte Ernährungspläne für optimale Ergebnisse",
+      title: "Echte Anpassung",
+      description: "Dein Plan entwickelt sich, wenn du dich entwickelst – wie ein echter Trainer",
       icon: (
         <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3 18H21M3 12H21M3 6H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -38,8 +38,8 @@ export function HeroSection() {
       ),
     },
     {
-      title: "24/7 Motivation & Feedback",
-      description: "Dein persönlicher KI-Coach begleitet dich rund um die Uhr",
+      title: "Motivation, die wirkt",
+      description: "24/7 Unterstützung genau dann, wenn du sie am meisten brauchst",
       icon: (
         <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 14V16M12 8V12M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" 
@@ -92,7 +92,7 @@ export function HeroSection() {
             </svg>
           </motion.div>
 
-          {/* Headline with subtle animation */}
+          {/* Headline with WHO/WHY/WHAT framework */}
           <div className="mb-5">
             <motion.h1 
               className="font-manrope text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
@@ -100,9 +100,9 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
             >
-              Dein persönlicher<br />
+              Für Fitness-Enthusiasten, die<br />
               <span className="text-[#8AAE39] relative inline-block">
-                KI-Fitness Coach
+                mehr als eine App wollen
                 {/* Elegante Unterstreichung mit Animation */}
                 <motion.div 
                   className="absolute bottom-2 left-0 h-[3px] bg-[#8AAE39]/20"
@@ -114,14 +114,14 @@ export function HeroSection() {
             </motion.h1>
           </div>
           
-          {/* Subheadline with subtle motion */}
+          {/* Subheadline with clearer WHY focus */}
           <motion.p 
             className="text-lg md:text-xl text-gray-600 mb-10 max-w-xl mx-auto lg:mx-0 font-light"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            Trainiere smarter mit KI, die sich an dich anpasst und dich rund um die Uhr begleitet.
+            Dein KI-Fitness-Coach trainiert dich persönlich, adaptiv und rund um die Uhr – genau wie ein echter Personal Trainer, nur ohne die hohen Kosten.
           </motion.p>
           
           {/* Benefits List with subtle hover */}
@@ -149,7 +149,7 @@ export function HeroSection() {
             ))}
           </div>
           
-          {/* CTA Buttons with subtle hover */}
+          {/* CTA Buttons with benefit-driven primary CTA */}
           <motion.div 
             className="flex flex-wrap gap-4 mt-8 justify-center lg:justify-start"
             initial={{ opacity: 0, y: 10 }}
@@ -162,7 +162,7 @@ export function HeroSection() {
               {/* Subtle shine effect */}
               <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
               <span className="flex items-center">
-                Jetzt starten
+                Deinen persönlichen Coach sichern
                 <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
@@ -170,7 +170,7 @@ export function HeroSection() {
             </button>
             
             <button className="bg-white/80 backdrop-blur-sm hover:bg-white border border-gray-200 text-gray-700 rounded-lg px-6 py-3 font-medium transition-all duration-300 hover:text-[#8AAE39] hover:border-[#8AAE39]/30">
-              Mehr erfahren
+              Wie es funktioniert
             </button>
           </motion.div>
           
