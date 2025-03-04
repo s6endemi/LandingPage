@@ -3,7 +3,7 @@ import { AthlyFeatureSteps } from "@/components/sections/features-section";
 import { EnhancedSocialProofSection } from "@/components/sections/testimonials-section";
 import { ElegantProblemSection } from "@/components/sections/problem-section";
 import { SolutionSection } from "@/components/sections/solution-section";
-import { FinalCtaSection } from "@/components/sections/cta-section";
+import { FinalWaitlistCta } from "@/components/sections/cta-section";
 
 
 
@@ -16,7 +16,7 @@ export default function Home() {
       <SolutionSection />
       <AthlyFeatureSteps />
       <EnhancedSocialProofSection />
-      <FinalCtaSection />
+      <FinalWaitlistCta />
       
       {/* Hier können später weitere Sektionen wie Preise, etc. hinzugefügt werden */}
     </div>

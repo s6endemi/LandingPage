@@ -1,345 +1,388 @@
 "use client";
 
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Particles } from "@/components/magicui/particles";
 
-export function FinalCtaSection() {
+export function FinalWaitlistCta() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  
+  // Parallax & Animation Effekte
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
   
-  // Subtle parallax effects
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -40]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -20]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const opacity = useTransform(scrollYProgress, [0.3, 0.6], [0.9, 1]);
   
-  // Features für die zusammenfassende Liste
-  const keyBenefits = [
-    {
-      title: "Persönlicher KI-Coach",
-      description: "24/7 verfügbar für Fragen, Motivation & Trainingsanpassungen",
-      icon: (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
-        </svg>
-      )
-    },
-    {
-      title: "Personalisiertes Training",
-      description: "Intelligente Anpassung an deine Fortschritte, Limitationen & Zeitplan",
-      icon: (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="currentColor"/>
-        </svg>
-      )
-    },
-    {
-      title: "Kontinuierliche Motivation",
-      description: "Bleibe motiviert mit personalisierten Anreizen & Erfolgserlebnissen",
-      icon: (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13.5 10H20V12H13.5V10ZM13.5 15H20V17H13.5V15ZM13.5 5H20V7H13.5V5ZM8 5H10V7H8V5ZM8 10H10V12H8V10ZM8 15H10V17H8V15ZM4.5 5H6.5V7H4.5V5ZM4.5 10H6.5V12H4.5V10ZM4.5 15H6.5V17H4.5V15Z" fill="currentColor"/>
-        </svg>
-      )
-    },
-    {
-      title: "Maßgeschneiderte Ernährung",
-      description: "Ernährungspläne angepasst an deine Vorlieben, Allergien & Ziele",
-      icon: (
-        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11 9H9V2H7V9H5V2H3V9C3 11.12 4.66 12.84 6.75 12.97V22H9.25V12.97C11.34 12.84 13 11.12 13 9V2H11V9ZM16 6V14H18.5V22H21V2C18.24 2 16 4.24 16 6Z" fill="currentColor"/>
-        </svg>
-      )
+  // Email validieren
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+  
+  // Form Submit
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isValidEmail(email)) {
+      setSubmitted(true);
+      // Hier würde normalerweise der API-Call zur Wartelisten-Eintragung stehen
+    } else if (inputRef.current) {
+      inputRef.current.focus();
     }
-  ];
-
-  // Preis-Tiers
-  const pricingOptions = [
-    {
-      name: "Früher Zugang",
-      price: "9,99€",
-      period: "pro Monat",
-      features: [
-        "Persönlicher KI-Coach",
-        "Unbegrenzte Trainingspläne",
-        "Anpassbare Ernährungspläne",
-        "24/7 Unterstützung",
-        "30 Tage Geld-zurück-Garantie"
-      ],
-      cta: "Jetzt starten",
-      highlighted: true
-    },
-    {
-      name: "Jährliches Abo",
-      price: "7,99€",
-      period: "pro Monat, jährlich gezahlt",
-      features: [
-        "Alle Features des monatlichen Plans",
-        "2 Monate gratis",
-        "Erweiterte Statistiken",
-        "Vorrangiger Support",
-        "Demnächst verfügbar"
-      ],
-      cta: "Bald erhältlich",
-      highlighted: false,
-      disabled: true
-    }
-  ];
+  };
 
   return (
-    <section ref={containerRef} className="py-20 relative overflow-hidden bg-gradient-to-b from-white to-gray-50">
-      {/* Subtle particle background */}
+    <section 
+      ref={containerRef}
+      className="relative py-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 isolate"
+    >
+      {/* Hintergrundeffekte */}
       <div className="absolute inset-0 -z-10">
-        <Particles
-          className="h-full w-full"
-          quantity={40}
-          color="#8AAE39"
-          size={1}
-        />
-      </div>
-      
-      <div className="container mx-auto px-4">
-        {/* Headline and Subheadline */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4 text-gray-900"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Erlebe deine Fitness-Transformation mit Athly
-          </motion.h2>
-          <motion.p 
-            className="text-lg text-gray-600"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            Dein persönlicher KI-Coach unterstützt dich auf jedem Schritt deiner Fitness-Reise, 
-            egal wo du gerade stehst.
-          </motion.p>
-        </div>
+        {/* Hintergrund Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white to-gray-50"></div>
         
-        {/* Image with Key Benefits */}
-        <div className="grid md:grid-cols-2 gap-10 items-center max-w-6xl mx-auto mb-20">
-          {/* Image Side with Parallax */}
-          <motion.div 
-            className="relative"
-            style={{ y: y1 }}
-          >
-            <div className="relative mx-auto max-w-[300px]">
-              {/* Glow behind the phone */}
-              <div className="absolute inset-0 -z-10 blur-3xl rounded-full bg-[#8AAE39]/5 animate-pulse" 
-                  style={{ animationDuration: '10s' }}></div>
-              
-              {/* Phone Mockup */}
-              <div className="relative rounded-[40px] border-[14px] border-[#111] bg-[#111] shadow-lg">
-                {/* Screen Content */}
-                <div className="relative overflow-hidden rounded-[26px] bg-[#f4f2ec] h-[520px]">
-                  {/* Notch */}
-                  <div className="absolute left-1/2 top-0 h-7 w-1/2 -translate-x-1/2 rounded-b-3xl bg-[#111]"></div>
-                  
-                  {/* App Interface Mockup */}
-                  <div className="h-full w-full bg-gradient-to-b from-[#f8f6f0] to-[#f4f2ec]">
-                    {/* App Bar */}
-                    <div className="h-16 bg-gradient-to-r from-[#8AAE39] to-[#9abe4a] px-4 flex items-center">
-                      <div className="flex items-center">
-                        <svg className="h-5 w-5 text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M50 5L90 80H75L50 30L25 80H10L50 5Z" stroke="white" strokeWidth="3" />
-                          <path d="M25 80H75H90L75 100H25L10 80H25Z" stroke="white" strokeWidth="3" />
-                        </svg>
-                        <span className="ml-2 text-white font-medium text-sm">Athly</span>
-                      </div>
-                    </div>
-                    
-                    {/* Chat Interface */}
-                    <div className="p-4">
-                      {/* AI Coach Message */}
-                      <div className="flex mb-4">
-                        <div className="w-8 h-8 rounded-full bg-[#8AAE39] flex items-center justify-center text-white font-bold text-sm mr-2 flex-shrink-0">A</div>
-                        <div className="max-w-[80%] bg-gray-100 rounded-lg rounded-tl-none p-3 shadow-sm">
-                          <p className="text-sm">Guten Morgen! Basierend auf deinem Feedback von gestern habe ich deinen Trainingsplan für heute angepasst. Wie fühlst du dich?</p>
-                        </div>
-                      </div>
-                      
-                      {/* User Response */}
-                      <div className="flex justify-end mb-4">
-                        <div className="max-w-[80%] bg-[#8AAE39]/10 rounded-lg rounded-tr-none p-3">
-                          <p className="text-sm">Etwas müde heute. Hatte gestern einen langen Arbeitstag.</p>
-                        </div>
-                      </div>
-                      
-                      {/* AI Coach Response */}
-                      <div className="flex mb-4">
-                        <div className="w-8 h-8 rounded-full bg-[#8AAE39] flex items-center justify-center text-white font-bold text-sm mr-2 flex-shrink-0">A</div>
-                        <div className="max-w-[80%] bg-gray-100 rounded-lg rounded-tl-none p-3 shadow-sm">
-                          <p className="text-sm">Kein Problem! Ich habe ein leichteres Workout für dich vorbereitet, das trotzdem effektiv ist. Außerdem eine kurze Meditation, um deinen Stress zu reduzieren.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Floating elements */}
-              <motion.div
-                className="absolute -right-4 top-5 bg-white rounded-lg shadow-sm px-3 py-2 text-xs border border-gray-200"
-                style={{ y: y2 }}
-              >
-                <div className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-[#8AAE39]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                  <span className="font-medium text-gray-700">Adaptive Trainingsanpassung</span>
-                </div>
-              </motion.div>
-              
-              <motion.div
-                className="absolute -left-4 bottom-5 bg-white rounded-lg shadow-sm px-3 py-2 text-xs border border-gray-200"
-                style={{ y: y3 }}
-              >
-                <div className="flex items-center gap-2">
-                  <svg className="h-4 w-4 text-[#8AAE39]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span className="font-medium text-gray-700">Persönlicher Trainingsplan</span>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-          
-          {/* Key Benefits List */}
-          <div>
-            <div className="space-y-6">
-              {keyBenefits.map((benefit, index) => (
-                <motion.div 
-                  key={index}
-                  className="flex"
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <div className="flex-shrink-0 mt-1 bg-[#8AAE39]/10 p-3 rounded-full text-[#8AAE39] mr-4">
-                    {benefit.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-1">{benefit.title}</h3>
-                    <p className="text-gray-600">{benefit.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            
-            {/* CTA Button */}
-            <motion.div 
-              className="mt-10"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+        {/* Dynamische Elemente im Hintergrund */}
+        <motion.div 
+          className="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full bg-[#8AAE39]/5 blur-3xl"
+          style={{ y: y1, opacity }}
+        />
+        <motion.div 
+          className="absolute -bottom-32 -left-20 w-[400px] h-[400px] rounded-full bg-[#8AAE39]/5 blur-3xl"
+          animate={{ 
+            scale: [1, 1.1, 1],
+            opacity: [0.3, 0.4, 0.3]
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+        />
+        
+        {/* Lamp-Effekt Integration */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <div className="relative flex w-full h-full items-center justify-center">
+            <motion.div
+              initial={{ opacity: 0.5, width: "15rem" }}
+              whileInView={{ opacity: 1, width: "30rem" }}
+              transition={{
+                delay: 0.3,
+                duration: 0.8,
+                ease: "easeInOut",
+              }}
+              style={{
+                backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+              }}
+              className="absolute inset-auto right-1/2 h-56 overflow-visible w-[30rem] bg-gradient-conic from-[#8AAE39] via-transparent to-transparent text-white [--conic-position:from_70deg_at_center_top]"
             >
-              <button className="bg-[#8AAE39] hover:bg-[#7a9c30] text-white rounded-lg px-8 py-3.5 font-medium shadow-sm hover:shadow-md transition-all duration-300 flex items-center group">
-                <span>Werde Teil von Athly</span>
-                <svg className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </button>
-              <p className="text-sm text-gray-500 mt-3">Kostenlose Testphase. Keine Kreditkarte erforderlich.</p>
+              <div className="absolute w-[100%] left-0 bg-white h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+              <div className="absolute w-40 h-[100%] left-0 bg-white bottom-0 z-20 [mask-image:linear-gradient(to_right,white,transparent)]" />
             </motion.div>
+            <motion.div
+              initial={{ opacity: 0.5, width: "15rem" }}
+              whileInView={{ opacity: 1, width: "30rem" }}
+              transition={{
+                delay: 0.3,
+                duration: 0.8,
+                ease: "easeInOut",
+              }}
+              style={{
+                backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
+              }}
+              className="absolute inset-auto left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-[#8AAE39] text-white [--conic-position:from_290deg_at_center_top]"
+            >
+              <div className="absolute w-40 h-[100%] right-0 bg-white bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
+              <div className="absolute w-[100%] right-0 bg-white h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+            </motion.div>
+            <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-[#8AAE39] opacity-15 blur-3xl"></div>
+            <motion.div
+              initial={{ width: "8rem" }}
+              whileInView={{ width: "16rem" }}
+              transition={{
+                delay: 0.3,
+                duration: 0.8,
+                ease: "easeInOut",
+              }}
+              className="absolute inset-auto z-30 h-36 w-64 -translate-y-[6rem] rounded-full bg-[#8AAE39] opacity-10 blur-2xl"
+            ></motion.div>
+            <motion.div
+              initial={{ width: "15rem" }}
+              whileInView={{ width: "30rem" }}
+              transition={{
+                delay: 0.3,
+                duration: 0.8,
+                ease: "easeInOut",
+              }}
+              className="absolute inset-auto z-50 h-0.5 w-[30rem] -translate-y-[7rem] bg-[#8AAE39] opacity-50"
+            ></motion.div>
           </div>
         </div>
         
-        {/* Pricing Section */}
-        <div className="max-w-5xl mx-auto">
-          <motion.h3 
-            className="text-2xl font-bold text-center text-gray-900 mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Starte jetzt zu einem unschlagbaren Preis
-          </motion.h3>
-          
-          {/* Pricing Cards */}
-          <div className="grid md:grid-cols-2 gap-8">
-            {pricingOptions.map((option, index) => (
+        {/* Dezentes Gittermuster im Hintergrund */}
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02]"></div>
+      </div>
+
+      {/* Hauptinhalt Container */}
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-5xl mx-auto bg-white/95 backdrop-blur-sm rounded-3xl overflow-hidden shadow-xl border border-gray-100">
+          <div className="relative">
+            {/* Subtiles Hintergrundmuster */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+              <svg width="100%" height="100%">
+                <defs>
+                  <pattern id="fitness-pattern" width="50" height="50" patternUnits="userSpaceOnUse" patternTransform="rotate(5)">
+                    <path d="M25,0 L25,50 M0,25 L50,25" stroke="#8AAE39" strokeWidth="0.5" />
+                    <circle cx="25" cy="25" r="1" fill="#8AAE39" />
+                    <circle cx="0" cy="25" r="1" fill="#8AAE39" />
+                    <circle cx="50" cy="25" r="1" fill="#8AAE39" />
+                    <circle cx="25" cy="0" r="1" fill="#8AAE39" />
+                    <circle cx="25" cy="50" r="1" fill="#8AAE39" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#fitness-pattern)" />
+              </svg>
+            </div>
+            
+            {/* Subtle Athly logo watermark */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 opacity-[0.02] pointer-events-none">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 5L90 80H75L50 30L25 80H10L50 5Z" fill="#8AAE39" />
+                <path d="M25 80H75H90L75 100H25L10 80H25Z" fill="#8AAE39" />
+              </svg>
+            </div>
+            
+            {/* Leuchteffekt am oberen Rand */}
+            <div className="absolute top-0 left-1/2 w-1/2 h-1 bg-gradient-to-r from-[#8AAE39]/0 via-[#8AAE39] to-[#8AAE39]/0 blur-sm -translate-x-1/2"></div>
+            
+            {/* Hauptinhalt */}
+            <div className="p-8 md:p-14 text-center relative z-10">
+              {/* Pre-Headline Badge */}
               <motion.div 
-                key={index}
-                className={`relative rounded-xl overflow-hidden ${option.highlighted ? 'border-2 border-[#8AAE39]' : 'border border-gray-200'}`}
+                className="inline-block bg-[#8AAE39]/10 text-[#8AAE39] text-sm font-medium px-4 py-1.5 rounded-full mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={option.disabled ? {} : { y: -5, boxShadow: "0 10px 30px rgba(138, 174, 57, 0.15)" }}
+                transition={{ duration: 0.5 }}
               >
-                {option.highlighted && (
-                  <div className="absolute top-0 left-0 right-0 bg-[#8AAE39] text-white text-center text-sm py-1 font-medium">
-                    Empfohlen
-                  </div>
-                )}
-                
-                <div className={`p-8 ${option.highlighted ? 'pt-10' : ''} ${option.disabled ? 'opacity-75' : ''}`}>
-                  <h4 className="text-xl font-bold text-gray-900 mb-2">{option.name}</h4>
-                  <div className="flex items-baseline mb-6">
-                    <span className="text-3xl font-bold text-gray-900">{option.price}</span>
-                    <span className="text-gray-600 ml-2">{option.period}</span>
-                  </div>
-                  
-                  <ul className="space-y-3 mb-8">
-                    {option.features.map((feature, i) => (
-                      <li key={i} className="flex items-start">
-                        <svg className="w-5 h-5 text-[#8AAE39] mr-3 mt-0.5" viewBox="0 0 24 24" fill="none">
-                          <path d="M9 12L11 14L15 10M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" 
-                            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        <span className="text-gray-700">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <button 
-                    className={`w-full py-3 rounded-lg font-medium flex items-center justify-center ${
-                      option.disabled 
-                        ? 'bg-gray-200 text-gray-600 cursor-not-allowed' 
-                        : 'bg-[#8AAE39] text-white hover:bg-[#7a9c30] transition-colors shadow-sm'
-                    }`}
-                    disabled={option.disabled}
+                <span className="flex items-center">
+                  <span className="w-1.5 h-1.5 bg-[#8AAE39] rounded-full mr-2 animate-pulse"></span>
+                  Early Access
+                </span>
+              </motion.div>
+              
+              {/* Headline */}
+              <motion.h2 
+                className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                Sichere dir <span className="text-[#8AAE39]">jetzt</span> deinen Platz<br className="hidden sm:block" /> auf der Warteliste
+              </motion.h2>
+              
+              {/* Subheadline */}
+              <motion.p 
+                className="text-xl text-gray-600 mb-10 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Sei einer der Ersten, die Zugang zum revolutionären Athly AI-Coach erhalten. 
+                Limitierte Plätze für den exklusiven Early-Access.
+              </motion.p>
+              
+              {!submitted ? (
+                <>
+                  {/* Email Form */}
+                  <motion.form 
+                    onSubmit={handleSubmit}
+                    className="max-w-2xl mx-auto mb-10"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
                   >
-                    <span>{option.cta}</span>
-                    {!option.disabled && (
-                      <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="relative flex-grow">
+                        <input
+                          ref={inputRef}
+                          type="email"
+                          placeholder="Deine E-Mail-Adresse"
+                          className="w-full px-6 py-4 rounded-xl bg-gray-50 border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8AAE39]/50 focus:border-[#8AAE39] transition-all"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                        />
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/>
+                          </svg>
+                        </div>
+                      </div>
+                      <button 
+                        type="submit"
+                        className="group relative px-8 py-4 rounded-xl bg-[#8AAE39] text-white font-medium text-lg shadow-lg shadow-[#8AAE39]/20 hover:shadow-xl hover:shadow-[#8AAE39]/30 transition-all duration-300 overflow-hidden"
+                      >
+                        {/* Button Shine Effect */}
+                        <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
+                        
+                        {/* Button Text */}
+                        <span className="relative z-10 flex items-center whitespace-nowrap">
+                          Jetzt anmelden
+                          <svg className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </span>
+                      </button>
+                    </div>
+                  </motion.form>
+                  
+                  {/* Social Proof & Urgency */}
+                  <motion.div 
+                    className="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8 text-gray-500 text-sm"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                  >
+                    <div className="flex items-center">
+                      <svg className="w-4 h-4 mr-2 text-[#8AAE39]" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
                       </svg>
-                    )}
-                  </button>
-                </div>
+                      <span>Sofortige Benachrichtigung bei Verfügbarkeit</span>
+                    </div>
+                    <div className="flex items-center">
+                      <svg className="w-4 h-4 mr-2 text-[#8AAE39]" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
+                      </svg>
+                      <span>30% Rabatt für Early Adopter</span>
+                    </div>
+                    <div className="flex items-center">
+                      <svg className="w-4 h-4 mr-2 text-[#8AAE39]" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
+                      </svg>
+                      <span>Nur noch <b>189</b> Plätze verfügbar</span>
+                    </div>
+                  </motion.div>
+                  
+                  {/* Avatars for Social Proof */}
+                  <motion.div 
+                    className="flex justify-center mb-2"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                  >
+                    <div className="flex -space-x-2">
+                      {[
+                        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+                        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+                        "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+                        "https://images.unsplash.com/photo-1488161628813-04466f872be2?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+                        "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80"
+                      ].map((avatar, index) => (
+                        <div key={index} className="w-8 h-8 rounded-full border-2 border-white overflow-hidden">
+                          <img src={avatar} alt="User avatar" className="w-full h-full object-cover" />
+                        </div>
+                      ))}
+                      <div className="w-8 h-8 rounded-full border-2 border-white bg-[#8AAE39] flex items-center justify-center text-white text-xs font-medium">
+                        +412
+                      </div>
+                    </div>
+                  </motion.div>
+                  
+                  <motion.p 
+                    className="text-sm text-gray-500"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                  >
+                    Über 410 Personen haben sich bereits eingetragen
+                  </motion.p>
+                </>
+              ) : (
+                /* Success State nach Anmeldung */
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="py-8"
+                >
+                  <div className="w-20 h-20 bg-[#8AAE39]/10 rounded-full mx-auto flex items-center justify-center mb-6">
+                    <svg className="w-10 h-10 text-[#8AAE39]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Du bist dabei!</h3>
+                  <p className="text-gray-600 max-w-md mx-auto mb-6">
+                    Wir haben deine E-Mail-Adresse erhalten und werden dich informieren, 
+                    sobald dein exklusiver Zugang bereit ist.
+                  </p>
+                  <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-sm text-gray-600">
+                    Du bist Teilnehmer #{Math.floor(Math.random() * 100) + 312}
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </div>
+          
+          {/* Footer der Card */}
+          <div className="py-6 px-8 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 relative">
+            {/* Subtle pattern for footer */}
+            <div className="absolute inset-0 opacity-[0.04] pointer-events-none">
+              <svg width="100%" height="100%">
+                <defs>
+                  <pattern id="footer-dots" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <circle cx="2" cy="2" r="1" fill="#8AAE39" />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#footer-dots)" />
+              </svg>
+            </div>
+            
+            <div className="flex items-center relative z-10">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <svg key={star} className="w-5 h-5 text-[#8AAE39]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              ))}
+              <span className="ml-2 text-sm font-medium text-gray-700">
+                4.9/5 <span className="text-gray-500 font-normal">von über 850 Beta-Testern</span>
+              </span>
+            </div>
+            
+            <div className="flex items-center relative z-10">
+              <svg className="w-5 h-5 text-[#8AAE39] mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              <span className="text-sm text-gray-600">Deine Daten sind sicher & werden nicht weitergegeben</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Bottom Brands Section */}
+        <div className="mt-16 text-center">
+          <p className="text-sm uppercase tracking-wider text-gray-500 mb-6">Diese Unternehmen vertrauen auf unsere Technologie</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 grayscale opacity-70">
+            {['TechCrunch', 'Forbes', 'Wired', 'Bloomberg', 'The Verge'].map((brand, index) => (
+              <motion.div 
+                key={index} 
+                className="text-xl font-bold text-gray-400"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.1 * index }}
+              >
+                {brand}
               </motion.div>
             ))}
           </div>
-          
-          {/* Final Guarantee Message */}
-          <motion.div 
-            className="text-center mt-10"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <p className="flex items-center justify-center text-gray-600">
-              <svg className="w-5 h-5 text-[#8AAE39] mr-2" viewBox="0 0 24 24" fill="none">
-                <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" 
-                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span>30 Tage Geld-zurück-Garantie, wenn du nicht völlig zufrieden bist</span>
-            </p>
-          </motion.div>
         </div>
       </div>
     </section>
