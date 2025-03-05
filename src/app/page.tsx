@@ -1,5 +1,5 @@
 import { ProfessionalHeroSection } from "@/components/sections/hero-section";
-import { AthlyFeatureSteps } from "@/components/sections/features-section";
+import { AthlyFeatureSection } from "@/components/sections/features-section";
 import { EnhancedSocialProofSection } from "@/components/sections/testimonials-section";
 import { ElegantProblemSection } from "@/components/sections/problem-section";
 import { SolutionSection } from "@/components/sections/solution-section";
@@ -14,7 +14,7 @@ export default function Home() {
       <ProfessionalHeroSection />
       <ElegantProblemSection />
       <SolutionSection />
-      <AthlyFeatureSteps />
+      <AthlyFeatureSection />
       <EnhancedSocialProofSection />
       <FinalWaitlistCta />
       
