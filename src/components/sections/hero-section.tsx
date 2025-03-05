@@ -7,7 +7,7 @@ import { Particles } from "@/components/magicui/particles";
 export function ProfessionalHeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Subtiler Parallax-Effekt
+  // Subtle parallax effect
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -15,7 +15,7 @@ export function ProfessionalHeroSection() {
   
   const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
   
-  // Kernvorteile mit eleganten Icons
+  // Key benefits with elegant icons
   const keyBenefits = [
     {
       title: "KI-Coach im Taschenformat",
@@ -50,9 +50,9 @@ export function ProfessionalHeroSection() {
     <div 
       id="hero" 
       ref={containerRef}
-      className="relative min-h-[85vh] flex items-center overflow-hidden"
+      className="relative min-h-[90vh] sm:min-h-[85vh] flex items-center overflow-hidden"
     >
-      {/* Subtiler Partikel-Hintergrund */}
+      {/* Subtle particle background */}
       <div className="absolute inset-0 -z-10 opacity-10">
         <Particles
           className="h-full w-full"
@@ -64,7 +64,7 @@ export function ProfessionalHeroSection() {
 
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
-          {/* Content-Spalte */}
+          {/* Content column */}
           <div className="lg:col-span-6 z-10 text-center lg:text-left">
             {/* Logo Animation */}
             <motion.div
@@ -90,7 +90,7 @@ export function ProfessionalHeroSection() {
               </svg>
             </motion.div>
 
-            {/* Pre-headline für bessere Scanbarkeit */}
+            {/* Pre-headline for better scannability */}
             <motion.p
               className="uppercase tracking-wider text-[#8AAE39] font-medium text-sm mb-3"
               initial={{ opacity: 0, y: 10 }}
@@ -100,7 +100,7 @@ export function ProfessionalHeroSection() {
               Mehr als nur Fitness
             </motion.p>
 
-            {/* Headline mit WHO/WHY/WHAT Framework */}
+            {/* Headline with WHO/WHY/WHAT framework */}
             <motion.h1 
               className="font-manrope text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6"
               initial={{ opacity: 0, y: 15 }}
@@ -110,7 +110,7 @@ export function ProfessionalHeroSection() {
               Dein persönlicher
               <span className="text-[#8AAE39] relative block mt-1">
                 KI-Fitness-Coach
-                {/* Elegante Unterstreichung */}
+                {/* Elegant underline */}
                 <motion.div 
                   className="absolute bottom-2 left-0 h-[3px] bg-[#8AAE39]/20"
                   initial={{ width: 0 }}
@@ -130,9 +130,9 @@ export function ProfessionalHeroSection() {
               Schluss mit Standard-Trainingsplänen und Einheitsernährung. Athly analysiert deine Bedürfnisse und trainiert dich persönlich – wie ein echter Coach, nur immer verfügbar.
             </motion.p>
             
-            {/* Key Benefits - Minimalistisch und elegant */}
+            {/* Key Benefits - Minimalistic and elegant */}
             <motion.div 
-              className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -140,7 +140,7 @@ export function ProfessionalHeroSection() {
               {keyBenefits.map((benefit, index) => (
                 <motion.div 
                   key={index}
-                  className="flex flex-col items-center lg:items-start"
+                  className="flex flex-col items-center lg:items-start p-3 sm:p-2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.5 + (index * 0.1) }}
@@ -149,14 +149,14 @@ export function ProfessionalHeroSection() {
                     {benefit.icon}
                   </div>
                   <p className="font-medium text-gray-800 mb-1">{benefit.title}</p>
-                  <p className="text-sm text-gray-600 text-center lg:text-left">{benefit.description}</p>
+                  <p className="text-sm text-gray-600 text-center lg:text-left mt-1">{benefit.description}</p>
                 </motion.div>
               ))}
             </motion.div>
             
             {/* CTA Buttons */}
             <motion.div 
-              className="flex flex-wrap gap-4 mt-8 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4 mt-8 justify-center lg:justify-start w-full sm:w-auto"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
@@ -164,7 +164,7 @@ export function ProfessionalHeroSection() {
               <button
                 className="relative bg-[#8AAE39] text-white rounded-lg px-6 py-3.5 font-medium shadow-sm hover:shadow-md hover:bg-[#8AAE39]/90 transition-all duration-300 overflow-hidden group"
               >
-                {/* Subtiler Shine-Effekt */}
+                {/* Subtle shine effect */}
                 <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
                 <span className="flex items-center">
                   14 Tage kostenlos testen
@@ -179,9 +179,9 @@ export function ProfessionalHeroSection() {
               </button>
             </motion.div>
             
-            {/* Testimonial */}
+            {/* Testimonial - Simple and elegant */}
             <motion.div 
-              className="mt-8 bg-white rounded-xl p-4 border border-gray-100 shadow-sm max-w-md mx-auto lg:mx-0"
+              className="mt-10 bg-white rounded-xl p-4 border border-gray-100 shadow-sm max-w-md mx-auto lg:mx-0 sm:w-full"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -210,7 +210,7 @@ export function ProfessionalHeroSection() {
             
             {/* Trust Indicators */}
             <motion.div 
-              className="mt-8 flex flex-wrap justify-center lg:justify-start items-center gap-8 text-sm text-gray-500"
+              className="mt-10 flex flex-wrap justify-center lg:justify-start items-center gap-8 text-sm text-gray-500"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.8 }}
@@ -228,7 +228,7 @@ export function ProfessionalHeroSection() {
             </motion.div>
           </div>
           
-          {/* Phone Image - Elegant und minimalistisch */}
+          {/* Phone Image - Elegant and minimalistic */}
           <div className="lg:col-span-6">
             <motion.div 
               className="relative mx-auto max-w-[340px]"
@@ -237,11 +237,11 @@ export function ProfessionalHeroSection() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              {/* Subtiler Glow-Effekt */}
+              {/* Subtle glow effect */}
               <div className="absolute inset-0 -z-10 blur-3xl rounded-full bg-[#8AAE39]/5 animate-pulse" 
-                  style={{ animationDuration: '10s' }}></div>
+                   style={{ animationDuration: '10s' }}></div>
               
-              {/* Eleganter Smartphone Mockup */}
+              {/* Elegant smartphone mockup */}
               <div className="relative rounded-[40px] border-[14px] border-[#111] bg-[#111] shadow-lg">
                 <div className="relative overflow-hidden rounded-[26px] bg-gradient-to-b from-[#f8f6f0] to-[#f4f2ec] h-[570px]">
                   {/* Notch */}
@@ -263,16 +263,66 @@ export function ProfessionalHeroSection() {
                       </svg>
                     </div>
                     
-                    {/* Empty App Content (placeholder) */}
-                    <div className="flex items-center justify-center h-[calc(100%-4rem)]">
-                      <div className="text-center p-6">
-                        <div className="w-16 h-16 rounded-full bg-[#8AAE39]/10 flex items-center justify-center text-[#8AAE39] mx-auto mb-4">
-                          <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/>
-                          </svg>
+                    {/* App Content - Clean and focused */}
+                    <div className="p-6">
+                      <div className="bg-white rounded-xl p-5 shadow-sm mb-4">
+                        <h3 className="text-lg font-medium text-gray-800 mb-2">Dein heutiger Plan</h3>
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center">
+                            <div className="w-8 h-8 rounded-full bg-[#8AAE39]/10 flex items-center justify-center text-[#8AAE39]">
+                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M12 3V21M3 12H21" />
+                              </svg>
+                            </div>
+                            <div className="ml-3">
+                              <p className="text-sm font-medium text-gray-800">Oberkörper Training</p>
+                              <p className="text-xs text-gray-500">Angepasst für deine Ziele</p>
+                            </div>
+                          </div>
+                          <div className="text-[#8AAE39] text-sm font-medium">18:00</div>
                         </div>
-                        <p className="text-gray-700 font-medium mb-2">Dein KI-Coach</p>
-                        <p className="text-gray-500 text-sm">Persönlich. Adaptiv. Immer für dich da.</p>
+                        <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
+                          <div className="h-full w-3/4 bg-[#8AAE39] rounded-full"></div>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center justify-center">
+                          <div className="w-10 h-10 rounded-full bg-[#8AAE39]/10 flex items-center justify-center text-[#8AAE39] mb-2">
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M11 9H9V2H7V9H5V2H3V9C3 11.12 4.66 12.84 6.75 12.97V22H9.25V12.97C11.34 12.84 13 11.12 13 9V2H11V9ZM16 6V14H18.5V22H21V2C18.24 2 16 4.24 16 6Z" />
+                            </svg>
+                          </div>
+                          <p className="text-sm font-medium text-gray-800">Ernährung</p>
+                        </div>
+                        <div className="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center justify-center">
+                          <div className="w-10 h-10 rounded-full bg-[#8AAE39]/10 flex items-center justify-center text-[#8AAE39] mb-2">
+                            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M20.84 4.22a5.5 5.5 0 0 0-7.78 0L12 5.29l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.07L12 21l7.78-7.93 1.06-1.07a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                          </div>
+                          <p className="text-sm font-medium text-gray-800">Motivation</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white rounded-xl p-5 shadow-sm">
+                        <div className="flex justify-between items-center mb-3">
+                          <h3 className="text-lg font-medium text-gray-800">Wöchentlicher Fortschritt</h3>
+                          <div className="text-[#8AAE39] text-sm font-medium">+12%</div>
+                        </div>
+                        <div className="flex items-end h-20 gap-2">
+                          {[35, 45, 60, 40, 75, 65, 50].map((height, index) => (
+                            <div key={index} className="flex-1 flex flex-col items-center">
+                              <div 
+                                className="w-full bg-[#8AAE39]/20 rounded-t-sm"
+                                style={{ height: `${height}%` }}
+                              ></div>
+                              <div className="text-xs text-gray-500 mt-1">
+                                {['M', 'D', 'M', 'D', 'F', 'S', 'S'][index]}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
