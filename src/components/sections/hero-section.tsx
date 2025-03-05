@@ -97,7 +97,7 @@ export function ProfessionalHeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              Mehr als nur Fitness
+              Demnächst verfügbar
             </motion.p>
 
             {/* Headline with WHO/WHY/WHAT framework */}
@@ -132,7 +132,7 @@ export function ProfessionalHeroSection() {
             
             {/* Key Benefits - Minimalistic and elegant */}
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -154,78 +154,89 @@ export function ProfessionalHeroSection() {
               ))}
             </motion.div>
             
-            {/* CTA Buttons */}
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 mt-8 justify-center lg:justify-start w-full sm:w-auto"
-              initial={{ opacity: 0, y: 10 }}
+            {/* Clean and elegant CTA similar to image */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
+              className="mb-2"
             >
-              <button
-                className="relative bg-[#8AAE39] text-white rounded-lg px-6 py-3.5 font-medium shadow-sm hover:shadow-md hover:bg-[#8AAE39]/90 transition-all duration-300 overflow-hidden group"
-              >
-                {/* Subtle shine effect */}
-                <div className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out"></div>
-                <span className="flex items-center">
-                  14 Tage kostenlos testen
-                  <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </span>
-              </button>
-              
-              <button className="bg-white hover:bg-white border border-gray-200 text-gray-700 rounded-lg px-6 py-3.5 font-medium transition-all duration-300 hover:text-[#8AAE39] hover:border-[#8AAE39]/30 hover:shadow-sm">
-                App Tour starten
-              </button>
-            </motion.div>
-            
-            {/* Testimonial - Simple and elegant */}
-            <motion.div 
-              className="mt-10 bg-white rounded-xl p-4 border border-gray-100 shadow-sm max-w-md mx-auto lg:mx-0 sm:w-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0">
-                  <div className="w-10 h-10 rounded-full bg-[#8AAE39]/20 flex items-center justify-center text-[#8AAE39]">
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
-                    </svg>
+              <div className="bg-[#f8f8f6] rounded-xl py-5 px-6 shadow-sm border border-gray-100/80 relative overflow-hidden">
+                {/* Subtle Early Access indicator */}
+                <div className="absolute top-4 right-6">
+                  <div className="flex items-center">
+                    <span className="w-1.5 h-1.5 bg-[#8AAE39] rounded-full mr-1.5 animate-pulse opacity-70"></span>
+                    <span className="text-xs text-[#8AAE39]/80 font-medium">Early Access</span>
                   </div>
                 </div>
-                <div>
-                  <div className="flex items-center mb-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <svg key={star} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                
+                <h3 className="text-left text-xl font-semibold text-gray-800 mb-2">Sei von Anfang an dabei!</h3>
+                <p className="text-left text-gray-600 text-sm mb-5">Sichere dir <span className="text-[#8AAE39] font-medium">30% Rabatt</span> und einen Monat Premium-Coaching kostenlos</p>
+                
+                <div className="flex flex-col sm:flex-row gap-3 mb-2">
+                  <input 
+                    type="email" 
+                    placeholder="Deine E-Mail Adresse" 
+                    className="flex-1 px-4 py-3 rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-1 focus:ring-[#8AAE39]/30 focus:border-[#8AAE39] transition-all text-sm" 
+                  />
+                  <motion.button 
+                    className="bg-[#8AAE39] hover:bg-[#7c9d33] text-white font-medium rounded-lg px-6 py-3 transition-all shadow-md shadow-[#8AAE39]/10 relative overflow-hidden group"
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
+                      Jetzt sichern
+                      <svg className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                       </svg>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-700">&quot;Athly hat meinen Fortschritt beschleunigt. Der KI-Coach passt sich perfekt meinem Level an.&quot;</p>
-                  <p className="text-xs text-gray-500 mt-1">Markus K. • Athly Nutzer seit 3 Monaten</p>
+                    </span>
+                  </motion.button>
                 </div>
+                
+                <p className="text-xs text-gray-500">Kein Spam, nur Updates zur Launch! Du kannst dich jederzeit abmelden.</p>
               </div>
             </motion.div>
             
-            {/* Trust Indicators */}
-            <motion.div 
-              className="mt-10 flex flex-wrap justify-center lg:justify-start items-center gap-8 text-sm text-gray-500"
+            {/* Subtle social proof below */}
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="flex items-center justify-between mb-6"
             >
-              {[
-                { value: "1000+", label: "aktive Nutzer" },
-                { value: "9,99€", label: "pro Monat" },
-                { value: "24/7", label: "Verfügbarkeit" }
-              ].map((item, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <span className="font-semibold text-[#8AAE39] text-lg">{item.value}</span> 
-                  <span className="text-gray-600">{item.label}</span>
+              {/* User participation - subtle version */}
+              <div className="flex items-center">
+                <div className="flex -space-x-2 mr-3">
+                  {[
+                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+                    "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80"
+                  ].map((avatar, index) => (
+                    <div key={index} className="w-5 h-5 rounded-full border border-white overflow-hidden">
+                      <img src={avatar} alt="User avatar" className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                  <div className="w-5 h-5 rounded-full border border-white bg-[#8AAE39]/80 flex items-center justify-center text-white text-xs">
+                    +
+                  </div>
                 </div>
-              ))}
+                <span className="text-xs text-gray-600">
+                  Bereits 2.500+ Anmeldungen
+                </span>
+              </div>
+              
+              {/* Rating - subtle version */}
+              <div className="flex items-center">
+                <div className="flex mr-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg key={star} className="w-3 h-3 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-xs text-gray-600">4.9/5 Bewertung</span>
+              </div>
             </motion.div>
+        
           </div>
           
           {/* Phone Image - Elegant and minimalistic */}
@@ -360,6 +371,7 @@ export function ProfessionalHeroSection() {
             </motion.div>
           </div>
         </div>
+
       </div>
     </div>
   );

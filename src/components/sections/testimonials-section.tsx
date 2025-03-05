@@ -247,7 +247,6 @@ export function EnhancedSocialProofSection() {
           </div>
         </div>
         
-        {/* CTA Section - eleganter und fokussierter */}
       </div>
     </section>
   );
