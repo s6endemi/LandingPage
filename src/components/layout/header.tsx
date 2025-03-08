@@ -315,7 +315,7 @@ export function Header() {
             
             {/* Eleganterer Button im Mobile Menü */}
             <button 
-              className="w-full bg-[#8AAE39]/90 hover:bg-[#8AAE39] relative overflow-hidden border border-[#8AAE39]/20 text-white rounded-full py-2.5 text-sm transition-all"
+              className="w-full bg-[#b5ce8a]/90 hover:bg-[#b5ce8a] relative overflow-hidden border border-[#8AAE39]/20 text-white rounded-full py-2.5 text-sm transition-all"
               onClick={() => {
                 setMobileMenuOpen(false);
                 setIsModalOpen(true);

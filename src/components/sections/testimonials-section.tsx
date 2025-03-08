@@ -1,12 +1,21 @@
 "use client";
 
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
-export function EnhancedSocialProofSection() {
+export function ModernTestimonialSection() {
   const containerRef = useRef(null);
-  const [activeTab, setActiveTab] = useState('all');
-  const [featuredStory, setFeaturedStory] = useState(0);
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [selectedStory, setSelectedStory] = useState<number | null>(null);
+  
+  // Farbpalette entsprechend der Design-Vorgaben - reduziert für mehr Konsistenz
+  const colors = {
+    primary: "#9bc539",     // Frisches Grün als Hauptfarbe
+    blue: "#3498db",        // Akzent Blau
+    yellow: "#FBBF24",      // Gelb für Sterne
+    dark: "#2d3748",        // Dunkler Text für Überschriften
+    gray: "#4a5568",        // Grau für Fließtext
+  };
   
   // Parallax-Effekt für Hintergrund-Elemente
   const { scrollYProgress } = useScroll({
@@ -16,498 +25,606 @@ export function EnhancedSocialProofSection() {
   
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
   
-  // Transformations-Erfolgsgeschichten - reduziert und vereinfacht
-  const transformationStories = [
+  // Transformations-Erfolgsgeschichten
+  const successStories = [
     {
       id: 1,
       name: "Michael K., 34",
-      goal: "Halbmarathon-Vorbereitung",
+      headline: "Von 0 auf Halbmarathon in 8 Monaten",
       category: "athletic",
-      before: "Ich hatte schon so viele Fitness-Apps probiert, aber keine hat mich wirklich motiviert dranzubleiben.",
-      after: "Mit Athly habe ich nicht nur 12kg abgenommen, sondern eine völlig neue Beziehung zum Sport entwickelt.",
+      story: "Mit Athly habe ich meine persönlichen Grenzen neu definiert. Noch vor einem Jahr war ich außer Atem nach einem kurzen Sprint zur Bahn. Heute bereite ich mich auf meinen ersten Halbmarathon vor und fühle mich stärker als je zuvor.",
+      quote: "Athly passt sich meinem Leben an, nicht andersherum. Das macht den Unterschied.",
+      achievement: ["12kg Gewichtsverlust", "5km in unter 25 Min", "Verbesserte Ausdauer"],
       duration: "8 Monate",
       image: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-      achievement: "Von 0 auf Halbmarathon",
-      featured: true
+      rating: 5
     },
     {
       id: 2,
       name: "Sophia M., 29",
-      goal: "Mehr Energie im Alltag",
+      headline: "Mehr Energie und 8kg leichter",
       category: "weight-loss",
-      before: "Ich habe mich in meinem Körper nicht mehr wohlgefühlt und wusste nicht, wo ich anfangen sollte.",
-      after: "Mein KI-Coach passt meine Pläne perfekt an. Ich habe 8kg abgenommen und fühle mich voller Energie.",
+      story: "Mein Alltag war von ständiger Müdigkeit geprägt. Nach so vielen gescheiterten Diäten glaubte ich nicht mehr daran, mein Wunschgewicht zu erreichen. Mit Athly fand ich endlich einen Weg, der zu mir passt – ohne strenge Verbote, mit gesunder Ernährung und einem Plan, der sich an mein Leben anpasst.",
+      quote: "Kein Gefühl des Verzichts mehr. Ich esse was ich mag und habe trotzdem abgenommen.",
+      achievement: ["8kg Gewichtsverlust", "Besserer Schlaf", "Mehr Selbstvertrauen"],
       duration: "3 Monate",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-      achievement: "Neue Lebensenergie"
+      rating: 5
     },
     {
       id: 3,
       name: "Thomas W., 31",
-      goal: "Muskelaufbau",
+      headline: "+4kg Muskelmasse und endlich Definition",
       category: "muscle",
-      before: "Im Fitnessstudio fühlte ich mich immer verloren und habe kaum Fortschritte gemacht.",
-      after: "Die persönlichen Gespräche mit meinem KI-Coach geben mir genau den Push, den ich brauche. +4kg Muskelmasse in 5 Monaten.",
+      story: "Jahrelang habe ich auf eigene Faust trainiert, mit mäßigem Erfolg. Mit Athly bekam ich endlich einen strukturierten Plan, der mich gezielt auf mein Ziel hinführt: mehr Muskeln, weniger Körperfett. Die KI-Anpassung an meine Fortschritte sorgt dafür, dass ich immer gefordert, aber nie überfordert bin.",
+      quote: "Der virtuelle Trainer weiß genau, wann er mich pushen und wann er mir eine Pause gönnen muss.",
+      achievement: ["+4kg Muskelmasse", "Niedrigerer Körperfettanteil", "Bessere Kraftwerte"],
       duration: "5 Monate",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-      achievement: "Sichtbare Resultate"
+      rating: 5
     },
     {
       id: 4,
       name: "Lisa K., 36",
-      goal: "Nach Schwangerschaft",
+      headline: "Fitness nach der Schwangerschaft",
       category: "postpartum",
-      before: "Als Mutter von zwei Kindern dachte ich, ich müsste meine Fitness-Ziele aufgeben.",
-      after: "Athly passt sich flexibel meinem Alltag an, ohne dass ich mich schuldig fühle, wenn der Familienalltag dazwischenkommt.",
+      story: "Nach der Geburt meines zweiten Kindes hatte ich das Gefühl, meinen Körper nicht wiederzuerkennen. Athly hat mir geholfen, langsam und sicher wieder in Form zu kommen. Das Beste: Die Workouts passen sich meinem chaotischen Alltag als Mutter an – sei es ein 15-Minuten-Training während des Mittagsschlafs oder längere Einheiten am Wochenende.",
+      quote: "Endlich ein Programm, das versteht, dass Mütter flexible Lösungen brauchen.",
+      achievement: ["Wiederaufbau der Rumpfmuskulatur", "Mehr Energie für den Alltag", "Gesteigerte Flexibilität"],
       duration: "6 Monate",
       image: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-      achievement: "Starke Mutter",
-      featured: true
+      rating: 5
     },
     {
       id: 5,
       name: "Markus B., 42",
-      goal: "Training trotz Verletzung",
+      headline: "Training trotz Knieverletzung",
       category: "rehabilitation",
-      before: "Nach meiner Knie-OP hat mir kein Trainer helfen können, schmerzfrei zu trainieren.",
-      after: "Mein Athly-Coach erinnert sich an alles. Wenn ich von Knieschmerzen berichte, wird es in allen Plänen berücksichtigt.",
+      story: "Nach meiner Knie-OP sagten mir die Ärzte, ich könne nie wieder richtig trainieren. Mit Athly fand ich einen Weg, meine Fitness trotz Einschränkungen zu verbessern. Die KI berücksichtigt meine Verletzungsgeschichte und passt jede Übung an meine Möglichkeiten an. Das Ergebnis: schmerzfreies Training und eine Verbesserung, die ich nicht für möglich gehalten hätte.",
+      quote: "Athly erinnert sich an alles. Wenn ich über Schmerzen berichte, wird jede Übung angepasst.",
+      achievement: ["Schmerzfreies Training", "Verbesserte Mobilität", "Gesteigerte Muskelkraft"],
       duration: "6 Monate",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-      achievement: "Schmerzfrei aktiv"
+      rating: 5
     },
     {
       id: 6,
       name: "Jana F., 27",
-      goal: "Gesündere Ernährung",
+      headline: "Gesunde Ernährung als Vegetarierin",
       category: "nutrition",
-      before: "Als Vegetarierin bekam ich immer die gleichen Standard-Ernährungspläne, die nicht zu mir passten.",
-      after: "Die Ernährungstipps sind goldwert! Athly schlägt mir Mahlzeiten vor, die ich tatsächlich gerne esse.",
+      story: "Als Vegetarierin bekam ich bei anderen Apps immer die gleichen langweiligen Gerichte vorgeschlagen. Athly versteht meine Ernährungspräferenzen und kreiert abwechslungsreiche, leckere Mahlzeiten, die zu meinem Lebensstil passen. Seit ich die Ernährungspläne befolge, habe ich mehr Energie und fühle mich rundum wohler.",
+      quote: "Keine generischen Pläne mehr – Athly schlägt mir Gerichte vor, die ich wirklich gerne esse.",
+      achievement: ["Ausgewogene vegetarische Ernährung", "Stabile Energielevel", "Verbesserte Hautqualität"],
       duration: "4 Monate",
       image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
-      achievement: "Nachhaltige Ernährung"
+      rating: 4
     }
   ];
   
-  // Erfolgsstatistiken - vereinfacht
-  const achievementStats = [
-    {
-      value: "87%",
-      label: "mehr Konsequenz",
-      description: "Nutzer trainieren regelmäßiger als mit herkömmlichen Apps"
-    },
-    {
-      value: "92%",
-      label: "Zielerreichung",
-      description: "Der Großteil unserer Nutzer erreicht ihre persönlichen Fitnessziele"
-    },
-    {
-      value: "4.9/5",
-      label: "Bewertung",
-      description: "Durchschnittliche Bewertung unserer App im App Store"
-    }
-  ];
+  // Erfolgsstatistiken
   
-  // Filter-Kategorien - reduziert
+  // Kategorien für Filter
   const categories = [
     { id: 'all', label: 'Alle Erfolge' },
     { id: 'weight-loss', label: 'Gewichtsverlust' },
     { id: 'muscle', label: 'Muskelaufbau' },
     { id: 'athletic', label: 'Sportliche Leistung' },
     { id: 'rehabilitation', label: 'Rehabilitation' },
-    { id: 'nutrition', label: 'Ernährung' }
+    { id: 'nutrition', label: 'Ernährung' },
+    { id: 'postpartum', label: 'Nach Schwangerschaft' }
   ];
+
+  // Setze wahr, wenn ein Detail-Modal geöffnet ist
+  const isModalOpen = selectedStory !== null;
+  
+  // Schließe das Detail-Modal
+  const closeModal = () => setSelectedStory(null);
+
+  // Finde die aktuell ausgewählte Story für das Modal
+  const selectedStoryData = selectedStory !== null 
+    ? successStories.find(story => story.id === selectedStory) 
+    : null;
 
   return (
     <section 
       ref={containerRef}
       id="testimonials" 
-      className="py-24 relative overflow-hidden bg-gradient-to-b from-gray-50 to-white"
+      className="py-24 relative overflow-hidden bg-white font-inter"
+      style={{ fontFeatureSettings: '"cv02", "cv03", "cv04", "cv11"' }}
     >
-      {/* Hintergrund-Element */}
+      {/* Subtiler Hintergrund */}
+      <div className="absolute inset-0 -z-10 bg-gray-50/30"></div>
       <div className="absolute inset-0 -z-10">
         <motion.div 
-          className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-[#8AAE39]/5 blur-3xl"
+          className="absolute top-20 right-20 w-96 h-96 rounded-full bg-green-50 opacity-30 blur-3xl"
           style={{ y: y1 }}
         />
       </div>
 
-      <div className="container mx-auto px-4 max-w-7xl">
-        {/* Section Header - größer und eleganter */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Modern Section Header */}
+        <div className="max-w-3xl mx-auto text-center mb-20">
           <motion.div 
-            className="inline-block bg-[#8AAE39]/10 text-[#8AAE39] text-sm font-medium px-5 py-2 rounded-full mb-8"
+            className="inline-block px-4 py-1.5 rounded-full mb-4 text-sm font-medium"
+            style={{ backgroundColor: `${colors.primary}15`, color: colors.primary }}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
           >
-            ECHTE ERFOLGSGESCHICHTEN
+            ATHLY ERFOLGSGESCHICHTEN
           </motion.div>
           
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 leading-tight"
+            className="text-4xl md:text-5xl font-semibold mb-6 text-gray-900 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Von echten Menschen,<br />
-            <span className="text-[#8AAE39] relative">
-              echte Resultate
-              <motion.div 
-                className="absolute bottom-0 left-0 h-[3px] bg-[#8AAE39]/30 w-full"
-                initial={{ width: 0 }}
-                whileInView={{ width: "100%" }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, delay: 0.7 }}
-              />
-            </span>
+            REALE MENSCHEN<br />MESSBARE ERFOLGE
           </motion.h2>
           
+          <motion.div
+            className="w-24 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"
+            initial={{ width: 0, opacity: 0 }}
+            whileInView={{ width: 96, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          />
+          
           <motion.p 
-            className="text-xl text-gray-600 max-w-2xl mx-auto"
+            className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Entdecke, wie Menschen mit Athly ihre Fitness-Ziele erreichen – mit personalisierten Plänen 
-            und ihrem persönlichen KI-Coach an ihrer Seite.
+            Entdecke, wie Athly das Leben und die Fitness unserer Nutzer verändert hat. Jede dieser Geschichten zeigt die Kraft personalisierter KI-Coaching-Pläne.
           </motion.p>
-          <motion.div
-            className="mt-8 max-w-3xl mx-auto bg-[#8AAE39]/5 rounded-xl p-4 border border-[#8AAE39]/10"
+        </div>
+        
+        
+        {/* Featured Success Story */}
+        <motion.div 
+          className="mb-24 max-w-6xl mx-auto"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <FeaturedStory story={successStories[0]} colors={colors} />
+        </motion.div>
+        
+        {/* Filter Categories */}
+        <div className="mb-16">
+          <motion.div 
+            className="flex flex-wrap justify-center gap-3"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.5 }}
           >
-            <p className="text-[#8AAE39] font-medium text-lg text-center">
-              Deine Fitnessziele zu erreichen ist kein Sprint, sondern ein Marathon. Wir begleiten dich bei jedem Schritt.
-            </p>
+            {categories.map((category, index) => (
+              <motion.button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                  activeCategory === category.id
+                    ? 'text-white shadow-md' 
+                    : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-300'
+                }`}
+                style={{ 
+                  backgroundColor: activeCategory === category.id 
+                    ? '#374151' // Elegantes Anthrazit
+                    : ''
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+              >
+                {category.label}
+              </motion.button>
+            ))}
           </motion.div>
         </div>
         
-        {/* Achievements/Stats Section - eleganter und minimalistischer */}
-        <div className="max-w-5xl mx-auto mb-20">
-          <div className="grid md:grid-cols-3 gap-8">
-            {achievementStats.map((stat, index) => (
-              <StatCard key={index} stat={stat} index={index} />
-            ))}
-          </div>
-        </div>
-        
-        {/* Featured Transformation - größer und fokussierter */}
-        <div className="mb-20">
-          <FeaturedTransformation 
-            story={transformationStories.find(story => story.id === (featuredStory === 0 ? 1 : 4))} 
-          />
-          
-          {/* Next/Previous Featured Navigation */}
-          <div className="flex justify-center mt-8">
-            <button 
-              onClick={() => setFeaturedStory(0)}
-              className={`w-3 h-3 rounded-full mx-2 transition-colors ${featuredStory === 0 ? 'bg-[#8AAE39]' : 'bg-gray-300'}`}
-              aria-label="Erste Erfolgsgeschichte anzeigen"
-            />
-            <button 
-              onClick={() => setFeaturedStory(1)}
-              className={`w-3 h-3 rounded-full mx-2 transition-colors ${featuredStory === 1 ? 'bg-[#8AAE39]' : 'bg-gray-300'}`}
-              aria-label="Zweite Erfolgsgeschichte anzeigen"
-            />
-          </div>
-        </div>
-        
-        {/* Category Filter - eleganter */}
-        <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex flex-wrap justify-center gap-3">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveTab(category.id)}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                  activeTab === category.id
-                    ? 'bg-[#8AAE39] text-white shadow-md' 
-                    : 'bg-white text-gray-600 border border-gray-200 hover:border-[#8AAE39]/30'
-                }`}
-              >
-                {category.label}
-              </button>
-            ))}
-          </div>
-        </div>
-        
-        {/* Testimonial Grid - größer und eleganter */}
-        <div className="max-w-6xl mx-auto mb-20">
+        {/* Success Stories Grid */}
+        <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {transformationStories
-              .filter(story => activeTab === 'all' || story.category === activeTab)
+            {successStories
+              .filter(story => activeCategory === 'all' || story.category === activeCategory)
               .map((story, index) => (
-                <TestimonialCard key={story.id} story={story} index={index} />
+                <SuccessStoryCard 
+                  key={story.id} 
+                  story={story} 
+                  index={index}
+                  colors={colors}
+                  categories={categories}
+                  onClick={() => setSelectedStory(story.id)}
+                />
               ))}
           </div>
         </div>
         
       </div>
+
+      {/* Detail-Modal - erscheint nur, wenn eine Story ausgewählt ist */}
+      <AnimatePresence>
+        {isModalOpen && selectedStoryData && (
+          <motion.div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeModal}
+          >
+            <motion.div 
+              className="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <StoryDetailModal story={selectedStoryData} colors={colors} onClose={closeModal} categories={categories} />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
 
-// Neu gestaltete Komponenten für ein eleganteres Look & Feel
-
-const StatCard = ({ stat, index }) => (
+// Modern Key Metric Card
+const MetricCard = ({ metric, index, primaryColor }) => (
   <motion.div 
-    className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm relative overflow-hidden group"
+    className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 relative overflow-hidden group"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.5, delay: 0.2 + (index * 0.1) }}
-    whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(138, 174, 57, 0.1)" }}
+    transition={{ duration: 0.5, delay: 0.1 + (index * 0.1) }}
+    whileHover={{ y: -5 }}
   >
-    <div className="relative z-10">
-      <div className="text-4xl md:text-5xl font-bold text-[#8AAE39] mb-3 group-hover:scale-105 transition-transform duration-300">{stat.value}</div>
-      <div className="flex items-center mb-4">
-        <div className="h-1 w-16 bg-[#8AAE39]/30 rounded-full"></div>
+    {/* Subtle decoration */}
+    <div className="absolute -right-8 -top-8 w-24 h-24 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-300 bg-gray-100"></div>
+    
+    <div className="flex items-start mb-4">
+      <div className="mr-4 opacity-80 text-primary-600" style={{ color: primaryColor }}>
+        {metric.icon}
       </div>
-      <div className="font-medium text-xl text-gray-800 mb-2">{stat.label}</div>
-      <p className="text-gray-600">{stat.description}</p>
     </div>
     
-    {/* Minimalistisches dekoratives Element */}
-    <div className="absolute top-0 right-0 w-32 h-32 bg-[#8AAE39]/5 rounded-full -mr-10 -mt-10 group-hover:bg-[#8AAE39]/10 transition-colors duration-300"></div>
+    <div className="mb-6">
+      <div 
+        className="text-4xl md:text-5xl font-semibold mb-2 group-hover:scale-105 origin-left transition-transform duration-300"
+        style={{ color: primaryColor }}
+      >
+        {metric.value}
+      </div>
+      <h3 className="text-xl font-medium text-gray-900">{metric.title}</h3>
+    </div>
+    
+    <p className="text-gray-600 leading-relaxed">{metric.description}</p>
   </motion.div>
 );
 
-const TestimonialCard = ({ story, index }) => {
-  const [showBefore, setShowBefore] = useState(false);
+// Featured Success Story Component
+const FeaturedStory = ({ story, colors }) => {
+  const [showMore, setShowMore] = useState(false);
   
   return (
-    <motion.div
-      className="h-full"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-    >
-      <motion.div 
-        className="h-full bg-white border border-gray-100 rounded-2xl flex flex-col overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-        whileHover={{ y: -5 }}
-        transition={{ duration: 0.3 }}
-      >
-        {/* Header mit Profilbild */}
-        <div className="relative p-8 pb-6">
-          {/* Achievement Badge */}
-          <div className="inline-block bg-[#8AAE39]/10 rounded-full px-4 py-1.5 text-sm font-medium text-[#8AAE39] mb-3">
-            {story.achievement}
-          </div>
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div className="grid md:grid-cols-2">
+        {/* Left Column - Image */}
+        <div className="relative h-full min-h-[300px]">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${story.image})` }}
+          />
+          <div 
+            className="absolute inset-0 bg-black/50"
+          />
           
-          {/* Autor-Info - minimalistischer und eleganter */}
-          <div className="flex items-center mb-4">
-            <div className="w-16 h-16 rounded-full overflow-hidden shadow-sm mr-4">
-              <motion.div 
-                className="w-full h-full bg-cover bg-center"
-                style={{ backgroundImage: `url(${story.image})` }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.4 }}
-              />
-            </div>
-            <div>
-              <h4 className="font-semibold text-lg text-gray-900">{story.name}</h4>
-              <p className="text-gray-500">{story.goal}</p>
-            </div>
-          </div>
-          
-          {/* Before/After Toggle - minimalistisch und elegant */}
-          <div className="flex mb-2 border-b border-gray-100 pb-1">
-            <button
-              className={`mr-4 py-2 text-sm font-medium relative ${!showBefore ? 'text-[#8AAE39]' : 'text-gray-400 hover:text-gray-600'}`}
-              onClick={() => setShowBefore(false)}
+          {/* Content Overlay */}
+          <div className="relative h-full flex flex-col justify-end p-8 text-white">
+            <div 
+              className="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 backdrop-blur-sm bg-white/10 border border-white/20"
             >
-              Mit Athly
-              {!showBefore && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#8AAE39]"></span>}
-            </button>
-            <button
-              className={`py-2 text-sm font-medium relative ${showBefore ? 'text-[#8AAE39]' : 'text-gray-400 hover:text-gray-600'}`}
-              onClick={() => setShowBefore(true)}
-            >
-              Vorher
-              {showBefore && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#8AAE39]"></span>}
-            </button>
+              HERAUSRAGENDE ERFOLGSGESCHICHTE
+            </div>
+            <h3 className="text-2xl md:text-3xl font-semibold mb-2">{story.name}</h3>
+            <p className="text-lg md:text-xl font-medium opacity-90">{story.headline}</p>
           </div>
         </div>
         
-        {/* Content - eleganter und fokussierter */}
-        <div className="px-8 pb-8 flex-grow">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={showBefore ? 'before' : 'after'}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="h-full flex flex-col"
+        {/* Right Column - Content */}
+        <div className="p-8 md:p-10 flex flex-col">
+          <div className="text-gray-500 mb-4 text-sm font-medium">
+            Zeitraum: {story.duration}
+          </div>
+          
+          <div className="mb-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={showMore ? "full" : "preview"}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  {showMore ? story.story : `${story.story.substring(0, 150)}...`}
+                </p>
+                <button 
+                  onClick={() => setShowMore(!showMore)}
+                  className="text-sm font-medium inline-flex items-center group"
+                  style={{ color: colors.primary }}
+                >
+                  <span>{showMore ? "Weniger anzeigen" : "Weiterlesen"}</span>
+                  <svg 
+                    className={`ml-1 w-4 h-4 transition-transform duration-300 ${showMore ? 'rotate-180' : ''}`}
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor" 
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          
+          {/* Quote */}
+          <div 
+            className="p-5 rounded-xl mb-8 relative border bg-gray-50"
+            style={{ borderColor: `${colors.primary}30` }}
+          >
+            <div 
+              className="absolute top-3 left-3 text-5xl opacity-10"
+              style={{ color: colors.primary }}
             >
-              <div className="mb-6 flex-grow">
-                <blockquote className="text-lg text-gray-700 italic leading-relaxed">
-                  &quot;{showBefore ? story.before : story.after}&quot;
-                </blockquote>
-              </div>
-              
-              <div className="mt-auto flex items-center justify-between text-sm text-gray-500">
-                <span>Zeitraum: {story.duration}</span>
-                <div className="flex">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <svg
-                      key={i}
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-4 h-4 ml-1 text-[#8AAE39]"
-                    >
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              "
+            </div>
+            <blockquote className="text-lg italic text-gray-700 pl-4 relative z-10">
+              "{story.quote}"
+            </blockquote>
+          </div>
+          
+          {/* Achievements */}
+          <div className="mt-auto">
+            <h4 className="text-gray-900 font-medium mb-3">Erfolge:</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {story.achievement.map((item: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, i: React.Key | null | undefined) => (
+                <div 
+                  key={i}
+                  className="flex items-center py-2 px-3 rounded-lg bg-gray-50"
+                  style={{ backgroundColor: `${colors.primary}10` }}
+                >
+                  <div 
+                    className="w-6 h-6 rounded-full flex items-center justify-center mr-2"
+                    style={{ 
+                      backgroundColor: `${colors.primary}20`,
+                      color: colors.primary
+                    }}
+                  >
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" />
                     </svg>
-                  ))}
+                  </div>
+                  <span className="text-sm text-gray-700">{item}</span>
                 </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
+              ))}
+            </div>
+          </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 
-const FeaturedTransformation = ({ story }) => {
-  const [flipped, setFlipped] = useState(false);
-  
+// Success Story Card
+const SuccessStoryCard = ({ story, index, colors, categories, onClick }) => {
   return (
-    <motion.div 
-      className="max-w-6xl mx-auto bg-white rounded-2xl shadow overflow-hidden"
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.7 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      className="rounded-2xl bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer group"
+      onClick={onClick}
+      whileHover={{ y: -5 }}
     >
       <div className="relative">
-        {/* "Featured" Banner - eleganter */}
-        <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#8AAE39] to-[#97bc41] text-white text-center text-sm py-2 font-medium">
-          Herausragende Erfolgsgeschichte
-        </div>
+        <div 
+          className="h-48 bg-cover bg-center transform group-hover:scale-105 transition-transform duration-700"
+          style={{ backgroundImage: `url(${story.image})` }}
+        />
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/60 to-transparent"
+        />
         
-        <div className="pt-12 grid md:grid-cols-2 gap-0">
-          {/* Left Column - eleganter und fokussierter */}
-          <div className="p-10 bg-gray-50 flex flex-col">
-            <div className="mx-auto md:mx-0 text-center md:text-left mb-8">
-              <motion.div 
-                className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow mx-auto md:mx-0 mb-6"
-                whileHover={{ scale: 1.05 }}
-              >
-                <div 
-                  className="w-full h-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${story.image})` }}
-                />
-              </motion.div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{story.name}</h3>
-              <div className="inline-block bg-[#8AAE39]/10 rounded-full px-4 py-1.5 text-sm font-medium text-[#8AAE39]">
-                {story.goal}
-              </div>
-            </div>
-            
-            <div className="mt-auto pt-6">
-              <button
-                onClick={() => setFlipped(!flipped)}
-                className="w-full py-4 rounded-lg text-[#8AAE39] font-medium bg-white border border-[#8AAE39] hover:bg-[#8AAE39]/5 transition-colors duration-300 flex items-center justify-center"
-              >
-                <span>{flipped ? "Erfolgsgeschichte ansehen" : "Vorher/Nachher vergleichen"}</span>
-                <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            </div>
+        <div 
+          className="absolute top-4 left-4 inline-block px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm bg-white/10 border border-white/20 text-white"
+        >
+          {categories.find((c: { id: any; }) => c.id === story.category)?.label || story.category}
+        </div>
+      </div>
+      
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">{story.name}</h3>
+        <p 
+          className="font-medium mb-3 text-sm"
+          style={{ color: colors.primary }}
+        >
+          {story.headline}
+        </p>
+        
+        <p className="text-sm text-gray-600 mb-4 line-clamp-3">{story.story}</p>
+        
+        <div className="flex justify-between items-center">
+          <div className="text-sm text-gray-500">
+            {story.duration}
           </div>
           
-          {/* Right Column - eleganter und fokussierter */}
-          <div className="p-10 flex items-center">
-            <AnimatePresence mode="wait">
-              {flipped ? (
-                <motion.div
-                  key="comparison"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="w-full"
-                >
-                  <div className="grid grid-cols-1 gap-8">
-                    {/* Before */}
-                    <div className="bg-gray-50 rounded-2xl p-6 relative">
-                      <div className="absolute top-0 left-0 bg-gray-600 text-white text-xs font-medium py-1 px-3 rounded-br-lg rounded-tl-lg">
-                        VORHER
-                      </div>
-                      <div className="pt-6">
-                        <blockquote className="text-xl text-gray-600 italic leading-relaxed mt-4">
-                          &quot;{story.before}&quot;
-                        </blockquote>
-                      </div>
-                    </div>
-                    
-                    {/* After */}
-                    <div className="bg-[#8AAE39]/5 rounded-2xl p-6 relative">
-                      <div className="absolute top-0 left-0 bg-[#8AAE39] text-white text-xs font-medium py-1 px-3 rounded-br-lg rounded-tl-lg">
-                        NACHHER
-                      </div>
-                      <div className="pt-6">
-                        <blockquote className="text-xl text-gray-700 italic leading-relaxed mt-4">
-                          &quot;{story.after}&quot;
-                        </blockquote>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="story"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <div className="text-[#8AAE39]/20 text-8xl font-serif absolute top-10 right-10">&quot;</div>
-                  <div className="relative">
-                    <div className="mb-8">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-4">Die Transformation</h3>
-                      <p className="text-xl text-gray-700 leading-relaxed">
-                        {story.after}
-                      </p>
-                    </div>
-                    
-                    <div className="mt-10 bg-[#8AAE39]/5 rounded-2xl p-6">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Der Athly-Effekt:</h4>
-                      <div className="space-y-4">
-                        <div className="flex items-start">
-                          <div className="p-2 rounded-full bg-[#8AAE39]/20 text-[#8AAE39] mr-3 mt-0.5">
-                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" />
-                            </svg>
-                          </div>
-                          <div className="text-gray-700">Personalisierte Pläne, die sich mit dem Fortschritt anpassen</div>
-                        </div>
-                        <div className="flex items-start">
-                          <div className="p-2 rounded-full bg-[#8AAE39]/20 text-[#8AAE39] mr-3 mt-0.5">
-                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" />
-                            </svg>
-                          </div>
-                          <div className="text-gray-700">Kontinuierliche Anpassung an deinen Alltag</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+          <div className="flex">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <svg
+                key={i}
+                viewBox="0 0 24 24"
+                fill={i < story.rating ? "currentColor" : "none"}
+                stroke={i < story.rating ? "none" : "currentColor"}
+                className="w-4 h-4 ml-0.5"
+                style={{ color: colors.yellow }}
+              >
+                <path strokeWidth={1.5} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            ))}
           </div>
+        </div>
+        
+        <div className="mt-4 flex justify-between items-center">
+          <button 
+            className="text-sm font-medium inline-flex items-center group"
+            style={{ color: '#64748b' }} // Elegantes Slate-Grau
+          >
+            <span>Details ansehen</span>
+            <svg className="ml-1 w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
         </div>
       </div>
     </motion.div>
   );
 };
 
+// Detailed Story Modal
+const StoryDetailModal = ({ story, colors, onClose, categories }) => {
+  return (
+    <div className="flex flex-col max-h-[90vh]">
+      {/* Modal Header */}
+      <div className="relative">
+        <div 
+          className="h-64 bg-cover bg-center"
+          style={{ backgroundImage: `url(${story.image})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+        
+        {/* Close button */}
+        <button 
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-black/30 text-white hover:bg-black/50 transition-colors"
+          onClick={onClose}
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        
+        {/* Header content */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <div 
+            className="inline-block px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm bg-white/10 border border-white/20 mb-3"
+          >
+            {categories.find((c: { id: any; }) => c.id === story.category)?.label || story.category}
+          </div>
+          <h3 className="text-2xl md:text-3xl font-semibold mb-2">{story.name}</h3>
+          <p className="text-lg font-medium opacity-90">{story.headline}</p>
+        </div>
+      </div>
+      
+      {/* Modal Body */}
+      <div className="p-6 overflow-y-auto">
+        <div className="mb-6">
+          <div className="text-gray-500 mb-4 text-sm font-medium">
+            Zeitraum: {story.duration}
+          </div>
+          
+          <p className="text-gray-700 leading-relaxed mb-6">{story.story}</p>
+          
+          {/* Quote */}
+          <div 
+            className="p-5 rounded-xl mb-8 relative border bg-gray-50"
+            style={{ borderColor: `${colors.primary}30` }}
+          >
+            <div 
+              className="absolute top-3 left-3 text-5xl opacity-10"
+              style={{ color: colors.primary }}
+            >
+              "
+            </div>
+            <blockquote className="text-lg italic text-gray-700 pl-4 relative z-10">
+              "{story.quote}"
+            </blockquote>
+          </div>
+        </div>
+        
+        {/* Star Rating */}
+        <div className="flex items-center mb-6">
+          <span className="text-sm text-gray-700 mr-2">Bewertung:</span>
+          <div className="flex">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <svg
+                key={i}
+                viewBox="0 0 24 24"
+                fill={i < story.rating ? "currentColor" : "none"}
+                stroke={i < story.rating ? "none" : "currentColor"}
+                className="w-5 h-5 mr-0.5"
+                style={{ color: colors.yellow }}
+              >
+                <path strokeWidth={1.5} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            ))}
+          </div>
+        </div>
+        
+        {/* Achievements */}
+        <div>
+          <h4 className="text-gray-900 font-medium mb-3">Erreichte Ziele:</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+            {story.achievement.map((item: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<unknown>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, i: React.Key | null | undefined) => (
+              <div 
+                key={i}
+                className="flex items-center py-2.5 px-4 rounded-lg bg-gray-50"
+                style={{ backgroundColor: `${colors.primary}10` }}
+              >
+                <div 
+                  className="w-6 h-6 rounded-full flex items-center justify-center mr-2"
+                  style={{ 
+                    backgroundColor: `${colors.primary}20`,
+                    color: colors.primary
+                  }}
+                >
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" />
+                  </svg>
+                </div>
+                <span className="text-sm text-gray-700">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Call To Action */}
+        <div className="mt-6 text-center p-4 bg-gray-50 rounded-xl">
+          <p className="text-gray-700 mb-4">
+            Bereit für deine eigene Erfolgsgeschichte mit Athly?
+          </p>
+                          <button
+                  className="inline-flex items-center text-white font-medium rounded-lg px-6 py-3 shadow-md group bg-gradient-to-r from-gray-700 to-gray-800"
+                >
+                  <span>Kostenlos starten</span>
+                  <svg 
+                    className="ml-2 w-4 h-4 transition-transform duration-300 transform group-hover:translate-x-1"
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </button>
+        </div>
+      </div>
+    </div>
+  );
+};

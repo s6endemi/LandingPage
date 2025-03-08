@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
-import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { AuroraBackground } from "@/components/aceternity/aurora-background";
 import { AthlyAurora } from "@/components/ui/athly-aurora";
 
@@ -60,14 +59,7 @@ export default function RootLayout({
         <div className="fixed inset-0 -z-20 bg-gradient-to-b from-[#F7F4ED]/90 to-[#F0E9DC]/90"></div>
         
         <div className="fixed inset-0 -z-10 overflow-hidden">
-          <AnimatedGridPattern 
-            className="absolute inset-0 opacity-[0.03]" 
-            speed={0.5}
-            strokeWidth={1}
-            patternSize={50}
-            gridSize={30}
-            patternColor="rgba(64, 179, 131, 0.6)"
-          />
+
           
           <div 
             className="absolute inset-0 opacity-[0.02]"
