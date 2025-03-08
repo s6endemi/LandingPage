@@ -162,8 +162,7 @@ export function EnhancedHeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Schluss mit Standard-Trainingsplänen und Einheitsernährung. 
-              Erlebe maßgeschneidertes Training, das sich an dich anpasst.
+              Dein KI-Fitness-Coach trainiert dich persönlich, adaptiv und rund um die Uhr – genau wie ein echter Personal Trainer, nur ohne die hohen Kosten.
             </motion.p>
             
             {/* Key Benefits - now more airy */}
