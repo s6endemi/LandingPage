@@ -19,6 +19,12 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        // Füge die neue Schriftart hinzu
+        'bill': ['"Bill Corporate Narrow"', 'sans-serif'],
+        // Du kannst optional die Standardfamilie auch ändern
+        'sans': ['"Bill Corporate Narrow"', 'system-ui', '-apple-system', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -107,7 +113,6 @@ const config = {
   ],
 };
 
-// Füge diese Funktion hinzu
 function addVariablesForColors({ addBase, theme }) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
@@ -117,5 +122,20 @@ function addVariablesForColors({ addBase, theme }) {
     ":root": newVars,
   });
 }
+
+// Ergänze diese Funktion für die Schriftart
+function flattenColorPalette(colors) {
+  return Object.assign(
+    {},
+    ...Object.entries(colors ?? {}).flatMap(([color, values]) =>
+      typeof values == 'object'
+        ? Object.entries(values).map(([key, value]) => ({
+            [color + (key === 'DEFAULT' ? '' : `-${key}`)]: value,
+          }))
+        : [{ [`${color}`]: values }]
+    )
+  );
+}
+
 
 export default config;

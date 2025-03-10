@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "Bill Corporate Narrow";
+  src: url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.eot");
+  src: url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.eot?#iefix") format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.woff2") format("woff2"),
+    url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.woff") format("woff"),
+    url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.ttf") format("truetype"),
+    url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.svg#Bill Corporate Narrow W00medium") format("svg");
+}
+
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";

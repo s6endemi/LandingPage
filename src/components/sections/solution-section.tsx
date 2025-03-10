@@ -1,423 +1,411 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 export function SolutionSection() {
   const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
   
-  // Premium color palette with strategic accents
+  // Handle responsive detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  // Minimalistisches Farbschema
   const colors = {
-    primary: "#9bc539",      // Green for strategic accents only
-    dark: "#374151",         // Rich dark gray for headings
-    gray: "#6B7280",         // Medium gray for body text
-    light: "#F9FAFB",        // Light gray for subtle backgrounds
-    blue: "#3B82F6",         // Premium blue for first feature
-    accent: "#8B5CF6",       // Subtle purple accent for third feature
-    neutral: "#E5E7EB",      // Neutral color for UI elements
-    neutralDark: "#4B5563",  // Darker neutral for contrasts
-    neutralLight: "#F3F4F6", // Lighter neutral for backgrounds
+    primary: "#9bc539",
+    dark: "#1f2937",
+    gray: "#6b7280",
+    lightGray: "#f3f4f6",
+    white: "#ffffff",
+    ctaGreen: "#8ab42d"
   };
   
-  // Parallax-Effect for images
+  // Parallax effect
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
   
-  const imageY1 = useTransform(scrollYProgress, [0, 1], [30, -30]);
-  const imageY2 = useTransform(scrollYProgress, [0, 1], [20, -20]);
-  const imageY3 = useTransform(scrollYProgress, [0, 1], [25, -25]);
-  const textY = useTransform(scrollYProgress, [0, 1], [60, -20]);
-  
-  // Solution features for alternating rows with concise texts
-  const solutions = [
-    {
-      badge: "KI-KOMMUNIKATION",
-      title: "Persönliches Coaching in Gesprächen",
-      description: "Kommuniziere mit deinem KI-Coach wie mit einem persönlichen Trainer. Stelle Fragen und passe Pläne an – genau dann, wenn du es brauchst.",
-      image: "https://images.unsplash.com/photo-1594882645126-14020914d58d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80",
-      imageAlt: "Person spricht mit AI-Coach auf Smartphone",
-      mockup: {
-        text: "Ich muss heute mein Training verschieben",
-        response: "Kein Problem! Ich habe deinen Plan auf 18 Uhr angepasst und deine Ernährung entsprechend aktualisiert."
-      },
-      features: [
-        "24/7 Verfügbarkeit für alle Fragen", 
-        "Personalisiertes Coaching per Chat",
-        "Schnelle Anpassung mit einem Text"
-      ]
-    },
-    {
-      badge: "PERSONALISIERUNG",
-      title: "Maßgeschneiderte Pläne für deine Ziele",
-      description: "Schluss mit One-Size-Fits-All Programmen. Athly erstellt personalisierte Trainings- und Ernährungspläne basierend auf deinen individuellen Zielen.",
-      image: "https://images.unsplash.com/photo-1599058917765-a780eda07a3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80",
-      imageAlt: "Personalisierter Trainingsplan auf Smartphone",
-      mockup: {
-        stat: "87%",
-        label: "Bessere Ergebnisse durch Personalisierung"
-      },
-      features: [
-        "Individuelle Trainingspläne", 
-        "Anpassung an Ernährungsvorlieben",
-        "Optimiert für deinen Zeitplan"
-      ]
-    },
-    {
-      badge: "INTELLIGENTE ANPASSUNG",
-      title: "Optimierung in Echtzeit – jeden Tag",
-      description: "Keine starren Programme, sondern lebende Pläne. Dein Coach erkennt deine Form und passt alles automatisch an – wie ein echter Trainer.",
-      image: "https://images.unsplash.com/photo-1574269252556-89926e7c5805?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80",
-      imageAlt: "Person trainiert mit adaptivem Fitness-Plan",
-      mockup: {
-        progress: 68,
-        label: "Trainingsziel angepasst: 3kg mehr Muskelmasse"
-      },
-      features: [
-        "Anpassung an Tagesform", 
-        "Automatische Fortschrittsoptimierung",
-        "Flexible Pläne für deinen Alltag"
-      ]
-    }
-  ];
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -15 : -40]);
 
-  // Font import for demonstration (in production this would be in a global style file)
-  const fontImportStyle = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-  `;
+  // Animation variants
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] }
+    }
+  };
 
   return (
     <section 
       ref={containerRef}
-      className="relative py-20 overflow-hidden font-['Inter',sans-serif]"
+      className="relative py-16 md:py-24 lg:py-28 overflow-hidden bg-white"
+      style={{ fontFamily: "Inter, system-ui, sans-serif" }}
       id="solution"
-      style={{ 
-        /* Base typography settings for Zing-like look */
-        fontFamily: "'Inter', system-ui, sans-serif",
-        fontFeatureSettings: '"cv02", "cv03", "cv04", "cv11"',
-        letterSpacing: "-0.01em"
-      }}
     >
-      {/* Stylesheet for font */}
-      <style>{fontImportStyle}</style>
-      
-      {/* Background effects */}
-      <div className="absolute inset-0 -z-10 opacity-10 overflow-hidden">
+      {/* Subtle background with parallax effect */}
+      <motion.div 
+        className="absolute inset-0 -z-10 opacity-5 overflow-hidden"
+        style={{ y: backgroundY }}
+      >
         <div className="absolute right-0 top-0 w-1/2 h-1/2 bg-gradient-to-bl from-gray-50 to-transparent rounded-full blur-3xl"></div>
         <div className="absolute left-0 bottom-0 w-1/2 h-1/2 bg-gradient-to-tr from-gray-50 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute left-1/2 top-1/3 -translate-x-1/2 w-full h-32 bg-gradient-to-r from-transparent via-gray-100/20 to-transparent blur-xl"></div>
+      </motion.div>
+      
+      {/* Hero Video with Overlaid Title - Zing-style typography */}
+      <div className="mb-14 md:mb-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="relative h-[140px] sm:h-[180px] md:h-[320px] overflow-hidden rounded-2xl shadow-md">
+            {/* Hero Video */}
+            <video 
+              className="absolute inset-0 w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+            >
+              <source src="https://cdn.pixabay.com/video/2024/02/15/200657-913478674_large.mp4" type="video/mp4" />
+            </video>
+            
+            {/* Dark Overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/10"></div>
+            
+            {/* Left-aligned Title Text - Zing style */}
+            <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-12 max-w-2xl">
+              <motion.span 
+                className="text-white/90 text-xs uppercase tracking-wide mb-1 md:mb-3 font-medium"
+                initial={{ opacity: 0, y: -10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+              >
+                Erreiche deine Fitness-Ziele
+              </motion.span>
+              
+              <motion.h2 
+                className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.1 }}
+              >
+                Dein KI-Trainer,
+                <span style={{ color: colors.primary }}> immer dabei</span>
+              </motion.h2>
+            </div>
+          </div>
+        </div>
       </div>
       
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Header with animated underline */}
-        <div className="text-center mb-16">
-          <motion.span
-            className="inline-block px-5 py-2 rounded-full mb-4"
-            style={{ 
-              backgroundColor: `${colors.neutralLight}`,
-              color: colors.neutralDark
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="text-sm uppercase tracking-wide font-medium">DIE ATHLY LÖSUNG</span>
-          </motion.span>
-          
-          <motion.h2 
-            className="text-4xl md:text-6xl font-semibold mb-5 text-gray-800 inline-block relative tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            style={{ lineHeight: 1.1 }}
-          >
-            Dein KI-<span style={{ color: colors.primary }}>Coach</span> im Taschenformat
-            <motion.div 
-              className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[2px] opacity-30"
-              style={{ backgroundColor: colors.dark }}
-              initial={{ width: 0 }}
-              whileInView={{ width: "70%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9, delay: 0.3 }}
-            ></motion.div>
-          </motion.h2>
-          
-          <motion.p 
-            className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto font-normal leading-relaxed"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
-            Kombiniere die Personalisierung eines echten Trainers mit der Bequemlichkeit 
-            einer App – dank KI-Technologie, die dich wirklich versteht
-          </motion.p>
-        </div>
-        
-        {/* Alternating features with optimized layout */}
-        <div className="space-y-20">
-          {solutions.map((solution, index) => (
-            <div 
-              key={index}
-              className={`flex flex-col lg:items-center ${
-                index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-              } gap-8 lg:gap-16 relative`}
-            >
-              {/* Decorative background */}
-              {index !== solutions.length - 1 && (
-                <div 
-                  className="absolute left-1/2 -bottom-10 transform -translate-x-1/2 h-px w-1/4 opacity-20"
-                  style={{ backgroundColor: colors.dark }}
-                ></div>
-              )}
-              
-              {/* Image side with overlaid UI elements */}
-              <motion.div 
-                className="lg:w-1/2 relative"
-                style={{ y: index === 0 ? imageY1 : index === 1 ? imageY2 : imageY3 }}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
-              >
-                <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-lg">
-                  {/* Image with overlay */}
-                  <img 
-                    src={solution.image} 
-                    alt={solution.imageAlt}
-                    className="w-full h-full object-cover"
-                  />
-                  <div 
-                    className="absolute inset-0 opacity-60"
-                    style={{ 
-                      background: index % 2 === 0 
-                        ? `linear-gradient(to right, ${colors.dark}40 0%, transparent 100%)` 
-                        : `linear-gradient(to left, ${colors.dark}40 0%, transparent 100%)`
-                    }}
-                  ></div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        {/* First Benefit - Conversion-optimized with focused chat scenario */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mb-16 md:mb-24"
+        >
+          <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+            <div className="md:flex">
+              {/* Left: Content */}
+              <div className="p-6 md:p-10 md:w-1/2">
+                {/* Benefit Label - NEW */}
+                <div className="inline-block px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-semibold tracking-wide mb-4">
+                  FLEXIBEL & ANPASSBAR
+                </div>
+                
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-5 tracking-tight leading-tight">
+                  Trainingspläne die sich an dich anpassen, nicht umgekehrt
+                </h3>
+                
+                <p className="text-base md:text-lg font-medium text-gray-700 mb-8 md:pr-6">
+                  Keine starren Pläne mehr. Athly passt sich deinem Leben an – ob du eine Übung ändern, ein Training verschieben oder deine Ziele anpassen willst.
+                </p>
+                
+                {/* Benefit Points with Icons - NEW */}
+                <div className="space-y-4 mb-6">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 mt-0.5">
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="text-gray-700 text-base md:text-lg">Ändere Übungen spontan ohne den Trainingseffekt zu verlieren</div>
+                  </div>
                   
-                  {/* Floating badge */}
-                  <div 
-                    className={`absolute ${index % 2 === 0 ? 'right-6' : 'left-6'} top-6 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100/50 px-3 py-2 text-sm z-20`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <div 
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-white"
-                        style={{ 
-                          backgroundColor: index === 0 
-                            ? colors.blue 
-                            : index === 1 
-                              ? colors.primary 
-                              : colors.accent 
-                        }}
-                      >
-                        {index === 0 ? (
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                          </svg>
-                        ) : index === 1 ? (
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                          </svg>
-                        ) : (
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                          </svg>
-                        )}
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 mt-0.5">
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="text-gray-700 text-base md:text-lg">Passe deine Ziele jederzeit an und erhalte sofort einen neuen Plan</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Right: Fokussiertes Chat-Szenario */}
+              <div className="md:w-1/2 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden">
+                <div className="h-full w-full flex items-center justify-center p-4 md:p-6 lg:p-8">
+                  {/* Nur die wesentliche Visualisierung des Szenarios */}
+                  <div className="relative max-w-md mx-auto w-full">
+                    {/* Nur die wichtigsten Chat-Elemente */}
+                    <div className="flex flex-col space-y-3">
+                      {/* Kurzer Kontext */}
+                      <div className="bg-white rounded-2xl p-4 shadow-md">
+                        <div className="flex items-center mb-2">
+                          <div className="h-8 w-8 bg-green-500 rounded-full flex items-center justify-center text-white font-medium mr-3">
+                            A
+                          </div>
+                          <div className="font-semibold text-gray-900">Athly Coach</div>
+                        </div>
+                        
+                        {/* Szenariobeschreibung */}
+                        <div className="bg-blue-50 text-gray-800 p-3 rounded-xl rounded-tr-sm max-w-sm ml-auto mb-3">
+                          <p className="text-sm">Hey Coach, ich muss mein Training heute absagen. Hab spontan ein wichtiges Meeting reinbekommen 😕</p>
+                        </div>
                       </div>
-                      <span className="font-medium tracking-wide text-gray-800">{solution.badge}</span>
-                    </div>
-                  </div>
-                  
-                  {/* UI element overlay based on solution type */}
-                  {solution.mockup && (
-                    <div className={`absolute ${index % 2 === 0 ? 'left-6' : 'right-6'} bottom-6 max-w-[70%] z-20`}>
-                      {index === 0 ? (
-                        // Chat mockup
-                        <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100/80 p-3 max-w-[240px]">
-                          <div className="bg-gray-100 rounded-lg p-2 mb-2 text-sm font-normal">{solution.mockup.text}</div>
-                          <div className="rounded-lg p-2 text-sm font-normal" 
-                            style={{ 
-                              backgroundColor: `${colors.blue}10`, 
-                              color: colors.dark
-                            }}
-                          >
-                            {solution.mockup.response}
+                      
+                      {/* Adaptation Card - Das eigentliche Feature im Fokus */}
+                      <div className="bg-white rounded-2xl shadow-md p-5">
+                        <div className="flex items-center mb-3">
+                          <div className="h-8 w-8 bg-green-500 rounded-full flex items-center justify-center text-white font-medium mr-3">
+                            A
+                          </div>
+                          <div>
+                            <div className="font-semibold text-gray-900">Plan angepasst</div>
+                            <div className="text-xs text-green-600">Trainingsziele bleiben auf Kurs</div>
                           </div>
                         </div>
-                      ) : index === 1 ? (
-                        // Statistics mockup
-                        <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100/80 p-4 text-center">
-                          <div className="text-2xl font-semibold mb-1" style={{ color: colors.primary }}>{solution.mockup.stat}</div>
-                          <div className="text-xs text-gray-700 max-w-[180px] font-normal">{solution.mockup.label}</div>
-                        </div>
-                      ) : (
-                        // Progress mockup
-                        <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-gray-100/80 p-4">
-                          <div className="w-full h-2 bg-gray-100 rounded-full mb-2 overflow-hidden">
-                            <div 
-                              className="h-full rounded-full" 
-                              style={{ 
-                                background: `linear-gradient(to right, ${colors.blue}, ${colors.primary})`,
-                                width: `${solution.mockup.progress}%` 
-                              }}
-                            ></div>
+                        
+                        {/* Das angepasste Workout als Hauptfokus */}
+                        <div className="rounded-xl border border-green-100 bg-green-50 p-4 relative mt-2 mb-2">
+                          <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center border border-white">
+                            <svg className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
+                              <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
+                            </svg>
                           </div>
-                          <div className="text-xs text-gray-700 font-normal">{solution.mockup.label}</div>
+                          
+                          <div className="flex justify-between mb-2">
+                            <div className="font-bold text-gray-900">Donnerstag, 14. März</div>
+                            <div className="text-xs bg-green-600 text-white px-2 py-0.5 rounded-full font-medium">Neu</div>
+                          </div>
+                          
+                          <div className="mb-3">
+                            <div className="text-base font-medium text-gray-800">Cardio + Kraft Kombi</div>
+                            <div className="text-sm text-gray-600">Von Dienstag verschoben</div>
+                          </div>
+                          
+                          <div className="flex space-x-3">
+                            <div className="py-1 px-3 bg-white rounded-md text-sm border border-gray-200 text-gray-700 flex items-center">
+                              <svg className="w-4 h-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              30 Min
+                            </div>
+                            <div className="py-1 px-3 bg-white rounded-md text-sm border border-gray-200 text-gray-700 flex items-center">
+                              <span className="h-2 w-2 rounded-full bg-yellow-500 mr-1.5"></span>
+                              Mittel
+                            </div>
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-              
-              {/* Content side */}
-              <motion.div 
-                className="lg:w-1/2"
-                style={{ y: textY }}
-                initial={{ opacity: 0, x: index % 2 === 0 ? 30 : -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <div className="lg:max-w-xl">
-                  <div 
-                    className="inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 tracking-wide"
-                    style={{ 
-                      backgroundColor: `${colors.neutralLight}`,
-                      color: index === 0 ? colors.blue : index === 1 ? colors.primary : colors.accent
-                    }}
-                  >
-                    {solution.badge}
-                  </div>
-                  
-                  <h3 className="text-3xl md:text-4xl font-medium mb-3 text-gray-800 tracking-tight" style={{ lineHeight: 1.1 }}>
-                    {solution.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 mb-5 leading-relaxed font-normal">
-                    {solution.description}
-                  </p>
-                  
-                  {/* Checklist with enhanced presentation */}
-                  <ul className="space-y-2 mb-6">
-                    {solution.features.map((feature, fIndex) => (
-                      <li key={fIndex} className="flex items-start">
-                        <div 
-                          className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center mt-1 mr-3"
-                          style={{ 
-                            backgroundColor: index === 0 ? `${colors.blue}15` : index === 1 ? `${colors.primary}15` : `${colors.accent}15`,
-                            color: index === 0 ? colors.blue : index === 1 ? colors.primary : colors.accent
-                          }}
-                        >
-                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        
+                        {/* Adaptation Highlights */}
+                        <div className="flex items-center text-sm text-gray-600 mt-3">
+                          <svg className="w-5 h-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
+                          Intensität angepasst, um deine Ziele zu erreichen
                         </div>
-                        <span className="text-gray-700 font-medium">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  {/* Action link only on the last element */}
-                  {index === solutions.length - 1 && (
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="inline-block mt-2"
-                    >
-                      <button 
-                        className="inline-flex items-center text-white rounded-xl px-7 py-3 font-medium text-sm shadow-md hover:shadow-lg transition-all duration-300"
-                        style={{ 
-                          backgroundColor: colors.primary,
-                          boxShadow: `0 4px 14px -4px ${colors.primary}40`,
-                          letterSpacing: "0.01em" 
-                        }}
-                      >
-                        <span>Kostenlos starten</span>
-                        <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                      </button>
-                    </motion.div>
-                  )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
-          ))}
-        </div>
+          </div>
+        </motion.div>
         
-        {/* Improved transition to feature section */}
-        <div className="mt-24 md:mt-28 text-center relative">
-          <div 
-            className="absolute left-1/2 transform -translate-x-1/2 -top-16 w-px h-12"
-            style={{ 
-              background: `linear-gradient(to bottom, transparent, ${colors.dark}50)` 
-            }}
-          ></div>
-          
-          <motion.div
-            className="inline-block mb-5"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div 
-              className="px-4 py-2 rounded-xl text-xs font-medium inline-flex items-center gap-2 tracking-wide"
-              style={{ 
-                backgroundColor: colors.neutralLight,
-                color: colors.dark
-              }}
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>ENTDECKE DIE DETAILS</span>
+        {/* Second Benefit - Conversion-optimized with improvement */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="mb-16 md:mb-24"
+        >
+          <div className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+            <div className="md:grid md:grid-cols-2">
+              {/* Left: Video - Größer für Mobile */}
+              <div className="relative h-[220px] sm:h-[280px] md:h-[360px] rounded-t-2xl md:rounded-tr-none md:rounded-l-2xl overflow-hidden">
+                <video 
+                  className="absolute inset-0 w-full h-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                >
+                  <source src="https://cdn.pixabay.com/video/2019/10/04/27539-364430966_large.mp4" type="video/mp4" />
+                </video>
+                
+                {/* Subtle overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-black/30"></div>
+                
+                {/* Subtle branding badge */}
+                <div className="absolute top-5 left-5">
+                  <div className="bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full">
+                    <span className="text-white text-xs font-medium tracking-wide">ATHLY</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Right: Content */}
+              <div className="p-6 md:p-10">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-5 tracking-tight leading-tight">
+                  Dein persönlicher Trainer, jederzeit verfügbar
+                </h3>
+                
+                <p className="text-base md:text-lg text-gray-700 mb-8">
+                  Frag deinen KI-Coach alles – von Übungstechniken bis zu Ernährungstipps. Erhalte sofort qualifizierte Antworten, wann immer du sie brauchst.
+                </p>
+                
+                <div className="space-y-4 mb-6">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="font-medium text-gray-800 text-base md:text-lg">Sofortige Antworten auf alle Fragen</div>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="font-medium text-gray-800 text-base md:text-lg">Motiviert dich durchzuhalten</div>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 h-6 w-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                      <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="font-medium text-gray-800 text-base md:text-lg">Trainiert ohne zu verurteilen</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </motion.div>
-          
-          <motion.h2
-            className="text-3xl md:text-4xl font-medium mb-4 text-gray-800 tracking-tight"
-            style={{ lineHeight: 1.1 }}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Wie funktioniert Athly im Detail?
-          </motion.h2>
-          
-          <motion.p
-            className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 font-normal leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            Tauche tiefer ein und entdecke alle Features, die Athly zur innovativsten Fitness-Lösung machen
-          </motion.p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <svg 
-              className="w-6 h-6 mx-auto animate-bounce"
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-              style={{ color: colors.primary }}
+          </div>
+        </motion.div>
+
+        
+        {/* Trust Section mit Video-Hintergrund */}
+        <motion.div 
+          className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-16 relative"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Video-Hintergrund für die gesamte Box */}
+          <div className="absolute inset-0 w-full h-full">
+            <video 
+              className="absolute inset-0 w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              style={{ objectPosition: "center 25%" }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </motion.div>
-        </div>
+              <source src="https://cdn.pixabay.com/video/2023/11/19/189729-886596145_large.mp4" type="video/mp4" />
+            </video>
+            
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-black/40"></div>
+          </div>
+          
+          <div className="grid md:grid-cols-2 relative z-10">
+            <div className="p-6 md:p-10 lg:p-12">
+              {/* 5 Goldene Sterne über dem Titel */}
+              <div className="flex mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-5 h-5 text-yellow-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold mb-4 text-gray-900">Erreiche auch du deine Ziele mit Athly</h3>
+              <p className="text-base md:text-lg text-gray-700 mb-8">
+                Mit Athly als deinem persönlichen KI-Coach ist dein Erfolg keine Frage des Glücks mehr. Wir haben hunderten Menschen geholfen – du bist der Nächste!
+              </p>
+              {/* CTA Button - accent color */}
+              <button className="inline-flex items-center px-6 py-3 text-white font-medium rounded-xl shadow-md transition-all duration-300 group text-base md:text-lg"
+                style={{ backgroundColor: colors.ctaGreen }}
+              >
+                <span>Kostenlos starten</span>
+                <svg className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Right Column - Testimonial Overlay */}
+            <div className="hidden md:flex items-center justify-center relative p-8">
+              {/* Testimonial Overlay - elegant und subtil */}
+              <div className="max-w-sm">
+                <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-5 border border-white/20">
+                  <div className="flex flex-col">
+                    <div className="flex items-center mb-3">
+                      {/* User Avatar mit Initial */}
+                      <div className="h-10 w-10 rounded-full flex items-center justify-center mr-3" style={{ backgroundColor: colors.primary, color: 'white' }}>
+                        M
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-900">Michael S.</div>
+                        <div className="text-xs text-gray-500">Nutzer seit 3 Monaten</div>
+                      </div>
+                    </div>
+                    
+                    {/* Sterne-Rating */}
+                    <div className="flex mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <svg key={i} className="w-4 h-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    
+                    {/* Testimonial Text */}
+                    <p className="text-sm text-gray-700 italic mb-2">
+                      "Habe in 8 Wochen 5kg abgenommen und endlich eine Routine gefunden, die ich durchhalten kann. Der KI-Coach versteht genau, wann er mich pushen muss und wann nicht."
+                    </p>
+                    
+                    {/* Achievement Badge */}
+                    <div className="self-start mt-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                      -5kg in 8 Wochen
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
