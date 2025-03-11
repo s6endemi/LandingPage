@@ -83,7 +83,7 @@ export function SolutionSection() {
             {/* Left-aligned Title Text - Für Mobile optimiert */}
             <div className="absolute inset-0 flex flex-col justify-center px-5 md:px-12 max-w-2xl">
               <motion.span 
-                className="text-white/90 text-xs uppercase tracking-wide mb-1 md:mb-2 font-medium"
+                className="text-white/90 text-sm uppercase tracking-wide mb-1 md:mb-2 font-medium"
                 initial={{ opacity: 0, y: -10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -93,7 +93,7 @@ export function SolutionSection() {
               </motion.span>
               
               <motion.h2 
-                className="text-xl sm:text-2xl md:text-4xl font-bold text-white leading-tight"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -116,7 +116,7 @@ export function SolutionSection() {
           transition={{ duration: 0.7 }}
           className="mb-8 md:mb-16"
         >
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+          <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden border border-gray-100">
             <div className="flex flex-col md:flex-row md:items-center">
               {/* Left: Content - Mobile-optimiert */}
               <div className="p-5 md:p-8 md:w-1/2">
@@ -226,7 +226,7 @@ export function SolutionSection() {
           transition={{ duration: 0.7 }}
           className="mb-8 md:mb-16"
         >
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+          <div className="bg-gray-50 rounded-xl shadow-sm overflow-hidden border border-gray-100">
             <div className="flex flex-col md:grid md:grid-cols-2">
               {/* Left: Video - Mobile-optimiert */}
               <div className="relative h-[180px] sm:h-[200px] md:h-[320px] overflow-hidden">
@@ -393,7 +393,21 @@ export function SolutionSection() {
               </svg>
             </button>
             
-       
+            {/* Trust Badges - Horizontal angeordnet */}
+            <div className="flex justify-between">
+              <div className="flex items-center text-xs text-gray-600">
+                <svg className="w-4 h-4 text-green-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span>100% Datenschutz</span>
+              </div>
+              <div className="flex items-center text-xs text-gray-600">
+                <svg className="w-4 h-4 text-green-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span>7 Tage kostenlos</span>
+              </div>
+            </div>
           </div>
           
           {/* Desktop Layout - Original beibehalten */}

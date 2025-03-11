@@ -574,8 +574,13 @@ export function FeatureSection() {
                       </div>
                     </div>
                     
-                    {/* Subtle glow effect */}
-                    <div className="absolute -z-10 inset-0 rounded-[60px] blur-xl opacity-20" style={{ backgroundColor: feature.color }}></div>
+                    {/* Subtle glow effect - ÜBERARBEITET für subtilen Rand-Schimmer */}
+                    <div 
+                      className="absolute -z-10 -inset-0.5 rounded-[62px] blur-sm opacity-10"
+                      style={{ 
+                        background: `linear-gradient(to bottom right, ${feature.color}80, ${feature.color}30)` 
+                      }}
+                    ></div>
                   </motion.div>
                 </div>
               </div>
@@ -632,8 +637,13 @@ export function FeatureSection() {
                     </div>
                   </div>
                   
-                  {/* Subtle glow effect */}
-                  <div className="absolute -z-10 inset-0 rounded-[60px] blur-xl opacity-20" style={{ backgroundColor: feature.color }}></div>
+                  {/* Subtle glow effect - ÜBERARBEITET für subtilen Rand-Schimmer */}
+                  <div 
+                    className="absolute -z-10 -inset-0.5 rounded-[62px] blur-sm opacity-10"
+                    style={{ 
+                      background: `linear-gradient(to bottom right, ${feature.color}80, ${feature.color}30)` 
+                    }}
+                  ></div>
                 </motion.div>
                 
                 {/* Feature Boxes - Under the Phone on Mobile */}

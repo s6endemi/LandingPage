@@ -96,63 +96,57 @@ export function Header() {
 
   // Navigation items
   const navItems = [
-    { name: "Features", href: "#features", id: "features", onClick: () => scrollToSection("features"), description: "Entdecke fortschrittliche KI-Trainingsfunktionen" },
-    { name: "KI-Coach", href: "#coach", id: "coach", onClick: () => scrollToSection("coach"), description: "Lerne deinen persönlichen KI-Trainer kennen" },
-    { name: "Erfahrungen", href: "#testimonials", id: "testimonials", onClick: () => scrollToSection("testimonials"), description: "Kundenstimmen und Erfolgsgeschichten" },
+    { name: "Features", href: "#features", id: "features", onClick: () => scrollToSection("features") },
+    { name: "KI-Coach", href: "#coach", id: "coach", onClick: () => scrollToSection("coach") },
+    { name: "Erfahrungen", href: "#testimonials", id: "testimonials", onClick: () => scrollToSection("testimonials") },
   ];
 
   return (
-    <header className={`md:fixed relative top-0 w-full z-50 ${scrolled ? 'py-2.5' : 'py-5'} transition-all duration-300`}>
-      {/* Glass-like background effect - 60% neutral colors */}
+    <header className={`md:fixed relative top-0 w-full z-50 ${scrolled ? 'py-2' : 'py-3 md:py-5'} transition-all duration-300`}>
+      {/* Glass-like background effect - optimiert */}
       <div className={`absolute inset-0 transition-all duration-300 ${
         scrolled 
           ? 'backdrop-blur-sm bg-white/90 shadow-sm border-b border-gray-100' 
           : 'bg-transparent'
       }`}></div>
       
-      {/* Header Content */}
-      <div className="container mx-auto px-4 relative z-10">
+      {/* Header Content - kompakter für mobile */}
+      <div className="container mx-auto px-3 md:px-4 relative z-10">
         <div className="flex items-center justify-between relative">
-          {/* Logo with hover effect */}
+          {/* Logo - vereinfacht für optimale Performance */}
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="group relative flex items-center cursor-pointer"
+            className="flex items-center"
           >
-            <div className="relative z-10">
-              <div className="absolute -inset-1 rounded-full opacity-0 blur group-hover:opacity-10 transition-opacity duration-500 bg-gray-200"></div>
-              {/* Athly logo - 30% brand color */}
-              <svg
-                className="h-8 w-8 text-[#9bc539] group-hover:text-[#8ab52a] transition-colors duration-300"
-                viewBox="0 0 36 36"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path 
-                  d="M18 3L33 30H3L18 3Z" 
-                  stroke="currentColor" 
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path 
-                  d="M18 12L25.5 25H10.5L18 12Z" 
-                  stroke="currentColor" 
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <span
-              className="ml-2 font-bold tracking-tight text-gray-800 text-lg transition-all duration-300"
+            <svg
+              className="h-7 w-7 md:h-8 md:w-8 text-[#9bc539]"
+              viewBox="0 0 36 36"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
+              <path 
+                d="M18 3L33 30H3L18 3Z" 
+                stroke="currentColor" 
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path 
+                d="M18 12L25.5 25H10.5L18 12Z" 
+                stroke="currentColor" 
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className="ml-2 font-bold tracking-tight text-gray-800 text-base md:text-lg">
               ATHLY
             </span>
           </button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2">
-                          <div
+            <div
               className={cn(
                 "relative flex items-center h-10 rounded-full p-1 overflow-hidden",
                 "border border-gray-200 shadow-sm backdrop-blur-sm transition-all duration-300",
@@ -167,7 +161,7 @@ export function Header() {
                   onMouseEnter={() => setActiveItem(item.name)}
                   onMouseLeave={() => setActiveItem(null)}
                 >
-                  {/* Active indicator - neutral with subtle highlight */}
+                  {/* Active indicator */}
                   {activeSection === item.id && (
                     <motion.div 
                       className="absolute inset-0 rounded-full bg-gray-100"
@@ -175,16 +169,15 @@ export function Header() {
                       transition={{ 
                         type: "spring", 
                         duration: 0.7, 
-                        bounce: 0.1,
-                        ease: "easeInOut"
+                        bounce: 0.1
                       }}
                     ></motion.div>
                   )}
                   
-                  {/* Navigation text - 60% neutral colors */}
+                  {/* Navigation text */}
                   <span 
                     className={cn(
-                      "relative z-10 tracking-wide", 
+                      "relative z-10", 
                       activeSection === item.id
                         ? "text-gray-800 font-medium" 
                         : "text-gray-600 hover:text-gray-800"
@@ -193,18 +186,14 @@ export function Header() {
                     {item.name}
                   </span>
                   
-                  {/* Tooltip - Simplified for better conversion */}
+                  {/* Tooltip - nur auf Desktop */}
                   {activeItem === item.name && (
-                    <div 
-                      className="absolute top-full mt-2 rounded-lg py-2 px-3 bg-white/95 border border-gray-200 min-w-[180px] text-center shadow-sm animate-in fade-in duration-300 slide-in-from-bottom-1"
-                    >
-                      <div className="relative overflow-hidden">
-                        <div className="text-xs text-gray-600 relative z-10 leading-relaxed">
-                          {item.description}
-                        </div>
+                    <div className="absolute top-full mt-2 rounded-lg py-2 px-3 bg-white/95 border border-gray-200 min-w-[180px] text-center shadow-sm animate-in fade-in duration-300 slide-in-from-bottom-1">
+                      <div className="text-xs text-gray-600">
+                        {item.id === "features" && "Entdecke fortschrittliche KI-Trainingsfunktionen"}
+                        {item.id === "coach" && "Lerne deinen persönlichen KI-Trainer kennen"}
+                        {item.id === "testimonials" && "Kundenstimmen und Erfolgsgeschichten"}
                       </div>
-                      
-                      {/* Arrow pointer */}
                       <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white rotate-45 border-t border-l border-gray-200"></div>
                     </div>
                   )}
@@ -213,56 +202,51 @@ export function Header() {
             </div>
           </div>
 
-          {/* CTA Button - 10% special colors for conversion */}
-          <div className="relative group">
+          {/* CTA Button - optimiert für mobile */}
+          <div className="flex items-center">
             <button 
-              className="bg-[#9bc539] hover:bg-[#8ab42d] relative overflow-hidden border border-[#9bc539]/10 text-white rounded-full px-5 py-2.5 text-sm font-medium transition-all hover:shadow-md hover:shadow-[#9bc539]/20"
+              className="bg-[#9bc539] text-white rounded-full px-4 py-2 text-sm font-medium"
               onClick={() => setIsModalOpen(true)}
             >
-              {/* Shimmer effect for attention */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1500 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-              
-              <span className="relative z-10 flex items-center">
-                <span className="hidden sm:inline">Frühen Zugang sichern</span>
+              <span className="flex items-center">
+                <span className="hidden sm:inline">Zugang</span>
                 <span className="sm:hidden">Zugang</span>
-                <svg className="ml-1.5 w-3.5 h-3.5 opacity-100 group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="ml-1 w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </span>
             </button>
+            
+            {/* Mobile Menu Toggle Button - kompakter */}
+            <button 
+              className="md:hidden ml-1 h-9 w-9 flex items-center justify-center"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <div className="relative">
+                <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
+                <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+              </div>
+            </button>
           </div>
-
-          {/* Mobile Menu Toggle Button - 60% neutral colors */}
-          <button 
-            className="md:hidden relative flex items-center justify-center h-10 w-10 rounded-full transition-all duration-300 hover:bg-gray-100"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <div className="relative">
-              <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-              <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
-            </div>
-          </button>
         </div>
       </div>
       
-      {/* Mobile Menu Panel with backdrop */}
+      {/* Mobile Menu Panel mit optimiertem Backdrop */}
       <div 
         className={`md:hidden fixed inset-0 z-40 transition-all duration-300 ${mobileMenuOpen ? 'opacity-100 pointer-events-auto backdrop-blur-sm bg-black/5' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setMobileMenuOpen(false)}
       >
         <div 
-          className={`fixed top-0 right-0 h-full w-3/4 max-w-xs bg-white/98 backdrop-blur-sm border-l border-gray-100 p-8 transition-transform duration-300 shadow-lg ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`fixed top-0 right-0 h-full w-2/3 max-w-xs bg-white p-6 transition-transform duration-300 shadow-lg ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex flex-col space-y-8">
+          <div className="flex flex-col space-y-6">
             <div className="flex justify-between items-center">
-              <span className="text-lg font-bold text-gray-800">
-                Menu
-              </span>
+              <span className="text-base font-bold text-gray-800">Menu</span>
               <button 
-                className="text-gray-400 hover:text-gray-700"
+                className="text-gray-400"
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close menu"
               >
@@ -277,10 +261,10 @@ export function Header() {
                 <button
                   key={item.name}
                   onClick={item.onClick}
-                  className={`px-4 py-3 rounded-lg transition-colors text-left ${
+                  className={`px-3 py-2.5 rounded-lg transition-colors text-left ${
                     activeSection === item.id
                     ? "bg-gray-100 text-gray-800 font-medium" 
-                    : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
+                    : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
                   {item.name}
@@ -288,16 +272,15 @@ export function Header() {
               ))}
             </div>
             
-            {/* CTA in mobile menu - 10% special colors for conversion */}
+            {/* CTA in mobile menu - optimiert */}
             <button 
-              className="w-full bg-[#9bc539] hover:bg-[#8ab42d] relative overflow-hidden border border-transparent text-white rounded-full py-3 text-sm font-medium transition-all shadow-sm"
+              className="w-full bg-[#9bc539] text-white rounded-full py-2.5 text-sm font-medium"
               onClick={() => {
                 setMobileMenuOpen(false);
                 setIsModalOpen(true);
               }}
             >
-              <div className="absolute inset-0 -translate-x-full hover:translate-x-full transition-transform duration-1500 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-              <span className="relative z-10 flex items-center justify-center">
+              <span className="flex items-center justify-center">
                 Frühen Zugang sichern
                 <svg className="ml-1.5 w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
