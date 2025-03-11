@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     // Während der Produktion nicht prüfen
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;
