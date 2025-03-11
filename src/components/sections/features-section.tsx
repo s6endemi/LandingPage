@@ -43,36 +43,52 @@ export function FeatureSection() {
   
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -15 : -40]);
 
-  // Features mit Balance aus Funktion und Nutzen
+  // Optimierte Features mit simplifizierten Mockups
   const features = [
     {
       id: "ai-coach",
       badge: "PERSÖNLICHER KI-COACH",
       title: "Gespräche wie mit einem echten Trainer",
-      description: "Stelle Fragen, bekomme personalisierte Antworten und diskutiere deine Fortschritte – ganz natürlich, als würdest du mit einem persönlichen Trainer sprechen. Dein KI-Coach versteht deine Ziele, erinnert sich an frühere Gespräche und passt sich deiner Persönlichkeit an.",
-      benefit: "Mit einem Coach, der dich versteht und jederzeit für dich da ist, bleibst du motiviert und erreichst schneller deine Ziele.",
-      imageSrc: "/images/athly-dashboard.jpg",
+      description: "Stelle Fragen, bekomme personalisierte Antworten und diskutiere deine Fortschritte – ganz natürlich, als würdest du mit einem persönlichen Trainer sprechen.",
       color: colors.secondary,
+      highlights: [
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+          ),
+          title: "24/7 Coach-Zugang",
+          description: "Stelle Fragen und erhalte sofort qualifizierte Antworten – zu jeder Zeit."
+        },
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          ),
+          title: "Sofortige Hilfe",
+          description: "Keine Wartezeiten, keine Termine – dein Coach ist immer verfügbar."
+        }
+      ],
       mockupContent: (
-        <div className="relative">
-          <div className="absolute inset-0 bg-gray-50"></div>
-          
-          {/* Dialog Interface */}
-          <div className="absolute top-0 left-0 right-0 bg-[#3B82F6] text-white p-4">
+        <div className="relative h-full w-full">
+          {/* Dialog Interface - Fixierter Header */}
+          <div className="absolute top-0 left-0 right-0 bg-[#3B82F6] text-white p-4 z-10">
             <div className="text-lg font-medium">Chat mit Athly</div>
             <div className="text-xs">Dein persönlicher Trainer</div>
           </div>
           
-          {/* Chat Messages */}
-          <div className="absolute top-20 left-0 right-0 bottom-14 overflow-y-auto p-4">
-            {/* User Message */}
+          {/* Chat Messages - Vereinfacht */}
+          <div className="absolute top-[72px] left-0 right-0 bottom-[60px] bg-gray-50 p-4 overflow-hidden">
+            {/* User Message - Einfacher */}
             <div className="flex justify-end mb-3">
               <div className="max-w-[80%] bg-[#3B82F6]/10 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-800">
-                Ich habe morgen wenig Zeit. Kannst du mir ein kurzes, intensives Workout erstellen?
+                Wie kann ich mein Training anpassen, wenn ich diese Woche weniger Zeit habe?
               </div>
             </div>
             
-            {/* AI Answer 1 */}
+            {/* AI Answer - Einfacher */}
             <div className="flex mb-3">
               <div className="w-8 h-8 rounded-full bg-[#3B82F6] flex items-center justify-center text-white mr-2 flex-shrink-0">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,50 +96,26 @@ export function FeatureSection() {
                 </svg>
               </div>
               <div className="max-w-[80%] bg-white rounded-2xl rounded-tl-sm p-3 text-sm text-gray-800 shadow-sm">
-                Natürlich! Hier ist ein 20-Minuten HIIT-Workout für dich:
-                <br /><br />
-                <span className="font-medium">5 Übungen, je 40 Sek. mit 20 Sek. Pause:</span>
-                <ul className="list-disc pl-5 space-y-1 mt-1 text-gray-700">
-                  <li>Burpees</li>
-                  <li>Mountain Climbers</li>
-                  <li>Kettlebell Swings</li>
-                  <li>Plank Jacks</li>
-                  <li>Jump Squats</li>
-                </ul>
-              </div>
-            </div>
-            
-            {/* User Message 2 */}
-            <div className="flex justify-end mb-3">
-              <div className="max-w-[80%] bg-[#3B82F6]/10 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-800">
-                Könnte ich statt Burpees etwas für den Rücken machen? Hatte letzte Woche Probleme.
-              </div>
-            </div>
-            
-            {/* AI Answer 2 - with contextualization highlighted */}
-            <div className="flex">
-              <div className="w-8 h-8 rounded-full bg-[#3B82F6] flex items-center justify-center text-white mr-2 flex-shrink-0">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div className="max-w-[80%] bg-white rounded-2xl rounded-tl-sm p-3 text-sm text-gray-800 shadow-sm">
-                <span className="bg-[#3B82F6]/10 rounded px-1">Aufgrund deiner Rückenprobleme</span>, ersetze ich Burpees mit rückenfreundlicheren Alternativen:
-                <ul className="list-disc pl-5 space-y-1 mt-2 text-gray-700">
-                  <li>Supermans (für den unteren Rücken)</li>
-                  <li>Birddog-Übung (für Stabilität)</li>
-                </ul>
-                <div className="mt-2 border-t border-gray-100 pt-2 text-xs text-gray-500">
-                  Ich habe deine Rückenprobleme in deinem Profil vermerkt, um zukünftige Workouts anzupassen.
+                <span className="font-medium">Hier ist dein angepasster Plan:</span>
+                <div className="mt-2 bg-[#3B82F6]/5 p-2 rounded-lg">
+                  <div className="text-[#3B82F6] font-medium mb-1">Kürzeres Intensiv-Workout</div>
+                  <div className="text-xs text-gray-600">30 Min • Effektiv • Für dein Ziel optimiert</div>
                 </div>
+              </div>
+            </div>
+            
+            {/* User Thanks */}
+            <div className="flex justify-end">
+              <div className="max-w-[80%] bg-[#3B82F6]/10 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-800">
+                Perfekt, danke!
               </div>
             </div>
           </div>
           
-          {/* Input Area */}
-          <div className="absolute left-0 right-0 bottom-0 border-t border-gray-200 p-3 bg-white">
+          {/* Input Area - Fixiert am unteren Rand */}
+          <div className="absolute left-0 right-0 bottom-0 border-t border-gray-200 p-3 bg-white z-10">
             <div className="flex rounded-full border border-gray-200 overflow-hidden">
-              <input type="text" className="flex-1 px-4 py-2 text-sm outline-none" placeholder="Stell eine Frage zu deinem Training..." />
+              <input type="text" className="flex-1 px-4 py-2 text-sm outline-none" placeholder="Stelle eine Frage..." />
               <button className="bg-[#3B82F6] text-white px-4">
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -134,7 +126,7 @@ export function FeatureSection() {
         </div>
       ),
       stats: [
-        { label: "Antwortzeit", value: "< 2 Sek" },
+        { label: "Antwortzeit", value: "< 1 Sek" },
         { label: "Verfügbarkeit", value: "24/7" },
         { label: "Personalisierung", value: "100%" }
       ]
@@ -143,83 +135,82 @@ export function FeatureSection() {
       id: "adaptive-training",
       badge: "INTELLIGENTE TRAININGSPLANUNG",
       title: "Trainingsplan, der sich dir anpasst",
-      description: "Schluss mit starren Programmen. Dein Trainingsplan passt sich automatisch an deinen Fortschritt, deine Tagesform und verfügbare Zeit an. Bei Müdigkeit wird's leichter, bei guter Form intensiver – genau wie bei einem aufmerksamen Trainer.",
-      benefit: "Du trainierst immer optimal, ohne Plateaus oder Übertraining, und siehst kontinuierlich Fortschritte, die dich motivieren.",
-      imageSrc: "/images/athly-workout.jpg",
+      description: "Schluss mit starren Programmen. Dein Trainingsplan passt sich automatisch an deinen Fortschritt, deine Tagesform und verfügbare Zeit an.",
       color: colors.primary,
+      highlights: [
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+          ),
+          title: "Smarte Anpassung",
+          description: "Dein Plan passt sich automatisch an deine Tagesform und Fortschritte an."
+        },
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          ),
+          title: "Kontinuierlicher Fortschritt",
+          description: "Keine Plateaus mehr durch intelligente Belastungssteuerung."
+        }
+      ],
       mockupContent: (
-        <div className="relative">
-          <div className="absolute inset-0 bg-gray-50"></div>
-          
+        <div className="relative h-full w-full">
           {/* Header */}
-          <div className="absolute top-0 left-0 right-0 bg-[#9bc539] text-white p-4">
+          <div className="absolute top-0 left-0 right-0 bg-[#9bc539] text-white p-4 z-10">
             <div className="text-lg font-medium">Dein Trainingsplan</div>
-            <div className="text-xs">Passt sich an dich an</div>
+            <div className="text-xs">Passt sich in Echtzeit an</div>
           </div>
           
-          {/* Progress Visualization */}
-          <div className="absolute top-20 left-4 right-4 bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-gray-100 flex justify-between items-center">
-              <div className="font-medium text-gray-800">Dein Fortschritt</div>
-              <div className="text-xs bg-[#9bc539]/10 text-[#9bc539] px-2 py-0.5 rounded-full">Automatisch angepasst</div>
-            </div>
-            
-            <div className="p-4">
-              <div className="h-24 mb-2 relative">
-                <svg viewBox="0 0 100 50" className="w-full h-full">
-                  <defs>
-                    <linearGradient id="adaptiveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#9bc539" stopOpacity="0.2" />
-                      <stop offset="100%" stopColor="#9bc539" />
-                    </linearGradient>
-                  </defs>
-                  
-                  {/* Your rising curve */}
-                  <path 
-                    d="M0,40 10,38 20,36 30,30 40,28 50,26 60,20 70,18 80,15 90,10 100,8" 
-                    stroke="url(#adaptiveGradient)" 
-                    strokeWidth="2"
-                    fill="none"
-                  />
-                  
-                  {/* Current point */}
-                  <circle cx="60" cy="20" r="3" fill="#9bc539" />
-                </svg>
-                
-                <div className="absolute bottom-0 left-[60%] transform -translate-x-1/2 flex flex-col items-center">
-                  <div className="text-xs font-medium text-[#9bc539]">Hier bist du</div>
-                  <svg className="w-4 h-4 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                  </svg>
+          {/* Simplified Content Area */}
+          <div className="absolute top-[72px] left-0 right-0 bottom-0 bg-gray-50 p-4">
+            {/* Status Card */}
+            <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
+              <div className="flex justify-between items-center mb-3">
+                <div className="font-medium text-gray-800">Heutiges Training</div>
+                <div className="text-xs bg-[#9bc539] text-white px-2 py-0.5 rounded-full font-medium">
+                  ANGEPASST
                 </div>
               </div>
-            </div>
-          </div>
-          
-          {/* Current Workout Card */}
-          <div className="absolute bottom-4 left-4 right-4 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-            <div className="flex justify-between items-center mb-3">
-              <div className="font-medium text-gray-800">Heutiges Training</div>
-              <div className="text-xs text-[#9bc539] font-medium">Optimiert für dich</div>
-            </div>
-            
-            <div className="flex items-center mb-3">
-              <div className="w-8 h-8 bg-[#9bc539]/10 text-[#9bc539] rounded-lg mr-3 flex items-center justify-center">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                </svg>
-              </div>
-              <div>
-                <div className="text-sm text-gray-800">Krafttraining: Oberkörper</div>
-                <div className="text-xs text-gray-500">
-                  <span className="line-through pr-1">3x10</span>
-                  <span className="text-[#9bc539] font-medium">4x8 mit mehr Gewicht</span>
+              
+              {/* Simplified Training Card */}
+              <div className="bg-[#9bc539]/5 rounded-lg p-3 mb-3">
+                <div className="font-medium text-gray-800 mb-1">Krafttraining: Oberkörper</div>
+                <div className="flex justify-between items-center">
+                  <div className="text-xs text-gray-600">45 Min • Intensität angepasst</div>
+                  <div className="text-xs text-[#9bc539] font-medium">+10% Intensität</div>
                 </div>
               </div>
+              
+              <div className="text-xs text-gray-600 mb-4">
+                Anpassung basierend auf deinem Fortschritt und Erholung
+              </div>
+              
+              <button className="w-full py-2 bg-[#9bc539] text-white rounded-lg text-sm font-medium">
+                Plan starten
+              </button>
             </div>
             
-            <div className="text-xs text-gray-500 bg-[#9bc539]/5 rounded p-2">
-              Anpassung basierend auf deinem schnellen Fortschritt und deiner guten Erholung seit letztem Training
+            {/* Progress Card */}
+            <div className="bg-white rounded-xl shadow-sm p-3">
+              <div className="flex items-center mb-2">
+                <svg className="w-4 h-4 text-[#9bc539] mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
+                <div className="text-sm font-medium text-gray-800">Dein Fortschritt</div>
+              </div>
+              
+              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-[#9bc539]/70 to-[#9bc539]" style={{width: '67%'}}></div>
+              </div>
+              
+              <div className="mt-2 flex justify-between text-xs text-gray-500">
+                <div>4 von 6 Wochen</div>
+                <div className="text-[#9bc539] font-medium">+21% Kraft seit Start</div>
+              </div>
             </div>
           </div>
         </div>
@@ -234,205 +225,186 @@ export function FeatureSection() {
       id: "nutrition-sync",
       badge: "ERNÄHRUNG & TRAINING IN SYNC",
       title: "Perfekt abgestimmte Ernährung",
-      description: "Deine Ernährung passt sich automatisch an dein Training an – mehr Protein nach Krafttraining, mehr Kohlenhydrate vor Cardio. Ideal für optimale Ergebnisse, abgestimmt auf deinen individuellen Stoffwechsel und Lebensstil.",
-      benefit: "Du musst nicht mehr rätseln, was du essen sollst. Die richtigen Nährstoffe zur richtigen Zeit beschleunigen deinen Fortschritt und verbessern deine Regeneration.",
-      imageSrc: "/images/athly-nutrition.jpg",
+      description: "Scanne deine Mahlzeiten und erhalte sofort Feedback zur Nährwertqualität. Deine Ernährungsempfehlungen passen sich automatisch an dein Training an.",
       color: colors.tertiary,
+      comingSoon: true,
+      highlights: [
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+            </svg>
+          ),
+          title: "Optimale Nährstoffe",
+          description: "Wissenschaftlich abgestimmte Ernährung für maximale Leistung und Regeneration."
+        },
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          ),
+          title: "Foto-Scan Technologie",
+          description: "Einfaches Scannen deiner Mahlzeiten zur sofortigen Nährwertanalyse."
+        }
+      ],
       mockupContent: (
-        <div className="relative">
-          <div className="absolute inset-0 bg-gray-50"></div>
+        <div className="relative h-full w-full">
+          {/* COMING SOON Badge */}
+          <div className="absolute top-3 right-3 z-30">
+            <div className="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">
+              Coming Soon
+            </div>
+          </div>
           
           {/* Header */}
-          <div className="absolute top-0 left-0 right-0 bg-[#F59E0B] text-white p-4">
+          <div className="absolute top-0 left-0 right-0 bg-[#F59E0B] text-white p-4 z-10">
             <div className="text-lg font-medium">Deine Ernährung</div>
             <div className="text-xs">Synchronisiert mit deinem Training</div>
           </div>
           
-          {/* Nutrition plan */}
-          <div className="absolute top-20 left-4 right-4">
-            <div className="bg-white rounded-xl p-3 mb-3">
-              <div className="flex justify-between items-center mb-2">
+          {/* Simplified Content Area */}
+          <div className="absolute top-[72px] left-0 right-0 bottom-0 bg-gray-50 p-4">
+            {/* Meal Scan Feature - Already Available */}
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-4">
+              <div className="px-3 py-2 border-b border-gray-100 bg-green-50 flex items-center justify-between">
                 <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-[#F59E0B]/10 text-[#F59E0B] flex items-center justify-center mr-3">
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="font-medium text-gray-800">Frühstück</div>
-                    <div className="text-xs text-gray-500">08:00 Uhr</div>
-                  </div>
+                  <svg className="w-4 h-4 text-green-600 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <div className="text-xs font-medium text-green-700">Bereits verfügbar</div>
                 </div>
-                <div className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded font-medium">
-                  Protein-Fokus
-                </div>
+                <div className="text-xs text-gray-500">Mahlzeiten-Analyse</div>
               </div>
-              <div className="text-sm text-gray-700">Protein-Pancakes mit Blaubeeren</div>
-              <div className="flex mt-2 text-xs text-gray-500 space-x-2">
-                <div>Protein: 32g</div>
-                <div>Carbs: 45g</div>
-                <div>Fett: 14g</div>
+              
+              <div className="p-3 text-center">
+                <div className="bg-[#F59E0B]/10 rounded-xl p-3 flex flex-col items-center mb-2">
+                  <svg className="w-10 h-10 mb-2 text-[#F59E0B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <div className="text-sm font-medium text-gray-800">Scanne deine Mahlzeiten</div>
+                  <div className="text-xs text-gray-600 mt-1">Erhalte sofort Nährwertanalysen</div>
+                </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-xl p-3 mb-3">
-              <div className="flex justify-between items-center mb-2">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-[#F59E0B]/10 text-[#F59E0B] flex items-center justify-center mr-3">
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="font-medium text-gray-800">Pre-Workout Snack</div>
-                    <div className="text-xs text-gray-500">11:30 Uhr</div>
-                  </div>
+            {/* Coming Soon Preview - Simplified */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-4">
+              <div className="flex items-center mb-3">
+                <div className="w-8 h-8 rounded-full bg-[#F59E0B]/15 text-[#F59E0B] flex items-center justify-center mr-3">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
                 </div>
-                <div className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-medium">
-                  Carb-Boost
+                <div>
+                  <div className="font-medium text-sm text-gray-800">Training-Ernährungs-Sync</div>
+                  <div className="text-xs text-gray-500">Optimierte Ernährungspläne</div>
                 </div>
               </div>
-              <div className="text-sm text-gray-700">Banane und Mandelbutter</div>
-              <div className="flex mt-2 text-xs text-gray-500 space-x-2">
-                <div>Protein: 8g</div>
-                <div>Carbs: 30g</div>
-                <div>Fett: 10g</div>
+              
+              <div className="bg-[#F59E0B]/5 rounded-lg p-3 mb-3">
+                <div className="text-sm font-medium text-gray-800 mb-1">Nach deinem Training</div>
+                <div className="text-xs text-gray-600">Automatisch angepasste Ernährungsempfehlungen für optimale Regeneration</div>
               </div>
-            </div>
-          </div>
-          
-          {/* Sync notice */}
-          <div className="absolute bottom-4 left-4 right-4 bg-white rounded-xl shadow-sm p-3">
-            <div className="flex items-center mb-2">
-              <svg className="w-5 h-5 text-[#F59E0B] mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              <div className="font-medium text-sm text-gray-800">Automatische Anpassung</div>
-            </div>
-            <div className="text-xs text-gray-600">
-              Dein Trainingsplan für heute beinhaltet <span className="font-medium">Krafttraining</span>. Deine Ernährung wurde optimiert für:
-              <ul className="mt-1 pl-4 space-y-0.5">
-                <li>• Mehr Protein für Muskelaufbau</li>
-                <li>• Zeitlich optimierte Kohlenhydratzufuhr</li>
-                <li>• Ausreichend gesunde Fette für Hormonbalance</li>
-              </ul>
             </div>
           </div>
         </div>
       ),
       stats: [
-        { label: "Bessere Energielevel", value: "+82%" },
+        { label: "Mahlzeiten-Scan", value: "Verfügbar" },
         { label: "Leistungssteigerung", value: "+65%" },
         { label: "Regenerationszeit", value: "-48%" }
       ]
     },
     {
-      id: "progress-tracking",
-      badge: "FORTSCHRITTSVERFOLGUNG",
-      title: "Deine Erfolge visualisiert",
-      description: "Ergebnisse sehen, die dich motivieren. Athly analysiert deine Daten und visualisiert Fortschritte auf eine Weise, die wirklich motiviert. Du siehst nicht nur, wie weit du gekommen bist, sondern auch, was als Nächstes möglich ist.",
-      benefit: "Sichtbare Erfolge sind der beste Motivator. Mit Athly bleibst du am Ball, weil du deinen Fortschritt deutlich siehst und immer weißt, was der nächste Schritt ist.",
-      imageSrc: "/images/athly-progress.jpg",
+      id: "body-analyzer",
+      badge: "VISUELLE KÖRPERANALYSE",
+      title: "Sehe deine Fortschritte mit eigenen Augen",
+      description: "Lade Körperfotos hoch und erhalte sofort eine präzise Analyse deines Körperfettanteils, deiner Muskelentwicklung und Körperhaltung.",
       color: colors.quaternary,
+      highlights: [
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          ),
+          title: "Motivierende Insights",
+          description: "Sichtbare Fortschritte und Prognosen halten dich langfristig motiviert."
+        },
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+          ),
+          title: "Fortschritts-Tracking",
+          description: "Verfolgung deiner Veränderungen über Zeit mit übersichtlichen Vergleichen."
+        }
+      ],
       mockupContent: (
-        <div className="relative">
-          <div className="absolute inset-0 bg-gray-50"></div>
-          
+        <div className="relative h-full w-full">
           {/* Header */}
-          <div className="absolute top-0 left-0 right-0 bg-[#8B5CF6] text-white p-4">
-            <div className="text-lg font-medium">Deine Fortschritte</div>
-            <div className="text-xs">Analysiert & Visualisiert</div>
+          <div className="absolute top-0 left-0 right-0 bg-[#8B5CF6] text-white p-4 z-10">
+            <div className="text-lg font-medium">Deine Körperanalyse</div>
+            <div className="text-xs">KI-gestützte Fortschrittsverfolgung</div>
           </div>
           
-          {/* Main Metric Chart */}
-          <div className="absolute top-20 left-4 right-4 bg-white rounded-xl p-4 shadow-sm">
-            <div className="flex justify-between items-center mb-4">
-              <div className="font-medium text-sm text-gray-800">Kraftentwicklung</div>
-              <div className="text-xs bg-[#8B5CF6]/10 text-[#8B5CF6] px-2 py-0.5 rounded-full">
-                +27% in 30 Tagen
+          {/* Simplified Content Area */}
+          <div className="absolute top-[72px] left-0 right-0 bottom-0 bg-gray-50 p-4">
+            {/* Simplified Before/After Card */}
+            <div className="bg-white rounded-xl shadow-sm p-3 mb-4">
+              <div className="flex items-center justify-between mb-3">
+                <div className="font-medium text-sm text-gray-800">Deine Entwicklung</div>
+                <div className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                  Positive Veränderung
+                </div>
+              </div>
+              
+              {/* Simplified Comparison Visualizer */}
+              <div className="h-32 mb-3 bg-[#8B5CF6]/5 rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <svg className="w-12 h-12 mx-auto mb-2 text-[#8B5CF6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  <div className="text-sm font-medium text-gray-800">Vorher / Nachher Vergleich</div>
+                </div>
               </div>
             </div>
             
-            <div className="h-32 relative mb-2">
-              <svg viewBox="0 0 100 50" className="w-full h-full">
-                <defs>
-                  <linearGradient id="vizGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#8B5CF6" />
-                  </linearGradient>
-                  <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
-                  </linearGradient>
-                  <linearGradient id="predictGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#8B5CF6" />
-                    <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0.5" />
-                  </linearGradient>
-                </defs>
-                
-                {/* Historical data */}
-                <path 
-                  d="M0,40 10,38 20,36 30,33 40,30 50,25 60,20" 
-                  fill="none" 
-                  stroke="url(#vizGradient)" 
-                  strokeWidth="2"
-                />
-                
-                {/* Area fill */}
-                <path 
-                  d="M0,40 10,38 20,36 30,33 40,30 50,25 60,20 L60,50 L0,50 Z" 
-                  fill="url(#areaGradient)"
-                />
-                
-                {/* Predicted line */}
-                <path 
-                  d="M60,20 70,15 80,12 90,10 100,8" 
-                  fill="none" 
-                  stroke="url(#predictGradient)" 
-                  strokeWidth="2"
-                  strokeDasharray="4,2"
-                />
-                
-                {/* Current point */}
-                <circle cx="60" cy="20" r="3" fill="#8B5CF6" />
-              </svg>
-              
-              {/* Vertical line separator */}
-              <div className="absolute top-0 bottom-0 w-px bg-gray-200 left-[60%]"></div>
-              
-              <div className="absolute top-0 left-[62%] text-xs">
-                <span className="text-[#8B5CF6] font-medium">Prognose</span>
+            {/* Analysis Results - Simplified */}
+            <div className="bg-white rounded-xl shadow-sm p-3">
+              <div className="text-sm font-medium text-gray-700 mb-3">KI-Analyse deiner Fortschritte:</div>
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-[#8B5CF6]/5 rounded p-2 text-center">
+                  <div className="text-[#8B5CF6] font-medium text-sm mb-0.5">-2.8%</div>
+                  <div className="text-xs text-gray-500">Körperfett</div>
+                </div>
+                <div className="bg-[#8B5CF6]/5 rounded p-2 text-center">
+                  <div className="text-[#8B5CF6] font-medium text-sm mb-0.5">+1.4kg</div>
+                  <div className="text-xs text-gray-500">Muskelmasse</div>
+                </div>
+                <div className="bg-[#8B5CF6]/5 rounded p-2 text-center">
+                  <div className="text-[#8B5CF6] font-medium text-sm mb-0.5">+9%</div>
+                  <div className="text-xs text-gray-500">Definition</div>
+                </div>
               </div>
-            </div>
-            
-            <div className="flex justify-between text-xs">
-              <span className="text-gray-500">Start</span>
-              <span className="text-[#8B5CF6]">Jetzt</span>
-              <span className="text-gray-500">In 8 Wochen</span>
-            </div>
-          </div>
-          
-          {/* Progress cards */}
-          <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2">
-            <div className="bg-white rounded-lg shadow-sm p-3">
-              <div className="text-sm font-medium text-[#8B5CF6]">+18%</div>
-              <div className="text-xs text-gray-500">Kraft</div>
-            </div>
-            <div className="bg-white rounded-lg shadow-sm p-3">
-              <div className="text-sm font-medium text-green-500">-2.4kg</div>
-              <div className="text-xs text-gray-500">Körperfett</div>
-            </div>
-            <div className="bg-white rounded-lg shadow-sm p-3">
-              <div className="text-sm font-medium text-blue-500">+1.8kg</div>
-              <div className="text-xs text-gray-500">Muskeln</div>
+              
+              <button className="w-full mt-3 py-2 bg-[#8B5CF6] text-white rounded-lg text-sm font-medium">
+                Neues Foto hinzufügen
+              </button>
             </div>
           </div>
         </div>
       ),
       stats: [
-        { label: "Motivation", value: "+89%" },
-        { label: "Zielerreichung", value: "2x schneller" },
-        { label: "Langzeit-Erfolg", value: "93%" }
+        { label: "Genaue Analyse", value: "< 30 Sek" },
+        { label: "Motivationsschub", value: "+92%" },
+        { label: "Messbarer Fortschritt", value: "Garantiert" }
       ]
     }
   ];
@@ -499,301 +471,78 @@ export function FeatureSection() {
                 <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-[100%] w-px h-16 md:h-24 bg-gradient-to-b from-gray-200 to-transparent"></div>
               )}
               
-              {/* Feature Content mit Phone Mockup */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8 }}
-                className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 md:gap-12 lg:gap-16`}
-              >
-                {/* Phone Mockup */}
-                <div className="w-full md:w-1/2 flex justify-center">
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="relative"
-                  >
-                    {/* Phone Frame - Verbesserte Anzeige des Inhalts */}
-                    <div className="relative mx-auto w-[280px] h-[570px] md:w-[300px] md:h-[610px] bg-black rounded-[60px] p-4 overflow-hidden shadow-xl">
-                      {/* Notch */}
-                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-black rounded-b-xl z-20"></div>
-                      
-                      {/* Screen - Sichergestellt, dass der Inhalt vollständig angezeigt wird */}
-                      <div className="relative h-full w-full rounded-[48px] bg-white overflow-hidden">
-                        <div className="absolute inset-0">
-                          {feature.mockupContent}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Responsive Bubbles: Desktop neben dem Mockup, Mobile am unteren Rand */}
-                    {index === 0 && (
-                      <>
-                        {/* Desktop Version - neben dem Mockup */}
-                        <motion.div
-                          className="hidden md:block absolute -right-16 lg:-right-24 top-1/4"
-                          initial={{ opacity: 0, x: 20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.6 }}
-                        >
-                          <div 
-                            className="backdrop-blur-sm bg-white/90 shadow-lg rounded-xl p-3 border border-gray-50"
-                            style={{ maxWidth: '220px' }}
-                          >
-                            <div className="flex items-center mb-1.5">
-                              <div className="w-8 h-8 rounded-full flex items-center justify-center mr-2" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                                </svg>
-                              </div>
-                              <div className="text-sm font-medium text-gray-800">24/7 Coach-Zugang</div>
-                            </div>
-                            <p className="text-xs text-gray-600">Stelle Fragen und erhalte sofort qualifizierte Antworten – zu jeder Zeit.</p>
-                          </div>
-                        </motion.div>
-                        
-                        {/* Mobile Version - am unteren Rand des Mockups */}
-                        <motion.div
-                          className="md:hidden absolute -bottom-1 -right-4 z-20"
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.6 }}
-                        >
-                          <div 
-                            className="backdrop-blur-sm bg-white/95 shadow-lg rounded-xl p-2.5 border border-gray-50"
-                            style={{ maxWidth: '180px' }}
-                          >
-                            <div className="flex items-center">
-                              <div className="w-7 h-7 rounded-full flex items-center justify-center mr-2 flex-shrink-0" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
-                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                                </svg>
-                              </div>
-                              <div className="text-sm font-medium text-gray-800">24/7 Coach-Zugang</div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      </>
-                    )}
-
-                    {index === 1 && (
-                      <>
-                        {/* Desktop Version - neben dem Mockup */}
-                        <motion.div
-                          className="hidden md:block absolute -left-16 lg:-left-24 top-1/3"
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.6 }}
-                        >
-                          <div 
-                            className="backdrop-blur-sm bg-white/90 shadow-lg rounded-xl p-3 border border-gray-50"
-                            style={{ maxWidth: '220px' }}
-                          >
-                            <div className="flex items-center mb-1.5">
-                              <div className="w-8 h-8 rounded-full flex items-center justify-center mr-2" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                </svg>
-                              </div>
-                              <div className="text-sm font-medium text-gray-800">Smarte Anpassung</div>
-                            </div>
-                            <p className="text-xs text-gray-600">Dein Plan passt sich automatisch an deine Tagesform und Fortschritte an.</p>
-                          </div>
-                        </motion.div>
-                        
-                        {/* Mobile Version - am unteren Rand des Mockups */}
-                        <motion.div
-                          className="md:hidden absolute -bottom-1 -left-4 z-20"
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.6 }}
-                        >
-                          <div 
-                            className="backdrop-blur-sm bg-white/95 shadow-lg rounded-xl p-2.5 border border-gray-50"
-                            style={{ maxWidth: '180px' }}
-                          >
-                            <div className="flex items-center">
-                              <div className="w-7 h-7 rounded-full flex items-center justify-center mr-2 flex-shrink-0" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
-                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                </svg>
-                              </div>
-                              <div className="text-sm font-medium text-gray-800">Smarte Anpassung</div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      </>
-                    )}
-
-                    {index === 2 && (
-                      <>
-                        {/* Desktop Version - neben dem Mockup */}
-                        <motion.div
-                          className="hidden md:block absolute -right-16 lg:-right-24 top-1/2"
-                          initial={{ opacity: 0, x: 20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.6 }}
-                        >
-                          <div 
-                            className="backdrop-blur-sm bg-white/90 shadow-lg rounded-xl p-3 border border-gray-50"
-                            style={{ maxWidth: '220px' }}
-                          >
-                            <div className="flex items-center mb-1.5">
-                              <div className="w-8 h-8 rounded-full flex items-center justify-center mr-2" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                                </svg>
-                              </div>
-                              <div className="text-sm font-medium text-gray-800">Optimale Nährstoffe</div>
-                            </div>
-                            <p className="text-xs text-gray-600">Wissenschaftlich abgestimmte Ernährung für maximale Leistung und Regeneration.</p>
-                          </div>
-                        </motion.div>
-                        
-                        {/* Mobile Version - am unteren Rand des Mockups */}
-                        <motion.div
-                          className="md:hidden absolute -bottom-1 -right-4 z-20"
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.6 }}
-                        >
-                          <div 
-                            className="backdrop-blur-sm bg-white/95 shadow-lg rounded-xl p-2.5 border border-gray-50"
-                            style={{ maxWidth: '180px' }}
-                          >
-                            <div className="flex items-center">
-                              <div className="w-7 h-7 rounded-full flex items-center justify-center mr-2 flex-shrink-0" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
-                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                                </svg>
-                              </div>
-                              <div className="text-sm font-medium text-gray-800">Optimale Nährstoffe</div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      </>
-                    )}
-
-                    {index === 3 && (
-                      <>
-                        {/* Desktop Version - neben dem Mockup */}
-                        <motion.div
-                          className="hidden md:block absolute -left-16 lg:-left-24 top-2/5"
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.6 }}
-                        >
-                          <div 
-                            className="backdrop-blur-sm bg-white/90 shadow-lg rounded-xl p-3 border border-gray-50"
-                            style={{ maxWidth: '220px' }}
-                          >
-                            <div className="flex items-center mb-1.5">
-                              <div className="w-8 h-8 rounded-full flex items-center justify-center mr-2" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                              </div>
-                              <div className="text-sm font-medium text-gray-800">Motivierende Insights</div>
-                            </div>
-                            <p className="text-xs text-gray-600">Sichtbare Fortschritte und Prognosen halten dich langfristig motiviert.</p>
-                          </div>
-                        </motion.div>
-                        
-                        {/* Mobile Version - am unteren Rand des Mockups */}
-                        <motion.div
-                          className="md:hidden absolute -bottom-1 -left-4 z-20"
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, delay: 0.6 }}
-                        >
-                          <div 
-                            className="backdrop-blur-sm bg-white/95 shadow-lg rounded-xl p-2.5 border border-gray-50"
-                            style={{ maxWidth: '180px' }}
-                          >
-                            <div className="flex items-center">
-                              <div className="w-7 h-7 rounded-full flex items-center justify-center mr-2 flex-shrink-0" style={{ backgroundColor: `${feature.color}15`, color: feature.color }}>
-                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                              </div>
-                              <div className="text-sm font-medium text-gray-800">Motivierende Insights</div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      </>
-                    )}
-                    
-                    {/* Subtle glow effect */}
-                    <div className="absolute -z-10 inset-0 rounded-[60px] blur-xl opacity-20" style={{ backgroundColor: feature.color }}></div>
-                  </motion.div>
-                </div>
-                
-                {/* Feature description */}
-                <div className="w-full md:w-1/2 text-center md:text-left">
+              {/* Desktop Layout: 2-column */}
+              <div className="hidden md:flex flex-col md:flex-row items-start gap-16">
+                {/* Left column: Feature content */}
+                <div className={`w-full md:w-1/2 ${index % 2 === 1 ? 'md:order-2' : 'md:order-1'}`}>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
+                    className="text-center md:text-left"
                   >
-                    <div className="inline-block px-3 py-1.5 rounded-full text-sm mb-4"
+                    {/* Badge & Title */}
+                    <div className="inline-block px-3 py-1 rounded-full text-sm mb-3 bg-blue-50 text-blue-600"
                       style={{ 
                         backgroundColor: `${feature.color}10`, 
                         color: feature.color 
                       }}
                     >
                       {feature.badge}
+                      {feature.comingSoon && (
+                        <span className="ml-2 bg-yellow-500 text-white text-xs px-1.5 py-0.5 rounded-full uppercase">
+                          Coming Soon
+                        </span>
+                      )}
                     </div>
                     
                     <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 tracking-tight">
                       {feature.title}
                     </h3>
                     
-                    <p className="text-gray-600 mb-4 max-w-lg mx-auto md:mx-0">
+                    <p className="text-gray-600 mb-6 max-w-lg mx-auto md:mx-0">
                       {feature.description}
                     </p>
                     
-                    {/* Benefit Box */}
-                    <motion.div
-                      className="mb-6 bg-gray-50 border border-gray-100 rounded-lg p-3 text-sm text-gray-700"
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.6 }}
-                    >
-                      <div className="flex items-start">
-                        <svg className="w-5 h-5 text-[#9bc539] mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <p>{feature.benefit}</p>
-                      </div>
-                    </motion.div>
+                    {/* Feature Info Boxes - Desktop */}
+                    <div className="space-y-4 mb-6">
+                      {feature.highlights.map((highlight, i) => (
+                        <motion.div
+                          key={i}
+                          className="bg-white shadow-sm rounded-xl p-4 border border-gray-100"
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.4, delay: 0.4 + (i * 0.1) }}
+                        >
+                          <div className="flex items-start">
+                            <div className="h-10 w-10 rounded-lg bg-gray-50 flex items-center justify-center mr-3 text-blue-500"
+                              style={{ color: feature.color }}
+                            >
+                              {highlight.icon}
+                            </div>
+                            <div>
+                              <div className="font-medium text-gray-800 mb-1">{highlight.title}</div>
+                              <div className="text-sm text-gray-600">{highlight.description}</div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
                     
-                    {/* Stats */}
-                    <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                    {/* Feature Stats - clean row format */}
+                    <div className="flex justify-between gap-3 mb-6">
                       {feature.stats.map((stat, i) => (
                         <motion.div
                           key={i}
-                          className="bg-white shadow-sm rounded-xl p-3 border border-gray-100"
+                          className="flex-1 bg-gray-50 rounded-xl py-3 px-2 text-center"
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.4, delay: 0.5 + (i * 0.1) }}
                         >
-                          <div className="font-semibold mb-1" style={{ color: feature.color }}>
+                          <div className="font-bold text-lg mb-1" style={{ color: feature.color }}>
                             {stat.value}
                           </div>
                           <div className="text-xs text-gray-500">
@@ -804,7 +553,136 @@ export function FeatureSection() {
                     </div>
                   </motion.div>
                 </div>
-              </motion.div>
+                
+                {/* Right column: Mockup */}
+                <div className={`w-full md:w-1/2 ${index % 2 === 1 ? 'md:order-1' : 'md:order-2'}`}>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                    className="relative mx-auto"
+                  >
+                    {/* Phone Frame */}
+                    <div className="relative mx-auto w-[280px] h-[570px] md:w-[300px] md:h-[610px] bg-black rounded-[60px] p-4 overflow-hidden shadow-xl">
+                      {/* Notch */}
+                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-black rounded-b-xl z-20"></div>
+                      
+                      {/* Screen */}
+                      <div className="relative h-full w-full rounded-[48px] bg-white overflow-hidden">
+                        {feature.mockupContent}
+                      </div>
+                    </div>
+                    
+                    {/* Subtle glow effect */}
+                    <div className="absolute -z-10 inset-0 rounded-[60px] blur-xl opacity-20" style={{ backgroundColor: feature.color }}></div>
+                  </motion.div>
+                </div>
+              </div>
+              
+              {/* Mobile Layout: Vertically stacked with feature boxes under phone */}
+              <div className="flex flex-col md:hidden">
+                {/* Badge & Title */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="text-center mb-6"
+                >
+                  <div className="inline-block px-3 py-1 rounded-full text-sm mb-3 bg-blue-50 text-blue-600"
+                    style={{ 
+                      backgroundColor: `${feature.color}10`, 
+                      color: feature.color 
+                    }}
+                  >
+                    {feature.badge}
+                    {feature.comingSoon && (
+                      <span className="ml-2 bg-yellow-500 text-white text-xs px-1.5 py-0.5 rounded-full uppercase">
+                        Coming Soon
+                      </span>
+                    )}
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold mb-4 text-gray-800 tracking-tight">
+                    {feature.title}
+                  </h3>
+                  
+                  <p className="text-gray-600 mb-6">
+                    {feature.description}
+                  </p>
+                </motion.div>
+                
+                {/* Phone Mockup */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
+                  className="relative mx-auto mb-8"
+                >
+                  {/* Phone Frame */}
+                  <div className="relative mx-auto w-[280px] h-[570px] bg-black rounded-[60px] p-4 overflow-hidden shadow-xl">
+                    {/* Notch */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-black rounded-b-xl z-20"></div>
+                    
+                    {/* Screen */}
+                    <div className="relative h-full w-full rounded-[48px] bg-white overflow-hidden">
+                      {feature.mockupContent}
+                    </div>
+                  </div>
+                  
+                  {/* Subtle glow effect */}
+                  <div className="absolute -z-10 inset-0 rounded-[60px] blur-xl opacity-20" style={{ backgroundColor: feature.color }}></div>
+                </motion.div>
+                
+                {/* Feature Boxes - Under the Phone on Mobile */}
+                <div className="space-y-4 mb-6">
+                  {feature.highlights.map((highlight, i) => (
+                    <motion.div
+                      key={i}
+                      className="bg-white shadow-sm rounded-xl p-4 border border-gray-100"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.4 + (i * 0.1) }}
+                    >
+                      <div className="flex items-start">
+                        <div className="h-10 w-10 rounded-lg bg-gray-50 flex items-center justify-center mr-3 text-blue-500"
+                          style={{ color: feature.color }}
+                        >
+                          {highlight.icon}
+                        </div>
+                        <div>
+                          <div className="font-medium text-gray-800 mb-1">{highlight.title}</div>
+                          <div className="text-sm text-gray-600">{highlight.description}</div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {/* Mobile Stats */}
+                <div className="flex justify-between gap-3 mb-4">
+                  {feature.stats.map((stat, i) => (
+                    <motion.div
+                      key={i}
+                      className="flex-1 bg-gray-50 rounded-xl py-3 px-2 text-center"
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: 0.6 + (i * 0.1) }}
+                    >
+                      <div className="font-bold text-lg mb-1" style={{ color: feature.color }}>
+                        {stat.value}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {stat.label}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
         </div>
