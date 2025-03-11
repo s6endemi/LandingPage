@@ -36,13 +36,10 @@ export function EnhancedHeroSection() {
   
   // Define colors using 60/30/10 principle
   // 60% - Neutral colors (grays, white, black)
-  const neutralDark = "#1f2937";
   const neutralMedium = "#4b5563";
-  const neutralLight = "#f9fafb";
   
   // 30% - Brand colors
   const mainGreen = "#9bc539";
-  const accentBlue = "#3498db";
   
   // 10% - Call to action / Highlight
   const ctaGreen = "#9bc539";
