@@ -6,7 +6,6 @@ import { WaitlistCta } from "@/components/sections/cta-section";
 
 
 
-
 export default function Home() {
   return (
     <div className="min-h-screen">

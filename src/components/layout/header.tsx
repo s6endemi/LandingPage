@@ -11,7 +11,8 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(0);
-  const headerRef = useRef<HTMLDivElement>(null);
+  const [mobileHeaderHeight, setMobileHeaderHeight] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
 
   // Calculate header height for spacing
   useEffect(() => {
@@ -20,6 +21,13 @@ export function Header() {
         // Typcast to HTMLElement to access offsetHeight
         const headerElement = headerRef.current as HTMLElement;
         setHeaderHeight(headerElement.offsetHeight);
+        
+        // Only set mobile header height if screen is smaller than md breakpoint (768px)
+        if (window.innerWidth < 768) {
+          setMobileHeaderHeight(headerElement.offsetHeight);
+        } else {
+          setMobileHeaderHeight(0); // No spacing needed for desktop
+        }
       }
     };
 
@@ -31,15 +39,23 @@ export function Header() {
       updateHeaderHeight();
     });
 
+    // Also update on window resize for breakpoint changes
+    const handleResize = () => {
+      updateHeaderHeight();
+    };
+
     if (headerRef.current) {
       resizeObserver.observe(headerRef.current);
     }
+    
+    window.addEventListener('resize', handleResize);
 
     // Cleanup
     return () => {
       if (headerRef.current) {
         resizeObserver.unobserve(headerRef.current);
       }
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -342,8 +358,8 @@ export function Header() {
         )}
       </AnimatePresence>
 
-      {/* Spacer div to prevent content from being hidden under the fixed header */}
-      <div style={{ height: headerHeight }} aria-hidden="true" className="w-full"></div>
+      {/* Spacer div that's only displayed on mobile devices */}
+      <div style={{ height: mobileHeaderHeight }} aria-hidden="true" className="md:hidden w-full"></div>
     </>
   );
 }

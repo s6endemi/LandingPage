@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Particles } from "@/components/magicui/particles";
 import { FlipWords } from "@/components/ui/flip-words";
 import { HeroMockupAnimation } from "@/components/demo/heromockup";
+import { PhoneMockup } from "@/components/ui/phone-mockup";
 
 export function EnhancedHeroSection() {
   const containerRef = useRef(null);
@@ -76,7 +77,7 @@ export function EnhancedHeroSection() {
         {isMobile ? (
           <div className="flex flex-col items-center">
             {/* HEADLINE FIRST on mobile - for clarity and immediate value proposition */}
-            <div className="w-full text-center mb-12">
+            <div className="w-full text-center mb-8">
               {/* Pre-headline */}
               <motion.div
                 initial={{ opacity: 0 }}
@@ -137,37 +138,34 @@ export function EnhancedHeroSection() {
               
             </div>
             
-            {/* PHONE MOCKUP SECOND on mobile */}
-            <div className="w-full mb-6">
+            {/* PHONE MOCKUP - Größeres Mockup für Mobile */}
+            <div className="w-full mb-10">
               <motion.div 
-                className="relative mx-auto max-w-[300px]"
+                className="relative mx-auto"
                 style={{ y }}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                {/* Refined glow effect */}
-                <div className="absolute inset-0 -z-10 blur-2xl rounded-full opacity-60" 
-                     style={{ 
-                       background: `radial-gradient(circle, ${mainGreen}30 0%, rgba(255,255,255,0) 70%)`,
-                       animationDuration: '8s' 
-                     }}></div>
-                
-                {/* Phone mockup with HeroMockupAnimation */}
-                <div className="relative rounded-[40px] border-[14px] border-[#111] bg-[#111] shadow-xl">
-                  <div className="relative overflow-hidden rounded-[26px] bg-white h-[500px]">
+                {/* Container für das Mockup - Volle Breite ausnutzen */}
+                <div className="w-full flex justify-center items-center">
+                  {/* Direktes Rendering der Mockup-Animation mit Glaseffekt-Rahmen */}
+                  <div className="relative w-[280px] h-[580px] bg-black rounded-[40px] overflow-hidden shadow-xl">
                     {/* Notch */}
-                    <div className="absolute left-1/2 top-0 h-6 w-1/2 -translate-x-1/2 rounded-b-3xl bg-[#111] z-20"></div>
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[25px] bg-black rounded-b-xl z-20"></div>
                     
-                    {/* Insert the HeroMockupAnimation component */}
-                    <HeroMockupAnimation />
+                    {/* Innerer Bildschirm */}
+                    <div className="absolute top-0 left-0 right-0 bottom-0 rounded-[32px] overflow-hidden m-[10px] bg-white">
+                      {/* Direktes Einbetten des HeroMockupAnimation */}
+                      <HeroMockupAnimation />
+                    </div>
                   </div>
                 </div>
               </motion.div>
               
               {/* Main text description moved after mockup */}
               <motion.p 
-                className="text-base font-semibold text-gray-600 mb-8 mt-12 max-w-lg mx-auto leading-relaxed text-center"
+                className="text-base font-semibold text-gray-600 mb-8 mt-8 max-w-lg mx-auto leading-relaxed text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
@@ -410,75 +408,26 @@ export function EnhancedHeroSection() {
               </motion.div>
             </div>
             
-            {/* Phone Image - Expanded to use more space on the right */}
-            <div className="col-span-6 col-start-7 relative">
+            {/* Phone Image - Desktop */}
+            <div className="col-span-6 col-start-7 flex justify-center items-center">
               <motion.div 
-                className="relative mx-auto max-w-[400px]"
+                className="relative"
                 style={{ y }}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                {/* Refined glow effect */}
-                <div className="absolute inset-0 -z-10 blur-2xl rounded-full opacity-60" 
-                     style={{ 
-                       background: `radial-gradient(circle, ${mainGreen}30 0%, rgba(255,255,255,0) 70%)`,
-                       animationDuration: '8s' 
-                     }}></div>
-                
-                {/* Phone mockup - larger */}
-                <div className="relative rounded-[44px] border-[16px] border-[#111] bg-[#111] shadow-xl">
-                  <div className="relative overflow-hidden rounded-[28px] bg-white h-[600px]">
-                    {/* Notch */}
-                    <div className="absolute left-1/2 top-0 h-8 w-1/2 -translate-x-1/2 rounded-b-3xl bg-[#111] z-20"></div>
-                    
-                    {/* Insert the HeroMockupAnimation component */}
+                {/* Direktes Rendering der Mockup-Animation mit Glaseffekt-Rahmen */}
+                <div className="relative w-[320px] h-[650px] bg-black rounded-[40px] overflow-hidden shadow-xl">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-[30px] bg-black rounded-b-xl z-20"></div>
+                  
+                  {/* Innerer Bildschirm */}
+                  <div className="absolute top-0 left-0 right-0 bottom-0 rounded-[32px] overflow-hidden m-[12px] bg-white">
+                    {/* Direktes Einbetten des HeroMockupAnimation */}
                     <HeroMockupAnimation />
                   </div>
                 </div>
-                
-                {/* Refined floating UI elements with glassmorphism */}
-                <motion.div
-                  initial={{ opacity: 0, x: 20, y: 10 }}
-                  animate={{ opacity: 1, x: 0, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.9 }}
-                  className="absolute -right-16 top-1/4 hidden xl:block"
-                >
-                  <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-gray-100/80">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-3">
-                        <svg className="w-5 h-5 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                      </div>
-                      <div className="text-sm">
-                        <div className="font-medium text-gray-900">Dein Fitness-Programm</div>
-                        <div className="text-gray-500">ist bereit für dich</div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-                
-                <motion.div
-                  initial={{ opacity: 0, x: -20, y: -10 }}
-                  animate={{ opacity: 1, x: 0, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.1 }}
-                  className="absolute -left-16 bottom-1/4 hidden xl:block"
-                >
-                  <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-gray-100/80">
-                    <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-full bg-[#3fe387]/10 flex items-center justify-center mr-3">
-                        <svg className="w-5 h-5 text-[#3fe387]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">Lean mass</div>
-                        <div className="text-base font-bold text-[#3fe387]">97 lb</div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
               </motion.div>
             </div>
           </div>
