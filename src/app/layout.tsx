@@ -33,7 +33,7 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{ 
           __html: `
             :root {
-              --white: #f8f8f8;
+              --white: #ffffff;
               --black: #000000;
               --transparent: transparent;
               --athly-green: #9bc539;
@@ -45,18 +45,15 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${manrope.variable} font-sans antialiased min-h-screen relative`}
       >
-        {/* Vereinfachter Hintergrund - nur das Wesentliche */}
-        <div className="fixed inset-0 -z-20 bg-[#F7F4ED]"></div>
+        {/* Einheitlich weißer Hintergrund */}
+        <div className="fixed inset-0 -z-20 bg-white"></div>
         
-        {/* Leichter Gradient für Tiefe ohne Performance-Einbußen */}
-        <div className="fixed inset-0 -z-10 bg-gradient-to-b from-[#F7F4ED]/90 to-[#F0E9DC]/90"></div>
-        
-        {/* Der gesamte Inhalt - optimiert für besseres Rendering */}
+        {/* Der gesamte Inhalt */}
         <div className="relative z-10 min-h-screen flex flex-col">
           {/* Header */}
           <Header />
           
-          {/* Main Content - Kein vertikaler Abstand auf Mobile */}
+          {/* Main Content */}
           <main className="pt-0 md:pt-20 flex-grow">
             {children}
           </main>
