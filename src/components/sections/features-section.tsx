@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Enhanced3DPhoneMockup } from "@/components/ui/Enhanced3DPhoneMockup";
 
 export function FeatureSection() {
   const containerRef = useRef(null);
@@ -224,8 +225,8 @@ export function FeatureSection() {
     {
       id: "nutrition-sync",
       badge: "ERNÄHRUNG & TRAINING IN SYNC",
-      title: "Perfekt abgestimmte Ernährung",
-      description: "Scanne deine Mahlzeiten und erhalte sofort Feedback zur Nährwertqualität. Deine Ernährungsempfehlungen passen sich automatisch an dein Training an.",
+      title: "Optimiere deine Ernährung: Intelligente Empfehlungen, die dein Training boosten.",
+      description: "Nie wieder rätseln, was du essen sollst! Athly analysiert deine Mahlzeiten per Foto-Scan und synchronisiert deine Ernährungsempfehlungen automatisch mit deinem Trainingsplan – für maximale Ergebnisse.",
       color: colors.tertiary,
       comingSoon: true,
       highlights: [
@@ -315,8 +316,7 @@ export function FeatureSection() {
       ),
       stats: [
         { label: "Mahlzeiten-Scan", value: "Verfügbar" },
-        { label: "Leistungssteigerung", value: "+65%" },
-        { label: "Regenerationszeit", value: "-48%" }
+        { label: "Durchschnittliche Leistungssteigerung", value: "+65%" },
       ]
     },
     {
@@ -435,7 +435,7 @@ export function FeatureSection() {
             transition={{ duration: 0.6 }}
           >
             <div className="inline-block px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-gray-100 text-gray-800">
-              <span className="text-xs md:text-sm uppercase tracking-wide font-medium">INNOVATIVE FEATURES</span>
+              <span className="text-xs md:text-sm uppercase tracking-wide font-medium">Mehr als nur eine App:</span>
             </div>
           </motion.div>
           
@@ -446,8 +446,7 @@ export function FeatureSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            Dein KI-<span style={{ color: colors.primary }}>Coach</span> im 
-            Taschenformat
+            Athly's <span style={{ color: colors.primary }}>Features</span> deinen Fitness-Erfolg
           </motion.h2>
           
           <motion.p 
@@ -457,8 +456,7 @@ export function FeatureSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
-            Athly vereint persönliches Training mit modernster Technologie, um dir ein Fitness-Erlebnis 
-            zu bieten, das so individuell ist wie du selbst – jederzeit und überall verfügbar.
+            Von KI-Coach bis Körperanalyse: Athly bietet dir alles für deinen Fitness-Erfolg.
           </motion.p>
         </div>
 
@@ -554,34 +552,13 @@ export function FeatureSection() {
                   </motion.div>
                 </div>
                 
-                {/* Right column: Mockup */}
+                {/* Right column: Enhanced 3D Mockup - Desktop */}
                 <div className={`w-full md:w-1/2 ${index % 2 === 1 ? 'md:order-1' : 'md:order-2'}`}>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="relative mx-auto"
-                  >
-                    {/* Phone Frame */}
-                    <div className="relative mx-auto w-[280px] h-[570px] md:w-[300px] md:h-[610px] bg-black rounded-[60px] p-4 overflow-hidden shadow-xl">
-                      {/* Notch */}
-                      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-black rounded-b-xl z-20"></div>
-                      
-                      {/* Screen */}
-                      <div className="relative h-full w-full rounded-[48px] bg-white overflow-hidden">
-                        {feature.mockupContent}
-                      </div>
-                    </div>
-                    
-                    {/* Subtle glow effect - ÜBERARBEITET für subtilen Rand-Schimmer */}
-                    <div 
-                      className="absolute -z-10 -inset-0.5 rounded-[62px] blur-sm opacity-10"
-                      style={{ 
-                        background: `linear-gradient(to bottom right, ${feature.color}80, ${feature.color}30)` 
-                      }}
-                    ></div>
-                  </motion.div>
+                  <Enhanced3DPhoneMockup 
+                    content={feature.mockupContent} 
+                    color={feature.color} 
+                    isMobile={false} 
+                  />
                 </div>
               </div>
               
@@ -618,33 +595,12 @@ export function FeatureSection() {
                   </p>
                 </motion.div>
                 
-                {/* Phone Mockup */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: 0.2 }}
-                  className="relative mx-auto mb-8"
-                >
-                  {/* Phone Frame */}
-                  <div className="relative mx-auto w-[280px] h-[570px] bg-black rounded-[60px] p-4 overflow-hidden shadow-xl">
-                    {/* Notch */}
-                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-1/3 h-6 bg-black rounded-b-xl z-20"></div>
-                    
-                    {/* Screen */}
-                    <div className="relative h-full w-full rounded-[48px] bg-white overflow-hidden">
-                      {feature.mockupContent}
-                    </div>
-                  </div>
-                  
-                  {/* Subtle glow effect - ÜBERARBEITET für subtilen Rand-Schimmer */}
-                  <div 
-                    className="absolute -z-10 -inset-0.5 rounded-[62px] blur-sm opacity-10"
-                    style={{ 
-                      background: `linear-gradient(to bottom right, ${feature.color}80, ${feature.color}30)` 
-                    }}
-                  ></div>
-                </motion.div>
+                {/* Enhanced 3D Mockup for Mobile */}
+                <Enhanced3DPhoneMockup 
+                  content={feature.mockupContent} 
+                  color={feature.color} 
+                  isMobile={true} 
+                />
                 
                 {/* Feature Boxes - Under the Phone on Mobile */}
                 <div className="space-y-4 mb-6">
