@@ -52,7 +52,7 @@ export function TestimonialSection() {
     quote: "Zum ersten Mal fühle ich mich nicht schuldig, wenn ich ein Training verschieben muss. Athly plant einfach um und macht weiter.",
     achievement: ["3x Training pro Woche", "Konstante Routine", "Weniger Stress"],
     duration: "4 Monate",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    image: "/images/Darlene.jpeg", 
     rating: 5
   };
 
@@ -144,7 +144,7 @@ export function TestimonialSection() {
                         viewBox="0 0 24 24"
                         fill={i < featuredTestimonial.rating ? "currentColor" : "none"}
                         stroke={i < featuredTestimonial.rating ? "none" : "currentColor"}
-                        className="w-4 h-4 text-gray-400"
+                        className="w-4 h-4 text-amber-400"
                       >
                         <path strokeWidth={1.5} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>

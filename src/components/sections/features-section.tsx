@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Enhanced3DPhoneMockup } from "@/components/ui/Enhanced3DPhoneMockup";
+import { AiCoachDemo, AdaptiveTrainingDemo, NutritionSyncDemo, BodyAnalyzerDemo } from "@/components/demo/features";
 
 export function FeatureSection() {
   const containerRef = useRef(null);
@@ -44,7 +45,7 @@ export function FeatureSection() {
   
   const backgroundY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -15 : -40]);
 
-  // Optimierte Features mit simplifizierten Mockups
+  // Optimierte Features mit separaten Mockup-Komponenten
   const features = [
     {
       id: "ai-coach",
@@ -72,60 +73,7 @@ export function FeatureSection() {
           description: "Keine Wartezeiten, keine Termine – dein Coach ist immer verfügbar."
         }
       ],
-      mockupContent: (
-        <div className="relative h-full w-full">
-          {/* Dialog Interface - Fixierter Header */}
-          <div className="absolute top-0 left-0 right-0 bg-[#3B82F6] text-white p-4 z-10">
-            <div className="text-lg font-medium">Chat mit Athly</div>
-            <div className="text-xs">Dein persönlicher Trainer</div>
-          </div>
-          
-          {/* Chat Messages - Vereinfacht */}
-          <div className="absolute top-[72px] left-0 right-0 bottom-[60px] bg-gray-50 p-4 overflow-hidden">
-            {/* User Message - Einfacher */}
-            <div className="flex justify-end mb-3">
-              <div className="max-w-[80%] bg-[#3B82F6]/10 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-800">
-                Wie kann ich mein Training anpassen, wenn ich diese Woche weniger Zeit habe?
-              </div>
-            </div>
-            
-            {/* AI Answer - Einfacher */}
-            <div className="flex mb-3">
-              <div className="w-8 h-8 rounded-full bg-[#3B82F6] flex items-center justify-center text-white mr-2 flex-shrink-0">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <div className="max-w-[80%] bg-white rounded-2xl rounded-tl-sm p-3 text-sm text-gray-800 shadow-sm">
-                <span className="font-medium">Hier ist dein angepasster Plan:</span>
-                <div className="mt-2 bg-[#3B82F6]/5 p-2 rounded-lg">
-                  <div className="text-[#3B82F6] font-medium mb-1">Kürzeres Intensiv-Workout</div>
-                  <div className="text-xs text-gray-600">30 Min • Effektiv • Für dein Ziel optimiert</div>
-                </div>
-              </div>
-            </div>
-            
-            {/* User Thanks */}
-            <div className="flex justify-end">
-              <div className="max-w-[80%] bg-[#3B82F6]/10 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-800">
-                Perfekt, danke!
-              </div>
-            </div>
-          </div>
-          
-          {/* Input Area - Fixiert am unteren Rand */}
-          <div className="absolute left-0 right-0 bottom-0 border-t border-gray-200 p-3 bg-white z-10">
-            <div className="flex rounded-full border border-gray-200 overflow-hidden">
-              <input type="text" className="flex-1 px-4 py-2 text-sm outline-none" placeholder="Stelle eine Frage..." />
-              <button className="bg-[#3B82F6] text-white px-4">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      ),
+      mockupContent: <AiCoachDemo />,
       stats: [
         { label: "Antwortzeit", value: "< 1 Sek" },
         { label: "Verfügbarkeit", value: "24/7" },
@@ -158,64 +106,7 @@ export function FeatureSection() {
           description: "Keine Plateaus mehr durch intelligente Belastungssteuerung."
         }
       ],
-      mockupContent: (
-        <div className="relative h-full w-full">
-          {/* Header */}
-          <div className="absolute top-0 left-0 right-0 bg-[#9bc539] text-white p-4 z-10">
-            <div className="text-lg font-medium">Dein Trainingsplan</div>
-            <div className="text-xs">Passt sich in Echtzeit an</div>
-          </div>
-          
-          {/* Simplified Content Area */}
-          <div className="absolute top-[72px] left-0 right-0 bottom-0 bg-gray-50 p-4">
-            {/* Status Card */}
-            <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
-              <div className="flex justify-between items-center mb-3">
-                <div className="font-medium text-gray-800">Heutiges Training</div>
-                <div className="text-xs bg-[#9bc539] text-white px-2 py-0.5 rounded-full font-medium">
-                  ANGEPASST
-                </div>
-              </div>
-              
-              {/* Simplified Training Card */}
-              <div className="bg-[#9bc539]/5 rounded-lg p-3 mb-3">
-                <div className="font-medium text-gray-800 mb-1">Krafttraining: Oberkörper</div>
-                <div className="flex justify-between items-center">
-                  <div className="text-xs text-gray-600">45 Min • Intensität angepasst</div>
-                  <div className="text-xs text-[#9bc539] font-medium">+10% Intensität</div>
-                </div>
-              </div>
-              
-              <div className="text-xs text-gray-600 mb-4">
-                Anpassung basierend auf deinem Fortschritt und Erholung
-              </div>
-              
-              <button className="w-full py-2 bg-[#9bc539] text-white rounded-lg text-sm font-medium">
-                Plan starten
-              </button>
-            </div>
-            
-            {/* Progress Card */}
-            <div className="bg-white rounded-xl shadow-sm p-3">
-              <div className="flex items-center mb-2">
-                <svg className="w-4 h-4 text-[#9bc539] mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-                <div className="text-sm font-medium text-gray-800">Dein Fortschritt</div>
-              </div>
-              
-              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-[#9bc539]/70 to-[#9bc539]" style={{width: '67%'}}></div>
-              </div>
-              
-              <div className="mt-2 flex justify-between text-xs text-gray-500">
-                <div>4 von 6 Wochen</div>
-                <div className="text-[#9bc539] font-medium">+21% Kraft seit Start</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ),
+      mockupContent: <AdaptiveTrainingDemo />,
       stats: [
         { label: "Bessere Ergebnisse", value: "+76%" },
         { label: "Anpassungen", value: "Echtzeit" },
@@ -251,69 +142,7 @@ export function FeatureSection() {
           description: "Einfaches Scannen deiner Mahlzeiten zur sofortigen Nährwertanalyse."
         }
       ],
-      mockupContent: (
-        <div className="relative h-full w-full">
-          {/* COMING SOON Badge */}
-          <div className="absolute top-3 right-3 z-30">
-            <div className="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-sm">
-              Coming Soon
-            </div>
-          </div>
-          
-          {/* Header */}
-          <div className="absolute top-0 left-0 right-0 bg-[#F59E0B] text-white p-4 z-10">
-            <div className="text-lg font-medium">Deine Ernährung</div>
-            <div className="text-xs">Synchronisiert mit deinem Training</div>
-          </div>
-          
-          {/* Simplified Content Area */}
-          <div className="absolute top-[72px] left-0 right-0 bottom-0 bg-gray-50 p-4">
-            {/* Meal Scan Feature - Already Available */}
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden mb-4">
-              <div className="px-3 py-2 border-b border-gray-100 bg-green-50 flex items-center justify-between">
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 text-green-600 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                  </svg>
-                  <div className="text-xs font-medium text-green-700">Bereits verfügbar</div>
-                </div>
-                <div className="text-xs text-gray-500">Mahlzeiten-Analyse</div>
-              </div>
-              
-              <div className="p-3 text-center">
-                <div className="bg-[#F59E0B]/10 rounded-xl p-3 flex flex-col items-center mb-2">
-                  <svg className="w-10 h-10 mb-2 text-[#F59E0B]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <div className="text-sm font-medium text-gray-800">Scanne deine Mahlzeiten</div>
-                  <div className="text-xs text-gray-600 mt-1">Erhalte sofort Nährwertanalysen</div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Coming Soon Preview - Simplified */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-4">
-              <div className="flex items-center mb-3">
-                <div className="w-8 h-8 rounded-full bg-[#F59E0B]/15 text-[#F59E0B] flex items-center justify-center mr-3">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="font-medium text-sm text-gray-800">Training-Ernährungs-Sync</div>
-                  <div className="text-xs text-gray-500">Optimierte Ernährungspläne</div>
-                </div>
-              </div>
-              
-              <div className="bg-[#F59E0B]/5 rounded-lg p-3 mb-3">
-                <div className="text-sm font-medium text-gray-800 mb-1">Nach deinem Training</div>
-                <div className="text-xs text-gray-600">Automatisch angepasste Ernährungsempfehlungen für optimale Regeneration</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ),
+      mockupContent: <NutritionSyncDemo />,
       stats: [
         { label: "Mahlzeiten-Scan", value: "Verfügbar" },
         { label: "Durchschnittliche Leistungssteigerung", value: "+65%" },
@@ -345,62 +174,7 @@ export function FeatureSection() {
           description: "Verfolgung deiner Veränderungen über Zeit mit übersichtlichen Vergleichen."
         }
       ],
-      mockupContent: (
-        <div className="relative h-full w-full">
-          {/* Header */}
-          <div className="absolute top-0 left-0 right-0 bg-[#8B5CF6] text-white p-4 z-10">
-            <div className="text-lg font-medium">Deine Körperanalyse</div>
-            <div className="text-xs">KI-gestützte Fortschrittsverfolgung</div>
-          </div>
-          
-          {/* Simplified Content Area */}
-          <div className="absolute top-[72px] left-0 right-0 bottom-0 bg-gray-50 p-4">
-            {/* Simplified Before/After Card */}
-            <div className="bg-white rounded-xl shadow-sm p-3 mb-4">
-              <div className="flex items-center justify-between mb-3">
-                <div className="font-medium text-sm text-gray-800">Deine Entwicklung</div>
-                <div className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                  Positive Veränderung
-                </div>
-              </div>
-              
-              {/* Simplified Comparison Visualizer */}
-              <div className="h-32 mb-3 bg-[#8B5CF6]/5 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <svg className="w-12 h-12 mx-auto mb-2 text-[#8B5CF6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  </svg>
-                  <div className="text-sm font-medium text-gray-800">Vorher / Nachher Vergleich</div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Analysis Results - Simplified */}
-            <div className="bg-white rounded-xl shadow-sm p-3">
-              <div className="text-sm font-medium text-gray-700 mb-3">KI-Analyse deiner Fortschritte:</div>
-              <div className="grid grid-cols-3 gap-2">
-                <div className="bg-[#8B5CF6]/5 rounded p-2 text-center">
-                  <div className="text-[#8B5CF6] font-medium text-sm mb-0.5">-2.8%</div>
-                  <div className="text-xs text-gray-500">Körperfett</div>
-                </div>
-                <div className="bg-[#8B5CF6]/5 rounded p-2 text-center">
-                  <div className="text-[#8B5CF6] font-medium text-sm mb-0.5">+1.4kg</div>
-                  <div className="text-xs text-gray-500">Muskelmasse</div>
-                </div>
-                <div className="bg-[#8B5CF6]/5 rounded p-2 text-center">
-                  <div className="text-[#8B5CF6] font-medium text-sm mb-0.5">+9%</div>
-                  <div className="text-xs text-gray-500">Definition</div>
-                </div>
-              </div>
-              
-              <button className="w-full mt-3 py-2 bg-[#8B5CF6] text-white rounded-lg text-sm font-medium">
-                Neues Foto hinzufügen
-              </button>
-            </div>
-          </div>
-        </div>
-      ),
+      mockupContent: <BodyAnalyzerDemo />,
       stats: [
         { label: "Genaue Analyse", value: "< 30 Sek" },
         { label: "Motivationsschub", value: "+92%" },
