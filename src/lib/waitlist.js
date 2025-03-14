@@ -4,7 +4,7 @@ export async function addToWaitlist(email, source = 'unspecified') {
   try {
     // Prüfen, ob Email bereits existiert
     const { data: existingEmails } = await supabase
-      .from('waitlist')
+      .from('waitlist_new')  // GEÄNDERT: neue Tabelle verwenden
       .select('email')
       .eq('email', email)
     
@@ -13,17 +13,17 @@ export async function addToWaitlist(email, source = 'unspecified') {
         success: false, 
         error: 'Diese Email ist bereits registriert', 
         existingEmail: true,
-        participantNumber: await getParticipantCount() // Auch hier die Teilnehmernummer zurückgeben
+        participantNumber: await getParticipantCount()
       }
     }
 
     // Neuen Eintrag erstellen
     const { data, error } = await supabase
-      .from('waitlist')
+      .from('waitlist_new')  // GEÄNDERT: neue Tabelle verwenden
       .insert([
         { 
           email, 
-          source, // Quelle der Anmeldung (hero, navbar, cta)
+          source, 
           created_at: new Date().toISOString(),
         }
       ])
@@ -50,7 +50,7 @@ async function getParticipantCount() {
     const PARTICIPANT_OFFSET = 252;
     
     const { count, error } = await supabase
-      .from('waitlist')
+      .from('waitlist_new')  // GEÄNDERT: neue Tabelle verwenden
       .select('*', { count: 'exact', head: true })
 
     if (error) throw error
@@ -63,7 +63,6 @@ async function getParticipantCount() {
   }
 }
 
-// Optional: Hilfsfunktion um die Teilnehmernummer extern abzufragen
 export async function getCurrentParticipantCount() {
   return await getParticipantCount();
 }
