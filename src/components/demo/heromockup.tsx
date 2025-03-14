@@ -76,12 +76,14 @@ export function HeroMockupAnimation() {
 
               {/* Content Area */}
       <div className="flex-1 px-3 py-2 flex flex-col bg-gradient-to-b from-white to-gray-50">
-        {/* Date Header */}
-        <div className="flex justify-center mb-3">
-          <div className="bg-gray-100 rounded-full px-3 py-1 shadow-sm">
-            <span className="text-xs text-gray-500 font-medium">Heute, 9:41</span>
+        {/* Date Header - Only shown on non-mobile devices */}
+        {!isMobile && (
+          <div className="flex justify-center mb-3">
+            <div className="bg-gray-100 rounded-full px-3 py-1 shadow-sm">
+              <span className="text-xs text-gray-500 font-medium">Heute, 9:41</span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* User Message - Summer Fitness Goal */}
         <AnimatePresence>
@@ -206,7 +208,6 @@ export function HeroMockupAnimation() {
                         Neu
                       </span>
                     </div>
-                    <div className="text-xs font-medium text-[#9bc539]">8 Wochen</div>
                   </div>
 
                   {/* Key Stats - Ultra Compact */}

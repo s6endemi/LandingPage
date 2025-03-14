@@ -194,7 +194,7 @@ export const AiCoachDemo: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* AI Answer */}
+        {/* AI Answer - Verbesserte Workout-Karte */}
         <AnimatePresence>
           {currentMessage >= 3 && (
             <motion.div
@@ -222,47 +222,72 @@ export const AiCoachDemo: React.FC = () => {
                   Ich habe deinen angepassten Plan erstellt:
                 </div>
 
-                {/* Mobile-Optimized Workout Card */}
-                <div className="mt-2 mb-3 bg-white rounded-lg overflow-hidden border border-[#3B82F6]/15 shadow-sm">
-                  {/* Blue Header with Simplified Layout */}
-                  <div className="bg-[#3B82F6] px-2.5 py-1.5 flex items-center justify-between">
-                    <div className="flex items-center">
-                      <div className="text-white font-medium text-xs">Oberkörper-Fokus</div>
-                    </div>
-                    <div className="bg-white/20 rounded-full px-1.5 py-0.5 text-[10px] text-white">
-                      Personalisiert
-                    </div>
-                  </div>
-                  
-                  {/* Simplified Content Area */}
-                  <div className="p-2 flex items-center space-x-2">
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#3B82F6]/10 flex items-center justify-center">
-                      <svg className="w-3 h-3 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-[#3B82F6] font-medium text-xs">Kniegelenk-schonend</div>
-                      <div className="flex items-center">
-                        <span className="text-[10px] text-gray-600">5+ Übungen • 35 Min</span>
+                {/* Elegante, moderne Workout-Karte */}
+                <div className="mt-3 mb-4">
+                  {/* Stylische Karte mit Farbverlauf und verbessertem Layout */}
+                  <div className="rounded-xl overflow-hidden shadow-lg border border-gray-100">
+                    {/* Stylisher Header mit Gradient */}
+                    <div className="bg-gradient-to-r from-[#3B82F6] to-[#60a5fa] px-3.5 py-2.5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center">
+                            <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                          </div>
+                          <div className="text-white font-medium">Oberkörper-Fokus</div>
+                        </div>
+                        <div className="bg-white/20 backdrop-blur-sm rounded-full px-2 py-0.5 text-xs text-white font-medium">
+                          Personalisiert
+                        </div>
                       </div>
                     </div>
-                    <div className="flex-shrink-0 bg-[#3B82F6]/10 p-1 rounded-full">
-                      <svg className="w-3.5 h-3.5 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                    
+                    {/* Hauptinhalt mit verbesserten visuellen Elementen */}
+                    <div className="bg-white p-3.5">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 w-9 h-9 rounded-full bg-[#3B82F6]/10 flex items-center justify-center mr-3">
+                          <svg className="w-4.5 h-4.5 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-[#3B82F6] font-medium">Kniegelenk-schonend</div>
+                          <div className="flex items-center mt-0.5">
+                            <svg className="w-3 h-3 text-[#3B82F6] mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span className="text-xs text-gray-600">5+ Übungen • 35 Min</span>
+                          </div>
+                        </div>
+                        <div className="flex-shrink-0 bg-[#3B82F6]/10 hover:bg-[#3B82F6]/20 p-2 rounded-full transition-colors">
+                          <svg className="w-4 h-4 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Mobile-Optimized Tip Section */}
-                <div className="text-xs text-gray-600 mt-2 px-1">
-                  <span className="text-[#3B82F6] font-medium block mb-0.5">Tipp:</span> 
-                  Für deine Knie habe ich eine Regenerationssequenz vorbereitet.
+                <div className="text-xs text-gray-600 mt-3 px-1">
+                  <div className="flex items-start">
+                    <svg className="w-3.5 h-3.5 text-[#3B82F6] mr-1.5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                      <span className="text-[#3B82F6] font-medium block mb-0.5">Tipp:</span> 
+                      Für deine Knie habe ich eine Regenerationssequenz vorbereitet.
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -1039,7 +1064,7 @@ export const MobileNutritionSyncDemo: React.FC = () => {
   )
 }
 
-// Spezielle mobile Version für Körperanalyse
+// Spezielle mobile Version für Körperanalyse - optimiert für bessere Darstellung
 export const MobileBodyAnalyzerDemo: React.FC = () => {
   const [progress, setProgress] = useState({
     fat: 0,
@@ -1071,15 +1096,16 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
         </div>
       </div>
 
-      <div className="absolute top-[36px] left-0 right-0 bottom-0 p-3 overflow-y-auto">
-        <div className="bg-white rounded-xl shadow-sm p-3 mb-3">
-          <div className="grid grid-cols-3 gap-2 mb-3">
+      {/* Mehr kompaktes Content-Layout für mobile Darstellung */}
+      <div className="absolute top-[36px] left-0 right-0 bottom-0 p-2.5 overflow-y-auto">
+        <div className="bg-white rounded-xl shadow-sm p-2.5 mb-2.5">
+          <div className="grid grid-cols-3 gap-1.5 mb-2.5">
             {[
               { label: "Körperfett", value: progress.fat, unit: "%" },
               { label: "Muskelmasse", value: progress.muscle, unit: "kg" },
               { label: "Definition", value: progress.definition, unit: "%" },
             ].map((stat, index) => (
-              <div key={index} className="bg-[#8B5CF6]/5 rounded-lg p-2 text-center">
+              <div key={index} className="bg-[#8B5CF6]/5 rounded-lg p-1.5 text-center">
                 <div className="text-[#8B5CF6] font-medium text-xs mb-0.5">
                   {stat.value > 0 ? "+" : ""}
                   {stat.value}
@@ -1090,7 +1116,7 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
             ))}
           </div>
 
-          <div className="bg-[#8B5CF6]/10 rounded-lg p-2 mb-3 flex items-center">
+          <div className="bg-[#8B5CF6]/10 rounded-lg p-2 mb-2.5 flex items-center">
             <svg className="w-4 h-4 text-[#8B5CF6] mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
@@ -1100,7 +1126,7 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
               />
             </svg>
             <div className="text-xs text-gray-600">
-              <span className="font-medium">Fortschritt:</span> 67%
+              <span className="font-medium">KI-Prognose:</span> 6 Wochen bis zum Ziel
             </div>
           </div>
 

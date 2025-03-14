@@ -3,14 +3,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { SparklesText } from "@/components/magicui/sparkles-text";
+import { addToWaitlist } from '@/lib/waitlist'; // Import hinzugefügt
 import Image from "next/image";
 
 export function WaitlistCta() {
   const containerRef = useRef(null);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  
+  // Neue States hinzufügen
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [participantNumber, setParticipantNumber] = useState(0);
   
   // Handle responsive detection
   useEffect(() => {
@@ -47,29 +53,68 @@ export function WaitlistCta() {
     accent2: "#FE8BBB"
   };
   
-  // Subtle parallax effect
+  // Subtle parallax effect - nur für Desktop
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
   
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  // Reduzierte Transformation für mobil
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -10 : -30]);
   const opacity = useTransform(scrollYProgress, [0.3, 0.6], [0.97, 1]);
   
   // Email validation
-  const isValidEmail = (email) => {
+  const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
   
   // Form submit handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    if (isValidEmail(email)) {
-      setSubmitted(true);
-      // Here would normally be the API call for waitlist registration
-    } else if (inputRef.current) {
-      inputRef.current.focus();
+    if (!isValidEmail(email)) {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+      return;
     }
+    
+    setIsLoading(true);
+    setErrorMessage("");
+    
+    try {
+      const result = await addToWaitlist(email, 'footer-cta');
+      
+      if (result.success) {
+        setSubmitted(true);
+        setParticipantNumber(result.participantNumber ?? 0);
+      } else {
+        if (result.existingEmail) {
+          // Wenn Email bereits existiert, trotzdem als Erfolg behandeln
+          setSubmitted(true);
+          setParticipantNumber(result.participantNumber ?? 0);
+        } else {
+          setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
+        }
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setErrorMessage("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Mobile-optimierte Animationsvarianten
+  const fadeInProps = isMobile ? {
+    initial: { opacity: 0 },
+    whileInView: { opacity: 1 },
+    viewport: { once: true },
+    transition: { duration: 0.3 }
+  } : {
+    initial: { opacity: 0, y: 15 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.5 }
   };
 
   return (
@@ -77,41 +122,41 @@ export function WaitlistCta() {
       ref={containerRef}
       className="relative py-16 md:py-24 overflow-hidden bg-gray-50 isolate"
     >
-      {/* Subtle background elements */}
+      {/* Reduzierte Hintergrundanimationen für Mobile */}
       <div className="absolute inset-0 -z-10">
         {/* Clean white to light gray gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-white to-gray-50"></div>
         
-        {/* Subtle dynamic shapes */}
-        <motion.div 
-          className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-full bg-white/50 blur-3xl"
-          style={{ y: y1, opacity }}
-        />
-        <motion.div 
-          className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-[#9bc539]/5 blur-3xl opacity-80"
-          animate={{ 
-            scale: [1, 1.05, 1],
-          }}
-          transition={{ 
-            duration: 8, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
-          }}
-        />
+        {/* Subtle dynamic shapes - reduziert für Mobile */}
+        {!isMobile && (
+          <>
+            <motion.div 
+              className="absolute -top-20 -right-20 w-[400px] h-[400px] rounded-full bg-white/50 blur-3xl"
+              style={{ y: y1, opacity }}
+            />
+            <motion.div 
+              className="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-[#9bc539]/5 blur-3xl opacity-80"
+              animate={{ 
+                scale: [1, 1.05, 1],
+              }}
+              transition={{ 
+                duration: 8, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+            />
+          </>
+        )}
       </div>
 
       {/* Main content container */}
       <div className="container mx-auto px-4 relative z-10">
         <motion.div 
           className="max-w-5xl mx-auto bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100"
-          initial={{ y: 30, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ 
-            type: "spring",
-            damping: 25, 
-            stiffness: 300
-          }}
+          transition={{ duration: isMobile ? 0.3 : 0.5 }}
         >
           <div className="relative">
             {/* Main content with clean spacing */}
@@ -119,31 +164,25 @@ export function WaitlistCta() {
               {/* Status badge */}
               <motion.div 
                 className="inline-block bg-gray-100 text-gray-500 text-xs font-medium px-4 py-1.5 rounded-full mb-6"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
+                {...fadeInProps}
               >
                 <span className="flex items-center">
-                  <span className="w-1.5 h-1.5 rounded-full mr-2 animate-pulse bg-[#9bc539]"></span>
+                  <span className="w-1.5 h-1.5 rounded-full mr-2 bg-[#9bc539]"></span>
                   Early Access
                 </span>
               </motion.div>
               
-              {/* Headline with SparklesText */}
+              {/* Headline with SparklesText - Sparkles reduziert für Mobile */}
               <motion.h2 
                 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 text-gray-900 leading-tight"
-                initial={{ opacity: 0, y: 15 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                viewport={{ once: true }} 
-                transition={{ duration: 0.5 }} 
+                {...fadeInProps}
               > 
                 Reserviere deinen{" "}
                 <span className="relative inline-block">
                   <SparklesText 
                     text="Platz" 
                     colors={{ first: colors.accent1, second: colors.accent2 }}
-                    sparklesCount={5}
+                    sparklesCount={isMobile ? 3 : 5}
                     className="inline-block font-bold text-3xl sm:text-4xl md:text-5xl"
                   />
                 </span>{" "}
@@ -153,10 +192,8 @@ export function WaitlistCta() {
               {/* Subheadline - clean and concise */}
               <motion.p 
                 className="text-base md:text-lg text-gray-600 font-normal mb-8 max-w-2xl mx-auto"
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.05 }}
+                {...fadeInProps}
+                transition={{ duration: isMobile ? 0.3 : 0.5, delay: 0.05 }}
               >
                 Sei einer der Ersten, die Zugang zum revolutionären Athly KI-Coach erhalten. 
                 Limitierte Plätze für den exklusiven Early-Access.
@@ -166,10 +203,10 @@ export function WaitlistCta() {
                 {!submitted ? (
                   <motion.div
                     key="form"
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ duration: 0.5 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: isMobile ? 0.3 : 0.5 }}
                   >
                     {/* Email Form - clean and modern */}
                     <motion.form 
@@ -186,6 +223,7 @@ export function WaitlistCta() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
+                            disabled={isLoading}
                           />
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -193,20 +231,34 @@ export function WaitlistCta() {
                             </svg>
                           </div>
                         </div>
-                        <motion.button 
+                        <button 
                           type="submit"
-                          className="px-6 py-3.5 rounded-xl text-white font-medium text-base transition-all duration-300 overflow-hidden bg-[#8ab42d] hover:bg-[#7fa328]"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
+                          className="px-6 py-3.5 rounded-xl text-white font-medium text-base transition-all duration-300 overflow-hidden bg-[#8ab42d] hover:bg-[#7fa328] disabled:opacity-70"
+                          disabled={isLoading}
                         >
                           <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
-                            Jetzt anmelden
-                            <svg className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                            </svg>
+                            {isLoading ? (
+                              <span className="flex items-center">
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Wird verarbeitet...
+                              </span>
+                            ) : (
+                              <>
+                                Jetzt anmelden
+                                <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                              </>
+                            )}
                           </span>
-                        </motion.button>
+                        </button>
                       </div>
+                      {errorMessage && (
+                        <p className="mt-2 text-left text-xs text-red-500">{errorMessage}</p>
+                      )}
                     </motion.form>
                     
                     {/* Benefits and social proof */}
@@ -214,10 +266,8 @@ export function WaitlistCta() {
                       {/* Key benefits - clean and value-focused */}
                       <motion.div 
                         className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-gray-600 text-sm"
-                        initial={{ opacity: 0, y: 15 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
+                        {...fadeInProps}
+                        transition={{ duration: isMobile ? 0.3 : 0.5, delay: 0.1 }}
                       >
                         <div className="flex items-center">
                           <svg className="w-4 h-4 mr-2 text-[#9bc539]" viewBox="0 0 24 24" fill="currentColor">
@@ -241,10 +291,8 @@ export function WaitlistCta() {
                       
                       {/* Social proof avatars */}
                       <motion.div
-                        initial={{ opacity: 0, y: 15 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.15 }}
+                        {...fadeInProps}
+                        transition={{ duration: isMobile ? 0.3 : 0.5, delay: 0.15 }}
                         className="text-center"
                       >
                         <div className="flex justify-center mb-2">
@@ -264,12 +312,12 @@ export function WaitlistCta() {
                     </div>
                   </motion.div>
                 ) : (
-                  /* Success state - clean and reassuring */
+                  /* Success state - vereinfachte Animation für Mobile */
                   <motion.div 
                     key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: isMobile ? 0.3 : 0.5 }}
                     className="py-6 md:py-8 max-w-md mx-auto"
                   >
                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center mb-6 bg-[#9bc539]/10">
@@ -285,7 +333,7 @@ export function WaitlistCta() {
                     <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-sm text-gray-600">
                       <span className="flex items-center">
                         <span className="w-1.5 h-1.5 rounded-full mr-2 bg-[#9bc539]"></span>
-                        Du bist Teilnehmer #{Math.floor(Math.random() * 100) + 312}
+                        Du bist Teilnehmer #{participantNumber}
                       </span>
                     </div>
                   </motion.div>
@@ -318,49 +366,39 @@ export function WaitlistCta() {
           </div>
         </motion.div>
         
-        {/* Bottom partner logos - credibility */}
+        {/* Bottom partner logos - vereinfachte Animation für Mobile */}
         <div className="mt-12 md:mt-16 text-center">
           <p className="text-xs md:text-sm text-gray-500 mb-5 md:mb-6">Diese Organisationen vertrauen auf unsere Technologie</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-            {/* Universität Bonn Logo */}
-            <motion.div 
-              className="relative h-12 md:h-14 w-32 md:w-36"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4 }}
-            >
-              <Image 
-                src="/images/Universität_Bonn.svg" 
-                alt="Universität Bonn"
-                fill
-                className="object-contain"
-              />
-            </motion.div>
-            
-            {/* ENACOM Logo */}
-            <motion.div 
-              className="relative h-10 md:h-12 w-36 md:w-40"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-            >
-              <Image 
-                src="/images/enacom.jpg" 
-                alt="ENACOM"
-                fill
-                className="object-contain"
-              />
-            </motion.div>
+            {/* Logo-Animation vereinfacht */}
+            {[
+              { src: "/images/Universität_Bonn.svg", alt: "Universität Bonn", className: "relative h-12 md:h-14 w-32 md:w-36" },
+              { src: "/images/enacom.jpg", alt: "ENACOM", className: "relative h-10 md:h-12 w-36 md:w-40" }
+            ].map((logo, index) => (
+              <motion.div 
+                key={index}
+                className={logo.className}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: isMobile ? 0.2 : 0.4, delay: isMobile ? index * 0.1 : index * 0.1 }}
+              >
+                <Image 
+                  src={logo.src} 
+                  alt={logo.alt}
+                  fill
+                  className="object-contain"
+                />
+              </motion.div>
+            ))}
             
             {/* DSHS Köln Logo */}
             <motion.div 
               className="relative h-12 md:h-14 w-32 md:w-36 bg-blue-50 rounded-lg flex items-center justify-center p-2"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.2 }}
+              transition={{ duration: isMobile ? 0.2 : 0.4, delay: isMobile ? 0.2 : 0.2 }}
             >
               <span className="text-blue-700 text-sm md:text-base font-medium">DSHS Köln</span>
             </motion.div>

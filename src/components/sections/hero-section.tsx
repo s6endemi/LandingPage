@@ -1,15 +1,24 @@
 "use client"
 
 import { useRef, useEffect, useState } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { Particles } from "@/components/magicui/particles"
 import { FlipWords } from "@/components/ui/flip-words"
 import { HeroMockupAnimation } from "@/components/demo/heromockup"
 import { Enhanced3DPhoneMockup } from "@/components/ui/Enhanced3DPhoneMockup"
+import { addToWaitlist } from '@/lib/waitlist' // Import hinzugefügt
 
 export function EnhancedHeroSection() {
   const containerRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [email, setEmail] = useState("")
+  const [submitted, setSubmitted] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null);
+  
+  // Neue States hinzufügen
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+  const [participantNumber, setParticipantNumber] = useState(0)
 
   // Handle responsive detection
   useEffect(() => {
@@ -36,6 +45,45 @@ export function EnhancedHeroSection() {
 
   // Words for FlipWords component - Results-oriented list
   const flipWordsList = ["Erfolgscoach", "Motivator", "Personal Trainer", "Fitness-Booster"]
+
+  // Email validation
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  }
+  
+  // Form submit handler
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    if (!isValidEmail(email)) {
+      if (inputRef.current) inputRef.current.focus()
+      return
+    }
+    
+    setIsLoading(true)
+    setErrorMessage("")
+    
+    try {
+      const result = await addToWaitlist(email, 'hero')
+      
+      if (result.success) {
+        setSubmitted(true)
+        setParticipantNumber(result.participantNumber ?? 0)
+      } else {
+        if (result.existingEmail) {
+          // Wenn Email bereits existiert, trotzdem als Erfolg behandeln
+          setSubmitted(true)
+          setParticipantNumber(result.participantNumber ?? 0)
+        } else {
+          setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.")
+        }
+      }
+    } catch (error) {
+      console.error('Submission error:', error)
+      setErrorMessage("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div
@@ -136,63 +184,118 @@ export function EnhancedHeroSection() {
 
             {/* CTA SECTION - Email capture box */}
             <div className="w-full">
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.9 }}
-                className="mb-6"
-              >
-                <div className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden">
-                  {/* Form Headline */}
-                  <h3 className="text-left text-xl font-semibold text-gray-800 mb-2">
-                    Sichere dir deinen Early Access & Rabatt!
-                  </h3>
+              <AnimatePresence mode="wait">
+                {!submitted ? (
+                  <motion.div
+                    key="form"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, delay: 0.9 }}
+                    className="mb-6"
+                  >
+                    <div className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden">
+                      {/* Form Headline */}
+                      <h3 className="text-left text-xl font-semibold text-gray-800 mb-2">
+                        Sichere dir deinen Early Access & Rabatt!
+                      </h3>
 
-                  <p className="text-left text-gray-600 text-sm mb-4">
-                    Sichere dir <span className="font-semibold text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
-                    Premium-Coaching kostenlos
-                  </p>
+                      <p className="text-left text-gray-600 text-sm mb-4">
+                        Sichere dir <span className="font-semibold text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
+                        Premium-Coaching kostenlos
+                      </p>
 
-                  <div className="flex flex-col gap-3 mb-3">
-                    <input
-                      type="email"
-                      placeholder="Deine E-Mail Adresse"
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#8FBC29]/30 focus:border-[#8FBC29] transition-all text-sm"
-                    />
-                    <motion.button
-                      className="w-full text-white font-medium rounded-xl px-4 py-4 transition-all shadow-md relative overflow-hidden group"
-                      style={{
-                        backgroundColor: ctaGreen,
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      whileHover={{
-                        boxShadow: "0 10px 15px -3px rgba(139, 180, 45, 0.1), 0 4px 6px -2px rgba(139, 180, 45, 0.05)",
-                      }}
-                    >
-                      <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
-                        Early Access sichern
-                        <svg
-                          className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                      <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-3">
+                        <input
+                          ref={inputRef}
+                          type="email"
+                          placeholder="Deine E-Mail Adresse"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#8FBC29]/30 focus:border-[#8FBC29] transition-all text-sm"
+                          required
+                          disabled={isLoading}
+                        />
+                        <motion.button
+                          type="submit"
+                          className="w-full text-white font-medium rounded-xl px-4 py-4 transition-all shadow-md relative overflow-hidden group"
+                          style={{
+                            backgroundColor: ctaGreen,
+                          }}
+                          whileTap={{ scale: 0.98 }}
+                          whileHover={{
+                            boxShadow: "0 10px 15px -3px rgba(139, 180, 45, 0.1), 0 4px 6px -2px rgba(139, 180, 45, 0.05)",
+                          }}
+                          disabled={isLoading}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </span>
-                    </motion.button>
-                  </div>
+                          <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
+                            {isLoading ? (
+                              <span className="flex items-center">
+                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Wird verarbeitet...
+                              </span>
+                            ) : (
+                              <>
+                                Early Access sichern
+                                <svg
+                                  className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                  />
+                                </svg>
+                              </>
+                            )}
+                          </span>
+                        </motion.button>
+                        {errorMessage && (
+                          <p className="text-red-500 text-xs mt-1">{errorMessage}</p>
+                        )}
+                      </form>
 
-                  <p className="text-xs text-gray-500">
-                    Kein Spam, nur Updates zum Launch! Du kannst dich jederzeit abmelden.
-                  </p>
-                </div>
-              </motion.div>
+                      <p className="text-xs text-gray-500">
+                        Kein Spam, nur Updates zum Launch! Du kannst dich jederzeit abmelden.
+                      </p>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    key="success"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden mb-6"
+                  >
+                    <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 bg-[#9bc539]/10">
+                      <svg className="w-8 h-8 text-[#9bc539]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Du bist dabei!</h3>
+                    <p className="text-gray-600 text-sm text-center mb-4">
+                      Wir haben deine E-Mail-Adresse erhalten und werden dich informieren, 
+                      sobald dein exklusiver Zugang bereit ist.
+                    </p>
+                    <div className="flex justify-center">
+                      <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-sm text-gray-600">
+                        <span className="flex items-center">
+                          <span className="w-1.5 h-1.5 rounded-full mr-2 bg-[#9bc539]"></span>
+                          Du bist Teilnehmer #{participantNumber}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Social proof - Compact for mobile */}
               <motion.div
@@ -300,71 +403,127 @@ export function EnhancedHeroSection() {
               </motion.p>
 
               {/* CTA - Desktop version */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                className="mb-8"
-              >
-                <div className="bg-white rounded-2xl py-8 px-8 shadow-lg border border-gray-100 relative overflow-hidden max-w-xl">
-                  <div className="absolute top-4 right-6">
-                    <div className="flex items-center">
-                      <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                        Early Access
-                      </span>
-                    </div>
-                  </div>
+              <AnimatePresence mode="wait">
+                {!submitted ? (
+                  <motion.div
+                    key="form"
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.6, delay: 0.7 }}
+                    className="mb-8"
+                  >
+                    <div className="bg-white rounded-2xl py-8 px-8 shadow-lg border border-gray-100 relative overflow-hidden max-w-xl">
+                      <div className="absolute top-4 right-6">
+                        <div className="flex items-center">
+                          <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                            Early Access
+                          </span>
+                        </div>
+                      </div>
 
-                  {/* Form Headline */}
-                  <h3 className="text-left text-xl lg:text-2xl font-semibold text-gray-800 mb-3">
-                    Sichere dir deinen Early Access & Rabatt!
-                  </h3>
+                      {/* Form Headline */}
+                      <h3 className="text-left text-xl lg:text-2xl font-semibold text-gray-800 mb-3">
+                        Sichere dir deinen Early Access & Rabatt!
+                      </h3>
 
-                  <p className="text-left text-gray-600 text-base mb-6">
-                    Sichere dir <span className="font-semibold text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
-                    Premium-Coaching kostenlos
-                  </p>
+                      <p className="text-left text-gray-600 text-base mb-6">
+                        Sichere dir <span className="font-semibold text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
+                        Premium-Coaching kostenlos
+                      </p>
 
-                  <div className="flex flex-col sm:flex-row gap-3 mb-3">
-                    <input
-                      type="email"
-                      placeholder="Deine E-Mail Adresse"
-                      className="flex-1 px-5 py-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#8FBC29]/30 focus:border-[#8FBC29] transition-all text-base"
-                    />
-                    <motion.button
-                      className="text-white font-medium rounded-xl px-7 py-4 transition-all shadow-md relative overflow-hidden group whitespace-nowrap"
-                      style={{
-                        backgroundColor: ctaGreen,
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      whileHover={{
-                        boxShadow: "0 10px 15px -3px rgba(139, 180, 45, 0.1), 0 4px 6px -2px rgba(139, 180, 45, 0.05)",
-                      }}
-                    >
-                      <span className="relative z-10 flex items-center justify-center">
-                        Early Access sichern
-                        <svg
-                          className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
+                      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 mb-3">
+                        <input
+                          ref={inputRef}
+                          type="email"
+                          placeholder="Deine E-Mail Adresse"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="flex-1 px-5 py-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#8FBC29]/30 focus:border-[#8FBC29] transition-all text-base"
+                          required
+                          disabled={isLoading}
+                        />
+                        <motion.button
+                          type="submit"
+                          className="text-white font-medium rounded-xl px-7 py-4 transition-all shadow-md relative overflow-hidden group whitespace-nowrap"
+                          style={{
+                            backgroundColor: ctaGreen,
+                          }}
+                          whileTap={{ scale: 0.98 }}
+                          whileHover={{
+                            boxShadow: "0 10px 15px -3px rgba(139, 180, 45, 0.1), 0 4px 6px -2px rgba(139, 180, 45, 0.05)",
+                          }}
+                          disabled={isLoading}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </span>
-                    </motion.button>
-                  </div>
+                          <span className="relative z-10 flex items-center justify-center">
+                            {isLoading ? (
+                              <span className="flex items-center">
+                                <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Wird verarbeitet...
+                              </span>
+                            ) : (
+                              <>
+                                Early Access sichern
+                                <svg
+                                  className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                  />
+                                </svg>
+                              </>
+                            )}
+                          </span>
+                        </motion.button>
+                      </form>
 
-                  <p className="text-sm text-gray-500">
-                    Kein Spam, nur Updates zum Launch! Du kannst dich jederzeit abmelden.
-                  </p>
-                </div>
-              </motion.div>
+                      {errorMessage && (
+                        <p className="text-red-500 text-sm mb-3">{errorMessage}</p>
+                      )}
+
+                      <p className="text-sm text-gray-500">
+                        Kein Spam, nur Updates zum Launch! Du kannst dich jederzeit abmelden.
+                      </p>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    key="success"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-8 bg-white rounded-2xl py-8 px-8 shadow-lg border border-gray-100 relative overflow-hidden max-w-xl"
+                  >
+                    <div className="w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-6 bg-[#9bc539]/10">
+                      <svg className="w-10 h-10 text-[#9bc539]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Du bist dabei!</h3>
+                    <p className="text-gray-600 text-base text-center mb-6">
+                      Wir haben deine E-Mail-Adresse erhalten und werden dich informieren, 
+                      sobald dein exklusiver Zugang bereit ist.
+                    </p>
+                    <div className="flex justify-center">
+                      <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-base text-gray-600">
+                        <span className="flex items-center">
+                          <span className="w-1.5 h-1.5 rounded-full mr-2 bg-[#9bc539]"></span>
+                          Du bist Teilnehmer #{participantNumber}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Social proof - Desktop layout */}
               <motion.div

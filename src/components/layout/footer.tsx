@@ -88,46 +88,6 @@ export function Footer() {
             </p>
           </div>
           
-          {/* Navigation und Links */}
-          <div className="grid grid-cols-2 gap-8">
-            {/* Hauptnavigation */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4">
-                Navigation
-              </h3>
-              <ul className="space-y-3">
-                {navigationLinks.map((link) => (
-                  <li key={link.name}>
-                    <Link 
-                      href={link.href}
-                      className="text-sm text-gray-500 hover:text-[#9bc539] transition-colors duration-200"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            
-            {/* Rechtliche Links */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4">
-                Rechtliches
-              </h3>
-              <ul className="space-y-3">
-                {legalLinks.map((link) => (
-                  <li key={link.name}>
-                    <Link 
-                      href={link.href}
-                      className="text-sm text-gray-500 hover:text-[#9bc539] transition-colors duration-200"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
           
           {/* Newsletter und Social Links */}
           <div>
@@ -183,34 +143,6 @@ export function Footer() {
           </p>
           
           {/* App Store Badges */}
-          <div className="flex space-x-4">
-            <a 
-              href="#" 
-              className="flex items-center bg-black text-white rounded-lg px-3 py-2 hover:bg-gray-800 transition-colors"
-            >
-              <svg viewBox="0 0 24 24" className="w-5 h-5 mr-2" fill="currentColor">
-                <path d="M17.5649 12.355C17.5077 9.76338 19.6093 8.29941 19.7199 8.22823C18.4854 6.4334 16.5788 6.1776 15.9032 6.15936C14.1977 5.97612 12.5694 7.16648 11.7031 7.16648C10.8184 7.16648 9.4932 6.17753 8.0592 6.21014C6.2443 6.24276 4.56727 7.26908 3.64684 8.86193C1.74989 12.1027 3.17334 16.9299 5.0055 19.4683C5.91332 20.715 6.97709 22.1246 8.36719 22.0594C9.71434 21.9889 10.2148 21.1694 11.8444 21.1694C13.4573 21.1694 13.9252 22.0594 15.3421 22.0237C16.8073 21.9889 17.7241 20.7422 18.6046 19.4866C19.639 18.0534 20.0527 16.6508 20.0711 16.5918C20.0343 16.5796 17.6283 15.6033 17.5649 12.355Z"/>
-                <path d="M15.0461 4.19201C15.7891 3.25866 16.2948 1.97542 16.1597 0.673828C15.0707 0.72374 13.7237 1.42678 12.9438 2.33359C12.2539 3.14091 11.6396 4.4636 11.793 5.72222C12.9991 5.80602 14.2847 5.1132 15.0461 4.19201Z"/>
-              </svg>
-              <div className="text-xs">
-                <div className="text-gray-300">Download on the</div>
-                <div className="text-sm font-semibold leading-none">App Store</div>
-              </div>
-            </a>
-            
-            <a 
-              href="#" 
-              className="flex items-center bg-black text-white rounded-lg px-3 py-2 hover:bg-gray-800 transition-colors"
-            >
-              <svg viewBox="0 0 24 24" className="w-5 h-5 mr-2" fill="currentColor">
-                <path d="M3.60001 2.66074C3.40376 2.872 3.26136 3.1373 3.18301 3.41077C3.10466 3.68424 3.09208 3.9777 3.14601 4.26074C3.63601 6.89074 5.01601 10.8907 7.64601 14.2607C8.33601 15.2107 9.16601 16.1807 10.116 17.0707C10.116 17.0707 11.366 16.0707 12.496 15.1807C12.0198 14.7584 11.5816 14.2979 11.186 13.8007C10.2062 12.5904 9.36844 11.2772 8.68601 9.88074C7.37601 7.31074 6.73601 4.98074 6.66601 3.42074C6.66601 3.42074 6.64601 3.23074 6.72601 3.09074C6.80601 2.95074 6.96601 2.91074 6.96601 2.91074C8.24601 2.53074 9.53601 2.21074 10.836 1.94074L12.096 1.67074L3.60601 2.66074H3.60001ZM14.686 1.18074L14.376 1.22074L13.546 1.33074C13.546 1.33074 14.456 2.79074 14.886 4.74074C15.326 6.69074 15.216 8.55074 15.216 8.55074L16.926 6.85074C16.926 6.85074 17.006 5.33074 16.596 3.72074C16.196 2.11074 15.346 1.30074 14.686 1.18074V1.18074ZM15.366 9.95074C15.366 9.95074 13.746 11.4007 13.066 11.9907C13.066 11.9907 13.246 12.2307 13.556 12.5607C13.866 12.8907 14.336 13.3007 14.756 13.6507C16.476 12.2107 17.306 11.4907 17.306 11.4907C17.306 11.4907 16.546 10.5507 15.376 9.95074H15.366ZM13.006 18.3307L12.646 18.8907C13.5161 19.5172 14.4525 20.0414 15.436 20.4507C18.188 21.7833 21.1996 22.4818 24.266 22.5007V20.3807C21.5192 20.3236 18.832 19.576 16.436 18.1907C15.4151 17.5867 14.4526 16.882 13.556 16.0907L13.016 18.3307H13.006Z"/>
-              </svg>
-              <div className="text-xs">
-                <div className="text-gray-300">GET IT ON</div>
-                <div className="text-sm font-semibold leading-none">Google Play</div>
-              </div>
-            </a>
-          </div>
         </div>
       </div>
     </footer>
