@@ -6,7 +6,8 @@ import { Particles } from "@/components/magicui/particles"
 import { FlipWords } from "@/components/ui/flip-words"
 import { HeroMockupAnimation } from "@/components/demo/heromockup"
 import { Enhanced3DPhoneMockup } from "@/components/ui/Enhanced3DPhoneMockup"
-import { addToWaitlist } from '@/lib/waitlist' // Import hinzugefügt
+import { addToWaitlist } from '@/lib/waitlist'
+import { trackPageView, trackCTAClick, trackSignupSuccess, trackDuplicateSignup, trackSignupError, trackEvent } from '@/lib/analytics'
 
 export function EnhancedHeroSection() {
   const containerRef = useRef(null)
@@ -19,6 +20,14 @@ export function EnhancedHeroSection() {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
   const [participantNumber, setParticipantNumber] = useState(0)
+
+  // Track page view on component mount
+  useEffect(() => {
+    trackPageView('hero-section');
+    
+    // Track hero section display
+    trackEvent('hero_displayed', 'hero');
+  }, []);
 
   // Handle responsive detection
   useEffect(() => {
@@ -46,15 +55,25 @@ export function EnhancedHeroSection() {
   // Words for FlipWords component - Results-oriented list
   const flipWordsList = ["Erfolgscoach", "Motivator", "Personal Trainer", "Fitness-Booster"]
 
+  // Track word changes in FlipWords
+  const handleWordChange = (word: string) => {
+    trackEvent('flipword_changed', 'hero', { word });
+  };
+
   // Email validation
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
   
-  // Form submit handler
+  // Form submit handler with analytics
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
+    
+    // Track CTA click
+    trackCTAClick('hero');
+    
     if (!isValidEmail(email)) {
+      trackEvent('invalid_email', 'hero', { email_length: email.length });
       if (inputRef.current) inputRef.current.focus()
       return
     }
@@ -66,24 +85,48 @@ export function EnhancedHeroSection() {
       const result = await addToWaitlist(email, 'hero')
       
       if (result.success) {
-        setSubmitted(true)
-        setParticipantNumber(result.participantNumber ?? 0)
+        // Track successful signup
+        trackSignupSuccess('hero', email, result.participantNumber ?? 0);
+        
+        // Success state
+        setSubmitted(true);
+        setParticipantNumber(result.participantNumber ?? 0);
+        
+        // Track successful completion
+        trackEvent('signup_success_view', 'hero', { 
+          participant_number: result.participantNumber ?? 0 
+        });
       } else {
         if (result.existingEmail) {
-          // Wenn Email bereits existiert, trotzdem als Erfolg behandeln
-          setSubmitted(true)
-          setParticipantNumber(result.participantNumber ?? 0)
+          // Track duplicate email
+          trackDuplicateSignup('hero', email);
+          
+          // Show error message
+          setErrorMessage(result.error ?? "Diese Email ist bereits registriert.");
         } else {
-          setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.")
+          // Track general error
+          trackSignupError('hero', result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
+          
+          // Show general error message
+          setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
         }
       }
+      
     } catch (error) {
+      // Track unexpected error
+      trackSignupError('hero', "Unexpected error");
+      
       console.error('Submission error:', error)
       setErrorMessage("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.")
     } finally {
       setIsLoading(false)
     }
   }
+
+  // Track phone mockup interactions
+  const handlePhoneMockupInteraction = () => {
+    trackEvent('phone_mockup_interaction', 'hero');
+  };
 
   return (
     <div
@@ -131,9 +174,15 @@ export function EnhancedHeroSection() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
+                onViewportEnter={() => trackEvent('headline_visible', 'hero')}
               >
                 <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
-                  <FlipWords words={flipWordsList} duration={3000} className="relative" />
+                  <FlipWords 
+                    words={flipWordsList} 
+                    duration={3000} 
+                    className="relative" 
+                    onWordChange={handleWordChange}
+                  />
                 </h1>
 
                 {/* Underline effect */}
@@ -163,6 +212,8 @@ export function EnhancedHeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
+                onViewportEnter={() => trackEvent('phone_mockup_visible', 'hero')}
+                onClick={handlePhoneMockupInteraction}
               >
                 <Enhanced3DPhoneMockup 
                   content={<HeroMockupAnimation />} 
@@ -193,6 +244,7 @@ export function EnhancedHeroSection() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5, delay: 0.9 }}
                     className="mb-6"
+                    onViewportEnter={() => trackEvent('cta_form_visible', 'hero')}
                   >
                     <div className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden">
                       {/* Form Headline */}
@@ -215,6 +267,7 @@ export function EnhancedHeroSection() {
                           className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#8FBC29]/30 focus:border-[#8FBC29] transition-all text-sm"
                           required
                           disabled={isLoading}
+                          onFocus={() => trackEvent('input_focus', 'hero')}
                         />
                         <motion.button
                           type="submit"
@@ -274,6 +327,7 @@ export function EnhancedHeroSection() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                     className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden mb-6"
+                    onAnimationComplete={() => trackEvent('success_view_complete', 'hero')}
                   >
                     <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 bg-[#9bc539]/10">
                       <svg className="w-8 h-8 text-[#9bc539]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -303,9 +357,13 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 1 }}
                 className="flex justify-between items-center mb-4"
+                onViewportEnter={() => trackEvent('social_proof_visible', 'hero')}
               >
                 {/* User participation */}
-                <div className="flex items-center">
+                <div 
+                  className="flex items-center"
+                  onClick={() => trackEvent('participation_badge_click', 'hero')}
+                >
                   <div className="flex -space-x-2 mr-2">
                     {[1, 2, 3].map((i) => (
                       <div
@@ -323,7 +381,10 @@ export function EnhancedHeroSection() {
                 </div>
 
                 {/* Rating */}
-                <div className="flex items-center">
+                <div 
+                  className="flex items-center"
+                  onClick={() => trackEvent('rating_badge_click', 'hero')}
+                >
                   <div className="flex mr-1">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <svg key={star} className="w-3 h-3 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
@@ -367,9 +428,15 @@ export function EnhancedHeroSection() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
+                  onViewportEnter={() => trackEvent('headline_visible', 'hero')}
                 >
                   <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight">
-                    <FlipWords words={flipWordsList} duration={3000} className="relative" />
+                    <FlipWords 
+                      words={flipWordsList} 
+                      duration={3000} 
+                      className="relative"
+                      onWordChange={handleWordChange}
+                    />
                   </h1>
 
                   {/* Elegant underline */}
@@ -412,6 +479,7 @@ export function EnhancedHeroSection() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.6, delay: 0.7 }}
                     className="mb-8"
+                    onViewportEnter={() => trackEvent('cta_form_visible', 'hero')}
                   >
                     <div className="bg-white rounded-2xl py-8 px-8 shadow-lg border border-gray-100 relative overflow-hidden max-w-xl">
                       <div className="absolute top-4 right-6">
@@ -442,6 +510,7 @@ export function EnhancedHeroSection() {
                           className="flex-1 px-5 py-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#8FBC29]/30 focus:border-[#8FBC29] transition-all text-base"
                           required
                           disabled={isLoading}
+                          onFocus={() => trackEvent('input_focus', 'hero')}
                         />
                         <motion.button
                           type="submit"
@@ -502,6 +571,7 @@ export function EnhancedHeroSection() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6 }}
                     className="mb-8 bg-white rounded-2xl py-8 px-8 shadow-lg border border-gray-100 relative overflow-hidden max-w-xl"
+                    onAnimationComplete={() => trackEvent('success_view_complete', 'hero')}
                   >
                     <div className="w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-6 bg-[#9bc539]/10">
                       <svg className="w-10 h-10 text-[#9bc539]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -531,9 +601,13 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="flex items-center justify-between mb-6"
+                onViewportEnter={() => trackEvent('social_proof_visible', 'hero')}
               >
                 {/* User participation */}
-                <div className="flex items-center">
+                <div 
+                  className="flex items-center"
+                  onClick={() => trackEvent('participation_badge_click', 'hero')}
+                >
                   <div className="flex -space-x-2 mr-3">
                     {[1, 2, 3].map((index) => (
                       <div
@@ -551,7 +625,10 @@ export function EnhancedHeroSection() {
                 </div>
 
                 {/* Rating */}
-                <div className="flex items-center">
+                <div 
+                  className="flex items-center"
+                  onClick={() => trackEvent('rating_badge_click', 'hero')}
+                >
                   <div className="flex mr-1">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <svg key={star} className="w-4 h-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
@@ -571,6 +648,8 @@ export function EnhancedHeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
+                onViewportEnter={() => trackEvent('phone_mockup_visible', 'hero')}
+                onClick={handlePhoneMockupInteraction}
               >
                 <Enhanced3DPhoneMockup 
                   content={<HeroMockupAnimation />} 

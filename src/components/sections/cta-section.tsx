@@ -3,7 +3,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { SparklesText } from "@/components/magicui/sparkles-text";
-import { addToWaitlist } from '@/lib/waitlist'; // Import hinzugefügt
+import { addToWaitlist } from '@/lib/waitlist';
+import { trackPageView, trackCTAClick, trackSignupSuccess, trackDuplicateSignup, trackSignupError, trackEvent } from '@/lib/analytics';
 import Image from "next/image";
 
 export function WaitlistCta() {
@@ -17,6 +18,29 @@ export function WaitlistCta() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [participantNumber, setParticipantNumber] = useState(0);
+  
+  // Track view when section becomes visible
+  useEffect(() => {
+    // Using IntersectionObserver to track when the CTA becomes visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          trackPageView('footer-cta');
+          // Disconnect after first view to avoid multiple tracking events
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 } // Fire when 20% of the element is visible
+    );
+    
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
   
   // Handle responsive detection
   useEffect(() => {
@@ -68,12 +92,17 @@ export function WaitlistCta() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
   
-  // Form submit handler
+  // Form submit handler with analytics
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    
+    // Track CTA click
+    trackCTAClick('footer-cta');
+    
     if (!isValidEmail(email)) {
+      trackEvent('invalid_email', 'footer-cta');
       if (inputRef.current) {
-        inputRef.current.focus();
+        inputRef.current?.focus();
       }
       return;
     }
@@ -85,18 +114,31 @@ export function WaitlistCta() {
       const result = await addToWaitlist(email, 'footer-cta');
       
       if (result.success) {
+        // Track successful signup
+        trackSignupSuccess('footer-cta', email, result.participantNumber ?? 0);
+        
+        // Success state
         setSubmitted(true);
         setParticipantNumber(result.participantNumber ?? 0);
       } else {
         if (result.existingEmail) {
-          // Wenn Email bereits existiert, trotzdem als Erfolg behandeln
-          setSubmitted(true);
-          setParticipantNumber(result.participantNumber ?? 0);
+          // Track duplicate email
+          trackDuplicateSignup('footer-cta', email);
+          
+          // Show error for duplicate
+          setErrorMessage(result.error ?? "Diese Email ist bereits registriert.");
         } else {
+          // Track general error
+          trackSignupError('footer-cta', result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
+          
+          // Show general error
           setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
         }
       }
     } catch (error) {
+      // Track unexpected error
+      trackSignupError('footer-cta', "Unexpected error");
+      
       console.error('Submission error:', error);
       setErrorMessage("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.");
     } finally {
@@ -115,6 +157,11 @@ export function WaitlistCta() {
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true },
     transition: { duration: 0.5 }
+  };
+
+  // Track interaction with benefits
+  const trackBenefitViewed = (benefit: string) => {
+    trackEvent('benefit_viewed', 'footer-cta', { benefit });
   };
 
   return (
@@ -157,6 +204,7 @@ export function WaitlistCta() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: isMobile ? 0.3 : 0.5 }}
+          onViewportEnter={() => trackEvent('cta_card_visible', 'footer-cta')}
         >
           <div className="relative">
             {/* Main content with clean spacing */}
@@ -224,6 +272,7 @@ export function WaitlistCta() {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             disabled={isLoading}
+                            onFocus={() => trackEvent('input_focus', 'footer-cta')}
                           />
                           <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -268,20 +317,33 @@ export function WaitlistCta() {
                         className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-gray-600 text-sm"
                         {...fadeInProps}
                         transition={{ duration: isMobile ? 0.3 : 0.5, delay: 0.1 }}
+                        onViewportEnter={() => trackEvent('benefits_visible', 'footer-cta')}
                       >
-                        <div className="flex items-center">
+                        <div 
+                          className="flex items-center"
+                          onMouseEnter={() => trackBenefitViewed('notification')}
+                          onClick={() => trackBenefitViewed('notification_click')}
+                        >
                           <svg className="w-4 h-4 mr-2 text-[#9bc539]" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                           </svg>
                           <span>Sofortige Benachrichtigung</span>
                         </div>
-                        <div className="flex items-center">
+                        <div 
+                          className="flex items-center"
+                          onMouseEnter={() => trackBenefitViewed('discount')}
+                          onClick={() => trackBenefitViewed('discount_click')}
+                        >
                           <svg className="w-4 h-4 mr-2 text-[#9bc539]" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                           </svg>
                           <span>30% Rabatt für Early Adopter</span>
                         </div>
-                        <div className="flex items-center">
+                        <div 
+                          className="flex items-center"
+                          onMouseEnter={() => trackBenefitViewed('limited_spots')}
+                          onClick={() => trackBenefitViewed('limited_spots_click')}
+                        >
                           <svg className="w-4 h-4 mr-2 text-[#9bc539]" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                           </svg>
@@ -294,6 +356,7 @@ export function WaitlistCta() {
                         {...fadeInProps}
                         transition={{ duration: isMobile ? 0.3 : 0.5, delay: 0.15 }}
                         className="text-center"
+                        onViewportEnter={() => trackEvent('social_proof_visible', 'footer-cta')}
                       >
                         <div className="flex justify-center mb-2">
                           <div className="flex -space-x-2">
@@ -319,6 +382,7 @@ export function WaitlistCta() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: isMobile ? 0.3 : 0.5 }}
                     className="py-6 md:py-8 max-w-md mx-auto"
+                    onAnimationComplete={() => trackEvent('success_view_complete', 'footer-cta')}
                   >
                     <div className="w-16 h-16 md:w-20 md:h-20 rounded-full mx-auto flex items-center justify-center mb-6 bg-[#9bc539]/10">
                       <svg className="w-8 h-8 md:w-10 md:h-10 text-[#9bc539]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -357,7 +421,10 @@ export function WaitlistCta() {
             </div>
             
             {/* Security assurance */}
-            <div className="flex items-center relative z-10">
+            <div 
+              className="flex items-center relative z-10"
+              onClick={() => trackEvent('privacy_badge_click', 'footer-cta')}
+            >
               <svg className="w-4 h-4 md:w-5 md:h-5 mr-2 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
@@ -367,7 +434,10 @@ export function WaitlistCta() {
         </motion.div>
         
         {/* Bottom partner logos - vereinfachte Animation für Mobile */}
-        <div className="mt-12 md:mt-16 text-center">
+        <div 
+          className="mt-12 md:mt-16 text-center"
+          onMouseEnter={() => trackEvent('partners_section_hover', 'footer-cta')}
+        >
           <p className="text-xs md:text-sm text-gray-500 mb-5 md:mb-6">Diese Organisationen vertrauen auf unsere Technologie</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
             {/* Logo-Animation vereinfacht */}
@@ -382,6 +452,8 @@ export function WaitlistCta() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: isMobile ? 0.2 : 0.4, delay: isMobile ? index * 0.1 : index * 0.1 }}
+                onViewportEnter={() => trackEvent('partner_logo_visible', 'footer-cta', { partner: logo.alt })}
+                onClick={() => trackEvent('partner_logo_click', 'footer-cta', { partner: logo.alt })}
               >
                 <Image 
                   src={logo.src} 
@@ -399,6 +471,8 @@ export function WaitlistCta() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: isMobile ? 0.2 : 0.4, delay: isMobile ? 0.2 : 0.2 }}
+              onViewportEnter={() => trackEvent('partner_logo_visible', 'footer-cta', { partner: 'DSHS Köln' })}
+              onClick={() => trackEvent('partner_logo_click', 'footer-cta', { partner: 'DSHS Köln' })}
             >
               <span className="text-blue-700 text-sm md:text-base font-medium">DSHS Köln</span>
             </motion.div>

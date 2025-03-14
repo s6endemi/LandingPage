@@ -61,7 +61,7 @@ export function HeroMockupAnimation() {
     <div className="w-full h-full bg-white flex flex-col overflow-hidden rounded-xl shadow-sm border border-gray-100">
       {/* Device Status Bar */}
       <div className="flex justify-between items-center px-3 py-1 bg-gray-50">
-        <div className="text-xs font-medium text-gray-600">9:41</div>
+        <div className="text-xs font-medium ml-4 text-gray-600">9:41</div>
         <div className="flex items-center space-x-1">
           <svg className="w-3.5 h-3.5 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z" />

@@ -3,9 +3,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SparklesText } from "@/components/magicui/sparkles-text";
-import { addToWaitlist } from '@/lib/waitlist'; // Import addToWaitlist
-// Optional: Du kannst FocusTrap weglassen, wenn du es nicht installieren möchtest
-// import FocusTrap from 'focus-trap-react';
+import { addToWaitlist } from '@/lib/waitlist';
+import { trackPageView, trackCTAClick, trackSignupSuccess, trackDuplicateSignup, trackSignupError, trackEvent } from '@/lib/analytics';
 
 interface WaitlistModalProps {
   onClose: () => void;
@@ -25,6 +24,11 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
 
   // Detect if mobile
   const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  // Track page view when component mounts
+  useEffect(() => {
+    trackPageView('waitlist-modal');
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -58,9 +62,13 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  // Form submit handler aktualisieren
+  // Form submit handler aktualisieren mit Analytics
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Track CTA click
+    trackCTAClick('waitlist-modal');
+    
     if (!isValidEmail(email)) {
       if (inputRef.current) inputRef.current.focus();
       return;
@@ -70,30 +78,50 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
     setErrorMessage("");
 
     try {
-      const result = await addToWaitlist(email, 'waitlist-modal'); // Quelle hinzugefügt
+      const result = await addToWaitlist(email, 'waitlist-modal');
 
       if (result.success) {
+        // Track successful signup
+        trackSignupSuccess('waitlist-modal', email, result.participantNumber ?? 0);
+        
+        // Success state
         setSubmitted(true);
         setParticipantNumber(result.participantNumber ?? 0);
       } else {
         if (result.existingEmail) {
-          setSubmitted(true);
-          setParticipantNumber(result.participantNumber ?? 0);
+          // Track duplicate email
+          trackDuplicateSignup('waitlist-modal', email);
+          
+          // Show error for duplicate
+          setErrorMessage(result.error ?? "Diese Email ist bereits registriert.");
         } else {
-          setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten");
+          // Track general error
+          trackSignupError('waitlist-modal', result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
+          
+          // Show general error
+          setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
         }
       }
     } catch (error) {
+      // Track unexpected error
+      trackSignupError('waitlist-modal', "Unexpected error");
+      
       setErrorMessage("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Track modal close
+  const handleClose = () => {
+    trackEvent('modal_close', 'waitlist-modal');
+    onClose();
+  };
+
   // Key handler for accessibility
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
-      onClose();
+      handleClose();
     }
   };
 
@@ -116,6 +144,7 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
     const isSwipeDown = distance > 100;
 
     if (isSwipeDown) {
+      trackEvent('modal_swipe_close', 'waitlist-modal');
       onClose();
     }
 
@@ -142,11 +171,9 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        onClick={onClose}
+        onClick={handleClose}
       />
 
-      {/* If you don't want to use FocusTrap, just remove this wrapper */}
-      {/* <FocusTrap> */}
       <motion.div
         ref={modalRef}
         className="relative w-full sm:w-[95%] max-w-lg bg-white rounded-t-2xl sm:rounded-2xl shadow-xl overflow-hidden"
@@ -169,7 +196,7 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
 
         {/* Close button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-3 sm:top-4 right-3 sm:right-4 z-20 p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
           aria-label="Close"
         >
@@ -232,7 +259,10 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
                         className="w-full px-4 py-4 sm:py-3.5 bg-gray-50 text-gray-800 placeholder-gray-400 focus:outline-none text-base"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        onFocus={() => setFocused(true)}
+                        onFocus={() => {
+                          setFocused(true);
+                          trackEvent('input_focus', 'waitlist-modal');
+                        }}
                         onBlur={() => setFocused(false)}
                         required
                         inputMode="email"
@@ -352,7 +382,10 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
                 <div className="mt-6 sm:mt-8 text-center">
                   <button
                     className="text-gray-600 font-medium text-sm hover:text-gray-900 px-4 py-2"
-                    onClick={onClose}
+                    onClick={() => {
+                      trackEvent('success_close', 'waitlist-modal');
+                      onClose();
+                    }}
                   >
                     Schließen
                   </button>
@@ -385,7 +418,6 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
           </div>
         </div>
       </motion.div>
-      {/* </FocusTrap> */}
     </div>
   );
 }
