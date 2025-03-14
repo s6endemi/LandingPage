@@ -1,13 +1,392 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Enhanced3DPhoneMockup } from "@/components/ui/Enhanced3DPhoneMockup";
-import { AiCoachDemo, AdaptiveTrainingDemo, NutritionSyncDemo, BodyAnalyzerDemo } from "@/components/demo/features";
+import { 
+  AdaptiveTrainingDemo, 
+  NutritionSyncDemo, 
+  BodyAnalyzerDemo 
+} from "@/components/demo/features";
+
+// Um das Problem mit dem Chat-Scrollen und dem verzögerten Start zu lösen,
+// überschreiben wir hier die AiCoachDemo-Komponente lokal
+const OptimizedAiCoachDemo = ({ isVisible = false }) => {
+  const [isRecording, setIsRecording] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const chatContainerRef = useRef(null);
+  const messagesEndRef = useRef(null);
+
+  // Starte die Animation nur, wenn die Komponente sichtbar wird
+  useEffect(() => {
+    if (isVisible && !shouldAnimate) {
+      setShouldAnimate(true);
+    }
+  }, [isVisible, shouldAnimate]);
+
+  // Simuliere den Chat-Ablauf nur, wenn shouldAnimate true ist
+  useEffect(() => {
+    if (!shouldAnimate) return;
+
+    const messages = [
+      { type: "user-audio", delay: 800 },
+      { type: "typing", delay: 1000 },
+      { type: "coach-response", delay: 1500 },
+      { type: "user-text", delay: 1800 },
+    ];
+
+    const showNextMessage = async (index) => {
+      if (index >= messages.length) return;
+
+      if (messages[index].type === "typing") {
+        setIsTyping(true);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setIsTyping(false);
+      }
+
+      setCurrentMessage(index + 1);
+
+      setTimeout(() => {
+        showNextMessage(index + 1);
+      }, messages[index].delay);
+    };
+
+    const timer = setTimeout(() => {
+      showNextMessage(0);
+    }, 600);
+
+    return () => clearTimeout(timer);
+  }, [shouldAnimate]);
+
+  // Scrolle nur innerhalb des Chat-Containers (beeinträchtigt nicht den Seitenscroll)
+  useEffect(() => {
+    if (messagesEndRef.current && chatContainerRef.current && shouldAnimate) {
+      const container = chatContainerRef.current;
+      container.scrollTop = container.scrollHeight;
+    }
+  }, [currentMessage, isTyping, shouldAnimate]);
+
+  // Audio-Wellen-Animation
+  const AudioWaveAnimation = () => (
+    <div className="flex items-center space-x-1 h-4">
+      {[0, 1, 2, 3, 4].map((i) => (
+        <motion.div
+          key={i}
+          className="w-0.5 bg-[#3B82F6] rounded-full"
+          animate={{
+            height: isRecording ? [8, 12, 8] : 8 + Math.sin(i * 1.5) * 7,
+          }}
+          transition={{
+            duration: isRecording ? 0.5 : 0.7,
+            repeat: isRecording ? Number.POSITIVE_INFINITY : 0,
+            delay: i * 0.1,
+          }}
+        ></motion.div>
+      ))}
+    </div>
+  );
+
+  // Einfacher Typing-Indikator
+  const TypingIndicator = () => (
+    <div className="flex space-x-1">
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          className="w-1.5 h-1.5 bg-gray-400 rounded-full"
+          animate={{ y: [0, -2, 0] }}
+          transition={{
+            duration: 0.6,
+            repeat: Number.POSITIVE_INFINITY,
+            repeatType: "loop",
+            delay: i * 0.2,
+          }}
+        />
+      ))}
+    </div>
+  );
+
+  // Toggle Recording-Status
+  const toggleRecording = () => {
+    setIsRecording(!isRecording);
+
+    if (!isRecording) {
+      setTimeout(() => {
+        setIsRecording(false);
+      }, 3000);
+    }
+  };
+
+  return (
+    <div className="relative h-full w-full bg-gray-50 overflow-hidden rounded-xl shadow">
+      {/* Header */}
+      <div className="absolute top-0 left-0 right-0 bg-[#3B82F6] text-white py-2 px-3 z-10 rounded-t-xl">
+        <div className="flex justify-between items-center">
+          <div className="font-medium text-sm">Athly Coach</div>
+          <div className="flex items-center text-xs bg-white/20 px-2 py-0.5 rounded-full">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-400 mr-1"></div>
+            <span>Jetzt aktiv</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Chat-Nachrichten-Bereich mit einem Ref zur Steuerung des Scrollens */}
+      <div 
+        ref={chatContainerRef}
+        className="absolute top-[40px] left-0 right-0 bottom-[56px] bg-gradient-to-b from-gray-50 to-white p-3 overflow-y-auto"
+      >
+        {/* Datums-Header */}
+        <div className="flex justify-center mb-3">
+          <div className="bg-gray-100 rounded-full px-3 py-1 shadow-sm">
+            <span className="text-xs text-gray-500 font-medium">Heute, 9:32</span>
+          </div>
+        </div>
+
+        {/* User Audio Message */}
+        <AnimatePresence>
+          {currentMessage >= 1 && (
+            <motion.div
+              className="flex justify-end mb-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="max-w-[85%] bg-[#3B82F6]/10 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-800 shadow-sm">
+                <div className="flex items-center mb-1.5">
+                  <svg
+                    className="w-3.5 h-3.5 text-[#3B82F6] mr-1.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                    />
+                  </svg>
+                  <span className="text-xs text-gray-500 mr-1.5">Sprachnachricht</span>
+                  <span className="text-xs text-gray-500">0:16</span>
+                </div>
+
+                {/* Audio Waveform Display */}
+                <div className="px-3 py-2 bg-white/80 backdrop-blur-sm rounded-lg flex items-center shadow-sm">
+                  <AudioWaveAnimation />
+                  <span className="ml-3 text-xs text-gray-600 font-medium">
+                    "Hab Knieschmerzen seit gestern, was soll ich heute trainieren?"
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Typing Indicator */}
+        <AnimatePresence>
+          {isTyping && (
+            <motion.div
+              className="flex mb-4"
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="w-7 h-7 rounded-full bg-[#3B82F6] flex items-center justify-center text-white mr-2 flex-shrink-0 shadow-sm">
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <div className="max-w-[80%] bg-white rounded-2xl rounded-tl-sm p-3 text-sm text-gray-800 shadow-sm">
+                <TypingIndicator />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* AI Answer */}
+        <AnimatePresence>
+          {currentMessage >= 3 && (
+            <motion.div
+              className="flex mb-4"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="w-7 h-7 rounded-full bg-[#3B82F6] flex items-center justify-center text-white mr-2 flex-shrink-0 shadow-sm">
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+              </div>
+              <div className="max-w-[80%] bg-white rounded-2xl rounded-tl-sm p-3 text-sm text-gray-800 shadow-sm">
+                <div className="font-medium text-xs block mb-2">
+                  Ich habe deinen angepassten Plan erstellt:
+                </div>
+
+                {/* Mobile-Optimized Workout Card */}
+                <div className="mt-2 mb-3 bg-white rounded-lg overflow-hidden border border-[#3B82F6]/15 shadow-sm">
+                  {/* Blue Header with Simplified Layout */}
+                  <div className="bg-[#3B82F6] px-2.5 py-1.5 flex items-center justify-between">
+                    <div className="flex items-center">
+                      <div className="text-white font-medium text-xs">Oberkörper-Fokus</div>
+                    </div>
+                    <div className="bg-white/20 rounded-full px-1.5 py-0.5 text-[10px] text-white">
+                      Personalisiert
+                    </div>
+                  </div>
+                  
+                  {/* Simplified Content Area */}
+                  <div className="p-2 flex items-center space-x-2">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#3B82F6]/10 flex items-center justify-center">
+                      <svg className="w-3 h-3 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-[#3B82F6] font-medium text-xs">Kniegelenk-schonend</div>
+                      <div className="flex items-center">
+                        <span className="text-[10px] text-gray-600">5+ Übungen • 35 Min</span>
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 bg-[#3B82F6]/10 p-1 rounded-full">
+                      <svg className="w-3.5 h-3.5 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mobile-Optimized Tip Section */}
+                <div className="text-xs text-gray-600 mt-2 px-1">
+                  <span className="text-[#3B82F6] font-medium block mb-0.5">Tipp:</span> 
+                  Für deine Knie habe ich eine Regenerationssequenz vorbereitet.
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* User Response */}
+        <AnimatePresence>
+          {currentMessage >= 4 && (
+            <motion.div
+              className="flex justify-end"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="max-w-[80%] bg-[#3B82F6]/10 rounded-2xl rounded-tr-sm p-3 text-sm text-gray-800 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs">Super, danke! Genau was ich brauche.</span>
+                  <svg
+                    className="w-3.5 h-3.5 text-[#3B82F6] ml-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905a3.61 3.61 0 01-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Unsichtbares div für Scroll-Referenz */}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input Area with Interactive Elements */}
+      <div className="absolute left-0 right-0 bottom-0 border-t border-gray-200 p-2 bg-white z-10 rounded-b-xl">
+        <div className="flex items-center">
+          <div className="flex-1 flex rounded-full border border-gray-200 overflow-hidden bg-gray-50">
+            <input
+              type="text"
+              className="flex-1 px-3 py-1.5 text-xs outline-none bg-transparent"
+              placeholder="Stelle eine Frage..."
+            />
+
+            {/* Audio & Video Buttons */}
+            <div className="flex">
+              <button
+                className={`px-2 ${isRecording ? "text-red-500" : "text-gray-400"}`}
+                onClick={toggleRecording}
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                  />
+                </svg>
+              </button>
+              <button className="px-2 text-gray-400">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Send Button */}
+          <button
+            className="ml-2 bg-[#3B82F6] text-white p-1.5 rounded-full shadow-sm flex items-center justify-center"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M5 12h14M12 5l7 7-7 7"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export function FeatureSection() {
   const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const demoRefs = useRef({});
+  const [visibleDemos, setVisibleDemos] = useState({});
   
   // Handle responsive detection
   useEffect(() => {
@@ -19,7 +398,34 @@ export function FeatureSection() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-  
+
+  // Einrichtung der Intersection Observer für jede Demo-Komponente
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.dataset.id;
+          if (entry.isIntersecting && id) {
+            setVisibleDemos(prev => ({
+              ...prev,
+              [id]: true
+            }));
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    // Beobachte alle Demo-Container
+    Object.keys(demoRefs.current).forEach(id => {
+      if (demoRefs.current[id]) {
+        observer.observe(demoRefs.current[id]);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   // 60/30/10 Farbprinzip
   const colors = {
     // 60% - Neutrale Farben
@@ -36,14 +442,6 @@ export function FeatureSection() {
     // 10% - CTA und Highlights
     ctaGreen: "#8ab42d"
   };
-  
-  // Subtle parallax for depth
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-  
-  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -15 : -40]);
 
   // Optimierte Features mit separaten Mockup-Komponenten
   const features = [
@@ -73,7 +471,7 @@ export function FeatureSection() {
           description: "Keine Wartezeiten, keine Termine – dein Coach ist immer verfügbar."
         }
       ],
-      mockupContent: <AiCoachDemo />,
+      mockupContent: <OptimizedAiCoachDemo />, // Verwende unsere optimierte Version
       stats: [
         { label: "Antwortzeit", value: "< 1 Sek" },
         { label: "Verfügbarkeit", value: "24/7" },
@@ -186,88 +584,64 @@ export function FeatureSection() {
   return (
     <section 
       ref={containerRef}
-      className="relative py-16 md:py-24 overflow-hidden bg-white"
+      className="relative py-12 md:py-20 overflow-hidden bg-white"
       id="features"
     >
-      {/* Subtle background elements */}
-      <motion.div 
-        className="absolute inset-0 -z-10 opacity-5 overflow-hidden"
-        style={{ y: backgroundY }}
-      >
+      {/* Vereinfachter Hintergrund für bessere Performance */}
+      <div className="absolute inset-0 -z-10 opacity-5 overflow-hidden">
         <div className="absolute top-0 right-0 w-2/3 h-1/2 bg-gradient-to-bl from-gray-50 to-transparent rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-2/3 h-1/2 bg-gradient-to-tr from-gray-50 to-transparent rounded-full blur-3xl"></div>
-      </motion.div>
+      </div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <motion.div
-            className="mb-3 md:mb-4 flex justify-center"
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="inline-block px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-gray-100 text-gray-800">
+        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-20">
+          <div className="mb-3 flex justify-center">
+            <div className="inline-block px-3 py-1.5 rounded-full bg-gray-100 text-gray-800">
               <span className="text-xs md:text-sm uppercase tracking-wide font-medium">Mehr als nur eine App:</span>
             </div>
-          </motion.div>
+          </div>
           
-          <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 text-gray-800 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-800 tracking-tight">
             Athly's <span style={{ color: colors.primary }}>Features</span> deinen Fitness-Erfolg
-          </motion.h2>
+          </h2>
           
-          <motion.p 
-            className="text-base md:text-lg text-gray-600 mx-auto font-normal leading-relaxed"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
+          <p className="text-base md:text-lg text-gray-600 mx-auto font-normal leading-relaxed">
             Von KI-Coach bis Körperanalyse: Athly bietet dir alles für deinen Fitness-Erfolg.
-          </motion.p>
+          </p>
         </div>
 
-        {/* Feature Sections */}
-        <div className="space-y-24 md:space-y-32">
+        {/* Feature Sections - Mit reduzierten Animationen */}
+        <div className="space-y-16 md:space-y-24">
           {features.map((feature, index) => (
             <div key={feature.id} className="relative">
-              {/* Connecting line between features */}
+              {/* Verbindungslinie zwischen Features */}
               {index < features.length - 1 && (
-                <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-[100%] w-px h-16 md:h-24 bg-gradient-to-b from-gray-200 to-transparent"></div>
+                <div className="absolute left-1/2 bottom-0 transform -translate-x-1/2 translate-y-[100%] w-px h-12 md:h-16 bg-gradient-to-b from-gray-200 to-transparent"></div>
               )}
               
               {/* Desktop Layout: 2-column */}
-              <div className="hidden md:flex flex-col md:flex-row items-start gap-16">
+              <div className="hidden md:flex flex-col md:flex-row items-start gap-12">
                 {/* Left column: Feature content */}
                 <div className={`w-full md:w-1/2 ${index % 2 === 1 ? 'md:order-2' : 'md:order-1'}`}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center md:text-left"
-                  >
+                  <div className="text-center md:text-left">
                     {/* Badge & Title */}
-                    <div className="inline-block px-3 py-1 rounded-full text-sm mb-3 bg-blue-50 text-blue-600"
+                    <div className="inline-block px-3 py-1 rounded-full text-sm mb-2 bg-blue-50 text-blue-600"
                       style={{ 
                         backgroundColor: `${feature.color}10`, 
                         color: feature.color 
                       }}
                     >
                       {feature.badge}
-                      {feature.comingSoon && (
-                        <span className="ml-2 bg-yellow-500 text-white text-xs px-1.5 py-0.5 rounded-full uppercase">
+                    </div>
+                    
+                    {feature.comingSoon && (
+                      <div className="mb-2">
+                        <span className="inline-block bg-yellow-500 text-white text-xs px-2 py-0.5 rounded-full">
                           Coming Soon
                         </span>
-                      )}
-                    </div>
+                      </div>
+                    )}
                     
                     <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 tracking-tight">
                       {feature.title}
@@ -280,13 +654,9 @@ export function FeatureSection() {
                     {/* Feature Info Boxes - Desktop */}
                     <div className="space-y-4 mb-6">
                       {feature.highlights.map((highlight, i) => (
-                        <motion.div
+                        <div
                           key={i}
                           className="bg-white shadow-sm rounded-xl p-4 border border-gray-100"
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.4, delay: 0.4 + (i * 0.1) }}
                         >
                           <div className="flex items-start">
                             <div className="h-10 w-10 rounded-lg bg-gray-50 flex items-center justify-center mr-3 text-blue-500"
@@ -299,20 +669,16 @@ export function FeatureSection() {
                               <div className="text-sm text-gray-600">{highlight.description}</div>
                             </div>
                           </div>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                     
                     {/* Feature Stats - clean row format */}
                     <div className="flex justify-between gap-3 mb-6">
                       {feature.stats.map((stat, i) => (
-                        <motion.div
+                        <div
                           key={i}
                           className="flex-1 bg-gray-50 rounded-xl py-3 px-2 text-center"
-                          initial={{ opacity: 0, y: 10 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.4, delay: 0.5 + (i * 0.1) }}
                         >
                           <div className="font-bold text-lg mb-1" style={{ color: feature.color }}>
                             {stat.value}
@@ -320,18 +686,24 @@ export function FeatureSection() {
                           <div className="text-xs text-gray-500">
                             {stat.label}
                           </div>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
                 
-                {/* Right column: Enhanced 3D Mockup - Desktop */}
-                <div className={`w-full md:w-1/2 ${index % 2 === 1 ? 'md:order-1' : 'md:order-2'}`}>
-                  <Enhanced3DPhoneMockup 
-                    content={feature.mockupContent} 
-                    color={feature.color} 
-                    isMobile={false} 
+                {/* Right column: Demo-Telefon mit Lazy-Loading */}
+                <div 
+                  className={`w-full md:w-1/2 ${index % 2 === 1 ? 'md:order-1' : 'md:order-2'}`}
+                  ref={el => demoRefs.current[feature.id] = el}
+                  data-id={feature.id}
+                >
+                  <Enhanced3DPhoneMockup
+                    content={React.cloneElement(feature.mockupContent, { 
+                      isVisible: visibleDemos[feature.id] 
+                    })}
+                    color={feature.color}
+                    isMobile={false}
                   />
                 </div>
               </div>
@@ -339,87 +711,83 @@ export function FeatureSection() {
               {/* Mobile Layout: Vertically stacked with feature boxes under phone */}
               <div className="flex flex-col md:hidden">
                 {/* Badge & Title */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="text-center mb-6"
-                >
-                  <div className="inline-block px-3 py-1 rounded-full text-sm mb-3 bg-blue-50 text-blue-600"
+                <div className="text-center mb-6">
+                  <div className="inline-block px-3 py-1 rounded-full text-sm mb-2 bg-blue-50 text-blue-600"
                     style={{ 
                       backgroundColor: `${feature.color}10`, 
                       color: feature.color 
                     }}
                   >
                     {feature.badge}
-                    {feature.comingSoon && (
-                      <span className="ml-2 bg-yellow-500 text-white text-xs px-1.5 py-0.5 rounded-full uppercase">
-                        Coming Soon
-                      </span>
-                    )}
                   </div>
                   
-                  <h3 className="text-2xl font-bold mb-4 text-gray-800 tracking-tight">
+                  {feature.comingSoon && (
+                    <div className="mb-2">
+                      <span className="inline-block bg-yellow-500 text-white text-xs px-2 py-0.5 rounded-full">
+                        Coming Soon
+                      </span>
+                    </div>
+                  )}
+                  
+                  <h3 className="text-xl font-bold mb-3 text-gray-800 tracking-tight">
                     {feature.title}
                   </h3>
                   
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-gray-600 mb-5 text-sm">
                     {feature.description}
                   </p>
-                </motion.div>
+                </div>
                 
-                {/* Enhanced 3D Mockup for Mobile */}
-                <Enhanced3DPhoneMockup 
-                  content={feature.mockupContent} 
-                  color={feature.color} 
-                  isMobile={true} 
-                />
+                {/* Mobile Demo mit Lazy Loading */}
+                <div
+                  ref={el => demoRefs.current[`mobile-${feature.id}`] = el}
+                  data-id={`mobile-${feature.id}`}
+                >
+                  <Enhanced3DPhoneMockup
+                    content={React.cloneElement(feature.mockupContent, { 
+                      isVisible: visibleDemos[`mobile-${feature.id}`] 
+                    })}
+                    color={feature.color}
+                    isMobile={true}
+                  />
+                </div>
                 
                 {/* Feature Boxes - Under the Phone on Mobile */}
-                <div className="space-y-4 mb-6">
+                <div className="space-y-3 my-5">
                   {feature.highlights.map((highlight, i) => (
-                    <motion.div
+                    <div
                       key={i}
-                      className="bg-white shadow-sm rounded-xl p-4 border border-gray-100"
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: 0.4 + (i * 0.1) }}
+                      className="bg-white shadow-sm rounded-xl p-3 border border-gray-100"
                     >
                       <div className="flex items-start">
-                        <div className="h-10 w-10 rounded-lg bg-gray-50 flex items-center justify-center mr-3 text-blue-500"
+                        <div className="h-8 w-8 rounded-lg bg-gray-50 flex items-center justify-center mr-3 text-blue-500"
                           style={{ color: feature.color }}
                         >
                           {highlight.icon}
                         </div>
                         <div>
-                          <div className="font-medium text-gray-800 mb-1">{highlight.title}</div>
-                          <div className="text-sm text-gray-600">{highlight.description}</div>
+                          <div className="font-medium text-gray-800 mb-0.5 text-sm">{highlight.title}</div>
+                          <div className="text-xs text-gray-600">{highlight.description}</div>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
                 
                 {/* Mobile Stats */}
-                <div className="flex justify-between gap-3 mb-4">
+                <div className="flex justify-between gap-2 mb-4">
                   {feature.stats.map((stat, i) => (
-                    <motion.div
+                    <div
                       key={i}
-                      className="flex-1 bg-gray-50 rounded-xl py-3 px-2 text-center"
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: 0.6 + (i * 0.1) }}
+                      className="flex-1 bg-gray-50 rounded-xl py-2 px-1 text-center"
                     >
-                      <div className="font-bold text-lg mb-1" style={{ color: feature.color }}>
+                      <div className="font-bold text-base mb-0.5" style={{ color: feature.color }}>
                         {stat.value}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-[10px] text-gray-500">
                         {stat.label}
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -427,57 +795,49 @@ export function FeatureSection() {
           ))}
         </div>
         
-        {/* Call to Action */}
-        <motion.div 
-          className="mt-24 md:mt-32 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-gray-800">
+        {/* Call to Action - Simplified */}
+        <div className="mt-16 md:mt-24 text-center">
+          <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 text-gray-800">
             Bereit für ein neues Fitness-Erlebnis?
           </h3>
-          <p className="text-gray-600 mb-8 max-w-md mx-auto">
+          <p className="text-gray-600 mb-6 max-w-md mx-auto text-sm md:text-base">
             Starte noch heute mit Athly und erlebe, wie personalisiertes Training und Ernährung dein Leben verändern können.
           </p>
-          <motion.button
-            className="inline-flex items-center px-6 py-3 text-white font-medium rounded-xl shadow-md transition-all duration-300"
+          <button
+            className="inline-flex items-center px-5 py-2.5 text-white font-medium rounded-xl shadow-md"
             style={{ 
               backgroundColor: colors.ctaGreen,
               boxShadow: `0 4px 14px -4px ${colors.ctaGreen}40`
             }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
           >
             <span>Jetzt starten</span>
-            <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
-          </motion.button>
+          </button>
           
           {/* Trust Signals */}
-          <div className="mt-8 flex flex-wrap justify-center gap-6">
-            <div className="flex items-center text-sm text-gray-600">
-              <svg className="w-5 h-5 text-[#9bc539] mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs md:text-sm">
+            <div className="flex items-center text-gray-600">
+              <svg className="w-4 h-4 text-[#9bc539] mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
               <span>Datenschutz garantiert</span>
             </div>
-            <div className="flex items-center text-sm text-gray-600">
-              <svg className="w-5 h-5 text-[#9bc539] mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="flex items-center text-gray-600">
+              <svg className="w-4 h-4 text-[#9bc539] mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               <span>Auf allen Geräten</span>
             </div>
-            <div className="flex items-center text-sm text-gray-600">
-              <svg className="w-5 h-5 text-[#9bc539] mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="flex items-center text-gray-600">
+              <svg className="w-4 h-4 text-[#9bc539] mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
               </svg>
               <span>Kostenlose Testversion</span>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { SparklesText } from "@/components/magicui/sparkles-text";
+import Image from "next/image";
 
 export function WaitlistCta() {
   const containerRef = useRef(null);
@@ -319,20 +320,50 @@ export function WaitlistCta() {
         
         {/* Bottom partner logos - credibility */}
         <div className="mt-12 md:mt-16 text-center">
-          <p className="text-xs md:text-sm text-gray-500 mb-5 md:mb-6">Diese Unternehmen vertrauen auf unsere Technologie</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-10 grayscale opacity-60">
-            {['TechCrunch', 'Forbes', 'Wired', 'Bloomberg', 'The Verge'].map((brand, index) => (
-              <motion.div 
-                key={index} 
-                className="text-base md:text-lg font-medium text-gray-400"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.05 * index }}
-              >
-                {brand}
-              </motion.div>
-            ))}
+          <p className="text-xs md:text-sm text-gray-500 mb-5 md:mb-6">Diese Organisationen vertrauen auf unsere Technologie</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+            {/* Universität Bonn Logo */}
+            <motion.div 
+              className="relative h-12 md:h-14 w-32 md:w-36"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <Image 
+                src="/images/Universität_Bonn.svg" 
+                alt="Universität Bonn"
+                fill
+                className="object-contain"
+              />
+            </motion.div>
+            
+            {/* ENACOM Logo */}
+            <motion.div 
+              className="relative h-10 md:h-12 w-36 md:w-40"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
+              <Image 
+                src="/images/enacom.jpg" 
+                alt="ENACOM"
+                fill
+                className="object-contain"
+              />
+            </motion.div>
+            
+            {/* DSHS Köln Logo */}
+            <motion.div 
+              className="relative h-12 md:h-14 w-32 md:w-36 bg-blue-50 rounded-lg flex items-center justify-center p-2"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              <span className="text-blue-700 text-sm md:text-base font-medium">DSHS Köln</span>
+            </motion.div>
           </div>
         </div>
       </div>
