@@ -440,29 +440,41 @@ export function WaitlistCta() {
         >
           <p className="text-xs md:text-sm text-gray-500 mb-5 md:mb-6">Diese Organisationen vertrauen auf unsere Technologie</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
-            {/* Logo-Animation vereinfacht */}
-            {[
-              { src: "/images/Universität_Bonn.svg", alt: "Universität Bonn", className: "relative h-12 md:h-14 w-32 md:w-36" },
-              { src: "/images/enacom.jpg", alt: "ENACOM", className: "relative h-10 md:h-12 w-36 md:w-40" }
-            ].map((logo, index) => (
-              <motion.div 
-                key={index}
-                className={logo.className}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: isMobile ? 0.2 : 0.4, delay: isMobile ? index * 0.1 : index * 0.1 }}
-                onViewportEnter={() => trackEvent('partner_logo_visible', 'footer-cta', { partner: logo.alt })}
-                onClick={() => trackEvent('partner_logo_click', 'footer-cta', { partner: logo.alt })}
-              >
-                <Image 
-                  src={logo.src} 
-                  alt={logo.alt}
-                  fill
-                  className="object-contain"
-                />
-              </motion.div>
-            ))}
+            {/* Uni Bonn Logo - using the JPEG image */}
+            <motion.div 
+              className="relative h-12 md:h-14 w-32 md:w-36"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: isMobile ? 0.2 : 0.4, delay: 0 }}
+              onViewportEnter={() => trackEvent('partner_logo_visible', 'footer-cta', { partner: 'Universität Bonn' })}
+              onClick={() => trackEvent('partner_logo_click', 'footer-cta', { partner: 'Universität Bonn' })}
+            >
+              <Image 
+                src="/images/large.jpeg" 
+                alt="Universität Bonn"
+                fill
+                className="object-contain"
+              />
+            </motion.div>
+            
+            {/* ENACOM Logo */}
+            <motion.div 
+              className="relative h-10 md:h-12 w-36 md:w-40"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: isMobile ? 0.2 : 0.4, delay: isMobile ? 0.1 : 0.1 }}
+              onViewportEnter={() => trackEvent('partner_logo_visible', 'footer-cta', { partner: 'ENACOM' })}
+              onClick={() => trackEvent('partner_logo_click', 'footer-cta', { partner: 'ENACOM' })}
+            >
+              <Image 
+                src="/images/enacom.jpg" 
+                alt="ENACOM"
+                fill
+                className="object-contain"
+              />
+            </motion.div>
             
             {/* DSHS Köln Logo */}
             <motion.div 

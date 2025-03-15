@@ -74,8 +74,8 @@ export function HeroMockupAnimation() {
         </div>
       </div>
 
-              {/* Content Area */}
-      <div className="flex-1 px-3 py-2 flex flex-col bg-gradient-to-b from-white to-gray-50">
+      {/* Content Area - Elegantly optimized */}
+      <div className="flex-1 px-3 py-2 flex flex-col bg-gradient-to-b from-white to-gray-50 overflow-y-auto">
         {/* Date Header - Only shown on non-mobile devices */}
         {!isMobile && (
           <div className="flex justify-center mb-3">
@@ -85,7 +85,7 @@ export function HeroMockupAnimation() {
           </div>
         )}
 
-        {/* User Message - Summer Fitness Goal */}
+        {/* User Message - More concise but still readable */}
         <AnimatePresence>
           {currentMessageIndex >= 1 && (
             <motion.div
@@ -93,18 +93,20 @@ export function HeroMockupAnimation() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex justify-end mb-3"
+              className="flex justify-end mb-2.5"
             >
               <div className="max-w-[85%] bg-gradient-to-r from-[#4361ee] to-[#4895ef] text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 shadow-sm">
                 <p className="text-xs md:text-sm">
-                  Hey! Der Sommer steht vor der Tür und ich möchte in Top-Form kommen. Kannst du mir helfen?
+                  {isMobile 
+                    ? "Hey! Ich möchte in Top-Form kommen. Kannst du helfen?" 
+                    : "Hey! Der Sommer steht vor der Tür und ich möchte in Top-Form kommen. Kannst du mir helfen?"}
                 </p>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Typing Indicator - Only Once */}
+        {/* Typing Indicator */}
         <AnimatePresence>
           {isTyping && (
             <motion.div
@@ -112,7 +114,7 @@ export function HeroMockupAnimation() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex mb-3"
+              className="flex mb-2.5"
               key="typing-indicator"
             >
               <div className="w-7 h-7 bg-[#9bc539] rounded-full flex items-center justify-center mr-2 flex-shrink-0 shadow-sm">
@@ -150,7 +152,7 @@ export function HeroMockupAnimation() {
           )}
         </AnimatePresence>
 
-        {/* Coach Message - Motivational Response */}
+        {/* Coach Message - Slightly optimized for mobile */}
         <AnimatePresence>
           {currentMessageIndex >= 2 && (
             <motion.div
@@ -158,7 +160,7 @@ export function HeroMockupAnimation() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex mb-3"
+              className="flex mb-2.5"
             >
               <div className="w-7 h-7 bg-[#9bc539] rounded-full flex items-center justify-center mr-2 flex-shrink-0 shadow-sm">
                 <svg width="14" height="14" viewBox="0 0 725 750" fill="none">
@@ -174,14 +176,16 @@ export function HeroMockupAnimation() {
               </div>
               <div className="max-w-[85%] bg-gray-100 rounded-2xl rounded-tl-sm px-3.5 py-2.5 shadow-sm">
                 <p className="text-xs md:text-sm text-gray-800">
-                  Klar! Hier ist dein 8-Wochen-Sommerplan mit optimalen Workouts und Ernährungstipps:
+                  {isMobile
+                    ? "Klar! Hier ist dein 8-Wochen-Plan:"
+                    : "Klar! Hier ist dein 8-Wochen-Sommerplan mit optimalen Workouts und Ernährungstipps:"}
                 </p>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Streamlined Summer-Ready Workout Card */}
+        {/* Workout Card - Elegantly optimized, not compressed */}
         <AnimatePresence>
           {currentMessageIndex >= 3 && (
             <motion.div
@@ -189,7 +193,7 @@ export function HeroMockupAnimation() {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="flex mb-3 ml-9"
+              className="flex mb-2.5 ml-9"
             >
               <motion.div
                 ref={workoutCardRef}
@@ -210,26 +214,48 @@ export function HeroMockupAnimation() {
                     </div>
                   </div>
 
-                  {/* Key Stats - Ultra Compact */}
-                  <div className="flex gap-2 mb-2.5">
-                    <div className="flex-1 bg-gray-50 rounded-lg p-2 flex items-center space-x-2">
-                      <div className="w-6 h-6 rounded-full bg-[#9bc539]/10 flex items-center justify-center">
-                        <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path d="M12 4.318c-2.667 2.455-8 7.503-8 10.682 0 4.142 3.582 7.5 8 7.5s8-3.358 8-7.5c0-3.18-5.333-8.227-8-10.682z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
-                        </svg>
+                  {/* Key Stats - Elegantly arranged for mobile */}
+                  {isMobile ? (
+                    <div className="flex justify-between mb-2">
+                      <div className="flex items-center">
+                        <div className="w-5 h-5 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-1.5">
+                          <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M12 4.318c-2.667 2.455-8 7.503-8 10.682 0 4.142 3.582 7.5 8 7.5s8-3.358 8-7.5c0-3.18-5.333-8.227-8-10.682z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+                          </svg>
+                        </div>
+                        <div className="font-medium text-xs text-gray-700">-5kg/8 Wo.</div>
                       </div>
-                      <div className="font-medium text-[10px] text-gray-700">-5kg in 8 Wochen</div>
-                    </div>
-                    
-                    <div className="flex-1 bg-gray-50 rounded-lg p-2 flex items-center space-x-2">
-                      <div className="w-6 h-6 rounded-full bg-[#9bc539]/10 flex items-center justify-center">
-                        <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
-                        </svg>
+                      <div className="flex items-center">
+                        <div className="w-5 h-5 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-1.5">
+                          <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+                          </svg>
+                        </div>
+                        <div className="font-medium text-xs text-gray-700">94% Erfolg</div>
                       </div>
-                      <div className="font-medium text-[10px] text-gray-700">94% Erfolgsrate</div>
                     </div>
-                  </div>
+                  ) : (
+                    // Desktop version: Original layout
+                    <div className="flex gap-2 mb-2.5">
+                      <div className="flex-1 bg-gray-50 rounded-lg p-2 flex items-center space-x-2">
+                        <div className="w-6 h-6 rounded-full bg-[#9bc539]/10 flex items-center justify-center">
+                          <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M12 4.318c-2.667 2.455-8 7.503-8 10.682 0 4.142 3.582 7.5 8 7.5s8-3.358 8-7.5c0-3.18-5.333-8.227-8-10.682z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+                          </svg>
+                        </div>
+                        <div className="font-medium text-[10px] text-gray-700">-5kg in 8 Wochen</div>
+                      </div>
+                      
+                      <div className="flex-1 bg-gray-50 rounded-lg p-2 flex items-center space-x-2">
+                        <div className="w-6 h-6 rounded-full bg-[#9bc539]/10 flex items-center justify-center">
+                          <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+                          </svg>
+                        </div>
+                        <div className="font-medium text-[10px] text-gray-700">94% Erfolgsrate</div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Call to Action Button */}
                   <motion.button
@@ -276,7 +302,9 @@ export function HeroMockupAnimation() {
             >
               <div className="max-w-[85%] bg-gradient-to-r from-[#4361ee] to-[#4895ef] text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 shadow-sm">
                 <p className="text-xs md:text-sm">
-                  Wow, danke! Mit dir schaffe ich das definitiv! 💪
+                  {isMobile
+                    ? "Wow, danke! Mit dir schaffe ich das! 💪"
+                    : "Wow, danke! Mit dir schaffe ich das definitiv! 💪"}
                 </p>
               </div>
             </motion.div>
