@@ -132,8 +132,8 @@ export function EnhancedHeroSection() {
     <div
       id="hero"
       ref={containerRef}
-      className="relative min-h-[90vh] sm:min-h-[85vh] flex items-center overflow-hidden font-inter"
-    >
+      className="relative min-h-[90vh] sm:min-h-[85vh] flex items-center overflow-hidden"
+      >
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-white to-gray-50 -z-20"></div>
       <div className="absolute inset-0 -z-10 opacity-30">
@@ -153,7 +153,7 @@ export function EnhancedHeroSection() {
                 transition={{ duration: 0.3, delay: 0.5 }}
                 className="mb-3"
               >
-                <p className="uppercase tracking-wider font-medium text-xs text-center text-gray-500">
+                <p className="uppercase tracking-wider font-[450] text-xs text-center text-gray-500">
                   Demnächst verfügbar
                 </p>
               </motion.div>
@@ -165,7 +165,7 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">Athly: Dein</h1>
+                <h1 className="text-4xl sm:text-5xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">Athly: Dein</h1>
               </motion.div>
 
               {/* FlipWords headline */}
@@ -176,7 +176,7 @@ export function EnhancedHeroSection() {
                 transition={{ duration: 0.5, delay: 0.4 }}
                 onViewportEnter={() => trackEvent('headline_visible', 'hero')}
               >
-                <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
+                <h1 className="text-4xl sm:text-5xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">
                   <FlipWords 
                     words={flipWordsList} 
                     duration={3000} 
@@ -185,9 +185,9 @@ export function EnhancedHeroSection() {
                   />
                 </h1>
 
-                {/* Underline effect */}
+                {/* Underline effect - Modernized */}
                 <motion.div
-                  className="absolute -bottom-1 left-0 right-0 mx-auto h-[3px] bg-gradient-to-r from-[#8FBC29]/80 to-gray-200"
+                  className="absolute -bottom-1 left-0 right-0 mx-auto h-[3px] bg-gradient-to-r from-[#8FBC29]/90 to-[#8FBC29]/10"
                   initial={{ width: 0 }}
                   animate={{ width: "100%" }}
                   transition={{ duration: 1, delay: 0.5, ease: "easeInOut" }}
@@ -196,7 +196,7 @@ export function EnhancedHeroSection() {
 
               {/* "powered by AI" subtitle */}
               <motion.p
-                className="text-sm font-medium text-gray-500 mb-4"
+                className="text-sm font-[450] text-gray-500 mb-4 tracking-tight-plus"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
@@ -224,7 +224,7 @@ export function EnhancedHeroSection() {
 
               {/* Main text description */}
               <motion.p
-                className="text-base font-semibold text-gray-600 mb-6 mt-6 max-w-lg mx-auto leading-relaxed text-center"
+                className="text-base font-[450] text-gray-600 mb-6 mt-6 max-w-lg mx-auto leading-medium-plus tracking-tight-plus text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
@@ -248,12 +248,12 @@ export function EnhancedHeroSection() {
                   >
                     <div className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden">
                       {/* Form Headline */}
-                      <h3 className="text-left text-xl font-semibold text-gray-800 mb-2">
+                      <h3 className="text-left text-xl font-[550] text-gray-800 mb-2 tracking-tight-plus">
                         Sichere dir deinen Early Access & Rabatt!
                       </h3>
 
-                      <p className="text-left text-gray-600 text-sm mb-4">
-                        Sichere dir <span className="font-semibold text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
+                      <p className="text-left text-gray-600 text-sm mb-4 font-[450] tracking-tight">
+                        Sichere dir <span className="font-[550] text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
                         Premium-Coaching kostenlos
                       </p>
 
@@ -271,7 +271,7 @@ export function EnhancedHeroSection() {
                         />
                         <motion.button
                           type="submit"
-                          className="w-full text-white font-medium rounded-xl px-4 py-4 transition-all shadow-md relative overflow-hidden group"
+                          className="w-full text-white font-[550] rounded-xl px-4 py-4 transition-all shadow-md relative overflow-hidden group tracking-tight"
                           style={{
                             backgroundColor: ctaGreen,
                           }}
@@ -302,7 +302,7 @@ export function EnhancedHeroSection() {
                                   <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    strokeWidth={2}
+                                    strokeWidth={2.5}
                                     d="M14 5l7 7m0 0l-7 7m7-7H3"
                                   />
                                 </svg>
@@ -315,7 +315,7 @@ export function EnhancedHeroSection() {
                         )}
                       </form>
 
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-gray-500 font-[450]">
                         Kein Spam, nur Updates zum Launch! Du kannst dich jederzeit abmelden.
                       </p>
                     </div>
@@ -334,13 +334,13 @@ export function EnhancedHeroSection() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Du bist dabei!</h3>
-                    <p className="text-gray-600 text-sm text-center mb-4">
+                    <h3 className="text-xl font-[650] text-gray-900 mb-3 text-center tracking-tight-plus">Du bist dabei!</h3>
+                    <p className="text-gray-600 text-sm text-center mb-4 font-[450] leading-medium-plus">
                       Wir haben deine E-Mail-Adresse erhalten und werden dich informieren, 
                       sobald dein exklusiver Zugang bereit ist.
                     </p>
                     <div className="flex justify-center">
-                      <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-sm text-gray-600">
+                      <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-sm text-gray-600 font-[450]">
                         <span className="flex items-center">
                           <span className="w-1.5 h-1.5 rounded-full mr-2 bg-[#9bc539]"></span>
                           Du bist Teilnehmer #{participantNumber}
@@ -368,7 +368,7 @@ export function EnhancedHeroSection() {
                     {[1, 2, 3].map((i) => (
                       <div
                         key={i}
-                        className="w-6 h-6 rounded-full border border-white overflow-hidden bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-500"
+                        className="w-6 h-6 rounded-full border border-white overflow-hidden bg-gray-200 flex items-center justify-center text-xs font-[450] text-gray-500"
                       >
                         {["J", "M", "S"][i - 1]}
                       </div>
@@ -377,7 +377,7 @@ export function EnhancedHeroSection() {
                       +
                     </div>
                   </div>
-                  <span className="text-xs text-gray-600">250+ Fitness-Begeisterte sind schon dabei!</span>
+                  <span className="text-xs text-gray-600 font-[450]">250+ Fitness-Begeisterte sind schon dabei!</span>
                 </div>
 
                 {/* Rating */}
@@ -392,7 +392,7 @@ export function EnhancedHeroSection() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-xs text-gray-600">4.8/5 Bewertung</span>
+                  <span className="text-xs text-gray-600 font-[450]">4.8/5 Bewertung</span>
                 </div>
               </motion.div>
             </div>
@@ -409,13 +409,13 @@ export function EnhancedHeroSection() {
                 transition={{ duration: 0.3, delay: 0.3 }}
                 className="mb-5"
               >
-                <p className="uppercase tracking-wider font-medium text-sm text-gray-500">Demnächst verfügbar</p>
+                <p className="uppercase tracking-wider font-[450] text-sm text-gray-500">Demnächst verfügbar</p>
               </motion.div>
 
               {/* Headline with FlipWords integration */}
               <div className="mb-8">
                 <motion.h1
-                  className="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight"
+                  className="text-5xl lg:text-6xl xl:text-7xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm"
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.1 }}
@@ -430,7 +430,7 @@ export function EnhancedHeroSection() {
                   transition={{ duration: 0.7, delay: 0.2 }}
                   onViewportEnter={() => trackEvent('headline_visible', 'hero')}
                 >
-                  <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight">
+                  <h1 className="text-5xl lg:text-6xl xl:text-7xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">
                     <FlipWords 
                       words={flipWordsList} 
                       duration={3000} 
@@ -439,9 +439,9 @@ export function EnhancedHeroSection() {
                     />
                   </h1>
 
-                  {/* Elegant underline */}
+                  {/* Elegant underline - Modernized */}
                   <motion.div
-                    className="absolute -bottom-1 left-0 h-[4px] bg-gradient-to-r from-[#8FBC29]/80 to-gray-200"
+                    className="absolute -bottom-1 left-0 h-[4px] bg-gradient-to-r from-[#8FBC29]/90 to-[#8FBC29]/10"
                     initial={{ width: 0 }}
                     animate={{ width: "100%" }}
                     transition={{ duration: 1.2, delay: 0.7, ease: "easeInOut" }}
@@ -450,7 +450,7 @@ export function EnhancedHeroSection() {
 
                 {/* "powered by AI" subtitle */}
                 <motion.p
-                  className="text-lg font-medium text-gray-500 mt-3"
+                  className="text-lg font-[450] text-gray-500 mt-3 tracking-tight-plus"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.7, delay: 0.3 }}
@@ -461,7 +461,7 @@ export function EnhancedHeroSection() {
 
               {/* Subheadline */}
               <motion.p
-                className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-2xl leading-relaxed"
+                className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-2xl leading-medium-plus tracking-tight-plus font-[450]"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
@@ -484,19 +484,19 @@ export function EnhancedHeroSection() {
                     <div className="bg-white rounded-2xl py-8 px-8 shadow-lg border border-gray-100 relative overflow-hidden max-w-xl">
                       <div className="absolute top-4 right-6">
                         <div className="flex items-center">
-                          <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                          <span className="text-xs font-[450] text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                             Early Access
                           </span>
                         </div>
                       </div>
 
                       {/* Form Headline */}
-                      <h3 className="text-left text-xl lg:text-2xl font-semibold text-gray-800 mb-3">
+                      <h3 className="text-left text-xl lg:text-2xl font-[550] text-gray-800 mb-3 tracking-tight-plus">
                         Sichere dir deinen Early Access & Rabatt!
                       </h3>
 
-                      <p className="text-left text-gray-600 text-base mb-6">
-                        Sichere dir <span className="font-semibold text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
+                      <p className="text-left text-gray-600 text-base mb-6 font-[450] tracking-tight">
+                        Sichere dir <span className="font-[550] text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
                         Premium-Coaching kostenlos
                       </p>
 
@@ -507,14 +507,14 @@ export function EnhancedHeroSection() {
                           placeholder="Deine E-Mail Adresse"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          className="flex-1 px-5 py-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#8FBC29]/30 focus:border-[#8FBC29] transition-all text-base"
+                          className="flex-1 px-5 py-4 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#8FBC29]/30 focus:border-[#8FBC29] transition-all text-base font-[450]"
                           required
                           disabled={isLoading}
                           onFocus={() => trackEvent('input_focus', 'hero')}
                         />
                         <motion.button
                           type="submit"
-                          className="text-white font-medium rounded-xl px-7 py-4 transition-all shadow-md relative overflow-hidden group whitespace-nowrap"
+                          className="text-white font-[550] rounded-xl px-7 py-4 transition-all shadow-md relative overflow-hidden group whitespace-nowrap tracking-tight"
                           style={{
                             backgroundColor: ctaGreen,
                           }}
@@ -545,7 +545,7 @@ export function EnhancedHeroSection() {
                                   <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    strokeWidth={2}
+                                    strokeWidth={2.5}
                                     d="M14 5l7 7m0 0l-7 7m7-7H3"
                                   />
                                 </svg>
@@ -559,7 +559,7 @@ export function EnhancedHeroSection() {
                         <p className="text-red-500 text-sm mb-3">{errorMessage}</p>
                       )}
 
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 font-[450]">
                         Kein Spam, nur Updates zum Launch! Du kannst dich jederzeit abmelden.
                       </p>
                     </div>
@@ -578,13 +578,13 @@ export function EnhancedHeroSection() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Du bist dabei!</h3>
-                    <p className="text-gray-600 text-base text-center mb-6">
+                    <h3 className="text-2xl font-[650] text-gray-900 mb-4 text-center tracking-tight-plus">Du bist dabei!</h3>
+                    <p className="text-gray-600 text-base text-center mb-6 font-[450] leading-medium-plus">
                       Wir haben deine E-Mail-Adresse erhalten und werden dich informieren, 
                       sobald dein exklusiver Zugang bereit ist.
                     </p>
                     <div className="flex justify-center">
-                      <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-base text-gray-600">
+                      <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-base text-gray-600 font-[450]">
                         <span className="flex items-center">
                           <span className="w-1.5 h-1.5 rounded-full mr-2 bg-[#9bc539]"></span>
                           Du bist Teilnehmer #{participantNumber}
@@ -612,7 +612,7 @@ export function EnhancedHeroSection() {
                     {[1, 2, 3].map((index) => (
                       <div
                         key={index}
-                        className="w-7 h-7 rounded-full border border-white overflow-hidden bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-500"
+                        className="w-7 h-7 rounded-full border border-white overflow-hidden bg-gray-200 flex items-center justify-center text-sm font-[450] text-gray-500"
                       >
                         {["J", "M", "S"][index - 1]}
                       </div>
@@ -621,7 +621,7 @@ export function EnhancedHeroSection() {
                       +
                     </div>
                   </div>
-                  <span className="text-sm text-gray-600">Bereits 250+ Fitness-Begeisterte sind schon dabei!</span>
+                  <span className="text-sm text-gray-600 font-[450]">Bereits 250+ Fitness-Begeisterte sind schon dabei!</span>
                 </div>
 
                 {/* Rating */}
@@ -636,7 +636,7 @@ export function EnhancedHeroSection() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-sm text-gray-600">4.8/5 Sterne von Early Access Nutzern</span>
+                  <span className="text-sm text-gray-600 font-[450]">4.8/5 Sterne von Early Access Nutzern</span>
                 </div>
               </motion.div>
             </div>

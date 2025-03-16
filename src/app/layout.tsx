@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
-// Schlanke Fontladung - nur notwendige Subsets
-const inter = Inter({
-  variable: "--font-inter",
+// Montserrat mit verschiedenen Schriftstärken laden
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
   display: "swap",
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-  display: "swap",
+  // Wähle die benötigten Schriftstärken aus
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -43,7 +39,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
       </head>
       <body
-        className={`${inter.variable} ${manrope.variable} font-sans antialiased min-h-screen relative`}
+        className={`${montserrat.variable} font-sans antialiased min-h-screen relative`}
       >
         {/* Einheitlich weißer Hintergrund */}
         <div className="fixed inset-0 -z-20 bg-white"></div>

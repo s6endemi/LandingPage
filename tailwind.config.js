@@ -1,3 +1,4 @@
+
 // tailwind.config.js
 import animatePlugin from 'tailwindcss-animate';
 
@@ -20,10 +21,29 @@ const config = {
     },
     extend: {
       fontFamily: {
-        // Füge die neue Schriftart hinzu
-        'bill': ['"Bill Corporate Narrow"', 'sans-serif'],
-        // Du kannst optional die Standardfamilie auch ändern
-        'sans': ['"Bill Corporate Narrow"', 'system-ui', '-apple-system', 'sans-serif'],
+        // Inter als Hauptschriftart
+        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        'inter': ['Inter', 'sans-serif'],
+      },
+      // Angepasste Schriftbreiten-Skala mit feineren Abstufungen
+      fontWeight: {
+        light: '350',    // Leichter als normal
+        normal: '400',
+        medium: '450',   // Etwas stärker als normal
+        semibold: '550', // Stärker als medium, schwächer als bold
+        bold: '650',     // Nicht zu fett, moderner Look
+        extrabold: '750' // Noch stärker
+      },
+      // Angepasste Zeilenabstände
+      lineHeight: {
+        'tight-plus': '1.15',  // Zwischen tight und snug
+        'medium-plus': '1.375' // Zwischen normal und relaxed
+      },
+      // Angepasste Buchstabenabstände (tracking)
+      letterSpacing: {
+        'tightest': '-0.04em',
+        'tighter-plus': '-0.03em',
+        'tight-plus': '-0.015em',
       },
       colors: {
         border: "hsl(var(--border))",
@@ -86,7 +106,7 @@ const config = {
           from: { transform: "translateY(0)" },
           to: { transform: "translateY(calc(-100% - var(--gap)))" }
         },
-        // Aurora-Animation hinzugefügt
+        // Aurora-Animation
         aurora: {
           from: {
             backgroundPosition: "50% 50%, 50% 50%",
@@ -102,14 +122,29 @@ const config = {
         'shine': 'shine 2s ease infinite',
         'marquee': 'marquee var(--duration) linear infinite',
         'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
-        // Aurora-Animation hinzugefügt
         aurora: "aurora 60s linear infinite",
       },
+      // Textschatten für subtilen 3D-Effekt
+      textShadow: {
+        'sm': '0 1px 2px rgba(0,0,0,0.025)',
+      }
     },
   },
   plugins: [
     animatePlugin,
-    addVariablesForColors
+    addVariablesForColors,
+    // Text-Shadow Plugin hinzufügen
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.text-shadow-sm': {
+          textShadow: '0 1px 2px rgba(0,0,0,0.025)',
+        },
+        '.text-shadow-none': {
+          textShadow: 'none',
+        },
+      }
+      addUtilities(newUtilities)
+    }
   ],
 };
 
@@ -123,7 +158,6 @@ function addVariablesForColors({ addBase, theme }) {
   });
 }
 
-// Ergänze diese Funktion für die Schriftart
 function flattenColorPalette(colors) {
   return Object.assign(
     {},
@@ -136,6 +170,5 @@ function flattenColorPalette(colors) {
     )
   );
 }
-
 
 export default config;

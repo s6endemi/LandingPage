@@ -1,11 +1,11 @@
-@font-face {
-  font-family: "Bill Corporate Narrow";
-  src: url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.eot");
-  src: url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.eot?#iefix") format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.woff2") format("woff2"),
-    url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.woff") format("woff"),
-    url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.ttf") format("truetype"),
-    url("https://db.onlinewebfonts.com/t/02654c5f87934978cd2129477ad40869.svg#Bill Corporate Narrow W00medium") format("svg");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;450;500;550;600;650;700&display=swap');
+
+/* Bessere Schriftglättung für alle Texte */
+* {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 @import "tailwindcss";
@@ -15,8 +15,31 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'Inter';
   --font-mono: var(--font-geist-mono);
+}
+
+/* Typografische Optimierungen für verschiedene Elemente */
+h1, h2, h3 {
+  letter-spacing: -0.03em;
+  font-weight: 650;
+  line-height: 1.1;
+}
+
+h4, h5, h6 {
+  letter-spacing: -0.015em;
+  font-weight: 550;
+  line-height: 1.2;
+}
+
+p, li {
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+button, .button, .cta {
+  font-weight: 550;
+  letter-spacing: 0;
 }
 
 :root {
@@ -225,5 +248,40 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Typografische Verbesserungen */
+  .headline, h1 {
+    @apply text-[2.5rem] leading-tight tracking-tighter font-[650];
+  }
+  
+  .subheadline, h2 {
+    @apply text-2xl tracking-tight font-[600];
+  }
+  
+  .feature-title, h3 {
+    @apply text-xl tracking-tight font-[550];
+  }
+  
+  .feature-text {
+    @apply text-base leading-relaxed font-[450];
+  }
+  
+  /* Höherwertigen Link-Style */
+  a.link-modern {
+    @apply relative inline-block font-[450] tracking-tight;
+  }
+  
+  a.link-modern::after {
+    @apply content-[''] absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-300;
+  }
+  
+  a.link-modern:hover::after {
+    @apply w-full;
+  }
+  
+  /* Moderne Button-Stile */
+  button, .button {
+    @apply font-[550] tracking-tight;
   }
 }
