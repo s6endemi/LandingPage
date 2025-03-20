@@ -8,24 +8,20 @@ export function Footer() {
   // Hauptnavigationslinks
   const navigationLinks = [
     { name: 'Features', href: '#features' },
-    { name: 'Preise', href: '#pricing' },
-    { name: 'Über uns', href: '#about' },
-    { name: 'FAQ', href: '#faq' }
   ];
 
-  // Essenzielle rechtliche Links
+  // Essenzielle rechtliche Links - aktualisiert
   const legalLinks = [
     { name: 'Impressum', href: '/impressum' },
     { name: 'Datenschutz', href: '/datenschutz' },
-    { name: 'AGB', href: '/agb' },
-    { name: 'Cookies', href: '/cookies' }
+    { name: 'AGB', href: '/agb' }
   ];
 
-  // Social Media Links
+  // Social Media Links - Twitter entfernt, Instagram und LinkedIn Links aktualisiert
   const socialLinks = [
     { 
       name: 'Instagram', 
-      href: '#', 
+      href: 'https://www.instagram.com/athly_de?igsh=MTg1MjMwZzBseWZm', 
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -34,18 +30,9 @@ export function Footer() {
         </svg>
       )
     },
-    { 
-      name: 'Twitter', 
-      href: '#', 
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-          <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-        </svg>
-      )
-    },
     {
       name: 'LinkedIn',
-      href: '#',
+      href: 'https://www.linkedin.com/company/athlyde/',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
           <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
@@ -72,31 +59,69 @@ export function Footer() {
                   className="object-contain"
                 />
               </div>
-              <span className="text-xl font-bold text-gray-800">ATHLY</span>
+              <span className="text-xl font-[650] text-gray-800 tracking-tight-plus">ATHLY</span>
             </div>
             
-            <p className="text-sm text-gray-500 mb-4 max-w-xs">
+            <p className="text-sm text-gray-500 mb-4 max-w-xs font-[450] leading-relaxed">
               Dein personalisierter KI-Trainings- und Ernährungscoach für maximale Fitness und optimale Ergebnisse.
             </p>
             
-
-            
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 font-[450]">
               <a href="mailto:info@athly.de" className="hover:text-[#9bc539] transition-colors duration-200">
                 info@athly.de
               </a>
             </p>
           </div>
           
+          {/* Rechtliche Links und Navigation */}
+          <div>
+            <h3 className="text-sm font-[550] text-gray-800 uppercase tracking-wide mb-4">
+              Links
+            </h3>
+            
+            <ul className="space-y-3">
+              {navigationLinks.map((link) => (
+                <li key={link.name}>
+                  <a href={link.href} className="text-sm text-gray-500 hover:text-[#9bc539] transition-colors duration-200 font-[450]">
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            
+            <h3 className="text-sm font-[550] text-gray-800 uppercase tracking-wide mt-6 mb-4">
+              Rechtliches
+            </h3>
+            
+            <ul className="space-y-3">
+              {legalLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-sm text-gray-500 hover:text-[#9bc539] transition-colors duration-200 font-[450]">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+              
+              {/* Cookie-Einstellungen Button */}
+              <li>
+                <button 
+                  onClick={() => window.openCookieSettings ? window.openCookieSettings() : alert('Cookie-Einstellungen werden geladen...')}
+                  className="text-sm text-gray-500 hover:text-[#9bc539] transition-colors duration-200 font-[450] bg-transparent border-none p-0 cursor-pointer"
+                >
+                  Cookie-Einstellungen
+                </button>
+              </li>
+            </ul>
+          </div>
           
           {/* Newsletter und Social Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-4">
+            <h3 className="text-sm font-[550] text-gray-800 uppercase tracking-wide mb-4">
               Bleib in Kontakt
             </h3>
             
             {/* Newsletter Signup */}
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm text-gray-500 mb-4 font-[450] leading-relaxed">
               Erhalte Updates zu neuen Features und Fitness-Tipps.
             </p>
             
@@ -106,12 +131,12 @@ export function Footer() {
                   type="email"
                   placeholder="Deine E-Mail"
                   className="px-3 py-2 text-sm rounded-lg bg-gray-50 border border-gray-200 text-gray-800 
-                    placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#9bc539] focus:border-[#9bc539]"
+                    placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#9bc539] focus:border-[#9bc539] font-[450]"
                   required
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm bg-[#9bc539] text-white font-medium rounded-lg hover:bg-[#8ab42d] transition-colors duration-200"
+                  className="px-4 py-2 text-sm bg-[#9bc539] text-white font-[550] tracking-tight rounded-lg hover:bg-[#8ab42d] transition-colors duration-200"
                 >
                   Anmelden
                 </button>
@@ -138,11 +163,9 @@ export function Footer() {
         
         {/* Copyright und App-Badges */}
         <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-gray-500 mb-4 md:mb-0">
-            © {new Date().getFullYear()} Athly GmbH. Alle Rechte vorbehalten.
+          <p className="text-sm text-gray-500 mb-4 md:mb-0 font-[450]">
+            © {new Date().getFullYear()} Athly. Alle Rechte vorbehalten.
           </p>
-          
-          {/* App Store Badges */}
         </div>
       </div>
     </footer>

@@ -44,7 +44,7 @@ export function EnhancedHeroSection() {
     target: containerRef,
     offset: ["start start", "end start"],
   })
-  const y = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 15 : 50])
+  const y = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 10 : 50]) // Reduziert für Mobile für bessere Performance
 
   // Define colors
   const neutralMedium = "#4b5563"
@@ -137,7 +137,7 @@ export function EnhancedHeroSection() {
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-white to-gray-50 -z-20"></div>
       <div className="absolute inset-0 -z-10 opacity-30">
-        <Particles className="h-full w-full" quantity={isMobile ? 8 : 15} color={neutralMedium} size={1} />
+        <Particles className="h-full w-full" quantity={isMobile ? 6 : 15} color={neutralMedium} size={1} />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 py-8 md:py-16">
@@ -150,7 +150,7 @@ export function EnhancedHeroSection() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.5 }}
+                transition={{ duration: 0.3, delay: 0.3 }} 
                 className="mb-3"
               >
                 <p className="uppercase tracking-wider font-[450] text-xs text-center text-gray-500">
@@ -163,7 +163,7 @@ export function EnhancedHeroSection() {
                 className="mb-2"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
               >
                 <h1 className="text-4xl sm:text-5xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">Athly: Dein</h1>
               </motion.div>
@@ -173,7 +173,7 @@ export function EnhancedHeroSection() {
                 className="relative mb-4"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
                 onViewportEnter={() => trackEvent('headline_visible', 'hero')}
               >
                 <h1 className="text-4xl sm:text-5xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">
@@ -185,12 +185,12 @@ export function EnhancedHeroSection() {
                   />
                 </h1>
 
-                {/* Underline effect - Modernized */}
+                {/* Verbesserte Underline - Kürzer und zentriert nur unter dem FlipWord */}
                 <motion.div
-                  className="absolute -bottom-1 left-0 right-0 mx-auto h-[3px] bg-gradient-to-r from-[#8FBC29]/90 to-[#8FBC29]/10"
+                  className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-[3px] bg-gradient-to-r from-[#8FBC29]/90 to-[#8FBC29]/10"
                   initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 1, delay: 0.5, ease: "easeInOut" }}
+                  animate={{ width: "60%" }} 
+                  transition={{ duration: 0.8, delay: 0.4, ease: "easeInOut" }}
                 ></motion.div>
               </motion.div>
 
@@ -199,7 +199,7 @@ export function EnhancedHeroSection() {
                 className="text-sm font-[450] text-gray-500 mb-4 tracking-tight-plus"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
               >
                 powered by AI
               </motion.p>
@@ -211,7 +211,7 @@ export function EnhancedHeroSection() {
                 style={{ y }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                transition={{ duration: 0.6, delay: 0.2 }} 
                 onViewportEnter={() => trackEvent('phone_mockup_visible', 'hero')}
                 onClick={handlePhoneMockupInteraction}
               >
@@ -222,14 +222,14 @@ export function EnhancedHeroSection() {
                 />
               </motion.div>
 
-              {/* Main text description */}
+              {/* Verbesserter Main text description - Benefit-orientierter */}
               <motion.p
                 className="text-base font-[450] text-gray-600 mb-6 mt-6 max-w-lg mx-auto leading-medium-plus tracking-tight-plus text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
               >
-                Erreiche deine Fitnessziele schneller und günstiger – mit deinem KI-gestützten Coach.
+                Deine Fitnessziele. Dein KI-Coach als Begleiter. Gemeinsam zum Erfolg.
               </motion.p>
             </div>
 
@@ -242,7 +242,7 @@ export function EnhancedHeroSection() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 0.9 }}
+                    transition={{ duration: 0.4, delay: 0.6 }} 
                     className="mb-6"
                     onViewportEnter={() => trackEvent('cta_form_visible', 'hero')}
                   >
@@ -271,7 +271,7 @@ export function EnhancedHeroSection() {
                         />
                         <motion.button
                           type="submit"
-                          className="w-full text-white font-[550] rounded-xl px-4 py-4 transition-all shadow-md relative overflow-hidden group tracking-tight"
+                          className="w-full text-white font-[550] rounded-xl px-4 py-4 transition-all shadow-md relative overflow-hidden group tracking-tight cursor-pointer"
                           style={{
                             backgroundColor: ctaGreen,
                           }}
@@ -325,7 +325,7 @@ export function EnhancedHeroSection() {
                     key="success"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.4 }}
                     className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden mb-6"
                     onAnimationComplete={() => trackEvent('success_view_complete', 'hero')}
                   >
@@ -355,7 +355,7 @@ export function EnhancedHeroSection() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 1 }}
+                transition={{ duration: 0.4, delay: 0.7 }}
                 className="flex justify-between items-center mb-4"
                 onViewportEnter={() => trackEvent('social_proof_visible', 'hero')}
               >
@@ -459,14 +459,14 @@ export function EnhancedHeroSection() {
                 </motion.p>
               </div>
 
-              {/* Subheadline */}
+              {/* Verbesserter Subheadline - Benefit-orientierter */}
               <motion.p
                 className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-2xl leading-medium-plus tracking-tight-plus font-[450]"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                Erreiche deine Fitnessziele schneller zu einem Bruchteil der Kosten – mit deinem KI-gestützten Coach.
+                Deine Fitnessziele. Dein KI-Coach als Begleiter. Gemeinsam zum Erfolg.
               </motion.p>
 
               {/* CTA - Desktop version */}
@@ -514,7 +514,7 @@ export function EnhancedHeroSection() {
                         />
                         <motion.button
                           type="submit"
-                          className="text-white font-[550] rounded-xl px-7 py-4 transition-all shadow-md relative overflow-hidden group whitespace-nowrap tracking-tight"
+                          className="text-white font-[550] rounded-xl px-7 py-4 transition-all shadow-md relative overflow-hidden group whitespace-nowrap tracking-tight cursor-pointer"
                           style={{
                             backgroundColor: ctaGreen,
                           }}
@@ -605,7 +605,7 @@ export function EnhancedHeroSection() {
               >
                 {/* User participation */}
                 <div 
-                  className="flex items-center"
+                  className="flex items-center cursor-pointer"
                   onClick={() => trackEvent('participation_badge_click', 'hero')}
                 >
                   <div className="flex -space-x-2 mr-3">
@@ -626,7 +626,7 @@ export function EnhancedHeroSection() {
 
                 {/* Rating */}
                 <div 
-                  className="flex items-center"
+                  className="flex items-center cursor-pointer"
                   onClick={() => trackEvent('rating_badge_click', 'hero')}
                 >
                   <div className="flex mr-1">
@@ -650,6 +650,7 @@ export function EnhancedHeroSection() {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 onViewportEnter={() => trackEvent('phone_mockup_visible', 'hero')}
                 onClick={handlePhoneMockupInteraction}
+                className="cursor-pointer hover:scale-[1.02] transition-transform duration-300"
               >
                 <Enhanced3DPhoneMockup 
                   content={<HeroMockupAnimation />} 

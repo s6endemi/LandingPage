@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 
 export function SolutionSection() {
   const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State für das Waitlist-Modal
 
   // Handle responsive detection (unverändert)
   useEffect(() => {
@@ -16,6 +18,11 @@ export function SolutionSection() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Funktion zum Öffnen des Modals
+  const openWaitlistModal = () => {
+    setIsModalOpen(true);
+  };
 
   // Minimalistisches Farbschema (unverändert)
   const colors = {
@@ -384,11 +391,13 @@ export function SolutionSection() {
               </div>
             </div>
 
-            {/* CTA Button - Klarer Fokus (angepasst mit "Jetzt Athly testen") */}
-            <button className="w-full flex items-center justify-center px-6 py-3 text-white font-medium rounded-xl shadow-md transition-all duration-300 mb-3"
+            {/* CTA Button - Klarer Fokus (angepasst mit onClick für Modal) */}
+            <button 
+              onClick={openWaitlistModal}
+              className="w-full flex items-center justify-center px-6 py-3 text-white font-medium rounded-xl shadow-md transition-all duration-300 mb-3 cursor-pointer hover:shadow-lg"
               style={{ backgroundColor: colors.ctaGreen }}
             >
-              <span>Jetzt Athly testen</span> {/* CTA Button Text geändert zu "Jetzt Athly testen" */}
+              <span>Jetzt Athly testen</span>
               <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -459,11 +468,13 @@ export function SolutionSection() {
                 Hunderte Nutzer haben mit ihrem KI-Coach bereits ihr Wunschgewicht erreicht, Muskeln aufgebaut oder einfach einen aktiveren Lebensstil gefunden.
               </p>
 
-              {/* CTA Button - Prägnanter und konversionsstärker (angepasst mit "Jetzt Athly testen") */}
-              <button className="flex items-center px-6 py-3 text-white font-medium rounded-xl shadow-md transition-all duration-300 group"
+              {/* CTA Button - Prägnanter und konversionsstärker (angepasst mit onClick für Modal) */}
+              <button 
+                onClick={openWaitlistModal}
+                className="flex items-center px-6 py-3 text-white font-medium rounded-xl shadow-md transition-all duration-300 group cursor-pointer hover:shadow-lg"
                 style={{ backgroundColor: colors.ctaGreen }}
               >
-                <span>Jetzt Athly testen</span> {/* CTA Button Text geändert zu "Jetzt Athly testen" */}
+                <span>Jetzt Athly testen</span>
                 <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
@@ -530,6 +541,13 @@ export function SolutionSection() {
           </div>
         </motion.div>
       </div>
+
+      {/* Waitlist Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <WaitlistModal onClose={() => setIsModalOpen(false)} />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

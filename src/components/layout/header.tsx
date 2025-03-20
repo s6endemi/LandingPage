@@ -4,8 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
+import { usePathname, useRouter } from "next/navigation"; // Hinzugefügt für Pfaderkennung
 
 export function Header() {
+  const pathname = usePathname(); // Aktuellen Pfad für Navigation bekommen
+  const router = useRouter();
+  const isHomePage = pathname === '/';
+  
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -76,8 +81,14 @@ export function Header() {
     };
   }, []);
 
-  // Track active section with IntersectionObserver
+  // Track active section with IntersectionObserver - nur auf der Hauptseite
   useEffect(() => {
+    // Nur ausführen, wenn wir auf der Hauptseite sind
+    if (!isHomePage) {
+      setActiveSection(""); // Kein aktiver Abschnitt auf Unterseiten
+      return;
+    }
+
     const sections = [
       { id: "hero", el: document.getElementById("hero") },
       { id: "solution", el: document.getElementById("solution") },
@@ -126,27 +137,43 @@ export function Header() {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [isHomePage]); // Abhängig vom Pfad, damit es sich aktualisiert, wenn wir zurück zur Hauptseite navigieren
 
-  // Scroll to section function with offset
-  const scrollToSection = (id: string) => {
+  // Angepasste Funktion für Navigation
+  const navigateToSection = (id: string) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 100;
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: "smooth"
-      });
+    
+    if (isHomePage) {
+      // Wenn wir auf der Hauptseite sind, scrollen wir zum Abschnitt
+      const element = document.getElementById(id);
+      if (element) {
+        const offset = 100;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: "smooth"
+        });
+      }
+    } else {
+      // Wenn wir auf einer Unterseite sind, navigieren wir zur Hauptseite + Anker
+      router.push(`/#${id}`);
+    }
+  };
+
+  // Navigation zurück zur Hauptseite
+  const navigateToHome = () => {
+    if (isHomePage) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push('/');
     }
   };
 
   // Navigation items - Optimiert für Konversion
   const navItems = [
-    { name: "Vorteile", href: "#solution", id: "solution", onClick: () => scrollToSection("solution") },
-    { name: "Features", href: "#features", id: "features", onClick: () => scrollToSection("features") },
-    { name: "Erfahrungen", href: "#testimonials", id: "testimonials", onClick: () => scrollToSection("testimonials") },
+    { name: "Vorteile", href: isHomePage ? "#solution" : "/#solution", id: "solution", onClick: () => navigateToSection("solution") },
+    { name: "Features", href: isHomePage ? "#features" : "/#features", id: "features", onClick: () => navigateToSection("features") },
+    { name: "Erfahrungen", href: isHomePage ? "#testimonials" : "/#testimonials", id: "testimonials", onClick: () => navigateToSection("testimonials") },
   ];
 
   return (
@@ -175,10 +202,10 @@ export function Header() {
             layout
           >
             <div className="flex items-center justify-between px-3 md:px-4">
-              {/* Logo */}
+              {/* Logo - jetzt mit korrekter Navigation und Hover-Effekt */}
               <button 
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="flex items-center"
+                onClick={navigateToHome}
+                className="flex items-center cursor-pointer transition-transform duration-200 hover:scale-105"
               >
                 <svg
                   className={`transition-all duration-300 ${scrolled ? 'h-7 w-7 md:h-8 md:w-8' : 'h-8 w-8 md:h-9 md:w-9'}`}
@@ -197,22 +224,22 @@ export function Header() {
                 </span>
               </button>
 
-              {/* Desktop Navigation - Kompakter mit subtiler Markierung */}
+              {/* Desktop Navigation - Kompakter mit subtiler Markierung und verbesserten Hover-Effekten */}
               <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
                 {navItems.map((item) => (
                   <button
                     key={item.name}
                     onClick={item.onClick}
                     className={`
-                      px-4 py-2 text-sm font-medium transition-all duration-200 relative
-                      ${activeSection === item.id
+                      px-4 py-2 text-sm font-medium transition-all duration-200 relative cursor-pointer hover:bg-gray-50 rounded-lg
+                      ${isHomePage && activeSection === item.id 
                         ? "text-[#749B0C]" 
-                        : "text-gray-700 hover:text-gray-900"
+                        : "text-gray-700 hover:text-[#749B0C]"
                       }
                     `}
                   >
                     {item.name}
-                    {activeSection === item.id && (
+                    {isHomePage && activeSection === item.id && (
                       <motion.div 
                         className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-[#9bc539] rounded-full" 
                         initial={{ width: 0 }}
@@ -224,25 +251,32 @@ export function Header() {
                 ))}
               </div>
 
-              {/* Right Section: CTA Button - Angepasste Größe je nach Scroll-Status */}
+              {/* Right Section: CTA Button - Angepasste Größe je nach Scroll-Status mit verbesserten Hover-Effekten */}
               <div className="flex items-center space-x-3">
                 <button 
                   className={`
                     bg-[#9bc539] hover:bg-[#8ab42d] text-white rounded-full transition-all shadow-sm hover:shadow-md
+                    cursor-pointer hover:scale-105 transform duration-200
                     ${scrolled 
                       ? 'px-3.5 py-1.5 text-sm' 
                       : 'px-4 py-2 text-sm'
                     }
                   `}
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => {
+                    if (isHomePage) {
+                      setIsModalOpen(true);
+                    } else {
+                      router.push('/#waitlist');
+                    }
+                  }}
                 >
                   <span className="hidden sm:inline">Jetzt starten</span>
                   <span className="sm:hidden">Starten</span>
                 </button>
                 
-                {/* Mobile Menu Toggle - Besser angepasst */}
+                {/* Mobile Menu Toggle - Besser angepasst mit Hover-Effekt */}
                 <button 
-                  className="md:hidden ml-1 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100/80"
+                  className="md:hidden ml-1 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100/80 cursor-pointer"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   aria-label="Toggle menu"
                 >
@@ -278,7 +312,7 @@ export function Header() {
               >
                 <div className="p-5">
                   <div className="flex justify-between items-center mb-5">
-                    <div className="flex items-center">
+                    <div className="flex items-center cursor-pointer" onClick={navigateToHome}>
                       <svg
                         className="h-7 w-7"
                         viewBox="0 0 725 750"
@@ -296,7 +330,7 @@ export function Header() {
                       </span>
                     </div>
                     <button 
-                      className="text-gray-400 hover:text-gray-600 focus:outline-none p-2"
+                      className="text-gray-400 hover:text-gray-600 focus:outline-none p-2 cursor-pointer hover:bg-gray-50 rounded-full"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -305,40 +339,44 @@ export function Header() {
                     </button>
                   </div>
                   
-                  {/* Verbesserte mobile Navigation mit mehr Touch-Fläche */}
+                  {/* Verbesserte mobile Navigation mit mehr Touch-Fläche und besseren Hover-Effekten */}
                   <div className="flex flex-col space-y-2">
                     {navItems.map((item) => (
                       <button
                         key={item.name}
                         onClick={item.onClick}
                         className={`
-                          px-4 py-3 rounded-xl text-left transition-colors text-base relative
-                          ${activeSection === item.id
-                            ? "text-[#749B0C] font-medium" 
-                            : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                          px-4 py-3 rounded-xl text-left transition-colors text-base relative cursor-pointer
+                          ${isHomePage && activeSection === item.id
+                            ? "text-[#749B0C] font-medium bg-green-50" 
+                            : "text-gray-700 hover:bg-gray-50 hover:text-[#749B0C]"
                           }
                         `}
                       >
                         {item.name}
-                        {activeSection === item.id && (
+                        {isHomePage && activeSection === item.id && (
                           <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-6 bg-[#9bc539] rounded-full" />
                         )}
                       </button>
                     ))}
                   </div>
                   
-                  {/* Conversion-optimierter CTA Button für Mobile */}
+                  {/* Conversion-optimierter CTA Button für Mobile mit verbesserten Hover-Effekten */}
                   <div className="mt-6">
                     <button 
-                      className="w-full bg-[#9bc539] hover:bg-[#8ab42d] text-white rounded-xl py-4 text-base font-medium transition-all shadow-sm flex items-center justify-center"
+                      className="w-full bg-[#9bc539] hover:bg-[#8ab42d] text-white rounded-xl py-4 text-base font-medium transition-all shadow-sm hover:shadow-md flex items-center justify-center cursor-pointer"
                       onClick={() => {
                         setMobileMenuOpen(false);
-                        setIsModalOpen(true);
+                        if (isHomePage) {
+                          setIsModalOpen(true);
+                        } else {
+                          router.push('/#waitlist');
+                        }
                       }}
                     >
                       <span className="flex items-center justify-center">
                         Jetzt starten
-                        <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                       </span>

@@ -8,6 +8,7 @@ import {
   NutritionSyncDemo, 
   BodyAnalyzerDemo 
 } from "@/components/demo/features";
+import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 
 // Um das Problem mit dem Chat-Scrollen und dem verzögerten Start zu lösen,
 // überschreiben wir hier die AiCoachDemo-Komponente lokal
@@ -387,6 +388,7 @@ export function FeatureSection() {
   const [isMobile, setIsMobile] = useState(false);
   const demoRefs = useRef({});
   const [visibleDemos, setVisibleDemos] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false); // State für das Waitlist-Modal
   
   // Handle responsive detection
   useEffect(() => {
@@ -425,6 +427,11 @@ export function FeatureSection() {
 
     return () => observer.disconnect();
   }, []);
+
+  // Alternativer Ansatz: Direkt das Modal öffnen statt zu scrollen
+  const openWaitlistModal = () => {
+    setIsModalOpen(true);
+  };
 
   // 60/30/10 Farbprinzip
   const colors = {
@@ -804,7 +811,8 @@ export function FeatureSection() {
             Starte noch heute mit Athly und erlebe, wie personalisiertes Training und Ernährung dein Leben verändern können.
           </p>
           <button
-            className="inline-flex items-center px-5 py-2.5 text-white font-medium rounded-xl shadow-md"
+            onClick={openWaitlistModal}
+            className="inline-flex items-center px-5 py-2.5 text-white font-medium rounded-xl shadow-md cursor-pointer transition-all duration-300 hover:shadow-lg"
             style={{ 
               backgroundColor: colors.ctaGreen,
               boxShadow: `0 4px 14px -4px ${colors.ctaGreen}40`
@@ -839,6 +847,13 @@ export function FeatureSection() {
           </div>
         </div>
       </div>
+
+      {/* Waitlist Modal hinzugefügt */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <WaitlistModal onClose={() => setIsModalOpen(false)} />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

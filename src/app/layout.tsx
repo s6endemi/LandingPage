@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { CookieBanner } from "@/components/footer/cookie-banner";
 
 // Montserrat mit verschiedenen Schriftstärken laden
 const montserrat = Montserrat({
@@ -54,6 +55,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <CookieBanner />
         </div>
       </body>
     </html>
