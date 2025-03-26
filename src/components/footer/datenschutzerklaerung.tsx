@@ -42,9 +42,9 @@ export default function Datenschutz() {
           
           <h3 className="text-lg font-[550] text-gray-800 mt-6 mb-3">Hinweis zur verantwortlichen Stelle</h3>
           <p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</p>
-          <p>[Ihr vollständiger Name]<br />
-            [Ihre Straße und Hausnummer]<br />
-            [Ihre PLZ und Stadt]<br />
+          <p>Eren Demir<br />
+            Glasstrasse 7a<br />
+            50823 Köln<br />
             Deutschland</p>
           <p>E-Mail: info@athly.de</p>
           <p>Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten (z. B. Namen, E-Mail-Adressen o. Ä.) entscheidet.</p>
