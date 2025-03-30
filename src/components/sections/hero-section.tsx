@@ -14,20 +14,17 @@ export function EnhancedHeroSection() {
   const [isMobile, setIsMobile] = useState(false)
   const [email, setEmail] = useState("")
   const [submitted, setSubmitted] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef(null)
   
-  // Neue States hinzufügen
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
   const [participantNumber, setParticipantNumber] = useState(0)
 
   // Track page view on component mount
   useEffect(() => {
-    trackPageView('hero-section');
-    
-    // Track hero section display
-    trackEvent('hero_displayed', 'hero');
-  }, []);
+    trackPageView('hero-section')
+    trackEvent('hero_displayed', 'hero')
+  }, [])
 
   // Handle responsive detection
   useEffect(() => {
@@ -44,36 +41,35 @@ export function EnhancedHeroSection() {
     target: containerRef,
     offset: ["start start", "end start"],
   })
-  const y = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 10 : 50]) // Reduziert für Mobile für bessere Performance
+  const y = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 10 : 50])
 
   // Define colors
   const neutralMedium = "#4b5563"
   const mainGreen = "#9bc539"
   const ctaGreen = "#8FBC29"
-  const phoneColor = "#8FBC29" // Using the brand green for the phone glow effect
+  const phoneColor = "#8FBC29"
 
-  // Words for FlipWords component - Results-oriented list
-  const flipWordsList = ["Erfolgscoach", "Motivator", "Personal Trainer", "Fitness-Booster"]
+  // Words for FlipWords component - Value-focused list
+  const flipWordsList = ["24/7 KI-Coach", "Fitness-Begleiter", "Motivations-Partner", "Erfolgs-Garant"]
 
   // Track word changes in FlipWords
-  const handleWordChange = (word: string) => {
-    trackEvent('flipword_changed', 'hero', { word });
-  };
+  const handleWordChange = (word) => {
+    trackEvent('flipword_changed', 'hero', { word })
+  }
 
   // Email validation
-  const isValidEmail = (email: string) => {
+  const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
   
   // Form submit handler with analytics
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     
-    // Track CTA click
-    trackCTAClick('hero');
+    trackCTAClick('hero')
     
     if (!isValidEmail(email)) {
-      trackEvent('invalid_email', 'hero', { email_length: email.length });
+      trackEvent('invalid_email', 'hero', { email_length: email.length })
       if (inputRef.current) inputRef.current.focus()
       return
     }
@@ -85,37 +81,24 @@ export function EnhancedHeroSection() {
       const result = await addToWaitlist(email, 'hero')
       
       if (result.success) {
-        // Track successful signup
-        trackSignupSuccess('hero', email, result.participantNumber ?? 0);
-        
-        // Success state
-        setSubmitted(true);
-        setParticipantNumber(result.participantNumber ?? 0);
-        
-        // Track successful completion
+        trackSignupSuccess('hero', email, result.participantNumber ?? 0)
+        setSubmitted(true)
+        setParticipantNumber(result.participantNumber ?? 0)
         trackEvent('signup_success_view', 'hero', { 
           participant_number: result.participantNumber ?? 0 
-        });
+        })
       } else {
         if (result.existingEmail) {
-          // Track duplicate email
-          trackDuplicateSignup('hero', email);
-          
-          // Show error message
-          setErrorMessage(result.error ?? "Diese Email ist bereits registriert.");
+          trackDuplicateSignup('hero', email)
+          setErrorMessage(result.error ?? "Diese Email ist bereits registriert.")
         } else {
-          // Track general error
-          trackSignupError('hero', result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
-          
-          // Show general error message
-          setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
+          trackSignupError('hero', result.error ?? "Ein unbekannter Fehler ist aufgetreten.")
+          setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.")
         }
       }
       
     } catch (error) {
-      // Track unexpected error
-      trackSignupError('hero', "Unexpected error");
-      
+      trackSignupError('hero', "Unexpected error")
       console.error('Submission error:', error)
       setErrorMessage("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.")
     } finally {
@@ -125,8 +108,8 @@ export function EnhancedHeroSection() {
 
   // Track phone mockup interactions
   const handlePhoneMockupInteraction = () => {
-    trackEvent('phone_mockup_interaction', 'hero');
-  };
+    trackEvent('phone_mockup_interaction', 'hero')
+  }
 
   return (
     <div
@@ -145,7 +128,7 @@ export function EnhancedHeroSection() {
         {isMobile ? (
           <div className="flex flex-col items-center">
             {/* HEADLINE FIRST on mobile */}
-            <div className="w-full text-center mb-8">
+            <div className="w-full text-center mb-6">
               {/* Pre-headline */}
               <motion.div
                 initial={{ opacity: 0 }}
@@ -153,9 +136,9 @@ export function EnhancedHeroSection() {
                 transition={{ duration: 0.3, delay: 0.3 }} 
                 className="mb-3"
               >
-                <p className="uppercase tracking-wider font-[450] text-xs text-center text-gray-500">
-                  Demnächst verfügbar
-                </p>
+                <span className="inline-block bg-green-100 text-green-700 px-2.5 py-1 rounded-full text-xs font-medium">
+                  Neu: KI-gestütztes Fitness-Coaching
+                </span>
               </motion.div>
 
               {/* Main headline */}
@@ -185,7 +168,7 @@ export function EnhancedHeroSection() {
                   />
                 </h1>
 
-                {/* Verbesserte Underline - Kürzer und zentriert nur unter dem FlipWord */}
+                {/* Underline */}
                 <motion.div
                   className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 h-[3px] bg-gradient-to-r from-[#8FBC29]/90 to-[#8FBC29]/10"
                   initial={{ width: 0 }}
@@ -194,14 +177,14 @@ export function EnhancedHeroSection() {
                 ></motion.div>
               </motion.div>
 
-              {/* "powered by AI" subtitle */}
+              {/* Tagline - improved for clearer benefit */}
               <motion.p
-                className="text-sm font-[450] text-gray-500 mb-4 tracking-tight-plus"
+                className="text-base font-medium text-gray-600 mb-6 max-w-lg mx-auto leading-medium-plus tracking-tight-plus text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.4 }}
               >
-                powered by AI
+                KI-Coach, der dich <span className="text-[#8FBC29] font-bold">24/7 motiviert</span>, trainiert und zum Erfolg führt
               </motion.p>
             </div>
 
@@ -222,15 +205,25 @@ export function EnhancedHeroSection() {
                 />
               </motion.div>
 
-              {/* Verbesserter Main text description - Benefit-orientierter */}
-              <motion.p
-                className="text-base font-[450] text-gray-600 mb-6 mt-6 max-w-lg mx-auto leading-medium-plus tracking-tight-plus text-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.4 }}
+              {/* Key benefits list */}
+              <motion.div
+                className="grid grid-cols-2 gap-4 mb-6 mt-6 max-w-lg mx-auto"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
               >
-                Deine Fitnessziele. Dein KI-Coach als Begleiter. Gemeinsam zum Erfolg.
-              </motion.p>
+                {[
+                  { icon: "🏆", text: "Personalisierte Trainingspläne" },
+                  { icon: "🔄", text: "Tägliche Anpassungen" },
+                  { icon: "💬", text: "Echtzeitfeedback" },
+                  { icon: "📊", text: "Fortschrittsverfolgung" }
+                ].map((benefit, index) => (
+                  <div key={index} className="flex items-start">
+                    <span className="text-lg mr-2">{benefit.icon}</span>
+                    <p className="text-xs font-medium text-gray-700">{benefit.text}</p>
+                  </div>
+                ))}
+              </motion.div>
             </div>
 
             {/* CTA SECTION - Email capture box */}
@@ -247,14 +240,13 @@ export function EnhancedHeroSection() {
                     onViewportEnter={() => trackEvent('cta_form_visible', 'hero')}
                   >
                     <div className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden">
-                      {/* Form Headline */}
+                      {/* Form Headline - More benefit-focused */}
                       <h3 className="text-left text-xl font-[550] text-gray-800 mb-2 tracking-tight-plus">
-                        Sichere dir deinen Early Access & Rabatt!
+                        Starte jetzt mit deinem persönlichen KI-Coach!
                       </h3>
 
                       <p className="text-left text-gray-600 text-sm mb-4 font-[450] tracking-tight">
-                        Sichere dir <span className="font-[550] text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
-                        Premium-Coaching kostenlos
+                        <span className="font-[550] text-[#8FBC29]">70% Launch-Rabatt</span> + 14 Tage Premium-Coaching kostenlos
                       </p>
 
                       <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-3">
@@ -292,7 +284,7 @@ export function EnhancedHeroSection() {
                               </span>
                             ) : (
                               <>
-                                Early Access sichern
+                                Jetzt dabei sein!
                                 <svg
                                   className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
                                   fill="none"
@@ -336,8 +328,7 @@ export function EnhancedHeroSection() {
                     </div>
                     <h3 className="text-xl font-[650] text-gray-900 mb-3 text-center tracking-tight-plus">Du bist dabei!</h3>
                     <p className="text-gray-600 text-sm text-center mb-4 font-[450] leading-medium-plus">
-                      Wir haben deine E-Mail-Adresse erhalten und werden dich informieren, 
-                      sobald dein exklusiver Zugang bereit ist.
+                      Dein persönlicher KI-Coach wird vorbereitet! Wir informieren dich, sobald dein exklusiver Zugang bereit ist.
                     </p>
                     <div className="flex justify-center">
                       <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-sm text-gray-600 font-[450]">
@@ -351,7 +342,7 @@ export function EnhancedHeroSection() {
                 )}
               </AnimatePresence>
 
-              {/* Social proof - Compact for mobile */}
+              {/* Social proof - Improved messaging */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -377,10 +368,10 @@ export function EnhancedHeroSection() {
                       +
                     </div>
                   </div>
-                  <span className="text-xs text-gray-600 font-[450]">250+ Fitness-Begeisterte sind schon dabei!</span>
+                  <span className="text-xs text-gray-600 font-[450]">250+ aktive Athly Nutzer</span>
                 </div>
 
-                {/* Rating */}
+                {/* Rating - Enhanced messaging */}
                 <div 
                   className="flex items-center"
                   onClick={() => trackEvent('rating_badge_click', 'hero')}
@@ -392,7 +383,7 @@ export function EnhancedHeroSection() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-xs text-gray-600 font-[450]">4.8/5 Bewertung</span>
+                  <span className="text-xs text-gray-600 font-[450]">4.8/5 Coaching-Erfolge</span>
                 </div>
               </motion.div>
             </div>
@@ -402,18 +393,20 @@ export function EnhancedHeroSection() {
           <div className="grid grid-cols-12 gap-8 items-center">
             {/* Content column */}
             <div className="col-span-6 col-start-1 z-10 text-left pr-8">
-              {/* Pre-headline */}
+              {/* Pre-headline - Better highlight on AI coaching */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.3 }}
                 className="mb-5"
               >
-                <p className="uppercase tracking-wider font-[450] text-sm text-gray-500">Demnächst verfügbar</p>
+                <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                  Neu: KI-gestütztes Fitness-Coaching
+                </span>
               </motion.div>
 
               {/* Headline with FlipWords integration */}
-              <div className="mb-8">
+              <div className="mb-6">
                 <motion.h1
                   className="text-5xl lg:text-6xl xl:text-7xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm"
                   initial={{ opacity: 0, y: 15 }}
@@ -439,7 +432,7 @@ export function EnhancedHeroSection() {
                     />
                   </h1>
 
-                  {/* Elegant underline - Modernized */}
+                  {/* Elegant underline */}
                   <motion.div
                     className="absolute -bottom-1 left-0 h-[4px] bg-gradient-to-r from-[#8FBC29]/90 to-[#8FBC29]/10"
                     initial={{ width: 0 }}
@@ -447,27 +440,40 @@ export function EnhancedHeroSection() {
                     transition={{ duration: 1.2, delay: 0.7, ease: "easeInOut" }}
                   ></motion.div>
                 </motion.div>
-
-                {/* "powered by AI" subtitle */}
-                <motion.p
-                  className="text-lg font-[450] text-gray-500 mt-3 tracking-tight-plus"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.7, delay: 0.3 }}
-                >
-                  powered by AI
-                </motion.p>
               </div>
 
-              {/* Verbesserter Subheadline - Benefit-orientierter */}
+              {/* Improved subheadline - Clear value proposition */}
               <motion.p
-                className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-2xl leading-medium-plus tracking-tight-plus font-[450]"
+                className="text-xl lg:text-2xl text-gray-600 mb-8 max-w-2xl leading-medium-plus tracking-tight-plus font-medium"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                Deine Fitnessziele. Dein KI-Coach als Begleiter. Gemeinsam zum Erfolg.
+                KI-Coach, der dich <span className="text-[#8FBC29] font-bold">24/7 motiviert</span>, trainiert und zum Erfolg führt
               </motion.p>
+
+              {/* Key benefits - Better highlight features */}
+              <motion.div
+                className="grid grid-cols-2 gap-6 mb-10"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                {[
+                  { icon: "🏆", title: "Personalisierte Trainingspläne", desc: "Auf deine Ziele und Niveau angepasst" },
+                  { icon: "🔄", title: "Tägliche Anpassungen", desc: "Reagiert auf deine Fortschritte in Echtzeit" },
+                  { icon: "💬", title: "Intelligentes Feedback", desc: "Verbessert deine Technik & Motivation" },
+                  { icon: "📊", title: "Fortschrittsverfolgung", desc: "Visualisiert deinen Weg zum Erfolg" }
+                ].map((benefit, index) => (
+                  <div key={index} className="flex items-start">
+                    <span className="text-xl mr-3 bg-green-100 p-2 rounded-full h-10 w-10 flex items-center justify-center">{benefit.icon}</span>
+                    <div>
+                      <h3 className="text-base font-bold text-gray-800">{benefit.title}</h3>
+                      <p className="text-sm text-gray-600">{benefit.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
 
               {/* CTA - Desktop version */}
               <AnimatePresence mode="wait">
@@ -484,20 +490,19 @@ export function EnhancedHeroSection() {
                     <div className="bg-white rounded-2xl py-8 px-8 shadow-lg border border-gray-100 relative overflow-hidden max-w-xl">
                       <div className="absolute top-4 right-6">
                         <div className="flex items-center">
-                          <span className="text-xs font-[450] text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                          <span className="text-xs font-medium text-green-700 bg-green-100 px-2 py-1 rounded-full">
                             Early Access
                           </span>
                         </div>
                       </div>
 
-                      {/* Form Headline */}
+                      {/* Form Headline - Value proposition focused */}
                       <h3 className="text-left text-xl lg:text-2xl font-[550] text-gray-800 mb-3 tracking-tight-plus">
-                        Sichere dir deinen Early Access & Rabatt!
+                        Starte jetzt mit deinem persönlichen KI-Coach!
                       </h3>
 
                       <p className="text-left text-gray-600 text-base mb-6 font-[450] tracking-tight">
-                        Sichere dir <span className="font-[550] text-[#8FBC29]">30% Rabatt</span> und zwei Wochen
-                        Premium-Coaching kostenlos
+                        <span className="font-[550] text-[#8FBC29]">70% Launch-Rabatt</span> + 14 Tage Premium-Coaching kostenlos
                       </p>
 
                       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 mb-3">
@@ -535,7 +540,7 @@ export function EnhancedHeroSection() {
                               </span>
                             ) : (
                               <>
-                                Early Access sichern
+                                Jetzt Platz sichern!
                                 <svg
                                   className="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
                                   fill="none"
@@ -580,8 +585,7 @@ export function EnhancedHeroSection() {
                     </div>
                     <h3 className="text-2xl font-[650] text-gray-900 mb-4 text-center tracking-tight-plus">Du bist dabei!</h3>
                     <p className="text-gray-600 text-base text-center mb-6 font-[450] leading-medium-plus">
-                      Wir haben deine E-Mail-Adresse erhalten und werden dich informieren, 
-                      sobald dein exklusiver Zugang bereit ist.
+                      Dein persönlicher KI-Coach wird vorbereitet! Wir informieren dich, sobald dein exklusiver Zugang bereit ist.
                     </p>
                     <div className="flex justify-center">
                       <div className="inline-block bg-gray-100 rounded-full px-4 py-2 text-base text-gray-600 font-[450]">
@@ -595,7 +599,7 @@ export function EnhancedHeroSection() {
                 )}
               </AnimatePresence>
 
-              {/* Social proof - Desktop layout */}
+              {/* Social proof - Desktop layout with enhanced messaging */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -621,10 +625,10 @@ export function EnhancedHeroSection() {
                       +
                     </div>
                   </div>
-                  <span className="text-sm text-gray-600 font-[450]">Bereits 250+ Fitness-Begeisterte sind schon dabei!</span>
+                  <span className="text-sm text-gray-600 font-[450]">Bereits 250+ aktive Athly Nutzer</span>
                 </div>
 
-                {/* Rating */}
+                {/* Rating - Enhanced messaging */}
                 <div 
                   className="flex items-center cursor-pointer"
                   onClick={() => trackEvent('rating_badge_click', 'hero')}
@@ -636,7 +640,7 @@ export function EnhancedHeroSection() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-sm text-gray-600 font-[450]">4.8/5 Sterne von Early Access Nutzern</span>
+                  <span className="text-sm text-gray-600 font-[450]">4.8/5 Coaching-Erfolge von Nutzern</span>
                 </div>
               </motion.div>
             </div>

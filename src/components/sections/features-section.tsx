@@ -4,14 +4,14 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Enhanced3DPhoneMockup } from "@/components/ui/Enhanced3DPhoneMockup";
 import { 
+  GoalTrackingDemo,
   AdaptiveTrainingDemo, 
   NutritionSyncDemo, 
   BodyAnalyzerDemo 
 } from "@/components/demo/features";
 import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 
-// Um das Problem mit dem Chat-Scrollen und dem verzögerten Start zu lösen,
-// überschreiben wir hier die AiCoachDemo-Komponente lokal
+// Optimierter AI Coach bleibt als erstes Feature unverändert
 const OptimizedAiCoachDemo = ({ isVisible = false }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [currentMessage, setCurrentMessage] = useState(0);
@@ -455,8 +455,8 @@ export function FeatureSection() {
     {
       id: "ai-coach",
       badge: "PERSÖNLICHER KI-COACH",
-      title: "Gespräche wie mit einem echten Trainer",
-      description: "Stelle Fragen, bekomme personalisierte Antworten und diskutiere deine Fortschritte – ganz natürlich, als würdest du mit einem persönlichen Trainer sprechen.",
+      title: "Dein 24/7 Coach: Personalisierte Fitness-Beratung auf Knopfdruck",
+      description: "Schluss mit Standardplänen und generischen Tipps. Athly's KI-Coach analysiert deine individuellen Bedürfnisse und liefert maßgeschneiderte Trainingspläne in Echtzeit – ganz natürlich, als würdest du mit einem persönlichen Trainer sprechen.",
       color: colors.secondary,
       highlights: [
         {
@@ -474,11 +474,11 @@ export function FeatureSection() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           ),
-          title: "Sofortige Hilfe",
+          title: "Sofortige Antworten zu allen Fitness-Fragen",
           description: "Keine Wartezeiten, keine Termine – dein Coach ist immer verfügbar."
         }
       ],
-      mockupContent: <OptimizedAiCoachDemo />, // Verwende unsere optimierte Version
+      mockupContent: <OptimizedAiCoachDemo />,
       stats: [
         { label: "Antwortzeit", value: "< 1 Sek" },
         { label: "Verfügbarkeit", value: "24/7" },
@@ -486,43 +486,43 @@ export function FeatureSection() {
       ]
     },
     {
-      id: "adaptive-training",
-      badge: "INTELLIGENTE TRAININGSPLANUNG",
-      title: "Trainingsplan, der sich dir anpasst",
-      description: "Schluss mit starren Programmen. Dein Trainingsplan passt sich automatisch an deinen Fortschritt, deine Tagesform und verfügbare Zeit an.",
+      id: "goal-tracking", // Geändert von adaptive-training zu goal-tracking
+      badge: "PERSÖNLICHER ZIEL-TRACKER",
+      title: "Deine Ziele im Blick – immer und überall",
+      description: "Verfolge deine Fortschritte, erhalte KI-Insights zu deinen Erfolgen und behalte den Überblick über alle deine Fitness-Ziele in einer übersichtlichen Oberfläche.",
       color: colors.primary,
       highlights: [
-        {
-          icon: (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>
-          ),
-          title: "Smarte Anpassung",
-          description: "Dein Plan passt sich automatisch an deine Tagesform und Fortschritte an."
-        },
         {
           icon: (
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           ),
-          title: "Kontinuierlicher Fortschritt",
-          description: "Keine Plateaus mehr durch intelligente Belastungssteuerung."
+          title: "Echtzeit-Tracking",
+          description: "Verfolge deine Fortschritte und erhalte sofortige Updates zu deinen Zielen."
+        },
+        {
+          icon: (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          ),
+          title: "KI-Insights",
+          description: "Entdecke Muster in deinem Training und erhalte personalisierte Empfehlungen."
         }
       ],
-      mockupContent: <AdaptiveTrainingDemo />,
+      mockupContent: <GoalTrackingDemo />, // Hier wird GoalTrackingDemo verwendet
       stats: [
-        { label: "Bessere Ergebnisse", value: "+76%" },
-        { label: "Anpassungen", value: "Echtzeit" },
-        { label: "Trainingsvielfalt", value: "Unbegrenzt" }
+        { label: "Motivationssteigerung", value: "+87%" },
+        { label: "Zielerreichung", value: "+65%" },
+        { label: "Personalisierung", value: "100%" }
       ]
     },
     {
       id: "nutrition-sync",
       badge: "ERNÄHRUNG & TRAINING IN SYNC",
-      title: "Optimiere deine Ernährung: Intelligente Empfehlungen, die dein Training boosten.",
-      description: "Nie wieder rätseln, was du essen sollst! Athly analysiert deine Mahlzeiten per Foto-Scan und synchronisiert deine Ernährungsempfehlungen automatisch mit deinem Trainingsplan – für maximale Ergebnisse.",
+      title: "Foto-Scan & KI-Analyse: Optimale Ernährung ohne Rätselraten.",
+      description: "Fotografiere deine Mahlzeit und Athly's KI identifiziert sofort alle Nährwerte – perfekt abgestimmt auf deine Trainingsziele. Keine Kalorien zählen, kein Rätselraten – nur maßgeschneiderte Ernährung, die deine Fitness-Performance maximiert.",
       color: colors.tertiary,
       comingSoon: true,
       highlights: [
@@ -533,8 +533,8 @@ export function FeatureSection() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
             </svg>
           ),
-          title: "Optimale Nährstoffe",
-          description: "Wissenschaftlich abgestimmte Ernährung für maximale Leistung und Regeneration."
+          title: "Fortschrittliche Lebensmittel-Erkennungs-KI",
+          description: "Unsere KI erkennt Lebensmittel und Portionsgrößen präziser als jede andere App auf dem Markt."
         },
         {
           icon: (
@@ -543,21 +543,21 @@ export function FeatureSection() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           ),
-          title: "Foto-Scan Technologie",
-          description: "Einfaches Scannen deiner Mahlzeiten zur sofortigen Nährwertanalyse."
+          title: "Trainings-synchronisierte Nährwerte",
+          description: "Die KI passt Ernährungsempfehlungen automatisch an deine Trainingsintensität und Regenerationsphase an."
         }
       ],
       mockupContent: <NutritionSyncDemo />,
       stats: [
-        { label: "Mahlzeiten-Scan", value: "Verfügbar" },
+        { label: "Zeiteinsparung", value: "85%" },
         { label: "Durchschnittliche Leistungssteigerung", value: "+65%" },
       ]
     },
     {
       id: "body-analyzer",
-      badge: "VISUELLE KÖRPERANALYSE",
+      badge: "KI-KÖRPERANALYSE",
       title: "Sehe deine Fortschritte mit eigenen Augen",
-      description: "Lade Körperfotos hoch und erhalte sofort eine präzise Analyse deines Körperfettanteils, deiner Muskelentwicklung und Körperhaltung.",
+      description: "Erfasse deinen Körper per Foto und unsere hochentwickelte KI liefert detaillierte Analysen zu Körperfett, Muskelmasse und Proportionen – präziser als menschliche Trainer und ohne unangenehme Messungen. So siehst du genau, was funktioniert und was nicht.",
       color: colors.quaternary,
       highlights: [
         {
@@ -575,8 +575,8 @@ export function FeatureSection() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           ),
-          title: "Fortschritts-Tracking",
-          description: "Verfolgung deiner Veränderungen über Zeit mit übersichtlichen Vergleichen."
+          title: "KI-Prognosen & Empfehlungen",
+          description: "Die KI projiziert zukünftige Ergebnisse und gibt maßgeschneiderte Empfehlungen für Trainings- und Ernährungsoptimierung.."
         }
       ],
       mockupContent: <BodyAnalyzerDemo />,

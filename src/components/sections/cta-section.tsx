@@ -337,7 +337,7 @@ export function WaitlistCta() {
                           <svg className="w-4 h-4 mr-2 text-[#9bc539]" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                           </svg>
-                          <span>30% Rabatt für Early Adopter</span>
+                          <span>70% Rabatt für Early Adopter</span>
                         </div>
                         <div 
                           className="flex items-center"
@@ -438,7 +438,7 @@ export function WaitlistCta() {
           className="mt-12 md:mt-16 text-center"
           onMouseEnter={() => trackEvent('partners_section_hover', 'footer-cta')}
         >
-          <p className="text-xs md:text-sm text-gray-500 mb-5 md:mb-6">Diese Organisationen vertrauen auf unsere Technologie</p>
+          <p className="text-xs md:text-sm text-gray-500 mb-5 md:mb-6">Diese Institutionen vertrauen auf unsere Technologie</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
             {/* Uni Bonn Logo - using the JPEG image */}
             <motion.div 

@@ -5,6 +5,338 @@ import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 // Optimierte AI Coach Demo ohne übermäßige Animationen
+export const GoalTrackingDemo = () => {
+  const [activeTab, setActiveTab] = useState("progress")
+  const [animationComplete, setAnimationComplete] = useState(false)
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimationComplete(true)
+    }, 1200)
+    
+    return () => clearTimeout(timer)
+  }, [])
+
+  return (
+    <div className="relative h-full w-full bg-gray-50 overflow-hidden rounded-xl shadow-md">
+      {/* Header mit Tabs */}
+      <div className="absolute top-0 left-0 right-0 bg-[#9bc539] text-white py-2 px-3 z-10 rounded-t-xl">
+        <div className="flex justify-between items-center">
+          <div className="font-medium">Meine Ziele</div>
+          <div className="flex items-center text-xs bg-white/20 px-2 py-0.5 rounded-full">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-300 mr-1"></div>
+            <span>KI-optimiert</span>
+          </div>
+        </div>
+        
+        {/* Tab Navigation */}
+        <div className="flex mt-2 space-x-1">
+          <button 
+            onClick={() => setActiveTab("progress")}
+            className={`px-3 py-1 text-xs rounded-full transition-colors ${
+              activeTab === "progress" 
+                ? "bg-white text-[#9bc539]" 
+                : "bg-white/20 text-white hover:bg-white/30"
+            }`}
+          >
+            Fortschritt
+          </button>
+          <button 
+            onClick={() => setActiveTab("goals")}
+            className={`px-3 py-1 text-xs rounded-full transition-colors ${
+              activeTab === "goals" 
+                ? "bg-white text-[#9bc539]" 
+                : "bg-white/20 text-white hover:bg-white/30"
+            }`}
+          >
+            Meine Ziele
+          </button>
+        </div>
+      </div>
+
+      {/* Content Area */}
+      <div className="absolute top-[80px] left-0 right-0 bottom-0 p-3 overflow-y-auto">
+        <AnimatePresence mode="wait">
+          {/* Fortschritt Tab */}
+          {activeTab === "progress" && (
+            <motion.div
+              key="progress"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Hauptziel Card */}
+              <div className="bg-white rounded-xl shadow-sm p-4 mb-3">
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h3 className="font-bold text-gray-800">10kg Abnehmen</h3>
+                    <p className="text-sm text-gray-500">Bis 15. Juni</p>
+                  </div>
+                  <div className="bg-[#9bc539] text-white text-xs px-2 py-1 rounded-full font-medium">
+                    Auf Kurs
+                  </div>
+                </div>
+                
+                {/* Progress Bar */}
+                <div className="mb-2">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="font-medium text-gray-700">Fortschritt</span>
+                    <span className="text-[#9bc539] font-bold">65%</span>
+                  </div>
+                  <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-[#9bc539]/70 to-[#9bc539]"
+                      initial={{ width: "0%" }}
+                      animate={{ width: animationComplete ? "65%" : "0%" }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                    ></motion.div>
+                  </div>
+                </div>
+                
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="bg-gray-50 rounded-lg p-2">
+                    <p className="text-xs text-gray-500">Start</p>
+                    <p className="font-bold text-gray-800">82kg</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-2">
+                    <p className="text-xs text-gray-500">Aktuell</p>
+                    <p className="font-bold text-gray-800">75.5kg</p>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-2">
+                    <p className="text-xs text-gray-500">Ziel</p>
+                    <p className="font-bold text-gray-800">72kg</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* KI-Insights */}
+              <div className="bg-white rounded-xl shadow-sm p-4 mb-3">
+                <div className="flex items-center mb-3">
+                  <div className="w-8 h-8 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-2">
+                    <svg className="w-4 h-4 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-gray-800">KI-Insights</h3>
+                </div>
+                
+                <div className="space-y-2.5">
+                  <div className="flex items-start">
+                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm text-gray-700">Du bist deinem Ziel <strong>3 Wochen voraus</strong>.</p>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm text-gray-700">HIIT-Trainings waren <strong>42% effektiver</strong> als andere Übungen für dein Ziel.</p>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm text-gray-700">An Tagen mit <strong>ausreichend Schlaf</strong> warst du 50% erfolgreicher.</p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Monatliche Fortschritte */}
+              <div className="bg-white rounded-xl shadow-sm p-4">
+                <h3 className="font-bold text-gray-800 mb-3">Monatliche Fortschritte</h3>
+                
+                <div className="space-y-3">
+                  {[
+                    { month: "März", change: "-2.8kg", status: "completed" },
+                    { month: "April", change: "-3.7kg", status: "completed" },
+                    { month: "Mai", change: "-1.5kg", status: "current" },
+                    { month: "Juni", change: "-2.0kg", status: "upcoming" },
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center">
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center mr-2
+                        ${item.status === 'completed' ? 'bg-[#9bc539] text-white' : 
+                          item.status === 'current' ? 'bg-[#9bc539]/20 text-[#9bc539] border border-[#9bc539]' :
+                          'bg-gray-100 text-gray-400'}`}
+                      >
+                        {item.status === 'completed' ? (
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                          </svg>
+                        ) : item.status === 'current' ? (
+                          <span className="text-xs">!</span>
+                        ) : (
+                          <span className="text-xs">?</span>
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between">
+                          <span className={`font-medium ${
+                            item.status === 'completed' ? 'text-gray-800' :
+                            item.status === 'current' ? 'text-gray-800' :
+                            'text-gray-400'
+                          }`}>{item.month}</span>
+                          <span className={`font-bold ${
+                            item.status === 'completed' ? 'text-[#9bc539]' :
+                            item.status === 'current' ? 'text-[#9bc539]' :
+                            'text-gray-400'
+                          }`}>{item.change}</span>
+                        </div>
+                        {item.status === 'current' && (
+                          <div className="w-full h-1.5 bg-gray-100 rounded-full mt-1 overflow-hidden">
+                            <motion.div
+                              className="h-full bg-[#9bc539]"
+                              initial={{ width: "0%" }}
+                              animate={{ width: "45%" }}
+                              transition={{ duration: 0.8 }}
+                            ></motion.div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+          
+          {/* Ziele Tab */}
+          {activeTab === "goals" && (
+            <motion.div
+              key="goals"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Aktives Ziel */}
+              <div className="bg-white rounded-xl shadow-sm p-4 mb-3">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="font-bold text-gray-800">Aktives Ziel</h3>
+                  <div className="bg-[#9bc539]/10 text-[#9bc539] text-xs px-2 py-0.5 rounded-md font-medium">
+                    Läuft
+                  </div>
+                </div>
+                
+                <div className="bg-gray-50 rounded-lg p-3 mb-3">
+                  <div className="flex justify-between mb-1">
+                    <span className="font-bold text-gray-800">10kg Abnehmen</span>
+                    <span className="text-gray-500 text-sm">65%</span>
+                  </div>
+                  <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden mb-2">
+                    <motion.div
+                      className="h-full bg-[#9bc539]"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "65%" }}
+                      transition={{ duration: 0.8 }}
+                    ></motion.div>
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>Start: 01. März</span>
+                    <span>Ziel: 15. Juni</span>
+                  </div>
+                </div>
+                
+                <div className="flex justify-end">
+                  <button className="text-sm text-[#9bc539] font-medium py-1 px-3 rounded hover:bg-[#9bc539]/5 transition-colors">
+                    Bearbeiten
+                  </button>
+                </div>
+              </div>
+              
+              {/* Neues Ziel setzen */}
+              <div className="bg-white rounded-xl shadow-sm p-4 mb-3">
+                <h3 className="font-bold text-gray-800 mb-3">Neues Ziel setzen</h3>
+                
+                <div className="space-y-3">
+                  {[
+                    { 
+                      title: "Gewicht verlieren",
+                      icon: (
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                                d="M20 12l-8.5-8.5-2 2 8.5 8.5-8.5 8.5 2 2 8.5-8.5z" />
+                        </svg>
+                      )
+                    },
+                    { 
+                      title: "Muskelaufbau", 
+                      icon: (
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                                d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        </svg>
+                      )
+                    },
+                    { 
+                      title: "Ausdauer verbessern", 
+                      icon: (
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      )
+                    },
+                  ].map((goal, index) => (
+                    <div key={index} className="bg-gray-50 hover:bg-gray-100 transition-colors rounded-lg p-3 flex items-center cursor-pointer">
+                      <div className="w-8 h-8 bg-[#9bc539]/10 rounded-full flex items-center justify-center mr-3 text-[#9bc539]">
+                        {goal.icon}
+                      </div>
+                      <span className="font-medium text-gray-800">{goal.title}</span>
+                      <svg className="w-4 h-4 text-gray-400 ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* KI-Empfehlungen */}
+              <div className="bg-white rounded-xl shadow-sm p-4">
+                <div className="flex items-center mb-3">
+                  <div className="w-7 h-7 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-2 text-[#9bc539]">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-bold text-gray-800">KI-Empfehlungen</h3>
+                </div>
+                
+                <div className="space-y-2 text-sm text-gray-700">
+                  <div className="flex items-start">
+                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p>Basierend auf deinem Fortschritt könnten wir dein <strong>Ziel auf 12kg erweitern</strong>.</p>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p>Ein Ziel zum <strong>Muskelaufbau wäre ideal</strong> nach deinem aktuellen Ziel.</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  )
+}
+
 export const AiCoachDemo: React.FC = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [currentMessage, setCurrentMessage] = useState(0)
