@@ -53,17 +53,17 @@ export function EnhancedHeroSection() {
   const flipWordsList = ["24/7 KI-Coach", "Fitness-Begleiter", "Motivations-Partner", "Erfolgs-Garant"]
 
   // Track word changes in FlipWords
-  const handleWordChange = (word) => {
+  const handleWordChange = (word: any) => {
     trackEvent('flipword_changed', 'hero', { word })
   }
 
   // Email validation
-  const isValidEmail = (email) => {
+  const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
   
   // Form submit handler with analytics
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     
     trackCTAClick('hero')
