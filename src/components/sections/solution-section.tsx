@@ -42,7 +42,7 @@ export function SolutionSection() {
   };
 
   // Track feature selection
-  const handleFeatureSelect = (featureId) => {
+  const handleFeatureSelect = (featureId: string) => {
     setActiveFeature(featureId);
     trackEvent("feature_select", "solution", { feature: featureId });
   };

@@ -51,7 +51,7 @@ export function RefinedProblemSection() {
 
   const staggeredFadeIn = {
     hidden: { opacity: 0, y: isMobile ? 8 : 10 },
-    visible: (i) => ({
+    visible: (i: number) => ({
       opacity: 1,
       y: 0,
       transition: {

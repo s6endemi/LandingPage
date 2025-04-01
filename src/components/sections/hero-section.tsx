@@ -60,7 +60,7 @@ export function EnhancedHeroSection() {
   const flipWordsList = ["24/7 KI-Coach", "Fitness-Begleiter", "Motivations-Partner", "Erfolgs-Garant"];
 
   // Track word changes in FlipWords
-  const handleWordChange = (word: any) => {
+  const handleWordChange = (word: string) => {
     trackEvent("flipword_changed", "hero", { word });
   };
 
@@ -77,7 +77,10 @@ export function EnhancedHeroSection() {
 
     if (!isValidEmail(email)) {
       trackEvent("invalid_email", "hero", { email_length: email.length });
-      if (inputRef.current) inputRef.current.focus();
+      if (inputRef.current) {
+        const inputElement = inputRef.current as HTMLInputElement;
+        inputElement.focus();
+      }
       return;
     }
 
@@ -168,12 +171,7 @@ export function EnhancedHeroSection() {
                 onViewportEnter={() => trackEvent("headline_visible", "hero")}
               >
                 <h1 className="text-4xl sm:text-5xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">
-                  <FlipWords
-                    words={flipWordsList}
-                    duration={3000}
-                    className="relative"
-                    onWordChange={handleWordChange}
-                  />
+                  <FlipWords words={flipWordsList} duration={3000} className="relative" />
                 </h1>
 
                 {/* Underline */}
@@ -448,12 +446,7 @@ export function EnhancedHeroSection() {
                   onViewportEnter={() => trackEvent("headline_visible", "hero")}
                 >
                   <h1 className="text-5xl lg:text-6xl xl:text-7xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">
-                    <FlipWords
-                      words={flipWordsList}
-                      duration={3000}
-                      className="relative"
-                      onWordChange={handleWordChange}
-                    />
+                    <FlipWords words={flipWordsList} duration={3000} className="relative" />
                   </h1>
 
                   {/* Elegant underline */}

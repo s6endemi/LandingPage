@@ -3,12 +3,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Enhanced3DPhoneMockup } from "@/components/ui/Enhanced3DPhoneMockup";
-import {
-  GoalTrackingDemo,
-  AdaptiveTrainingDemo,
-  NutritionSyncDemo,
-  BodyAnalyzerDemo,
-} from "@/components/demo/features";
+import { GoalTrackingDemo, NutritionSyncDemo, BodyAnalyzerDemo } from "@/components/demo/features";
 import { WaitlistModal } from "@/components/waitlist/waitlist-modal";
 
 // Optimierter AI Coach bleibt als erstes Feature unverändert
@@ -38,7 +33,7 @@ const OptimizedAiCoachDemo = ({ isVisible = false }) => {
       { type: "user-text", delay: 1800 },
     ];
 
-    const showNextMessage = async (index) => {
+    const showNextMessage = async (index: number) => {
       if (index >= messages.length) return;
 
       if (messages[index].type === "typing") {
@@ -64,7 +59,7 @@ const OptimizedAiCoachDemo = ({ isVisible = false }) => {
   // Scrolle nur innerhalb des Chat-Containers (beeinträchtigt nicht den Seitenscroll)
   useEffect(() => {
     if (messagesEndRef.current && chatContainerRef.current && shouldAnimate) {
-      const container = chatContainerRef.current;
+      const container = chatContainerRef.current as HTMLElement;
       container.scrollTop = container.scrollHeight;
     }
   }, [currentMessage, isTyping, shouldAnimate]);
