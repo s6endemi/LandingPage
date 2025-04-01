@@ -22,9 +22,7 @@ export const Meteors = ({
   angle = 215,
   className,
 }: MeteorsProps) => {
-  const [meteorStyles, setMeteorStyles] = useState<Array<React.CSSProperties>>(
-    [],
-  );
+  const [meteorStyles, setMeteorStyles] = useState<Array<React.CSSProperties>>([]);
 
   useEffect(() => {
     const styles = [...new Array(number)].map(() => ({
@@ -32,9 +30,7 @@ export const Meteors = ({
       top: -5,
       left: `calc(-50% + ${Math.floor(Math.random() * window.innerWidth)}px)`,
       animationDelay: Math.random() * (maxDelay - minDelay) + minDelay + "s",
-      animationDuration:
-        Math.floor(Math.random() * (maxDuration - minDuration) + minDuration) +
-        "s",
+      animationDuration: Math.floor(Math.random() * (maxDuration - minDuration) + minDuration) + "s",
     }));
     setMeteorStyles(styles);
   }, [number, minDelay, maxDelay, minDuration, maxDuration, angle]);
@@ -48,7 +44,7 @@ export const Meteors = ({
           style={{ ...style }}
           className={cn(
             "pointer-events-none absolute size-0.5 rotate-[var(--angle)] animate-meteor rounded-full bg-zinc-500 shadow-[0_0_0_1px_#ffffff10]",
-            className,
+            className
           )}
         >
           {/* Meteor Tail */}

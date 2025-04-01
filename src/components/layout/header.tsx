@@ -9,8 +9,8 @@ import { usePathname, useRouter } from "next/navigation"; // Hinzugefügt für P
 export function Header() {
   const pathname = usePathname(); // Aktuellen Pfad für Navigation bekommen
   const router = useRouter();
-  const isHomePage = pathname === '/';
-  
+  const isHomePage = pathname === "/";
+
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("hero");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,7 +26,7 @@ export function Header() {
         // Typcast to HTMLElement to access offsetHeight
         const headerElement = headerRef.current as HTMLElement;
         setHeaderHeight(headerElement.offsetHeight);
-        
+
         // Only set mobile header height if screen is smaller than md breakpoint (768px)
         if (window.innerWidth < 768) {
           setMobileHeaderHeight(headerElement.offsetHeight);
@@ -52,15 +52,15 @@ export function Header() {
     if (headerRef.current) {
       resizeObserver.observe(headerRef.current);
     }
-    
-    window.addEventListener('resize', handleResize);
+
+    window.addEventListener("resize", handleResize);
 
     // Cleanup
     return () => {
       if (headerRef.current) {
         resizeObserver.unobserve(headerRef.current);
       }
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -94,17 +94,17 @@ export function Header() {
       { id: "solution", el: document.getElementById("solution") },
       { id: "features", el: document.getElementById("features") },
       { id: "testimonials", el: document.getElementById("testimonials") },
-      { id: "waitlist", el: document.getElementById("waitlist") }
+      { id: "waitlist", el: document.getElementById("waitlist") },
     ];
 
     const observerOptions = {
       root: null,
       rootMargin: "-40% 0px -60% 0px",
-      threshold: 0
+      threshold: 0,
     };
 
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setActiveSection(entry.target.id);
         }
@@ -112,13 +112,13 @@ export function Header() {
     };
 
     const observer = new IntersectionObserver(handleIntersect, observerOptions);
-    
-    sections.forEach(section => {
+
+    sections.forEach((section) => {
       if (section.el) {
         observer.observe(section.el);
       }
     });
-    
+
     // Fallback for home section if not found in DOM
     if (!sections[0].el) {
       const handleScrollForHome = () => {
@@ -126,7 +126,7 @@ export function Header() {
           setActiveSection("hero");
         }
       };
-      
+
       window.addEventListener("scroll", handleScrollForHome);
       return () => {
         observer.disconnect();
@@ -142,7 +142,7 @@ export function Header() {
   // Angepasste Funktion für Navigation
   const navigateToSection = (id: string) => {
     setMobileMenuOpen(false);
-    
+
     if (isHomePage) {
       // Wenn wir auf der Hauptseite sind, scrollen wir zum Abschnitt
       const element = document.getElementById(id);
@@ -151,7 +151,7 @@ export function Header() {
         const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
         window.scrollTo({
           top: elementPosition - offset,
-          behavior: "smooth"
+          behavior: "smooth",
         });
       }
     } else {
@@ -165,61 +165,85 @@ export function Header() {
     if (isHomePage) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      router.push('/');
+      router.push("/");
     }
   };
 
   // Navigation items - Optimiert für Konversion
   const navItems = [
-    { name: "Vorteile", href: isHomePage ? "#solution" : "/#solution", id: "solution", onClick: () => navigateToSection("solution") },
-    { name: "Features", href: isHomePage ? "#features" : "/#features", id: "features", onClick: () => navigateToSection("features") },
-    { name: "Erfahrungen", href: isHomePage ? "#testimonials" : "/#testimonials", id: "testimonials", onClick: () => navigateToSection("testimonials") },
+    {
+      name: "Vorteile",
+      href: isHomePage ? "#solution" : "/#solution",
+      id: "solution",
+      onClick: () => navigateToSection("solution"),
+    },
+    {
+      name: "Features",
+      href: isHomePage ? "#features" : "/#features",
+      id: "features",
+      onClick: () => navigateToSection("features"),
+    },
+    {
+      name: "Erfahrungen",
+      href: isHomePage ? "#testimonials" : "/#testimonials",
+      id: "testimonials",
+      onClick: () => navigateToSection("testimonials"),
+    },
   ];
 
   return (
     <>
       {/* Header bleibt immer sichtbar beim Scrollen */}
-      <motion.header 
+      <motion.header
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-50 w-full"
         initial={{ opacity: 1 }}
-        animate={{ 
+        animate={{
           opacity: 1,
-          y: 0, 
+          y: 0,
         }}
         transition={{ duration: 0.3 }}
       >
-        <div className={`px-4 ${scrolled ? 'py-2' : 'py-3'} transition-all duration-300`}>
+        <div className={`px-4 ${scrolled ? "py-2" : "py-3"} transition-all duration-300`}>
           {/* Container für die Navbar mit Hintergrund */}
-          <motion.div 
+          <motion.div
             className={`
               mx-auto max-w-4xl bg-white transition-all duration-300 ease-in-out rounded-full
-              ${scrolled 
-                ? 'py-1 shadow-lg bg-white/95 backdrop-blur-sm border border-gray-100' 
-                : 'py-2 shadow-md bg-white/90'
+              ${
+                scrolled
+                  ? "py-1 shadow-lg bg-white/95 backdrop-blur-sm border border-gray-100"
+                  : "py-2 shadow-md bg-white/90"
               }
             `}
             layout
           >
             <div className="flex items-center justify-between px-3 md:px-4">
               {/* Logo - jetzt mit korrekter Navigation und Hover-Effekt */}
-              <button 
+              <button
                 onClick={navigateToHome}
                 className="flex items-center cursor-pointer transition-transform duration-200 hover:scale-105"
               >
                 <svg
-                  className={`transition-all duration-300 ${scrolled ? 'h-7 w-7 md:h-8 md:w-8' : 'h-8 w-8 md:h-9 md:w-9'}`}
+                  className={`transition-all duration-300 ${scrolled ? "h-7 w-7 md:h-8 md:w-8" : "h-8 w-8 md:h-9 md:w-9"}`}
                   viewBox="0 0 725 750"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M549.579 685L362.5 298L175.421 685H31.4276L0 750H217L362 450L507 750H725L693.572 685H549.579Z" fill="#749B0C"/>
-                  <path d="M662.65 621L362.5 0L104.4 534H104.416L72.9944 599H72.9833L62.35 621H133.421L254.031 371.501L254.003 371.443L362.5 147L438.545 304.31L438.275 304.868L591.095 621H662.65Z" fill="#749B0C"/>
-                  <path d="M694.067 686H694.056L725 750L694.067 686Z" fill="#749B0C"/>
-                  <path d="M0 750L30.9441 686H30.9333L0 750Z" fill="#749B0C"/>
-                  <path d="M362 299L362.008 299.017L356.969 309.442L356.961 309.425L362 299Z" fill="#749B0C"/>
+                  <path
+                    d="M549.579 685L362.5 298L175.421 685H31.4276L0 750H217L362 450L507 750H725L693.572 685H549.579Z"
+                    fill="#749B0C"
+                  />
+                  <path
+                    d="M662.65 621L362.5 0L104.4 534H104.416L72.9944 599H72.9833L62.35 621H133.421L254.031 371.501L254.003 371.443L362.5 147L438.545 304.31L438.275 304.868L591.095 621H662.65Z"
+                    fill="#749B0C"
+                  />
+                  <path d="M694.067 686H694.056L725 750L694.067 686Z" fill="#749B0C" />
+                  <path d="M0 750L30.9441 686H30.9333L0 750Z" fill="#749B0C" />
+                  <path d="M362 299L362.008 299.017L356.969 309.442L356.961 309.425L362 299Z" fill="#749B0C" />
                 </svg>
-                <span className={`ml-2 font-bold tracking-tight text-gray-800 transition-all duration-300 ${scrolled ? 'text-base md:text-lg' : 'text-lg md:text-xl'}`}>
+                <span
+                  className={`ml-2 font-bold tracking-tight text-gray-800 transition-all duration-300 ${scrolled ? "text-base md:text-lg" : "text-lg md:text-xl"}`}
+                >
                   ATHLY
                 </span>
               </button>
@@ -232,18 +256,19 @@ export function Header() {
                     onClick={item.onClick}
                     className={`
                       px-4 py-2 text-sm font-medium transition-all duration-200 relative cursor-pointer hover:bg-gray-50 rounded-lg
-                      ${isHomePage && activeSection === item.id 
-                        ? "text-[#749B0C]" 
-                        : "text-gray-700 hover:text-[#749B0C]"
+                      ${
+                        isHomePage && activeSection === item.id
+                          ? "text-[#749B0C]"
+                          : "text-gray-700 hover:text-[#749B0C]"
                       }
                     `}
                   >
                     {item.name}
                     {isHomePage && activeSection === item.id && (
-                      <motion.div 
-                        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-[#9bc539] rounded-full" 
+                      <motion.div
+                        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-[#9bc539] rounded-full"
                         initial={{ width: 0 }}
-                        animate={{ width: '60%' }}
+                        animate={{ width: "60%" }}
                         transition={{ duration: 0.2 }}
                       />
                     )}
@@ -253,48 +278,51 @@ export function Header() {
 
               {/* Right Section: CTA Button - Angepasste Größe je nach Scroll-Status mit verbesserten Hover-Effekten */}
               <div className="flex items-center space-x-3">
-                <button 
+                <button
                   className={`
                     bg-[#9bc539] hover:bg-[#8ab42d] text-white rounded-full transition-all shadow-sm hover:shadow-md
                     cursor-pointer hover:scale-105 transform duration-200
-                    ${scrolled 
-                      ? 'px-3.5 py-1.5 text-sm' 
-                      : 'px-4 py-2 text-sm'
-                    }
+                    ${scrolled ? "px-3.5 py-1.5 text-sm" : "px-4 py-2 text-sm"}
                   `}
                   onClick={() => {
                     if (isHomePage) {
                       setIsModalOpen(true);
                     } else {
-                      router.push('/#waitlist');
+                      router.push("/#waitlist");
                     }
                   }}
                 >
                   <span className="hidden sm:inline">Jetzt starten</span>
                   <span className="sm:hidden">Starten</span>
                 </button>
-                
+
                 {/* Mobile Menu Toggle - Besser angepasst mit Hover-Effekt */}
-                <button 
+                <button
                   className="md:hidden ml-1 w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100/80 cursor-pointer"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   aria-label="Toggle menu"
                 >
                   <div className="relative w-5">
-                    <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-                    <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${mobileMenuOpen ? 'opacity-0' : ''}`}></span>
-                    <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+                    <span
+                      className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ${mobileMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}
+                    ></span>
+                    <span
+                      className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${mobileMenuOpen ? "opacity-0" : ""}`}
+                    ></span>
+                    <span
+                      className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${mobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
+                    ></span>
                   </div>
                 </button>
               </div>
             </div>
           </motion.div>
         </div>
-        
+
         {/* Mobile Menu Panel - Verbesserte UX für mobile Nutzer */}
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div 
+            <motion.div
               className="fixed inset-0 z-40 bg-black/5 backdrop-blur-sm md:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -302,7 +330,7 @@ export function Header() {
               transition={{ duration: 0.2 }}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <motion.div 
+              <motion.div
                 className="fixed top-4 right-4 left-4 bg-white rounded-2xl overflow-hidden shadow-xl"
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -313,23 +341,22 @@ export function Header() {
                 <div className="p-5">
                   <div className="flex justify-between items-center mb-5">
                     <div className="flex items-center cursor-pointer" onClick={navigateToHome}>
-                      <svg
-                        className="h-7 w-7"
-                        viewBox="0 0 725 750"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M549.579 685L362.5 298L175.421 685H31.4276L0 750H217L362 450L507 750H725L693.572 685H549.579Z" fill="#749B0C"/>
-                        <path d="M662.65 621L362.5 0L104.4 534H104.416L72.9944 599H72.9833L62.35 621H133.421L254.031 371.501L254.003 371.443L362.5 147L438.545 304.31L438.275 304.868L591.095 621H662.65Z" fill="#749B0C"/>
-                        <path d="M694.067 686H694.056L725 750L694.067 686Z" fill="#749B0C"/>
-                        <path d="M0 750L30.9441 686H30.9333L0 750Z" fill="#749B0C"/>
-                        <path d="M362 299L362.008 299.017L356.969 309.442L356.961 309.425L362 299Z" fill="#749B0C"/>
+                      <svg className="h-7 w-7" viewBox="0 0 725 750" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M549.579 685L362.5 298L175.421 685H31.4276L0 750H217L362 450L507 750H725L693.572 685H549.579Z"
+                          fill="#749B0C"
+                        />
+                        <path
+                          d="M662.65 621L362.5 0L104.4 534H104.416L72.9944 599H72.9833L62.35 621H133.421L254.031 371.501L254.003 371.443L362.5 147L438.545 304.31L438.275 304.868L591.095 621H662.65Z"
+                          fill="#749B0C"
+                        />
+                        <path d="M694.067 686H694.056L725 750L694.067 686Z" fill="#749B0C" />
+                        <path d="M0 750L30.9441 686H30.9333L0 750Z" fill="#749B0C" />
+                        <path d="M362 299L362.008 299.017L356.969 309.442L356.961 309.425L362 299Z" fill="#749B0C" />
                       </svg>
-                      <span className="ml-2 font-bold tracking-tight text-gray-800 text-base">
-                        ATHLY
-                      </span>
+                      <span className="ml-2 font-bold tracking-tight text-gray-800 text-base">ATHLY</span>
                     </div>
-                    <button 
+                    <button
                       className="text-gray-400 hover:text-gray-600 focus:outline-none p-2 cursor-pointer hover:bg-gray-50 rounded-full"
                       onClick={() => setMobileMenuOpen(false)}
                     >
@@ -338,7 +365,7 @@ export function Header() {
                       </svg>
                     </button>
                   </div>
-                  
+
                   {/* Verbesserte mobile Navigation mit mehr Touch-Fläche und besseren Hover-Effekten */}
                   <div className="flex flex-col space-y-2">
                     {navItems.map((item) => (
@@ -347,9 +374,10 @@ export function Header() {
                         onClick={item.onClick}
                         className={`
                           px-4 py-3 rounded-xl text-left transition-colors text-base relative cursor-pointer
-                          ${isHomePage && activeSection === item.id
-                            ? "text-[#749B0C] font-medium bg-green-50" 
-                            : "text-gray-700 hover:bg-gray-50 hover:text-[#749B0C]"
+                          ${
+                            isHomePage && activeSection === item.id
+                              ? "text-[#749B0C] font-medium bg-green-50"
+                              : "text-gray-700 hover:bg-gray-50 hover:text-[#749B0C]"
                           }
                         `}
                       >
@@ -360,24 +388,34 @@ export function Header() {
                       </button>
                     ))}
                   </div>
-                  
+
                   {/* Conversion-optimierter CTA Button für Mobile mit verbesserten Hover-Effekten */}
                   <div className="mt-6">
-                    <button 
+                    <button
                       className="w-full bg-[#9bc539] hover:bg-[#8ab42d] text-white rounded-xl py-4 text-base font-medium transition-all shadow-sm hover:shadow-md flex items-center justify-center cursor-pointer"
                       onClick={() => {
                         setMobileMenuOpen(false);
                         if (isHomePage) {
                           setIsModalOpen(true);
                         } else {
-                          router.push('/#waitlist');
+                          router.push("/#waitlist");
                         }
                       }}
                     >
                       <span className="flex items-center justify-center">
                         Jetzt starten
-                        <svg className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        <svg
+                          className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13 7l5 5m0 0l-5 5m5-5H6"
+                          />
                         </svg>
                       </span>
                     </button>
@@ -390,11 +428,7 @@ export function Header() {
       </motion.header>
 
       {/* Waitlist Modal mit AnimatePresence für smoothe Übergänge */}
-      <AnimatePresence>
-        {isModalOpen && (
-          <WaitlistModal onClose={() => setIsModalOpen(false)} />
-        )}
-      </AnimatePresence>
+      <AnimatePresence>{isModalOpen && <WaitlistModal onClose={() => setIsModalOpen(false)} />}</AnimatePresence>
 
       {/* Spacer div that's only displayed on mobile devices */}
       <div style={{ height: mobileHeaderHeight }} aria-hidden="true" className="md:hidden w-full"></div>

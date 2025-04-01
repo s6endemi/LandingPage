@@ -4,13 +4,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // Angepasste Lamp-Container für Athly mit Grün statt Cyan
-export const AthlyLampContainer = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
+export const AthlyLampContainer = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return (
     <div
       className={cn(
@@ -78,9 +72,7 @@ export const AthlyLampContainer = ({
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-white"></div>
       </div>
 
-      <div className="relative z-50 flex -translate-y-[12rem] flex-col items-center w-full">
-        {children}
-      </div>
+      <div className="relative z-50 flex -translate-y-[12rem] flex-col items-center w-full">{children}</div>
     </div>
   );
 };

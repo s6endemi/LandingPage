@@ -4,8 +4,6 @@ import { TestimonialSection } from "@/components/sections/testimonials-section";
 import { SolutionSection } from "@/components/sections/solution-section";
 import { WaitlistCta } from "@/components/sections/cta-section";
 
-
-
 export default function Home() {
   return (
     <div className="min-h-screen">
@@ -14,7 +12,7 @@ export default function Home() {
       <FeatureSection />
       <TestimonialSection />
       <WaitlistCta />
-      
+
       {/* Hier können später weitere Sektionen wie Preise, etc. hinzugefügt werden */}
     </div>
   );

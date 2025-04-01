@@ -4,13 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export const TracingBeam = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
+export const TracingBeam = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -119,7 +113,7 @@ export const TracingBeam = ({
           {Array.from({ length: 5 }).map((_, i) => {
             const progress = i / 4; // 0, 0.25, 0.5, 0.75, 1
             const y = progress * svgHeight;
-            
+
             return (
               <motion.div
                 key={i}

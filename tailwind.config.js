@@ -1,16 +1,10 @@
-
 // tailwind.config.js
-import animatePlugin from 'tailwindcss-animate';
+import animatePlugin from "tailwindcss-animate";
 
 /** @type {import('tailwindcss').Config} */
 const config = {
   darkMode: ["class"],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-  ],
+  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   theme: {
     container: {
       center: true,
@@ -22,28 +16,28 @@ const config = {
     extend: {
       fontFamily: {
         // Inter als Hauptschriftart
-        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        'inter': ['Inter', 'sans-serif'],
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
       },
       // Angepasste Schriftbreiten-Skala mit feineren Abstufungen
       fontWeight: {
-        light: '350',    // Leichter als normal
-        normal: '400',
-        medium: '450',   // Etwas stärker als normal
-        semibold: '550', // Stärker als medium, schwächer als bold
-        bold: '650',     // Nicht zu fett, moderner Look
-        extrabold: '750' // Noch stärker
+        light: "350", // Leichter als normal
+        normal: "400",
+        medium: "450", // Etwas stärker als normal
+        semibold: "550", // Stärker als medium, schwächer als bold
+        bold: "650", // Nicht zu fett, moderner Look
+        extrabold: "750", // Noch stärker
       },
       // Angepasste Zeilenabstände
       lineHeight: {
-        'tight-plus': '1.15',  // Zwischen tight und snug
-        'medium-plus': '1.375' // Zwischen normal und relaxed
+        "tight-plus": "1.15", // Zwischen tight und snug
+        "medium-plus": "1.375", // Zwischen normal und relaxed
       },
       // Angepasste Buchstabenabstände (tracking)
       letterSpacing: {
-        'tightest': '-0.04em',
-        'tighter-plus': '-0.03em',
-        'tight-plus': '-0.015em',
+        tightest: "-0.04em",
+        "tighter-plus": "-0.03em",
+        "tight-plus": "-0.015em",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -95,16 +89,16 @@ const config = {
           to: { height: 0 },
         },
         shine: {
-          '0%': { left: '-100%' },
-          '100%': { left: '100%' }
+          "0%": { left: "-100%" },
+          "100%": { left: "100%" },
         },
         marquee: {
           from: { transform: "translateX(0)" },
-          to: { transform: "translateX(calc(-100% - var(--gap)))" }
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
         },
-        'marquee-vertical': {
+        "marquee-vertical": {
           from: { transform: "translateY(0)" },
-          to: { transform: "translateY(calc(-100% - var(--gap)))" }
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
         },
         // Aurora-Animation
         aurora: {
@@ -119,40 +113,38 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        'shine': 'shine 2s ease infinite',
-        'marquee': 'marquee var(--duration) linear infinite',
-        'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
+        shine: "shine 2s ease infinite",
+        marquee: "marquee var(--duration) linear infinite",
+        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
         aurora: "aurora 60s linear infinite",
       },
       // Textschatten für subtilen 3D-Effekt
       textShadow: {
-        'sm': '0 1px 2px rgba(0,0,0,0.025)',
-      }
+        sm: "0 1px 2px rgba(0,0,0,0.025)",
+      },
     },
   },
   plugins: [
     animatePlugin,
     addVariablesForColors,
     // Text-Shadow Plugin hinzufügen
-    function({ addUtilities }) {
+    function ({ addUtilities }) {
       const newUtilities = {
-        '.text-shadow-sm': {
-          textShadow: '0 1px 2px rgba(0,0,0,0.025)',
+        ".text-shadow-sm": {
+          textShadow: "0 1px 2px rgba(0,0,0,0.025)",
         },
-        '.text-shadow-none': {
-          textShadow: 'none',
+        ".text-shadow-none": {
+          textShadow: "none",
         },
-      }
-      addUtilities(newUtilities)
-    }
+      };
+      addUtilities(newUtilities);
+    },
   ],
 };
 
 function addVariablesForColors({ addBase, theme }) {
   let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
+  let newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]));
   addBase({
     ":root": newVars,
   });
@@ -162,9 +154,9 @@ function flattenColorPalette(colors) {
   return Object.assign(
     {},
     ...Object.entries(colors ?? {}).flatMap(([color, values]) =>
-      typeof values == 'object'
+      typeof values == "object"
         ? Object.entries(values).map(([key, value]) => ({
-            [color + (key === 'DEFAULT' ? '' : `-${key}`)]: value,
+            [color + (key === "DEFAULT" ? "" : `-${key}`)]: value,
           }))
         : [{ [`${color}`]: values }]
     )

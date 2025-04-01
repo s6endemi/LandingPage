@@ -52,7 +52,7 @@ export function ShineBorder({
       }
       className={cn(
         "pointer-events-none absolute inset-0 size-full rounded-[inherit] p-[--border-width] will-change-[background-position] motion-safe:animate-shine",
-        className,
+        className
       )}
       {...props}
     />

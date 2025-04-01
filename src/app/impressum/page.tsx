@@ -1,4 +1,4 @@
-import Impressum from "@/components/footer/impressum"
+import Impressum from "@/components/footer/impressum";
 
 export default function ImpressumPage() {
   return (

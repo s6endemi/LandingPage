@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import type React from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Optimierte AI Coach Demo ohne übermäßige Animationen
 export const GoalTrackingDemo = () => {
-  const [activeTab, setActiveTab] = useState("progress")
-  const [animationComplete, setAnimationComplete] = useState(false)
-  
+  const [activeTab, setActiveTab] = useState("progress");
+  const [animationComplete, setAnimationComplete] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      setAnimationComplete(true)
-    }, 1200)
-    
-    return () => clearTimeout(timer)
-  }, [])
+      setAnimationComplete(true);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative h-full w-full bg-gray-50 overflow-hidden rounded-xl shadow-md">
@@ -28,25 +28,21 @@ export const GoalTrackingDemo = () => {
             <span>KI-optimiert</span>
           </div>
         </div>
-        
+
         {/* Tab Navigation */}
         <div className="flex mt-2 space-x-1">
-          <button 
+          <button
             onClick={() => setActiveTab("progress")}
             className={`px-3 py-1 text-xs rounded-full transition-colors ${
-              activeTab === "progress" 
-                ? "bg-white text-[#9bc539]" 
-                : "bg-white/20 text-white hover:bg-white/30"
+              activeTab === "progress" ? "bg-white text-[#9bc539]" : "bg-white/20 text-white hover:bg-white/30"
             }`}
           >
             Fortschritt
           </button>
-          <button 
+          <button
             onClick={() => setActiveTab("goals")}
             className={`px-3 py-1 text-xs rounded-full transition-colors ${
-              activeTab === "goals" 
-                ? "bg-white text-[#9bc539]" 
-                : "bg-white/20 text-white hover:bg-white/30"
+              activeTab === "goals" ? "bg-white text-[#9bc539]" : "bg-white/20 text-white hover:bg-white/30"
             }`}
           >
             Meine Ziele
@@ -73,11 +69,9 @@ export const GoalTrackingDemo = () => {
                     <h3 className="font-bold text-gray-800">10kg Abnehmen</h3>
                     <p className="text-sm text-gray-500">Bis 15. Juni</p>
                   </div>
-                  <div className="bg-[#9bc539] text-white text-xs px-2 py-1 rounded-full font-medium">
-                    Auf Kurs
-                  </div>
+                  <div className="bg-[#9bc539] text-white text-xs px-2 py-1 rounded-full font-medium">Auf Kurs</div>
                 </div>
-                
+
                 {/* Progress Bar */}
                 <div className="mb-2">
                   <div className="flex justify-between text-sm mb-1">
@@ -93,7 +87,7 @@ export const GoalTrackingDemo = () => {
                     ></motion.div>
                   </div>
                 </div>
-                
+
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-2 text-center">
                   <div className="bg-gray-50 rounded-lg p-2">
@@ -110,50 +104,87 @@ export const GoalTrackingDemo = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* KI-Insights */}
               <div className="bg-white rounded-xl shadow-sm p-4 mb-3">
                 <div className="flex items-center mb-3">
                   <div className="w-8 h-8 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-2">
                     <svg className="w-4 h-4 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
+                      />
                     </svg>
                   </div>
                   <h3 className="font-bold text-gray-800">KI-Insights</h3>
                 </div>
-                
+
                 <div className="space-y-2.5">
                   <div className="flex items-start">
-                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                    <p className="text-sm text-gray-700">Du bist deinem Ziel <strong>3 Wochen voraus</strong>.</p>
+                    <p className="text-sm text-gray-700">
+                      Du bist deinem Ziel <strong>3 Wochen voraus</strong>.
+                    </p>
                   </div>
-                  
+
                   <div className="flex items-start">
-                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                    <p className="text-sm text-gray-700">HIIT-Trainings waren <strong>42% effektiver</strong> als andere Übungen für dein Ziel.</p>
+                    <p className="text-sm text-gray-700">
+                      HIIT-Trainings waren <strong>42% effektiver</strong> als andere Übungen für dein Ziel.
+                    </p>
                   </div>
-                  
+
                   <div className="flex items-start">
-                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                    <p className="text-sm text-gray-700">An Tagen mit <strong>ausreichend Schlaf</strong> warst du 50% erfolgreicher.</p>
+                    <p className="text-sm text-gray-700">
+                      An Tagen mit <strong>ausreichend Schlaf</strong> warst du 50% erfolgreicher.
+                    </p>
                   </div>
                 </div>
               </div>
-              
+
               {/* Monatliche Fortschritte */}
               <div className="bg-white rounded-xl shadow-sm p-4">
                 <h3 className="font-bold text-gray-800 mb-3">Monatliche Fortschritte</h3>
-                
+
                 <div className="space-y-3">
                   {[
                     { month: "März", change: "-2.8kg", status: "completed" },
@@ -162,16 +193,21 @@ export const GoalTrackingDemo = () => {
                     { month: "Juni", change: "-2.0kg", status: "upcoming" },
                   ].map((item, index) => (
                     <div key={index} className="flex items-center">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center mr-2
-                        ${item.status === 'completed' ? 'bg-[#9bc539] text-white' : 
-                          item.status === 'current' ? 'bg-[#9bc539]/20 text-[#9bc539] border border-[#9bc539]' :
-                          'bg-gray-100 text-gray-400'}`}
+                      <div
+                        className={`w-6 h-6 rounded-full flex items-center justify-center mr-2
+                        ${
+                          item.status === "completed"
+                            ? "bg-[#9bc539] text-white"
+                            : item.status === "current"
+                              ? "bg-[#9bc539]/20 text-[#9bc539] border border-[#9bc539]"
+                              : "bg-gray-100 text-gray-400"
+                        }`}
                       >
-                        {item.status === 'completed' ? (
+                        {item.status === "completed" ? (
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                           </svg>
-                        ) : item.status === 'current' ? (
+                        ) : item.status === "current" ? (
                           <span className="text-xs">!</span>
                         ) : (
                           <span className="text-xs">?</span>
@@ -179,18 +215,30 @@ export const GoalTrackingDemo = () => {
                       </div>
                       <div className="flex-1">
                         <div className="flex justify-between">
-                          <span className={`font-medium ${
-                            item.status === 'completed' ? 'text-gray-800' :
-                            item.status === 'current' ? 'text-gray-800' :
-                            'text-gray-400'
-                          }`}>{item.month}</span>
-                          <span className={`font-bold ${
-                            item.status === 'completed' ? 'text-[#9bc539]' :
-                            item.status === 'current' ? 'text-[#9bc539]' :
-                            'text-gray-400'
-                          }`}>{item.change}</span>
+                          <span
+                            className={`font-medium ${
+                              item.status === "completed"
+                                ? "text-gray-800"
+                                : item.status === "current"
+                                  ? "text-gray-800"
+                                  : "text-gray-400"
+                            }`}
+                          >
+                            {item.month}
+                          </span>
+                          <span
+                            className={`font-bold ${
+                              item.status === "completed"
+                                ? "text-[#9bc539]"
+                                : item.status === "current"
+                                  ? "text-[#9bc539]"
+                                  : "text-gray-400"
+                            }`}
+                          >
+                            {item.change}
+                          </span>
                         </div>
-                        {item.status === 'current' && (
+                        {item.status === "current" && (
                           <div className="w-full h-1.5 bg-gray-100 rounded-full mt-1 overflow-hidden">
                             <motion.div
                               className="h-full bg-[#9bc539]"
@@ -207,7 +255,7 @@ export const GoalTrackingDemo = () => {
               </div>
             </motion.div>
           )}
-          
+
           {/* Ziele Tab */}
           {activeTab === "goals" && (
             <motion.div
@@ -221,11 +269,9 @@ export const GoalTrackingDemo = () => {
               <div className="bg-white rounded-xl shadow-sm p-4 mb-3">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="font-bold text-gray-800">Aktives Ziel</h3>
-                  <div className="bg-[#9bc539]/10 text-[#9bc539] text-xs px-2 py-0.5 rounded-md font-medium">
-                    Läuft
-                  </div>
+                  <div className="bg-[#9bc539]/10 text-[#9bc539] text-xs px-2 py-0.5 rounded-md font-medium">Läuft</div>
                 </div>
-                
+
                 <div className="bg-gray-50 rounded-lg p-3 mb-3">
                   <div className="flex justify-between mb-1">
                     <span className="font-bold text-gray-800">10kg Abnehmen</span>
@@ -244,88 +290,134 @@ export const GoalTrackingDemo = () => {
                     <span>Ziel: 15. Juni</span>
                   </div>
                 </div>
-                
+
                 <div className="flex justify-end">
                   <button className="text-sm text-[#9bc539] font-medium py-1 px-3 rounded hover:bg-[#9bc539]/5 transition-colors">
                     Bearbeiten
                   </button>
                 </div>
               </div>
-              
+
               {/* Neues Ziel setzen */}
               <div className="bg-white rounded-xl shadow-sm p-4 mb-3">
                 <h3 className="font-bold text-gray-800 mb-3">Neues Ziel setzen</h3>
-                
+
                 <div className="space-y-3">
                   {[
-                    { 
+                    {
                       title: "Gewicht verlieren",
                       icon: (
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                                d="M20 12l-8.5-8.5-2 2 8.5 8.5-8.5 8.5 2 2 8.5-8.5z" />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M20 12l-8.5-8.5-2 2 8.5 8.5-8.5 8.5 2 2 8.5-8.5z"
+                          />
                         </svg>
-                      )
+                      ),
                     },
-                    { 
-                      title: "Muskelaufbau", 
+                    {
+                      title: "Muskelaufbau",
                       icon: (
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                                d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                          />
                         </svg>
-                      )
+                      ),
                     },
-                    { 
-                      title: "Ausdauer verbessern", 
+                    {
+                      title: "Ausdauer verbessern",
                       icon: (
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                          />
                         </svg>
-                      )
+                      ),
                     },
                   ].map((goal, index) => (
-                    <div key={index} className="bg-gray-50 hover:bg-gray-100 transition-colors rounded-lg p-3 flex items-center cursor-pointer">
+                    <div
+                      key={index}
+                      className="bg-gray-50 hover:bg-gray-100 transition-colors rounded-lg p-3 flex items-center cursor-pointer"
+                    >
                       <div className="w-8 h-8 bg-[#9bc539]/10 rounded-full flex items-center justify-center mr-3 text-[#9bc539]">
                         {goal.icon}
                       </div>
                       <span className="font-medium text-gray-800">{goal.title}</span>
-                      <svg className="w-4 h-4 text-gray-400 ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg
+                        className="w-4 h-4 text-gray-400 ml-auto"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
                   ))}
                 </div>
               </div>
-              
+
               {/* KI-Empfehlungen */}
               <div className="bg-white rounded-xl shadow-sm p-4">
                 <div className="flex items-center mb-3">
                   <div className="w-7 h-7 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-2 text-[#9bc539]">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                      />
                     </svg>
                   </div>
                   <h3 className="font-bold text-gray-800">KI-Empfehlungen</h3>
                 </div>
-                
+
                 <div className="space-y-2 text-sm text-gray-700">
                   <div className="flex items-start">
-                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                    <p>Basierend auf deinem Fortschritt könnten wir dein <strong>Ziel auf 12kg erweitern</strong>.</p>
+                    <p>
+                      Basierend auf deinem Fortschritt könnten wir dein <strong>Ziel auf 12kg erweitern</strong>.
+                    </p>
                   </div>
-                  
+
                   <div className="flex items-start">
-                    <svg className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-4 h-4 text-[#9bc539] mt-0.5 mr-1.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                    <p>Ein Ziel zum <strong>Muskelaufbau wäre ideal</strong> nach deinem aktuellen Ziel.</p>
+                    <p>
+                      Ein Ziel zum <strong>Muskelaufbau wäre ideal</strong> nach deinem aktuellen Ziel.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -334,14 +426,14 @@ export const GoalTrackingDemo = () => {
         </AnimatePresence>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const AiCoachDemo: React.FC = () => {
-  const [isRecording, setIsRecording] = useState(false)
-  const [currentMessage, setCurrentMessage] = useState(0)
-  const [isTyping, setIsTyping] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [isRecording, setIsRecording] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Simulate conversation flow with reduced delay times
   useEffect(() => {
@@ -350,37 +442,37 @@ export const AiCoachDemo: React.FC = () => {
       { type: "typing", delay: 1000 },
       { type: "coach-response", delay: 1500 },
       { type: "user-text", delay: 1800 },
-    ]
+    ];
 
     const showNextMessage = async (index: number) => {
-      if (index >= messages.length) return
+      if (index >= messages.length) return;
 
       if (messages[index].type === "typing") {
-        setIsTyping(true)
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        setIsTyping(false)
+        setIsTyping(true);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setIsTyping(false);
       }
 
-      setCurrentMessage(index + 1)
+      setCurrentMessage(index + 1);
 
       setTimeout(() => {
-        showNextMessage(index + 1)
-      }, messages[index].delay)
-    }
+        showNextMessage(index + 1);
+      }, messages[index].delay);
+    };
 
     const timer = setTimeout(() => {
-      showNextMessage(0)
-    }, 600)
+      showNextMessage(0);
+    }, 600);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   // Scroll to bottom when new messages appear
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [currentMessage, isTyping])
+  }, [currentMessage, isTyping]);
 
   // Simplified Audio Wave Animation
   const AudioWaveAnimation = () => (
@@ -400,7 +492,7 @@ export const AiCoachDemo: React.FC = () => {
         ></motion.div>
       ))}
     </div>
-  )
+  );
 
   // Simple Typing Indicator
   const TypingIndicator = () => (
@@ -419,19 +511,19 @@ export const AiCoachDemo: React.FC = () => {
         />
       ))}
     </div>
-  )
+  );
 
   // Toggle recording state
   const toggleRecording = () => {
-    setIsRecording(!isRecording)
+    setIsRecording(!isRecording);
 
     if (!isRecording) {
       // Simulate stopping recording after 3 seconds
       setTimeout(() => {
-        setIsRecording(false)
-      }, 3000)
+        setIsRecording(false);
+      }, 3000);
     }
-  }
+  };
 
   return (
     <div className="relative h-full w-full bg-gray-50 overflow-hidden rounded-xl shadow">
@@ -550,9 +642,7 @@ export const AiCoachDemo: React.FC = () => {
                 </svg>
               </div>
               <div className="max-w-[80%] bg-white rounded-2xl rounded-tl-sm p-3 text-sm text-gray-800 shadow-sm">
-                <div className="font-medium text-xs block mb-2">
-                  Ich habe deinen angepassten Plan erstellt:
-                </div>
+                <div className="font-medium text-xs block mb-2">Ich habe deinen angepassten Plan erstellt:</div>
 
                 {/* Elegante, moderne Workout-Karte */}
                 <div className="mt-3 mb-4">
@@ -564,40 +654,65 @@ export const AiCoachDemo: React.FC = () => {
                         <div className="flex items-center space-x-2">
                           <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center">
                             <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                                    d="M5 13l4 4L19 7" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                           <div className="text-white font-medium">Oberkörper-Fokus</div>
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* Hauptinhalt mit verbesserten visuellen Elementen */}
                     <div className="bg-white p-3.5">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 w-9 h-9 rounded-full bg-[#3B82F6]/10 flex items-center justify-center mr-3">
-                          <svg className="w-4.5 h-4.5 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          <svg
+                            className="w-4.5 h-4.5 text-[#3B82F6]"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
                           </svg>
                         </div>
                         <div className="flex-1">
                           <div className="text-[#3B82F6] font-medium">Kniegelenk-schonend</div>
                           <div className="flex items-center mt-0.5">
-                            <svg className="w-3 h-3 text-[#3B82F6] mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <svg
+                              className="w-3 h-3 text-[#3B82F6] mr-1"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
                             </svg>
                             <span className="text-xs text-gray-600">5+ Übungen • 35 Min</span>
                           </div>
                         </div>
                         <div className="flex-shrink-0 bg-[#3B82F6]/10 hover:bg-[#3B82F6]/20 p-2 rounded-full transition-colors">
                           <svg className="w-4 h-4 text-[#3B82F6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
                           </svg>
                         </div>
                       </div>
@@ -608,12 +723,21 @@ export const AiCoachDemo: React.FC = () => {
                 {/* Mobile-Optimized Tip Section */}
                 <div className="text-xs text-gray-600 mt-3 px-1">
                   <div className="flex items-start">
-                    <svg className="w-3.5 h-3.5 text-[#3B82F6] mr-1.5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-3.5 h-3.5 text-[#3B82F6] mr-1.5 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     <div>
-                      <span className="text-[#3B82F6] font-medium block mb-0.5">Tipp:</span> 
+                      <span className="text-[#3B82F6] font-medium block mb-0.5">Tipp:</span>
                       Für deine Knie habe ich eine Regenerationssequenz vorbereitet.
                     </div>
                   </div>
@@ -670,10 +794,7 @@ export const AiCoachDemo: React.FC = () => {
 
             {/* Audio & Video Buttons */}
             <div className="flex">
-              <button
-                className={`px-2 ${isRecording ? "text-red-500" : "text-gray-400"}`}
-                onClick={toggleRecording}
-              >
+              <button className={`px-2 ${isRecording ? "text-red-500" : "text-gray-400"}`} onClick={toggleRecording}>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
@@ -697,9 +818,7 @@ export const AiCoachDemo: React.FC = () => {
           </div>
 
           {/* Send Button */}
-          <button
-            className="ml-2 bg-[#3B82F6] text-white p-1.5 rounded-full shadow-sm flex items-center justify-center"
-          >
+          <button className="ml-2 bg-[#3B82F6] text-white p-1.5 rounded-full shadow-sm flex items-center justify-center">
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
               <path
                 d="M5 12h14M12 5l7 7-7 7"
@@ -713,20 +832,20 @@ export const AiCoachDemo: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // Optimierte Intelligente Trainingsplanung Demo (ohne Tabs)
 export const AdaptiveTrainingDemo: React.FC = () => {
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setProgress(67)
-    }, 800)
+      setProgress(67);
+    }, 800);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative h-full w-full bg-gray-50 overflow-hidden rounded-xl shadow-md">
@@ -754,9 +873,7 @@ export const AdaptiveTrainingDemo: React.FC = () => {
               </div>
               <span className="text-sm font-medium text-gray-700">KI-Analyse</span>
             </div>
-            <div className="text-sm text-green-600 font-medium">
-              +12% Leistung
-            </div>
+            <div className="text-sm text-green-600 font-medium">+12% Leistung</div>
           </div>
 
           <div className="flex items-center px-1">
@@ -781,9 +898,7 @@ export const AdaptiveTrainingDemo: React.FC = () => {
         <div className="bg-white rounded-xl shadow-sm p-3.5 mb-3.5">
           <div className="flex justify-between items-center mb-2.5">
             <div className="font-medium text-sm text-gray-800">Heutiges Training</div>
-            <div className="text-xs font-medium bg-[#9bc539] text-white px-2.5 py-0.5 rounded-full">
-              OPTIMIERT
-            </div>
+            <div className="text-xs font-medium bg-[#9bc539] text-white px-2.5 py-0.5 rounded-full">OPTIMIERT</div>
           </div>
 
           {/* Training Card */}
@@ -803,17 +918,13 @@ export const AdaptiveTrainingDemo: React.FC = () => {
                     <span className="text-[9px] font-bold">{index + 1}</span>
                   </div>
                   <div className="text-gray-700 text-sm flex-1">{exercise.name}</div>
-                  <div className="text-[#9bc539] font-medium text-sm">
-                    {exercise.increase}
-                  </div>
+                  <div className="text-[#9bc539] font-medium text-sm">{exercise.increase}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <button
-            className="w-full py-2.5 bg-[#9bc539] text-white rounded-lg text-sm font-medium"
-          >
+          <button className="w-full py-2.5 bg-[#9bc539] text-white rounded-lg text-sm font-medium">
             Training starten
           </button>
         </div>
@@ -858,22 +969,22 @@ export const AdaptiveTrainingDemo: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // Optimierte Ernährungs-Demo mit klarem interaktiven Button
 export const NutritionSyncDemo: React.FC = () => {
-  const [scanComplete, setScanComplete] = useState(false)
-  const [scanning, setScanning] = useState(false)
+  const [scanComplete, setScanComplete] = useState(false);
+  const [scanning, setScanning] = useState(false);
 
   // Simulate scan process
   const handleScan = () => {
-    setScanning(true)
+    setScanning(true);
     setTimeout(() => {
-      setScanning(false)
-      setScanComplete(true)
-    }, 1500)
-  }
+      setScanning(false);
+      setScanComplete(true);
+    }, 1500);
+  };
 
   return (
     <div className="relative h-full w-full bg-gray-50 overflow-hidden rounded-xl shadow-md">
@@ -1008,7 +1119,7 @@ export const NutritionSyncDemo: React.FC = () => {
                     ></motion.div>
                   </div>
                 </div>
-                
+
                 <button
                   className="w-full py-2.5 bg-[#F59E0B] text-white rounded-lg text-sm font-medium mt-3"
                   onClick={() => setScanComplete(false)}
@@ -1055,7 +1166,12 @@ export const NutritionSyncDemo: React.FC = () => {
                 {/* Visuelle Indikation für Demo */}
                 <div className="text-center mt-2 text-xs text-[#F59E0B] font-medium flex items-center justify-center">
                   <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+                    />
                   </svg>
                   Klick mich für Demo
                 </div>
@@ -1065,8 +1181,8 @@ export const NutritionSyncDemo: React.FC = () => {
         </AnimatePresence>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // Optimierte Körperanalyse Demo ohne Tabs
 export const BodyAnalyzerDemo: React.FC = () => {
@@ -1074,7 +1190,7 @@ export const BodyAnalyzerDemo: React.FC = () => {
     fat: 0,
     muscle: 0,
     definition: 0,
-  })
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -1082,11 +1198,11 @@ export const BodyAnalyzerDemo: React.FC = () => {
         fat: -2.8,
         muscle: 1.4,
         definition: 9,
-      })
-    }, 800)
+      });
+    }, 800);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative h-full w-full bg-gray-50 overflow-hidden rounded-xl shadow-md">
@@ -1138,9 +1254,7 @@ export const BodyAnalyzerDemo: React.FC = () => {
                   />
                 </svg>
               </div>
-              <div className="mt-1 text-xs text-gray-600 font-medium">
-                8 Wochen zuvor
-              </div>
+              <div className="mt-1 text-xs text-gray-600 font-medium">8 Wochen zuvor</div>
             </div>
             <div className="w-1/2 h-full px-3 flex flex-col justify-center items-center">
               <div className="text-xs text-gray-500 mb-1">Nachher</div>
@@ -1154,9 +1268,7 @@ export const BodyAnalyzerDemo: React.FC = () => {
                   />
                 </svg>
               </div>
-              <div className="mt-1 text-xs text-gray-600 font-medium">
-                Heute
-              </div>
+              <div className="mt-1 text-xs text-gray-600 font-medium">Heute</div>
             </div>
           </div>
         </div>
@@ -1186,7 +1298,12 @@ export const BodyAnalyzerDemo: React.FC = () => {
           </div>
 
           <div className="bg-[#8B5CF6]/10 rounded-lg p-2 mb-2 flex items-center">
-            <svg className="w-4 h-4 text-[#8B5CF6] mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              className="w-4 h-4 text-[#8B5CF6] mr-2 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -1205,8 +1322,8 @@ export const BodyAnalyzerDemo: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // Fixed Mobile Version for Body Analyzer - Optimized to fit without scrolling
 export const MobileBodyAnalyzerDemo: React.FC = () => {
@@ -1214,7 +1331,7 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
     fat: 0,
     muscle: 0,
     definition: 0,
-  })
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -1222,11 +1339,11 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
         fat: -2.8,
         muscle: 1.4,
         definition: 9,
-      })
-    }, 800)
+      });
+    }, 800);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative h-full w-full bg-gray-50 overflow-hidden rounded-xl shadow-md">
@@ -1276,9 +1393,7 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
                   />
                 </svg>
               </div>
-              <div className="mt-1 text-[9px] text-gray-600 font-medium">
-                8 Wochen zuvor
-              </div>
+              <div className="mt-1 text-[9px] text-gray-600 font-medium">8 Wochen zuvor</div>
             </div>
             <div className="w-1/2 h-full flex flex-col justify-center items-center">
               <div className="text-[10px] text-gray-500 mb-1">Nachher</div>
@@ -1292,9 +1407,7 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
                   />
                 </svg>
               </div>
-              <div className="mt-1 text-[9px] text-gray-600 font-medium">
-                Heute
-              </div>
+              <div className="mt-1 text-[9px] text-gray-600 font-medium">Heute</div>
             </div>
           </div>
         </div>
@@ -1319,7 +1432,12 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
           </div>
 
           <div className="bg-[#8B5CF6]/10 rounded-lg p-1.5 mb-2 flex items-center">
-            <svg className="w-3.5 h-3.5 text-[#8B5CF6] mr-1.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              className="w-3.5 h-3.5 text-[#8B5CF6] mr-1.5 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -1338,5 +1456,5 @@ export const MobileBodyAnalyzerDemo: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

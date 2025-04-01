@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 // Typen für Cookie-Einstellungen
 type CookieSettings = {
@@ -20,22 +20,22 @@ export const CookieBanner = () => {
   // State für die Sichtbarkeit des Banners und des Settings-Modals
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  
+
   // Cookie-Einstellungen
   const [cookieSettings, setCookieSettings] = useState<CookieSettings>({
     necessary: true,
     analytics: false,
-    marketing: false
+    marketing: false,
   });
 
   // Cookie-Einstellungen beim Start laden
   useEffect(() => {
     // Globale Funktion zum Öffnen der Cookie-Einstellungen
     window.openCookieSettings = () => setShowSettings(true);
-    
+
     // Prüfen, ob Cookie-Einstellungen bereits gespeichert sind
-    const savedSettings = localStorage.getItem('cookieSettings');
-    
+    const savedSettings = localStorage.getItem("cookieSettings");
+
     if (savedSettings) {
       // Wenn Einstellungen vorhanden, nicht mehr anzeigen
       setCookieSettings(JSON.parse(savedSettings));
@@ -43,7 +43,7 @@ export const CookieBanner = () => {
       // Wenn keine Einstellungen vorhanden, Banner anzeigen
       setShowBanner(true);
     }
-    
+
     // Cleanup
     return () => {
       window.openCookieSettings = undefined;
@@ -52,11 +52,11 @@ export const CookieBanner = () => {
 
   // Speichern der Cookie-Einstellungen
   const saveCookieSettings = (settings: CookieSettings) => {
-    localStorage.setItem('cookieSettings', JSON.stringify(settings));
+    localStorage.setItem("cookieSettings", JSON.stringify(settings));
     setCookieSettings(settings);
     setShowBanner(false);
     setShowSettings(false);
-    
+
     // Hier könntest du Code hinzufügen, um Tracking-Skripte basierend auf den Einstellungen zu aktivieren/deaktivieren
   };
 
@@ -65,7 +65,7 @@ export const CookieBanner = () => {
     const allAccepted: CookieSettings = {
       necessary: true,
       analytics: true,
-      marketing: true
+      marketing: true,
     };
     saveCookieSettings(allAccepted);
   };
@@ -75,7 +75,7 @@ export const CookieBanner = () => {
     const onlyNecessary: CookieSettings = {
       necessary: true,
       analytics: false,
-      marketing: false
+      marketing: false,
     };
     saveCookieSettings(onlyNecessary);
   };
@@ -87,11 +87,11 @@ export const CookieBanner = () => {
 
   // Toggle für einzelne Cookie-Kategorien
   const toggleCookieSetting = (key: keyof CookieSettings) => {
-    if (key === 'necessary') return; // Necessary kann nicht geändert werden
-    
-    setCookieSettings(prev => ({
+    if (key === "necessary") return; // Necessary kann nicht geändert werden
+
+    setCookieSettings((prev) => ({
       ...prev,
-      [key]: !prev[key]
+      [key]: !prev[key],
     }));
   };
 
@@ -108,12 +108,16 @@ export const CookieBanner = () => {
               <div className="flex-1">
                 <h2 className="text-lg font-[550] text-gray-800 mb-2">Wir respektieren deine Privatsphäre</h2>
                 <p className="text-sm text-gray-600 mb-2">
-                  Wir verwenden Cookies, um dein Erlebnis auf unserer Website zu verbessern, relevante Werbung anzuzeigen
-                  und Websiteanalysen durchzuführen. Durch die weitere Nutzung dieser Website stimmst du unserer 
-                  <a href="/datenschutz" className="text-[#9bc539] hover:underline ml-1">Datenschutzerklärung</a> zu.
+                  Wir verwenden Cookies, um dein Erlebnis auf unserer Website zu verbessern, relevante Werbung
+                  anzuzeigen und Websiteanalysen durchzuführen. Durch die weitere Nutzung dieser Website stimmst du
+                  unserer
+                  <a href="/datenschutz" className="text-[#9bc539] hover:underline ml-1">
+                    Datenschutzerklärung
+                  </a>{" "}
+                  zu.
                 </p>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                 <button
                   onClick={() => setShowSettings(true)}
@@ -147,13 +151,14 @@ export const CookieBanner = () => {
             <div className="p-4 border-b border-gray-200">
               <h2 className="text-xl font-[550] text-gray-800">Cookie-Einstellungen</h2>
             </div>
-            
+
             {/* Modal Body */}
             <div className="p-4">
               <p className="text-sm text-gray-600 mb-6">
-                Hier kannst du festlegen, welche Cookies wir verwenden dürfen. Notwendige Cookies werden für die grundlegenden Funktionen der Website benötigt.
+                Hier kannst du festlegen, welche Cookies wir verwenden dürfen. Notwendige Cookies werden für die
+                grundlegenden Funktionen der Website benötigt.
               </p>
-              
+
               {/* Cookie Kategorien */}
               <div className="space-y-4">
                 {/* Notwendige Cookies - immer aktiviert */}
@@ -177,10 +182,11 @@ export const CookieBanner = () => {
                     </div>
                   </div>
                   <p className="text-sm text-gray-600">
-                    Diese Cookies sind für die grundlegenden Funktionen der Website unerlässlich und können nicht deaktiviert werden.
+                    Diese Cookies sind für die grundlegenden Funktionen der Website unerlässlich und können nicht
+                    deaktiviert werden.
                   </p>
                 </div>
-                
+
                 {/* Analytische Cookies */}
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
@@ -189,7 +195,7 @@ export const CookieBanner = () => {
                       <input
                         type="checkbox"
                         checked={cookieSettings.analytics}
-                        onChange={() => toggleCookieSetting('analytics')}
+                        onChange={() => toggleCookieSetting("analytics")}
                         className="sr-only peer"
                         id="analytics"
                       />
@@ -197,15 +203,18 @@ export const CookieBanner = () => {
                         htmlFor="analytics"
                         className="cursor-pointer flex items-center h-6 w-11 rounded-full bg-gray-300 peer-checked:bg-[#9bc539] peer-focus:outline-none"
                       >
-                        <span className={`inline-block h-5 w-5 rounded-full bg-white transition ${cookieSettings.analytics ? 'translate-x-5' : 'translate-x-1'}`}></span>
+                        <span
+                          className={`inline-block h-5 w-5 rounded-full bg-white transition ${cookieSettings.analytics ? "translate-x-5" : "translate-x-1"}`}
+                        ></span>
                       </label>
                     </div>
                   </div>
                   <p className="text-sm text-gray-600">
-                    Diese Cookies helfen uns, die Nutzung unserer Website zu verstehen und zu verbessern, indem sie anonyme Informationen sammeln.
+                    Diese Cookies helfen uns, die Nutzung unserer Website zu verstehen und zu verbessern, indem sie
+                    anonyme Informationen sammeln.
                   </p>
                 </div>
-                
+
                 {/* Marketing Cookies */}
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
@@ -214,7 +223,7 @@ export const CookieBanner = () => {
                       <input
                         type="checkbox"
                         checked={cookieSettings.marketing}
-                        onChange={() => toggleCookieSetting('marketing')}
+                        onChange={() => toggleCookieSetting("marketing")}
                         className="sr-only peer"
                         id="marketing"
                       />
@@ -222,17 +231,20 @@ export const CookieBanner = () => {
                         htmlFor="marketing"
                         className="cursor-pointer flex items-center h-6 w-11 rounded-full bg-gray-300 peer-checked:bg-[#9bc539] peer-focus:outline-none"
                       >
-                        <span className={`inline-block h-5 w-5 rounded-full bg-white transition ${cookieSettings.marketing ? 'translate-x-5' : 'translate-x-1'}`}></span>
+                        <span
+                          className={`inline-block h-5 w-5 rounded-full bg-white transition ${cookieSettings.marketing ? "translate-x-5" : "translate-x-1"}`}
+                        ></span>
                       </label>
                     </div>
                   </div>
                   <p className="text-sm text-gray-600">
-                    Diese Cookies werden verwendet, um dir relevante Werbung anzuzeigen und dein Browsing-Erlebnis zu personalisieren.
+                    Diese Cookies werden verwendet, um dir relevante Werbung anzuzeigen und dein Browsing-Erlebnis zu
+                    personalisieren.
                   </p>
                 </div>
               </div>
             </div>
-            
+
             {/* Modal Footer */}
             <div className="p-4 border-t border-gray-200 flex flex-col sm:flex-row gap-2 justify-end">
               <button

@@ -7,33 +7,45 @@ interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {
   showRadialGradient?: boolean;
 }
 
-export const AthlyAurora = ({
-  className,
-  children,
-  showRadialGradient = true,
-  ...props
-}: AuroraBackgroundProps) => {
+export const AthlyAurora = ({ className, children, showRadialGradient = true, ...props }: AuroraBackgroundProps) => {
   return (
     <main>
       <style jsx>{`
         @keyframes aurora {
           0% {
-            background-position: 0% 50%, 0% 50%;
+            background-position:
+              0% 50%,
+              0% 50%;
           }
           50% {
-            background-position: 100% 50%, 100% 50%;
+            background-position:
+              100% 50%,
+              100% 50%;
           }
           100% {
-            background-position: 0% 50%, 0% 50%;
+            background-position:
+              0% 50%,
+              0% 50%;
           }
         }
 
         .aurora-bg {
-          background-image: 
+          background-image:
             repeating-linear-gradient(100deg, #f4f2ec 0%, #f4f2ec 7%, transparent 10%, transparent 12%, #f4f2ec 16%),
-            repeating-linear-gradient(100deg, rgba(220,240,220,0.5) 10%, rgba(200,235,210,0.4) 15%, rgba(180,230,200,0.3) 20%, rgba(230,245,230,0.2) 25%, rgba(210,238,220,0.4) 30%);
-          background-size: 300% 200%, 300% 200%;
-          background-position: 0% 50%, 0% 50%;
+            repeating-linear-gradient(
+              100deg,
+              rgba(220, 240, 220, 0.5) 10%,
+              rgba(200, 235, 210, 0.4) 15%,
+              rgba(180, 230, 200, 0.3) 20%,
+              rgba(230, 245, 230, 0.2) 25%,
+              rgba(210, 238, 220, 0.4) 30%
+            );
+          background-size:
+            300% 200%,
+            300% 200%;
+          background-position:
+            0% 50%,
+            0% 50%;
           animation: aurora 60s ease-in-out infinite; /* Original speed */
         }
 
@@ -41,11 +53,22 @@ export const AthlyAurora = ({
           content: "";
           position: absolute;
           inset: 0;
-          background-image: 
+          background-image:
             repeating-linear-gradient(100deg, #f4f2ec 0%, #f4f2ec 7%, transparent 10%, transparent 12%, #f4f2ec 16%),
-            repeating-linear-gradient(100deg, rgba(220,240,220,0.5) 10%, rgba(200,235,210,0.4) 15%, rgba(180,230,200,0.3) 20%, rgba(230,245,230,0.2) 25%, rgba(210,238,220,0.4) 30%);
-          background-size: 300% 200%, 300% 200%;
-          background-position: 0% 50%, 0% 50%;
+            repeating-linear-gradient(
+              100deg,
+              rgba(220, 240, 220, 0.5) 10%,
+              rgba(200, 235, 210, 0.4) 15%,
+              rgba(180, 230, 200, 0.3) 20%,
+              rgba(230, 245, 230, 0.2) 25%,
+              rgba(210, 238, 220, 0.4) 30%
+            );
+          background-size:
+            300% 200%,
+            300% 200%;
+          background-position:
+            0% 50%,
+            0% 50%;
           animation: aurora 80s ease-in-out infinite; /* Original speed */
           background-attachment: fixed;
           mix-blend-mode: difference;

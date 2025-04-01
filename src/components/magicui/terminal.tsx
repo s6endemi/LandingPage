@@ -10,12 +10,7 @@ interface AnimatedSpanProps extends MotionProps {
   className?: string;
 }
 
-export const AnimatedSpan = ({
-  children,
-  delay = 0,
-  className,
-  ...props
-}: AnimatedSpanProps) => (
+export const AnimatedSpan = ({ children, delay = 0, className, ...props }: AnimatedSpanProps) => (
   <motion.div
     initial={{ opacity: 0, y: -5 }}
     animate={{ opacity: 1, y: 0 }}
@@ -81,11 +76,7 @@ export const TypingAnimation = ({
   }, [children, duration, started]);
 
   return (
-    <MotionComponent
-      ref={elementRef}
-      className={cn("text-sm font-normal tracking-tight", className)}
-      {...props}
-    >
+    <MotionComponent ref={elementRef} className={cn("text-sm font-normal tracking-tight", className)} {...props}>
       {displayedText}
     </MotionComponent>
   );
@@ -101,7 +92,7 @@ export const Terminal = ({ children, className }: TerminalProps) => {
     <div
       className={cn(
         "z-0 h-full max-h-[400px] w-full max-w-lg rounded-xl border border-border bg-background",
-        className,
+        className
       )}
     >
       <div className="flex flex-col gap-y-2 border-b border-border p-4">

@@ -98,10 +98,7 @@ const defaultItemVariants: Variants = {
   },
 };
 
-const defaultItemAnimationVariants: Record<
-  AnimationVariant,
-  { container: Variants; item: Variants }
-> = {
+const defaultItemAnimationVariants: Record<AnimationVariant, { container: Variants; item: Variants }> = {
   fadeIn: {
     container: defaultContainerVariants,
     item: {
@@ -373,10 +370,7 @@ export function TextAnimate({
             key={`${by}-${segment}-${i}`}
             variants={finalVariants.item}
             custom={i * staggerTimings[by]}
-            className={cn(
-              by === "line" ? "block" : "inline-block whitespace-pre",
-              segmentClassName,
-            )}
+            className={cn(by === "line" ? "block" : "inline-block whitespace-pre", segmentClassName)}
           >
             {segment}
           </motion.span>

@@ -1,61 +1,61 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function HeroMockupAnimation() {
-  const [isMobile, setIsMobile] = useState(false)
-  const [isTyping, setIsTyping] = useState(false)
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
-  const [startButtonHovered, setStartButtonHovered] = useState(false)
-  const workoutCardRef = useRef(null)
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [startButtonHovered, setStartButtonHovered] = useState(false);
+  const workoutCardRef = useRef(null);
 
   // Handle responsive detection
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    checkMobile()
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Simplified conversation sequence
   useEffect(() => {
     const sequence = async () => {
       // User message
-      setCurrentMessageIndex(1)
-      await delay(800)
-      
+      setCurrentMessageIndex(1);
+      await delay(800);
+
       // Coach typing indicator
-      setIsTyping(true)
-      await delay(1200)
-      setIsTyping(false)
-      
+      setIsTyping(true);
+      await delay(1200);
+      setIsTyping(false);
+
       // Coach response
-      setCurrentMessageIndex(2)
-      await delay(800)
-      
+      setCurrentMessageIndex(2);
+      await delay(800);
+
       // Workout card and final user response
-      setCurrentMessageIndex(3)
-    }
+      setCurrentMessageIndex(3);
+    };
 
     const timer = setTimeout(() => {
-      sequence()
-    }, 600)
+      sequence();
+    }, 600);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   // Utility delay function
-  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   // Animation variants
   const messageVariants = {
     initial: { opacity: 0, y: 10, scale: 0.98 },
     animate: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.3 } },
     exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
-  }
+  };
 
   return (
     <div className="w-full h-full bg-white flex flex-col overflow-hidden rounded-xl shadow-sm border border-gray-100">
@@ -97,8 +97,8 @@ export function HeroMockupAnimation() {
             >
               <div className="max-w-[85%] bg-gradient-to-r from-[#4361ee] to-[#4895ef] text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 shadow-sm">
                 <p className="text-xs md:text-sm">
-                  {isMobile 
-                    ? "Hey! Ich möchte in Top-Form kommen. Kannst du helfen?" 
+                  {isMobile
+                    ? "Hey! Ich möchte in Top-Form kommen. Kannst du helfen?"
                     : "Hey! Der Sommer steht vor der Tür und ich möchte in Top-Form kommen. Kannst du mir helfen?"}
                 </p>
               </div>
@@ -220,7 +220,12 @@ export function HeroMockupAnimation() {
                       <div className="flex items-center">
                         <div className="w-5 h-5 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-1.5">
                           <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M12 4.318c-2.667 2.455-8 7.503-8 10.682 0 4.142 3.582 7.5 8 7.5s8-3.358 8-7.5c0-3.18-5.333-8.227-8-10.682z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+                            <path
+                              d="M12 4.318c-2.667 2.455-8 7.503-8 10.682 0 4.142 3.582 7.5 8 7.5s8-3.358 8-7.5c0-3.18-5.333-8.227-8-10.682z"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                            />
                           </svg>
                         </div>
                         <div className="font-medium text-xs text-gray-700">-5kg/8 Wo.</div>
@@ -228,7 +233,12 @@ export function HeroMockupAnimation() {
                       <div className="flex items-center">
                         <div className="w-5 h-5 rounded-full bg-[#9bc539]/10 flex items-center justify-center mr-1.5">
                           <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+                            <path
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                            />
                           </svg>
                         </div>
                         <div className="font-medium text-xs text-gray-700">94% Erfolg</div>
@@ -240,16 +250,26 @@ export function HeroMockupAnimation() {
                       <div className="flex-1 bg-gray-50 rounded-lg p-2 flex items-center space-x-2">
                         <div className="w-6 h-6 rounded-full bg-[#9bc539]/10 flex items-center justify-center">
                           <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M12 4.318c-2.667 2.455-8 7.503-8 10.682 0 4.142 3.582 7.5 8 7.5s8-3.358 8-7.5c0-3.18-5.333-8.227-8-10.682z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+                            <path
+                              d="M12 4.318c-2.667 2.455-8 7.503-8 10.682 0 4.142 3.582 7.5 8 7.5s8-3.358 8-7.5c0-3.18-5.333-8.227-8-10.682z"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                            />
                           </svg>
                         </div>
                         <div className="font-medium text-[10px] text-gray-700">-5kg in 8 Wochen</div>
                       </div>
-                      
+
                       <div className="flex-1 bg-gray-50 rounded-lg p-2 flex items-center space-x-2">
                         <div className="w-6 h-6 rounded-full bg-[#9bc539]/10 flex items-center justify-center">
                           <svg className="w-3 h-3 text-[#9bc539]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"/>
+                            <path
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                            />
                           </svg>
                         </div>
                         <div className="font-medium text-[10px] text-gray-700">94% Erfolgsrate</div>
@@ -264,7 +284,7 @@ export function HeroMockupAnimation() {
                     onHoverEnd={() => setStartButtonHovered(false)}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <motion.div 
+                    <motion.div
                       className="flex items-center"
                       animate={startButtonHovered ? { x: [0, 5, 0] } : {}}
                       transition={{ duration: 1, repeat: startButtonHovered ? Infinity : 0 }}
@@ -288,7 +308,7 @@ export function HeroMockupAnimation() {
             </motion.div>
           )}
         </AnimatePresence>
-        
+
         {/* User Grateful Response */}
         <AnimatePresence>
           {currentMessageIndex >= 3 && (
@@ -328,9 +348,7 @@ export function HeroMockupAnimation() {
               </svg>
             </button>
           </div>
-          <button
-            className="ml-2 w-8 h-8 rounded-full bg-[#9bc539] flex items-center justify-center shadow-sm"
-          >
+          <button className="ml-2 w-8 h-8 rounded-full bg-[#9bc539] flex items-center justify-center shadow-sm">
             <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M2 12l10 10 10-10M2 12h20" />
             </svg>

@@ -154,17 +154,12 @@ export function IconCloud({ icons, images }: IconCloudProps) {
       const dy = y - screenY;
 
       if (dx * dx + dy * dy < radius * radius) {
-        const targetX = -Math.atan2(
-          icon.y,
-          Math.sqrt(icon.x * icon.x + icon.z * icon.z),
-        );
+        const targetX = -Math.atan2(icon.y, Math.sqrt(icon.x * icon.x + icon.z * icon.z));
         const targetY = Math.atan2(icon.x, icon.z);
 
         const currentX = rotationRef.current.x;
         const currentY = rotationRef.current.y;
-        const distance = Math.sqrt(
-          Math.pow(targetX - currentX, 2) + Math.pow(targetY - currentY, 2),
-        );
+        const distance = Math.sqrt(Math.pow(targetX - currentX, 2) + Math.pow(targetY - currentY, 2));
 
         const duration = Math.min(2000, Math.max(800, distance * 1000));
 
@@ -233,12 +228,8 @@ export function IconCloud({ icons, images }: IconCloudProps) {
         const easedProgress = easeOutCubic(progress);
 
         rotationRef.current = {
-          x:
-            targetRotation.startX +
-            (targetRotation.x - targetRotation.startX) * easedProgress,
-          y:
-            targetRotation.startY +
-            (targetRotation.y - targetRotation.startY) * easedProgress,
+          x: targetRotation.startX + (targetRotation.x - targetRotation.startX) * easedProgress,
+          y: targetRotation.startY + (targetRotation.y - targetRotation.startY) * easedProgress,
         };
 
         if (progress >= 1) {
@@ -265,19 +256,13 @@ export function IconCloud({ icons, images }: IconCloudProps) {
         const opacity = Math.max(0.2, Math.min(1, (rotatedZ + 150) / 200));
 
         ctx.save();
-        ctx.translate(
-          canvas.width / 2 + rotatedX,
-          canvas.height / 2 + rotatedY,
-        );
+        ctx.translate(canvas.width / 2 + rotatedX, canvas.height / 2 + rotatedY);
         ctx.scale(scale, scale);
         ctx.globalAlpha = opacity;
 
         if (icons || images) {
           // Only try to render icons/images if they exist
-          if (
-            iconCanvasesRef.current[index] &&
-            imagesLoadedRef.current[index]
-          ) {
+          if (iconCanvasesRef.current[index] && imagesLoadedRef.current[index]) {
             ctx.drawImage(iconCanvasesRef.current[index], -20, -20, 40, 40);
           }
         } else {

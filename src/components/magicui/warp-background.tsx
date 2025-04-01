@@ -71,8 +71,7 @@ export const WarpBackground: React.FC<WarpBackgroundProps> = ({
 
     for (let i = 0; i < beamsPerSide; i++) {
       const x = Math.floor(i * step);
-      const delay =
-        Math.random() * (beamDelayMax - beamDelayMin) + beamDelayMin;
+      const delay = Math.random() * (beamDelayMax - beamDelayMin) + beamDelayMin;
       beams.push({ x, delay });
     }
     return beams;

@@ -38,7 +38,7 @@ export function MagicCard({
         mouseY.set(clientY - top);
       }
     },
-    [mouseX, mouseY],
+    [mouseX, mouseY]
   );
 
   const handleMouseOut = useCallback(
@@ -49,7 +49,7 @@ export function MagicCard({
         mouseY.set(-gradientSize);
       }
     },
-    [handleMouseMove, mouseX, gradientSize, mouseY],
+    [handleMouseMove, mouseX, gradientSize, mouseY]
   );
 
   const handleMouseEnter = useCallback(() => {
@@ -76,10 +76,7 @@ export function MagicCard({
   }, [gradientSize, mouseX, mouseY]);
 
   return (
-    <div
-      ref={cardRef}
-      className={cn("group relative rounded-[inherit]", className)}
-    >
+    <div ref={cardRef} className={cn("group relative rounded-[inherit]", className)}>
       <motion.div
         className="pointer-events-none absolute inset-0 rounded-[inherit] bg-border duration-300 group-hover:opacity-100"
         style={{

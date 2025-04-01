@@ -31,7 +31,7 @@ const useMorphingText = (texts: string[]) => {
       current1.textContent = texts[textIndexRef.current % texts.length];
       current2.textContent = texts[(textIndexRef.current + 1) % texts.length];
     },
-    [texts],
+    [texts]
   );
 
   const doMorph = useCallback(() => {
@@ -97,24 +97,14 @@ const Texts: React.FC<Pick<MorphingTextProps, "texts">> = ({ texts }) => {
   const { text1Ref, text2Ref } = useMorphingText(texts);
   return (
     <>
-      <span
-        className="absolute inset-x-0 top-0 m-auto inline-block w-full"
-        ref={text1Ref}
-      />
-      <span
-        className="absolute inset-x-0 top-0 m-auto inline-block w-full"
-        ref={text2Ref}
-      />
+      <span className="absolute inset-x-0 top-0 m-auto inline-block w-full" ref={text1Ref} />
+      <span className="absolute inset-x-0 top-0 m-auto inline-block w-full" ref={text2Ref} />
     </>
   );
 };
 
 const SvgFilters: React.FC = () => (
-  <svg
-    id="filters"
-    className="fixed h-0 w-0"
-    preserveAspectRatio="xMidYMid slice"
-  >
+  <svg id="filters" className="fixed h-0 w-0" preserveAspectRatio="xMidYMid slice">
     <defs>
       <filter id="threshold">
         <feColorMatrix
@@ -130,14 +120,11 @@ const SvgFilters: React.FC = () => (
   </svg>
 );
 
-export const MorphingText: React.FC<MorphingTextProps> = ({
-  texts,
-  className,
-}) => (
+export const MorphingText: React.FC<MorphingTextProps> = ({ texts, className }) => (
   <div
     className={cn(
       "relative mx-auto h-16 w-full max-w-screen-md text-center font-sans text-[40pt] font-bold leading-none [filter:url(#threshold)_blur(0.6px)] md:h-24 lg:text-[6rem]",
-      className,
+      className
     )}
   >
     <Texts texts={texts} />

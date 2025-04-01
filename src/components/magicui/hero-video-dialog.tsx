@@ -79,10 +79,7 @@ export default function HeroVideoDialog({
 
   return (
     <div className={cn("relative", className)}>
-      <div
-        className="group relative cursor-pointer"
-        onClick={() => setIsVideoOpen(true)}
-      >
+      <div className="group relative cursor-pointer" onClick={() => setIsVideoOpen(true)}>
         <img
           src={thumbnailSrc}
           alt={thumbnailAlt}
@@ -98,8 +95,7 @@ export default function HeroVideoDialog({
               <Play
                 className="size-8 scale-100 fill-white text-white transition-transform duration-200 ease-out group-hover:scale-105"
                 style={{
-                  filter:
-                    "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))",
+                  filter: "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))",
                 }}
               />
             </div>

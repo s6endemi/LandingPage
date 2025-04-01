@@ -26,7 +26,7 @@ export const Tabs = ({
   const [active, setActive] = useState<Tab>(propTabs[0]);
   const [tabs, setTabs] = useState<Tab[]>(propTabs);
   const containerRef = useRef(null);
-  
+
   const moveSelectedTabToTop = (idx: number) => {
     const newTabs = [...propTabs];
     const selectedTab = newTabs.splice(idx, 1);
@@ -71,9 +71,7 @@ export const Tabs = ({
               />
             )}
 
-            <span className="relative block text-black dark:text-white font-medium">
-              {tab.title}
-            </span>
+            <span className="relative block text-black dark:text-white font-medium">{tab.title}</span>
           </button>
         ))}
       </div>
@@ -106,7 +104,7 @@ export const FadeInDiv = ({
   const isActive = (tab: Tab) => {
     return tab.value === tabs[0].value;
   };
-  
+
   return (
     <div className="relative w-full h-full overflow-hidden">
       {tabs.map((tab, idx) => (
@@ -123,10 +121,10 @@ export const FadeInDiv = ({
             y: isActive(tab) ? [0, 15, 0] : 0, // Reduzierte Animation
           }}
           transition={{
-            y: { duration: 0.8, ease: "easeInOut" }
+            y: { duration: 0.8, ease: "easeInOut" },
           }}
           className={cn(
-            "w-full h-full absolute top-0 left-0 rounded-2xl overflow-hidden border border-zinc-800/50 backdrop-blur-sm bg-zinc-900/30", 
+            "w-full h-full absolute top-0 left-0 rounded-2xl overflow-hidden border border-zinc-800/50 backdrop-blur-sm bg-zinc-900/30",
             className
           )}
         >

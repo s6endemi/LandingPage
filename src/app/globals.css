@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;450;500;550;600;650;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;350;400;450;500;550;600;650;700&display=swap");
 
 /* Bessere Schriftglättung für alle Texte */
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -15,29 +15,36 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: 'Inter';
+  --font-sans: "Inter";
   --font-mono: var(--font-geist-mono);
 }
 
 /* Typografische Optimierungen für verschiedene Elemente */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   letter-spacing: -0.03em;
   font-weight: 650;
   line-height: 1.1;
 }
 
-h4, h5, h6 {
+h4,
+h5,
+h6 {
   letter-spacing: -0.015em;
   font-weight: 550;
   line-height: 1.2;
 }
 
-p, li {
+p,
+li {
   line-height: 1.6;
   font-weight: 400;
 }
 
-button, .button, .cta {
+button,
+.button,
+.cta {
   font-weight: 550;
   letter-spacing: 0;
 }
@@ -55,7 +62,7 @@ button, .button, .cta {
   --secondary-foreground: oklch(0.21 0.006 285.885);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.60 0.12 266); /* Purple accent */
+  --accent: oklch(0.6 0.12 266); /* Purple accent */
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.577 0.245 27.325);
@@ -63,16 +70,16 @@ button, .button, .cta {
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.75 0.164 126.059); /* Green ring */
   --chart-1: oklch(0.75 0.164 126.059); /* Green */
-  --chart-2: oklch(0.60 0.12 266); /* Purple */
-  --chart-3: oklch(0.60 0.12 223); /* Blue */
-  --chart-4: oklch(0.70 0.15 90); /* Yellow-green */
+  --chart-2: oklch(0.6 0.12 266); /* Purple */
+  --chart-3: oklch(0.6 0.12 223); /* Blue */
+  --chart-4: oklch(0.7 0.15 90); /* Yellow-green */
   --chart-5: oklch(0.769 0.188 70.08); /* Amber */
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.75 0.164 126.059); /* Green primary */
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.60 0.12 266); /* Purple accent */
+  --sidebar-accent: oklch(0.6 0.12 266); /* Purple accent */
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.75 0.164 126.059); /* Green ring */
@@ -96,7 +103,7 @@ button, .button, .cta {
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.60 0.12 266); /* Purple accent */
+  --accent: oklch(0.6 0.12 266); /* Purple accent */
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.396 0.141 25.723);
   --destructive-foreground: oklch(0.637 0.237 25.331);
@@ -104,15 +111,15 @@ button, .button, .cta {
   --input: oklch(0.274 0.006 286.033);
   --ring: oklch(0.75 0.164 126.059); /* Green ring */
   --chart-1: oklch(0.75 0.164 126.059); /* Green */
-  --chart-2: oklch(0.60 0.12 266); /* Purple */
-  --chart-3: oklch(0.60 0.12 223); /* Blue */
-  --chart-4: oklch(0.70 0.15 90); /* Yellow-green */
+  --chart-2: oklch(0.6 0.12 266); /* Purple */
+  --chart-3: oklch(0.6 0.12 223); /* Blue */
+  --chart-4: oklch(0.7 0.15 90); /* Yellow-green */
   --chart-5: oklch(0.769 0.188 70.08); /* Amber */
   --sidebar: oklch(0.21 0.006 285.885);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.75 0.164 126.059); /* Green primary */
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.60 0.12 266); /* Purple accent */
+  --sidebar-accent: oklch(0.6 0.12 266); /* Purple accent */
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.274 0.006 286.033);
   --sidebar-ring: oklch(0.75 0.164 126.059); /* Green ring */
@@ -167,22 +174,24 @@ button, .button, .cta {
   --color-color-1: var(----color-1);
 
   @keyframes aurora-border {
-    0%, 100% {
-      borderRadius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+    0%,
+    100% {
+      borderradius: 37% 29% 27% 27% / 28% 25% 41% 37%;
     }
     25% {
-      borderRadius: 47% 29% 39% 49% / 61% 19% 66% 26%;
+      borderradius: 47% 29% 39% 49% / 61% 19% 66% 26%;
     }
     50% {
-      borderRadius: 57% 23% 47% 72% / 63% 17% 66% 33%;
+      borderradius: 57% 23% 47% 72% / 63% 17% 66% 33%;
     }
     75% {
-      borderRadius: 28% 49% 29% 100% / 93% 20% 64% 25%;
+      borderradius: 28% 49% 29% 100% / 93% 20% 64% 25%;
     }
   }
 
   @keyframes aurora-1 {
-    0%, 100% {
+    0%,
+    100% {
       top: 0;
       right: 0;
     }
@@ -197,7 +206,8 @@ button, .button, .cta {
   }
 
   @keyframes aurora-2 {
-    0%, 100% {
+    0%,
+    100% {
       top: 0;
       left: 0;
     }
@@ -212,7 +222,8 @@ button, .button, .cta {
   }
 
   @keyframes aurora-3 {
-    0%, 100% {
+    0%,
+    100% {
       bottom: 0;
       left: 0;
     }
@@ -227,7 +238,8 @@ button, .button, .cta {
   }
 
   @keyframes aurora-4 {
-    0%, 100% {
+    0%,
+    100% {
       bottom: 0;
       right: 0;
     }
@@ -249,39 +261,43 @@ button, .button, .cta {
   body {
     @apply bg-background text-foreground;
   }
-  
+
   /* Typografische Verbesserungen */
-  .headline, h1 {
+  .headline,
+  h1 {
     @apply text-[2.5rem] leading-tight tracking-tighter font-[650];
   }
-  
-  .subheadline, h2 {
+
+  .subheadline,
+  h2 {
     @apply text-2xl tracking-tight font-[600];
   }
-  
-  .feature-title, h3 {
+
+  .feature-title,
+  h3 {
     @apply text-xl tracking-tight font-[550];
   }
-  
+
   .feature-text {
     @apply text-base leading-relaxed font-[450];
   }
-  
+
   /* Höherwertigen Link-Style */
   a.link-modern {
     @apply relative inline-block font-[450] tracking-tight;
   }
-  
+
   a.link-modern::after {
     @apply content-[''] absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-300;
   }
-  
+
   a.link-modern:hover::after {
     @apply w-full;
   }
-  
+
   /* Moderne Button-Stile */
-  button, .button {
+  button,
+  .button {
     @apply font-[550] tracking-tight;
   }
 }
