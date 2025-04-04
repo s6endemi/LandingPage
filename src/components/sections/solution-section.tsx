@@ -210,12 +210,7 @@ export function SolutionSection() {
               poster="/images/athly-hero-placeholder.jpg"
               onLoadedData={() => setVideoLoaded(true)}
             >
-              <source
-                media="(max-width: 767px)"
-                src="https://cdn.pixabay.com/video/2023/11/19/189729-886596145_small.mp4"
-                type="video/mp4"
-              />
-              <source src="https://cdn.pixabay.com/video/2023/11/19/189729-886596145_large.mp4" type="video/mp4" />
+              <source src="https://cdn.pixabay.com/video/2023/11/19/189729-886596145_small.mp4" type="video/mp4" />
             </video>
 
             {/* Video overlay */}
@@ -555,12 +550,7 @@ export function SolutionSection() {
                     playsInline
                     poster="/images/athly-coach-placeholder.jpg"
                   >
-                    <source
-                      media="(max-width: 767px)"
-                      src="https://cdn.pixabay.com/video/2019/10/04/27539-364430966_small.mp4"
-                      type="video/mp4"
-                    />
-                    <source src="https://cdn.pixabay.com/video/2019/10/04/27539-364430966_large.mp4" type="video/mp4" />
+                    <source src="https://cdn.pixabay.com/video/2019/10/04/27539-364430966_small.mp4" type="video/mp4" />
                   </video>
 
                   <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/70 flex flex-col justify-end p-4 sm:p-5 md:p-8">
