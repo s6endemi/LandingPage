@@ -342,7 +342,7 @@ export function SolutionSection() {
                       <div className="space-y-1">
                         <div className="rounded-lg overflow-hidden h-48 relative">
                           <Image
-                            src="/images/voher.jpeg"
+                            src="/images/vorher.jpg"
                             alt="Vorher Transformation"
                             fill
                             sizes="(max-width: 768px) 100vw, 50vw"
@@ -355,7 +355,7 @@ export function SolutionSection() {
                       <div className="space-y-1">
                         <div className="rounded-lg overflow-hidden h-48 relative">
                           <Image
-                            src="/images/nacher.jpeg"
+                            src="/images/nachher.jpg"
                             alt="Nachher Transformation"
                             fill
                             sizes="(max-width: 768px) 100vw, 50vw"
@@ -494,7 +494,7 @@ export function SolutionSection() {
                           {/* Before image with Next.js Image component */}
                           <div className="rounded-lg overflow-hidden h-56 md:h-72 relative">
                             <Image
-                              src="/images/voher.jpeg"
+                              src="/images/vorher.jpg"
                               alt="Vorher Transformation"
                               fill
                               sizes="(max-width: 768px) 100vw, 33vw"
@@ -509,7 +509,7 @@ export function SolutionSection() {
                           {/* After image with Next.js Image component */}
                           <div className="rounded-lg overflow-hidden h-56 md:h-72 relative">
                             <Image
-                              src="/images/nacher.jpeg"
+                              src="/images/nachher.jpg"
                               alt="Nachher Transformation"
                               fill
                               sizes="(max-width: 768px) 100vw, 33vw"
