@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SparklesText } from "@/components/magicui/sparkles-text";
-import { addToWaitlist } from "@/lib/waitlist";
+import { submitToWaitlistDirect } from "@/lib/waitlist-actions";
 import {
   trackPageView,
   trackCTAClick,
@@ -85,7 +85,7 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
     setErrorMessage("");
 
     try {
-      const result = await addToWaitlist(email, "waitlist-modal");
+      const result = await submitToWaitlistDirect(email, "waitlist-modal");
 
       if (result.success) {
         // Track successful signup

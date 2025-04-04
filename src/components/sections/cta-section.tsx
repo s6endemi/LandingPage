@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { SparklesText } from "@/components/magicui/sparkles-text";
-import { addToWaitlist } from "@/lib/waitlist";
+import { submitToWaitlistDirect } from "@/lib/waitlist-actions";
 import {
   trackPageView,
   trackCTAClick,
@@ -118,7 +118,7 @@ export function WaitlistCta() {
     setErrorMessage("");
 
     try {
-      const result = await addToWaitlist(email, "footer-cta");
+      const result = await submitToWaitlistDirect(email, "footer-cta");
 
       if (result.success) {
         // Track successful signup

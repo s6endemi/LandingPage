@@ -6,7 +6,7 @@ import { Particles } from "@/components/magicui/particles";
 import { FlipWords } from "@/components/ui/flip-words";
 import { HeroMockupAnimation } from "@/components/demo/heromockup";
 import { Enhanced3DPhoneMockup } from "@/components/ui/Enhanced3DPhoneMockup";
-import { addToWaitlist } from "@/lib/waitlist";
+import { submitToWaitlistDirect } from "@/lib/waitlist-actions";
 import {
   trackPageView,
   trackCTAClick,
@@ -88,7 +88,7 @@ export function EnhancedHeroSection() {
     setErrorMessage("");
 
     try {
-      const result = await addToWaitlist(email, "hero");
+      const result = await submitToWaitlistDirect(email, "hero");
 
       if (result.success) {
         trackSignupSuccess("hero", email, result.participantNumber ?? 0);
