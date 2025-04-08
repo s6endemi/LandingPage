@@ -190,8 +190,8 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.4 }}
               >
-                KI-Coach, der dich <span className="text-[#8FBC29] font-bold">24/7 motiviert</span>, trainiert und zum
-                Erfolg führt
+                Mit Athly trainierst du effektiver und smarter. Unser KI-Coach passt deinen Trainingsplan individuell an deine Ziele und Fortschritte an.
+
               </motion.p>
             </div>
 
@@ -466,8 +466,9 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                KI-Coach, der dich <span className="text-[#8FBC29] font-bold">24/7 motiviert</span>, trainiert und zum
-                Erfolg führt
+                Mit Athly trainierst du effektiver und smarter. Unser KI-Coach passt deinen Trainingsplan individuell an deine Ziele und Fortschritte an.
+
+
               </motion.p>
 
               {/* Key benefits - Better highlight features */}
