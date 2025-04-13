@@ -109,9 +109,9 @@ export function WaitlistModal({ onClose }: WaitlistModalProps) {
           setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       // Track unexpected error
-      trackSignupError("waitlist-modal", "Unexpected error: " + error);
+      trackSignupError("waitlist-modal", "Unexpected error: " + error.toString());
 
       setErrorMessage("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.");
     } finally {
