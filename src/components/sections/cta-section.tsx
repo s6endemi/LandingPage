@@ -142,9 +142,9 @@ export function WaitlistCta() {
           setErrorMessage(result.error ?? "Ein unbekannter Fehler ist aufgetreten.");
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       // Track unexpected error
-      trackSignupError("footer-cta", "Unexpected error");
+      trackSignupError("footer-cta", "Unexpected error: " + error);
 
       console.error("Submission error:", error);
       setErrorMessage("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.");

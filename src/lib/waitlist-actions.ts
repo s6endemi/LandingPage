@@ -67,7 +67,7 @@ export async function submitToWaitlist(formData: FormData): Promise<WaitlistResu
     console.error("Submission error:", error);
 
     // Track unexpected error
-    trackSignupError(source, "Unexpected error");
+    trackSignupError(source, "Unexpected error: " + error);
 
     return {
       success: false,
@@ -92,9 +92,6 @@ export async function submitToWaitlistDirect(email: string, source: string = "un
     };
   }
 
-  // Track CTA click
-  trackCTAClick(source);
-
   try {
     // Core waitlist operations
     const result = await addEmailToWaitlist(email, source);
@@ -117,7 +114,7 @@ export async function submitToWaitlistDirect(email: string, source: string = "un
     console.error("Direct submission error:", error);
 
     // Track unexpected error
-    trackSignupError(source, "Unexpected error");
+    trackSignupError(source, "Unexpected error: " + error);
 
     return {
       success: false,
