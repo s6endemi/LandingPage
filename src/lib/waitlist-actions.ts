@@ -19,6 +19,11 @@ type WaitlistResult = {
   participantNumber?: number;
 };
 
+type SendEmailResult = {
+  success: boolean;
+  error?: string;
+};
+
 /**
  * Core server action for waitlist submission
  * Combines validation, analytics, database operations, and email sending
@@ -158,12 +163,21 @@ async function addEmailToWaitlist(email: string, source: string = "unspecified")
     const participantNumber = await getParticipantCount();
 
     // Send confirmation email
-    await sendConfirmationEmail(email, participantNumber);
+    const emailResult = await sendConfirmationEmail(email, participantNumber);
 
-    return {
-      success: true,
-      participantNumber,
-    };
+    if (emailResult.success) {
+      return {
+        success: true,
+        participantNumber,
+      };
+    } else {
+      trackSignupError("email_send_error", emailResult.error ?? "Ein unbekannter Fehler ist aufgetreten");
+      return {
+        success: false,
+        error: emailResult.error,
+        participantNumber: 0,
+      };
+    }
   } catch (error) {
     console.error("Error adding to waitlist:", error);
     return {
@@ -203,7 +217,7 @@ async function getParticipantCount(): Promise<number> {
 /**
  * Function to send confirmation email using Resend
  */
-async function sendConfirmationEmail(email: string, participantNumber: number): Promise<boolean> {
+async function sendConfirmationEmail(email: string, participantNumber: number): Promise<SendEmailResult> {
   try {
     const { data, error } = await resend.emails.send({
       from: "Athly Team <info@athly.de>",
@@ -257,7 +271,7 @@ async function sendConfirmationEmail(email: string, participantNumber: number): 
           </div>
           
           <div style="text-align: center; margin-top: 30px; font-size: 12px; color: #666;">
-            <p>© 2023 Athly GmbH. Alle Rechte vorbehalten.</p>
+            <p>© 2024 Athly GmbH. Alle Rechte vorbehalten.</p>
             <p>
               <a href="https://athly.de/datenschutz" style="color: #666; margin-right: 10px;">Datenschutz</a>
               <a href="https://athly.de/impressum" style="color: #666;">Impressum</a>
@@ -274,13 +288,15 @@ async function sendConfirmationEmail(email: string, participantNumber: number): 
     if (error) {
       console.error("Error sending confirmation email:", error);
       trackSignupError("email_send_error", error.message);
-      return false;
+      return { success: false, error: `Fehler beim Senden der Bestätigungs-E-Mail: ${error.message}` };
     }
 
     console.log("Confirmation email sent successfully");
-    return true;
+    return { success: true };
   } catch (error) {
     console.error("Error sending confirmation email:", error);
-    return false;
+    const errorMessage = error instanceof Error ? error.message : "Ein unbekannter Fehler ist aufgetreten";
+    trackSignupError("email_send_error", `Catch block: ${errorMessage}`);
+    return { success: false, error: `Fehler beim Senden der Bestätigungs-E-Mail: ${errorMessage}` };
   }
 }
