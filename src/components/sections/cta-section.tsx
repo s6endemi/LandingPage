@@ -210,7 +210,6 @@ export function WaitlistCta() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: isMobile ? 0.3 : 0.5 }}
-          onViewportEnter={() => trackEvent("cta_card_visible", "footer-cta")}
         >
           <div className="relative">
             {/* Main content with clean spacing */}
@@ -347,7 +346,6 @@ export function WaitlistCta() {
                         className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-gray-600 text-sm"
                         {...fadeInProps}
                         transition={{ duration: isMobile ? 0.3 : 0.5, delay: 0.1 }}
-                        onViewportEnter={() => trackEvent("benefits_visible", "footer-cta")}
                       >
                         <div
                           className="flex items-center"
@@ -388,7 +386,6 @@ export function WaitlistCta() {
                         {...fadeInProps}
                         transition={{ duration: isMobile ? 0.3 : 0.5, delay: 0.15 }}
                         className="text-center"
-                        onViewportEnter={() => trackEvent("social_proof_visible", "footer-cta")}
                       >
                         <div className="flex justify-center mb-2">
                           <div className="flex -space-x-2">
@@ -505,7 +502,6 @@ export function WaitlistCta() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: isMobile ? 0.2 : 0.4, delay: 0 }}
-              onViewportEnter={() => trackEvent("partner_logo_visible", "footer-cta", { partner: "Universität Bonn" })}
               onClick={() => trackEvent("partner_logo_click", "footer-cta", { partner: "Universität Bonn" })}
             >
               <Image src="/images/large.jpeg" alt="Universität Bonn" fill className="object-contain" />
@@ -518,7 +514,6 @@ export function WaitlistCta() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: isMobile ? 0.2 : 0.4, delay: isMobile ? 0.1 : 0.1 }}
-              onViewportEnter={() => trackEvent("partner_logo_visible", "footer-cta", { partner: "ENACOM" })}
               onClick={() => trackEvent("partner_logo_click", "footer-cta", { partner: "ENACOM" })}
             >
               <Image src="/images/enacom.jpg" alt="ENACOM" fill className="object-contain" />
@@ -531,7 +526,6 @@ export function WaitlistCta() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: isMobile ? 0.2 : 0.4, delay: isMobile ? 0.2 : 0.2 }}
-              onViewportEnter={() => trackEvent("partner_logo_visible", "footer-cta", { partner: "DSHS Köln" })}
               onClick={() => trackEvent("partner_logo_click", "footer-cta", { partner: "DSHS Köln" })}
             >
               <span className="text-blue-700 text-sm md:text-base font-medium">DSHS Köln</span>

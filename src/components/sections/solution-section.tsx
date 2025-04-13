@@ -123,7 +123,6 @@ export function SolutionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
             className="mb-3"
-            onViewportEnter={() => trackEvent("solution_badge_visible", "solution")}
           >
             <span className="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm font-medium">
               {isMobile ? "KI-Fitness-Coaching" : "KI-gesteuertes Fitness-Coaching"}
@@ -136,7 +135,6 @@ export function SolutionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight"
-            onViewportEnter={() => trackEvent("solution_heading_visible", "solution")}
           >
             <span style={{ color: colors.primary }}>Dein persönlicher</span> KI-Coach,{" "}
             <span className="relative">
@@ -157,7 +155,6 @@ export function SolutionSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-base sm:text-lg text-gray-600"
-            onViewportEnter={() => trackEvent("solution_subheading_visible", "solution")}
           >
             {isMobile
               ? "Erreiche deine Ziele mit einem Coach, der dich versteht."
@@ -172,7 +169,6 @@ export function SolutionSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="relative rounded-xl shadow-lg overflow-hidden mb-6 sm:mb-10 md:mb-16"
-          onViewportEnter={() => trackEvent("hero_video_visible", "solution")}
         >
           <div className="relative h-[200px] sm:h-[240px] md:h-[400px] overflow-hidden">
             {/* Video skeleton */}
@@ -896,7 +892,6 @@ export function SolutionSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          onViewportEnter={() => trackEvent("trust_section_visible", "solution")}
         >
           <div className="grid md:grid-cols-5 gap-0">
             {/* Left Column: Stats & USPs - More compact for mobile */}
