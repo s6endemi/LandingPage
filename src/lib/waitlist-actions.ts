@@ -149,7 +149,10 @@ async function addEmailToWaitlist(email: string, source: string = "unspecified")
       },
     ]);
 
-    if (error) throw error;
+    if (error) {
+      trackSignupError(source, error.message);
+      throw error;
+    }
 
     // Get participant count for response and email
     const participantNumber = await getParticipantCount();
@@ -270,6 +273,7 @@ async function sendConfirmationEmail(email: string, participantNumber: number): 
 
     if (error) {
       console.error("Error sending confirmation email:", error);
+      trackSignupError("email_send_error", error.message);
       return false;
     }
 
