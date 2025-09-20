@@ -45,8 +45,6 @@
     "@lucide/lab": "^0.1.2",
     "@melt-ui/svelte": "^0.86.2",
     "@metamask/sdk": "^0.32.0",
-    "@supabase/ssr": "^0.5.1",
-    "@supabase/supabase-js": "^2.45.4",
     "@threlte/core": "^8.0.1",
     "@threlte/extras": "^9.0.1",
     "@types/d3": "^7.4.3",

@@ -30,65 +30,87 @@
     transactionsPerSecond: 9842,
   };
 
-  // Terminal Command Simulation
-  let terminalLines: string[] = [
-    "Initializing system...",
-    "Connecting to network...",
-    "Starting analysis...",
-    "AI models loaded...",
-    "Web3 protocols active...",
+  // Enhanced Terminal Simulation
+  let terminalLines: { command: string; output?: string; chart?: any; status?: string }[] = [
+    { command: "Initializing quantum neural network...", status: "success" },
+    { command: "Connecting to blockchain nodes...", output: "✓ 1,337 nodes connected", status: "success" },
+    { command: "Loading AI trading models...", output: "✓ 12 models active", status: "success" },
+    { command: "Analyzing market sentiment...", output: "📈 Bullish: 76.3%", status: "success" },
+    { command: "Web3 protocols initialized", status: "success" },
   ];
+  
+  let currentMetrics = {
+    btcPrice: 67420,
+    ethPrice: 3845,
+    vigPrice: 0.0234,
+    marketCap: 2.1,
+    volume24h: 45.7,
+    tvl: 234.5,
+    apy: 15.7,
+    networkHash: "847.2 EH/s",
+    gasPrice: 23,
+    blockHeight: 19847562
+  };
+  
+  let chartData = [
+    { time: "00:00", price: 0.0220, open: 0.0218, high: 0.0225, low: 0.0215, close: 0.0220, volume: 1200 },
+    { time: "02:00", price: 0.0223, open: 0.0220, high: 0.0228, low: 0.0219, close: 0.0223, volume: 1450 },
+    { time: "04:00", price: 0.0225, open: 0.0223, high: 0.0230, low: 0.0221, close: 0.0225, volume: 1850 },
+    { time: "06:00", price: 0.0228, open: 0.0225, high: 0.0232, low: 0.0224, close: 0.0228, volume: 1650 },
+    { time: "08:00", price: 0.0231, open: 0.0228, high: 0.0235, low: 0.0227, close: 0.0231, volume: 2100 },
+    { time: "10:00", price: 0.0235, open: 0.0231, high: 0.0238, low: 0.0229, close: 0.0235, volume: 1900 },
+    { time: "12:00", price: 0.0238, open: 0.0235, high: 0.0242, low: 0.0233, close: 0.0238, volume: 1950 },
+    { time: "14:00", price: 0.0236, open: 0.0238, high: 0.0240, low: 0.0234, close: 0.0236, volume: 2200 },
+    { time: "16:00", price: 0.0234, open: 0.0236, high: 0.0239, low: 0.0232, close: 0.0234, volume: 2300 },
+    { time: "18:00", price: 0.0237, open: 0.0234, high: 0.0241, low: 0.0233, close: 0.0237, volume: 2450 },
+    { time: "20:00", price: 0.0241, open: 0.0237, high: 0.0244, low: 0.0235, close: 0.0241, volume: 2650 },
+    { time: "22:00", price: 0.0238, open: 0.0241, high: 0.0243, low: 0.0236, close: 0.0238, volume: 2200 },
+    { time: "24:00", price: 0.0234, open: 0.0238, high: 0.0240, low: 0.0232, close: 0.0234, volume: 2100 }
+  ];
+  
+  let selectedDataPoint = null;
+  let chartHoverIndex = -1;
 
-  const commands = [
-    // Zero-Knowledge Proofs
-    "snarkjs verify -v verification_key.json public.json proof.json ✓",
-    "circom circuit.circom --r1cs --wasm --sym --O1",
-    "nova prove --steps 12 --instance params.bin → proof.bin",
-
-    // Cryptography
-    "openssl pkeyutl -derive -peerkey peer.pub -inkey key.pem | kzg commit",
-    "libsnark generate_r1cs_constraints -c main.cpp -d constraints.txt",
-    "milagro_bls sign --msg 0x8920..c43e7 --key priv.key → sig.bin",
-
-    // Blockchain Core
-    "geth --syncmode snap --gcmode archive --txlookuplimit 0",
-    "erigon snapshot retry --block 142069 --datadir /chaindata",
-    "lighthouse bn --network mainnet --checkpoint-sync-url https://beacon.eth",
-
-    // Smart Contracts
-    "cast send --rpc-url $RPC --private-key $PK 'func(uint256)' 42",
-    "forge verify-contract --chain-id 1 --constructor-args $(cast abi-encode)",
-    "hardhat node --fork-block-number 17328741 --fork-chain-id 1",
-
-    // Networking
-    "libp2p-relay --listen /ip4/0.0.0.0/tcp/4001 --announce /dns4/node.xyz",
-    "gossipsub-tracer --topic /blocks/0x00 --metrics-port 9090",
-    "discv5 discover --bootnodes enr:-KG4Q...",
-
-    // Devops
-    "ansible-playbook -i inventory.yml node.yml --tags consensus,validator",
-    "docker-compose -f docker-compose-zk.yml up --scale prover=8 -d",
-    "kubectl rollout restart sts/consensus-node --namespace eth-mainnet",
-
-    // Monitoring
-    "grafana-agent --config.file=agent.yaml --metrics.wal-directory=/wal",
-    "promtail --config.file=promtail.yaml --client.external-labels=cluster=zk",
-    "jaeger-agent --collector.host-port=14250 --processor.jaeger-compact.server-host-port=6831",
-
-    // Consensus
-    "tendermint show_node_id --home /tendermint/core | xargs -I {} jq '.persistent_peers += {}'",
-    "nimbus_beacon_node metrics --metrics-address 0.0.0.0 --metrics-port 8008",
-    "prysm validator accounts import --wallet-dir=/data --keys-dir=/keystore",
-
-    // Advanced Transactions
-    "mev-rs bundle send --block 17328742 --txs $(cat bundle.json) --signer flashbots",
-    "cairo-sharp submit --program program.json --inputs inputs.json --proof_mode=full",
-    "arbitrum_validator challenge --assertion-id 42 --log-level debug",
+  const advancedCommands = [
+    // AI & Analytics
+    { command: "vigor-ai predict --model neural-v3 --timeframe 24h", output: "📈 Price target: $0.0267 (+14.2%)", chart: "prediction" },
+    { command: "sentiment-analyzer --sources twitter,reddit,telegram", output: "😎 Bullish: 78.4% | Neutral: 15.2% | Bearish: 6.4%", status: "success" },
+    { command: "whale-tracker scan --min-amount 100k --token VIGOR", output: "🐋 3 large transactions detected in last 1h", status: "warning" },
+    
+    // DeFi Operations
+    { command: "yield-optimizer calculate --pool VIGOR/USDC --amount 10000", output: "💰 Estimated APY: 23.7% | Daily: $6.49", status: "success" },
+    { command: "liquidity-analyzer --pair VIGOR/ETH --depth 50", output: "💧 Liquidity: $2.3M | Slippage <0.1% for $10K", chart: "liquidity" },
+    { command: "arbitrage-scanner --min-profit 0.5% --max-gas 50", output: "⚡ 2 opportunities found | Max profit: 1.3%", status: "success" },
+    
+    // Blockchain Analytics  
+    { command: "network-analyzer --chain ethereum --metrics all", output: "⛓️ TPS: 12.3 | Gas: 23 gwei | Congestion: Low", status: "success" },
+    { command: "validator-monitor --network vigor-pos --uptime 24h", output: "✅ 99.97% uptime | 1,247 validators active", status: "success" },
+    { command: "cross-chain-bridge status --from ethereum --to polygon", output: "🌉 Bridge healthy | Avg time: 12min | Fee: $2.30", status: "success" },
+    
+    // Security & Compliance
+    { command: "smart-contract-audit --contract 0x742d...8f2a --depth full", output: "🛡️ Security score: 98/100 | 0 critical issues", status: "success" },
+    { command: "rugpull-detector scan --token-address 0x742d...8f2a", output: "✅ Safe | Liquidity locked | Verified contract", status: "success" },
+    { command: "compliance-check --jurisdiction US,EU --token VIGOR", output: "📋 Compliant in 47/50 jurisdictions", status: "success" },
+    
+    // Advanced Trading
+    { command: "mev-protection enable --strategy sandwich-resist", output: "🛡️ MEV protection active | Savings: $127.43", status: "success" },
+    { command: "flashloan-optimizer --amount 100000 --token USDC", output: "⚡ Best route: Aave → Compound | Profit: $234", status: "success" },
+    { command: "options-pricing --strike 0.025 --expiry 30d --vol 0.8", output: "📊 Call: $0.0023 | Put: $0.0019 | IV: 82%", chart: "options" }
   ];
 
   function addTerminalLine() {
-    const command = commands[Math.floor(Math.random() * commands.length)];
-    terminalLines = [...terminalLines.slice(-5), command];
+    const commandData = advancedCommands[Math.floor(Math.random() * advancedCommands.length)];
+    
+    // Update metrics randomly
+    currentMetrics = {
+      ...currentMetrics,
+      vigPrice: +(currentMetrics.vigPrice + (Math.random() - 0.5) * 0.002).toFixed(4),
+      volume24h: +(currentMetrics.volume24h + (Math.random() - 0.5) * 5).toFixed(1),
+      apy: +(currentMetrics.apy + (Math.random() - 0.5) * 2).toFixed(1),
+      gasPrice: Math.max(15, currentMetrics.gasPrice + Math.floor((Math.random() - 0.5) * 10))
+    };
+    
+    terminalLines = [...terminalLines.slice(-4), commandData];
   }
 
   let sections: Record<SectionId, HTMLElement | null> = {
@@ -246,34 +268,48 @@
     data-section="hero"
     class="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
   >
-    <!-- Animated Background Gradient -->
-    <div class="bg-gradient-radial absolute inset-0 from-[#0052ff]/10 via-transparent to-transparent opacity-50"></div>
+    <!-- Multi-layer Animated Background -->
+    <div class="absolute inset-0">
+      <!-- Primary gradient -->
+      <div class="bg-gradient-radial absolute inset-0 from-[#0052ff]/15 via-[#001a40]/8 to-transparent opacity-60 animate-pulse-slow"></div>
+      <!-- Secondary gradient -->
+      <div class="bg-gradient-radial absolute inset-0 from-[#00c7ff]/8 via-transparent to-[#0052ff]/5 opacity-40 animate-float"></div>
+      <!-- Floating orbs -->
+      <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-[#0052ff]/10 rounded-full blur-2xl animate-float-delayed"></div>
+      <div class="absolute bottom-1/3 right-1/4 w-24 h-24 bg-[#00c7ff]/8 rounded-full blur-xl animate-float-reverse"></div>
+      <div class="absolute top-1/2 right-1/3 w-16 h-16 bg-[#73e4ff]/6 rounded-full blur-lg animate-float"></div>
+    </div>
 
     <!-- Hero Content -->
     <div
-      class="relative z-10 max-w-4xl text-center"
+      class="relative z-10 max-w-5xl text-center"
       class:opacity-100={visibility.hero}
       class:translate-y-0={visibility.hero}
+      class:scale-100={visibility.hero}
       class:opacity-0={!visibility.hero}
-      class:translate-y-10={!visibility.hero}
-      style="transition: all 1s cubic-bezier(0.4, 0, 0.2, 1)"
+      class:translate-y-16={!visibility.hero}
+      class:scale-95={!visibility.hero}
+      style="transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1)"
     >
-      <h1
-        class="neon-glow mb-6 bg-gradient-to-r from-[#0052ff] via-[#00c7ff] to-[#73e4ff] bg-clip-text text-6xl
-               font-light tracking-tight text-transparent md:text-7xl"
+      <h2
+        class="neon-glow-enhanced mb-8 bg-gradient-to-r from-[#0052ff] via-[#00c7ff] to-[#73e4ff] bg-clip-text text-4xl
+               font-extralight tracking-tight text-transparent md:text-6xl lg:text-7xl leading-tight
+               animate-gradient-x bg-size-300 hover:scale-105 transition-transform duration-700"
       >
         Building the Future of Web3
-      </h1>
-      <p class="mb-8 text-xl font-light leading-relaxed text-gray-300 md:text-2xl">
+      </h2>
+      <p class="mb-12 text-xl font-light leading-relaxed text-gray-300 md:text-2xl lg:text-3xl max-w-4xl mx-auto
+               opacity-90 hover:opacity-100 transition-all duration-500">
         Your strategic partner in the digital revolution, merging artificial intelligence with blockchain technology to
         create the next generation of decentralized finance.
       </p>
-      <div class="flex flex-col justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+      <div class="flex flex-col justify-center space-y-6 sm:flex-row sm:space-x-6 sm:space-y-0 mb-16">
         <button
           on:click={() => scrollToSection("ventures")}
-          class="premium-btn group relative overflow-hidden rounded-full border border-[#0a1a2f] bg-gradient-to-br
-                 from-[#00132f] via-[#00193f] to-[#002050] px-8 py-3 font-light transition-all duration-300
-                 hover:border-[#0044ff]/40 hover:via-[#002860] hover:to-[#001f4f]"
+          class="premium-btn-enhanced group relative overflow-hidden rounded-full border border-[#0a1a2f] bg-gradient-to-br
+                 from-[#00132f] via-[#00193f] to-[#002050] px-10 py-4 font-light transition-all duration-500
+                 hover:border-[#0044ff]/40 hover:via-[#002860] hover:to-[#001f4f] hover:scale-105
+                 active:scale-95 shadow-2xl hover:shadow-[0_0_40px_rgba(0,199,255,0.3)]"
         >
           <div
             class="absolute inset-0 bg-[radial-gradient(at_center_center,_rgba(0,199,255,0.15)_0%,_transparent_70%)]
@@ -291,9 +327,10 @@
 
         <button
           on:click={() => scrollToSection("tokenomics")}
-          class="glass-btn group relative overflow-hidden rounded-full border border-[#3a3a5a]/30
-                 bg-[#0a0a1a]/50 px-8 py-3 font-light backdrop-blur-xl transition-all duration-300
-                 hover:border-[#00c7ff]/40 hover:bg-[#151530]/30"
+          class="glass-btn-enhanced group relative overflow-hidden rounded-full border border-[#3a3a5a]/30
+                 bg-[#0a0a1a]/50 px-10 py-4 font-light backdrop-blur-xl transition-all duration-500
+                 hover:border-[#00c7ff]/40 hover:bg-[#151530]/30 hover:scale-105
+                 active:scale-95 shadow-xl hover:shadow-[0_0_30px_rgba(0,199,255,0.2)]"
         >
           <div
             class="absolute inset-0 -z-10 bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))]
@@ -307,30 +344,280 @@
         </button>
       </div>
 
-      <!-- Terminal Preview -->
-      <div class="bg-black/20 mt-12 overflow-hidden rounded-lg border border-[#0052ff]/20 backdrop-blur-sm">
-        <div class="flex items-center justify-between border-b border-[#0052ff]/20 px-4 py-2">
-          <div class="flex items-center space-x-2">
-            <div class="h-3 w-3 rounded-full bg-red-500/20"></div>
-            <div class="h-3 w-3 rounded-full bg-yellow-500/20"></div>
-            <div class="h-3 w-3 rounded-full bg-green-500/20"></div>
+      <!-- Ultra-Enhanced Terminal with Data Visualization -->
+      <div class="bg-black/40 mt-16 overflow-hidden rounded-2xl border border-[#0052ff]/40 backdrop-blur-xl
+                  shadow-2xl hover:shadow-[0_0_60px_rgba(0,82,255,0.3)] transition-all duration-700
+                  hover:scale-[1.02] hover:border-[#00c7ff]/50 group">
+        
+        <!-- Terminal Header with Live Stats -->
+        <div class="flex items-center justify-between border-b border-[#0052ff]/30 px-6 py-3 bg-gradient-to-r from-black/60 to-[#001122]/40">
+          <div class="flex items-center space-x-3">
+            <div class="h-3 w-3 rounded-full bg-red-500/30 animate-pulse"></div>
+            <div class="h-3 w-3 rounded-full bg-yellow-500/30 animate-pulse" style="animation-delay: 0.5s"></div>
+            <div class="h-3 w-3 rounded-full bg-green-500/40 animate-pulse" style="animation-delay: 1s"></div>
+            <span class="text-xs text-[#00c7ff]/80 font-mono ml-4">vigor-terminal-v3.7.2</span>
           </div>
-          <div class="text-xs text-[#0052ff]/60">terminal.web3</div>
+          <div class="flex items-center space-x-4 text-xs">
+            <div class="text-[#00c7ff]/60">CPU: <span class="text-[#00c7ff]">23%</span></div>
+            <div class="text-[#00c7ff]/60">RAM: <span class="text-[#00c7ff]">1.2GB</span></div>
+            <div class="text-[#00c7ff]/60">NET: <span class="text-green-400">847 KB/s</span></div>
+          </div>
         </div>
-        <div class="p-4 font-mono text-sm">
-          {#each terminalLines as line}
-            <div class="terminal-line text-[#00c7ff] opacity-80" in:fade={{ duration: 150 }}>
-              <span class="text-[#0052ff]">></span>
-              {line}
+        
+        <!-- Main Terminal Content Grid -->
+        <div class="grid lg:grid-cols-3 gap-6 p-6">
+          
+          <!-- Left: Command Output -->
+          <div class="lg:col-span-2 space-y-2">
+            <div class="text-xs text-[#00c7ff]/60 mb-3 font-mono">VIGOR AI Terminal - Real-time Crypto Analytics</div>
+            {#each terminalLines as line}
+              <div class="terminal-line-enhanced group/line" in:fade={{ duration: 200 }}>
+                <div class="flex items-start space-x-2">
+                  <span class="text-[#0052ff] font-mono text-sm mt-0.5">❯</span>
+                  <div class="flex-1">
+                    <div class="text-[#00c7ff] font-mono text-sm mb-1 group-hover/line:text-[#00e5ff] transition-colors">
+                      {line.command}
+                    </div>
+                    {#if line.output}
+                      <div class="text-green-400/90 font-mono text-xs ml-4 flex items-center space-x-2">
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                        <span>{line.output}</span>
+                      </div>
+                    {/if}
+                    {#if line.status === 'success'}
+                      <div class="text-green-400/70 font-mono text-xs ml-4 mt-1">✓ Completed successfully</div>
+                    {:else if line.status === 'warning'}
+                      <div class="text-yellow-400/70 font-mono text-xs ml-4 mt-1">⚠ Alert triggered</div>
+                    {/if}
+                  </div>
+                </div>
+              </div>
+            {/each}
+          </div>
+          
+          <!-- Right: Live Data Panel -->
+          <div class="space-y-4">
+            <!-- Market Metrics -->
+            <div class="bg-gradient-to-br from-[#0052ff]/10 to-[#00c7ff]/5 rounded-lg p-4 border border-[#0052ff]/20">
+              <div class="text-[#00c7ff] text-sm font-semibold mb-3 flex items-center">
+                <div class="w-2 h-2 bg-[#00c7ff] rounded-full mr-2 animate-pulse"></div>
+                LIVE METRICS
+              </div>
+              <div class="space-y-2 text-xs font-mono">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">$VIGOR</span>
+                  <span class="text-[#00c7ff]">${currentMetrics.vigPrice}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">24h Vol</span>
+                  <span class="text-green-400">${currentMetrics.volume24h}M</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">APY</span>
+                  <span class="text-yellow-400">{currentMetrics.apy}%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Gas</span>
+                  <span class="text-orange-400">{currentMetrics.gasPrice} gwei</span>
+                </div>
+              </div>
             </div>
-          {/each}
+            
+            <!-- Professional Stock Chart -->
+            <div class="bg-gradient-to-br from-[#001122]/80 to-[#000]/60 rounded-xl p-5 border border-[#0052ff]/30 chart-container group">
+              <div class="flex items-center justify-between mb-4">
+                <div class="text-[#00c7ff] text-sm font-semibold">$VIGOR/USD (24H)</div>
+                <div class="flex items-center space-x-2 text-xs">
+                  <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span class="text-green-400">+3.2%</span>
+                </div>
+              </div>
+              
+              <!-- Chart Area -->
+              <div class="h-32 relative overflow-hidden rounded-lg bg-black/20 border border-[#0052ff]/10">
+                <!-- Background Grid -->
+                <svg class="absolute inset-0 w-full h-full opacity-30">
+                  <defs>
+                    <pattern id="grid" width="20" height="16" patternUnits="userSpaceOnUse">
+                      <path d="M 20 0 L 0 0 0 16" fill="none" stroke="rgba(0, 199, 255, 0.1)" stroke-width="0.5"/>
+                    </pattern>
+                    <linearGradient id="priceGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color:rgba(0, 199, 255, 0.3);stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:rgba(0, 82, 255, 0.1);stop-opacity:0" />
+                    </linearGradient>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                      <feMerge> 
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/> 
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
+                
+                <!-- Candlestick Chart -->
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 260 128">
+                  {#each chartData as candle, i}
+                    {@const x = 10 + (i * 20)}
+                    {@const maxPrice = Math.max(...chartData.map(d => d.high))}
+                    {@const minPrice = Math.min(...chartData.map(d => d.low))}
+                    {@const priceRange = maxPrice - minPrice}
+                    {@const yHigh = 118 - ((candle.high - minPrice) / priceRange) * 108}
+                    {@const yLow = 118 - ((candle.low - minPrice) / priceRange) * 108}
+                    {@const yOpen = 118 - ((candle.open - minPrice) / priceRange) * 108}
+                    {@const yClose = 118 - ((candle.close - minPrice) / priceRange) * 108}
+                    {@const isGreen = candle.close >= candle.open}
+                    
+                    <!-- Candlestick Shadow (High-Low line) -->
+                    <line 
+                      x1={x} y1={yHigh} x2={x} y2={yLow}
+                      stroke={isGreen ? '#22c55e' : '#ef4444'} 
+                      stroke-width="1"
+                      opacity="0.8"
+                      class="animate-draw-line"
+                      style="animation-delay: {i * 0.1}s"
+                    />
+                    
+                    <!-- Candlestick Body -->
+                    <rect 
+                      x={x - 3} 
+                      y={Math.min(yOpen, yClose)} 
+                      width="6" 
+                      height={Math.abs(yClose - yOpen) || 1}
+                      fill={isGreen ? '#22c55e' : '#ef4444'}
+                      opacity="0.9"
+                      class="candle-body hover:opacity-100 cursor-pointer transition-all duration-200"
+                      style="animation: candleDraw 0.6s ease-out {i * 0.1}s both"
+                      on:mouseenter={() => chartHoverIndex = i}
+                      on:mouseleave={() => chartHoverIndex = -1}
+                    />
+                    
+                    <!-- Volume bars at bottom -->
+                    <rect 
+                      x={x - 2} 
+                      y={118 - (candle.volume / 3000) * 15} 
+                      width="4" 
+                      height={(candle.volume / 3000) * 15}
+                      fill="rgba(0, 199, 255, 0.3)"
+                      class="volume-bar"
+                      style="animation: volumeRise 0.8s ease-out {i * 0.1}s both"
+                    />
+                  {/each}
+                  
+                  <!-- Price Line Overlay -->
+                  <path 
+                    d="M {chartData.map((candle, i) => {
+                      const x = 10 + (i * 20);
+                      const maxPrice = Math.max(...chartData.map(d => d.high));
+                      const minPrice = Math.min(...chartData.map(d => d.low));
+                      const priceRange = maxPrice - minPrice;
+                      const y = 118 - ((candle.close - minPrice) / priceRange) * 108;
+                      return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
+                    }).join(' ')}"
+                    stroke="url(#priceGradient)"
+                    stroke-width="2"
+                    fill="none"
+                    filter="url(#glow)"
+                    class="price-line"
+                    style="animation: drawLine 2s ease-out 0.5s both"
+                  />
+                  
+                  <!-- Area under the line -->
+                  <path 
+                    d="M {chartData.map((candle, i) => {
+                      const x = 10 + (i * 20);
+                      const maxPrice = Math.max(...chartData.map(d => d.high));
+                      const minPrice = Math.min(...chartData.map(d => d.low));
+                      const priceRange = maxPrice - minPrice;
+                      const y = 118 - ((candle.close - minPrice) / priceRange) * 108;
+                      return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
+                    }).join(' ')} L 250 118 L 10 118 Z"
+                    fill="url(#priceGradient)"
+                    opacity="0.2"
+                    class="price-area"
+                    style="animation: fillArea 2.5s ease-out 1s both"
+                  />
+                </svg>
+                
+                <!-- Hover Tooltip -->
+                {#if chartHoverIndex >= 0}
+                  {@const candle = chartData[chartHoverIndex]}
+                  <div 
+                    class="absolute bg-black/90 border border-[#00c7ff]/50 rounded-lg p-3 text-xs font-mono z-10 pointer-events-none backdrop-blur-sm"
+                    style="left: {10 + chartHoverIndex * 20}px; top: 10px; transform: translateX(-50%)"
+                  >
+                    <div class="text-[#00c7ff] font-semibold mb-1">{candle.time}</div>
+                    <div class="space-y-1">
+                      <div class="flex justify-between space-x-4">
+                        <span class="text-gray-400">Open:</span>
+                        <span class="text-white">${candle.open}</span>
+                      </div>
+                      <div class="flex justify-between space-x-4">
+                        <span class="text-gray-400">High:</span>
+                        <span class="text-green-400">${candle.high}</span>
+                      </div>
+                      <div class="flex justify-between space-x-4">
+                        <span class="text-gray-400">Low:</span>
+                        <span class="text-red-400">${candle.low}</span>
+                      </div>
+                      <div class="flex justify-between space-x-4">
+                        <span class="text-gray-400">Close:</span>
+                        <span class="text-[#00c7ff]">${candle.close}</span>
+                      </div>
+                      <div class="flex justify-between space-x-4">
+                        <span class="text-gray-400">Vol:</span>
+                        <span class="text-yellow-400">{candle.volume}</span>
+                      </div>
+                    </div>
+                  </div>
+                {/if}
+                
+                <!-- Price Labels -->
+                <div class="absolute right-2 top-2 text-xs font-mono text-[#00c7ff]/80">
+                  ${Math.max(...chartData.map(d => d.high)).toFixed(4)}
+                </div>
+                <div class="absolute right-2 bottom-2 text-xs font-mono text-[#00c7ff]/80">
+                  ${Math.min(...chartData.map(d => d.low)).toFixed(4)}
+                </div>
+              </div>
+              
+              <!-- Chart Controls -->
+              <div class="flex items-center justify-between mt-3 text-xs">
+                <div class="flex space-x-3">
+                  <button class="text-[#00c7ff] hover:text-white transition-colors px-2 py-1 rounded border border-[#00c7ff]/20 hover:border-[#00c7ff]/40">1H</button>
+                  <button class="text-[#00c7ff]/60 hover:text-[#00c7ff] transition-colors px-2 py-1 rounded">4H</button>
+                  <button class="text-[#00c7ff]/60 hover:text-[#00c7ff] transition-colors px-2 py-1 rounded">1D</button>
+                </div>
+                <div class="text-gray-500">Volume: <span class="text-[#00c7ff]">{chartData.reduce((sum, d) => sum + d.volume, 0).toLocaleString()}</span></div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+        <!-- Terminal Footer with Typing Indicator -->
+        <div class="border-t border-[#0052ff]/20 px-6 py-3 bg-black/30">
+          <div class="flex items-center space-x-2 text-xs font-mono">
+            <span class="text-[#0052ff]">❯</span>
+            <span class="text-[#00c7ff]/60">vigor-ai --mode advanced --realtime</span>
+            <div class="flex space-x-1 ml-2">
+              <div class="w-1 h-3 bg-[#00c7ff] animate-pulse"></div>
+              <div class="w-1 h-3 bg-[#00c7ff]/60 animate-pulse" style="animation-delay: 0.2s"></div>
+              <div class="w-1 h-3 bg-[#00c7ff]/30 animate-pulse" style="animation-delay: 0.4s"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Scroll Indicator -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-      <ChevronDown class="h-6 w-6 text-[#00c7ff]/60" />
+    <!-- Enhanced Scroll Indicator -->
+    <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce-slow">
+      <div class="relative">
+        <div class="absolute inset-0 bg-[#00c7ff]/20 rounded-full blur-lg animate-pulse"></div>
+        <ChevronDown class="h-8 w-8 text-[#00c7ff]/80 relative z-10 hover:text-[#00c7ff] transition-colors" />
+      </div>
+      <div class="text-xs text-[#00c7ff]/60 mt-2 animate-fade-in-out">Scroll to explore</div>
     </div>
   </section>
 
@@ -714,39 +1001,113 @@
       0 0 10px rgba(0, 199, 255, 0.2),
       0 0 21px rgba(0, 199, 255, 0.1);
   }
-
-  .premium-btn {
-    box-shadow:
-      0 4px 24px -4px rgba(0, 20, 80, 0.3),
-      0 2px 8px -2px rgba(0, 82, 255, 0.15);
-  }
-
-  .premium-btn:hover {
-    transform: translateY(-1px) scale(1.02);
-    box-shadow:
-      0 6px 32px -4px rgba(0, 199, 255, 0.6),
-      0 4px 16px -2px rgba(0, 199, 255, 0.4),
-      0 0 24px rgba(0, 199, 255, 0.5);
+  
+  .neon-glow-enhanced {
     text-shadow:
-      0 0 10px rgba(0, 199, 255, 0.5),
-      0 0 15px rgba(0, 199, 255, 0.4),
-      0 0 30px rgba(0, 199, 255, 0.3);
+      0 0 10px rgba(0, 199, 255, 0.4),
+      0 0 20px rgba(0, 199, 255, 0.3),
+      0 0 30px rgba(0, 199, 255, 0.2),
+      0 0 40px rgba(0, 199, 255, 0.1),
+      0 0 60px rgba(0, 82, 255, 0.1);
+    animation: glow-pulse 4s ease-in-out infinite;
+  }
+  
+  @keyframes glow-pulse {
+    0%, 100% {
+      text-shadow:
+        0 0 10px rgba(0, 199, 255, 0.4),
+        0 0 20px rgba(0, 199, 255, 0.3),
+        0 0 30px rgba(0, 199, 255, 0.2),
+        0 0 40px rgba(0, 199, 255, 0.1);
+    }
+    50% {
+      text-shadow:
+        0 0 15px rgba(0, 199, 255, 0.6),
+        0 0 25px rgba(0, 199, 255, 0.4),
+        0 0 35px rgba(0, 199, 255, 0.3),
+        0 0 50px rgba(0, 199, 255, 0.2),
+        0 0 80px rgba(0, 82, 255, 0.15);
+    }
   }
 
-  .glass-btn:hover {
-    transform: translateY(-1px) scale(1.02);
+  
+  .premium-btn-enhanced {
     box-shadow:
-      0 6px 32px -4px rgba(0, 82, 255, 0.2),
-      0 4px 12px -2px rgba(0, 199, 255, 0.1),
-      inset 0 0 12px rgba(0, 199, 255, 0.15);
+      0 8px 32px -4px rgba(0, 20, 80, 0.4),
+      0 4px 16px -2px rgba(0, 82, 255, 0.2),
+      inset 0 1px 0 rgba(0, 199, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .premium-btn-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 199, 255, 0.1),
+      transparent
+    );
+    transition: left 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .premium-btn-enhanced:hover::before {
+    left: 100%;
   }
 
-  .premium-btn:active {
-    transform: translateY(1px) scale(0.98);
+  
+  .premium-btn-enhanced:hover {
+    transform: translateY(-2px) scale(1.05);
     box-shadow:
-      0 2px 12px -4px rgba(0, 82, 255, 0.3),
-      inset 0 0 8px rgba(0, 199, 255, 0.2);
+      0 12px 48px -4px rgba(0, 199, 255, 0.7),
+      0 8px 24px -2px rgba(0, 199, 255, 0.5),
+      0 0 40px rgba(0, 199, 255, 0.6),
+      inset 0 1px 0 rgba(0, 199, 255, 0.2);
+    text-shadow:
+      0 0 15px rgba(0, 199, 255, 0.6),
+      0 0 25px rgba(0, 199, 255, 0.5),
+      0 0 40px rgba(0, 199, 255, 0.4);
   }
+
+  
+  .glass-btn-enhanced {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-btn-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 199, 255, 0.05),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+  
+  .glass-btn-enhanced:hover::before {
+    left: 100%;
+  }
+  
+  .glass-btn-enhanced:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow:
+      0 8px 40px -4px rgba(0, 82, 255, 0.3),
+      0 6px 20px -2px rgba(0, 199, 255, 0.15),
+      inset 0 0 20px rgba(0, 199, 255, 0.2);
+  }
+
 
   .terminal-line {
     animation: pulse 3s infinite;
@@ -778,6 +1139,89 @@
       opacity: 0.6;
       transform: rotate(180deg) scale(1.2);
     }
+  }
+  
+  /* Advanced iOS-style Animations */
+  @keyframes animate-gradient-x {
+    0%, 100% {
+      background-size: 200% 200%;
+      background-position: left center;
+    }
+    50% {
+      background-size: 200% 200%;
+      background-position: right center;
+    }
+  }
+  
+  .animate-gradient-x {
+    animation: animate-gradient-x 6s ease infinite;
+  }
+  
+  .bg-size-300 {
+    background-size: 300%;
+  }
+  
+  @keyframes animate-float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+    }
+  }
+  
+  .animate-float {
+    animation: animate-float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-delayed {
+    animation: animate-float 8s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+  
+  .animate-float-reverse {
+    animation: animate-float 7s ease-in-out infinite reverse;
+  }
+  
+  @keyframes animate-pulse-slow {
+    0%, 100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  .animate-pulse-slow {
+    animation: animate-pulse-slow 4s ease-in-out infinite;
+  }
+  
+  @keyframes animate-bounce-slow {
+    0%, 100% {
+      transform: translateY(0) translateX(-50%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(-8px) translateX(-50%);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+  
+  .animate-bounce-slow {
+    animation: animate-bounce-slow 2s infinite;
+  }
+  
+  @keyframes animate-fade-in-out {
+    0%, 100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  .animate-fade-in-out {
+    animation: animate-fade-in-out 3s ease-in-out infinite;
   }
 
   .bg-gradient-radial {
