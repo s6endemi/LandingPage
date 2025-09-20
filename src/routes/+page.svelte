@@ -328,7 +328,7 @@
         <button
           on:click={() => scrollToSection("tokenomics")}
           class="glass-btn-enhanced group relative overflow-hidden rounded-full border border-[#3a3a5a]/30
-                 bg-[#0a0a1a]/50 px-10 py-4 font-light backdrop-blur-xl transition-all duration-500
+                 bg-[#0a0a1a]/50 px-10 py-4 font-light backdrop-blur-sm transition-all duration-500
                  hover:border-[#00c7ff]/40 hover:bg-[#151530]/30 hover:scale-105
                  active:scale-95 shadow-xl hover:shadow-[0_0_30px_rgba(0,199,255,0.2)]"
         >
@@ -345,7 +345,7 @@
       </div>
 
       <!-- Ultra-Enhanced Terminal with Data Visualization -->
-      <div class="bg-black/40 mt-16 overflow-hidden rounded-2xl border border-[#0052ff]/40 backdrop-blur-xl
+      <div class="bg-black/40 mt-16 overflow-hidden rounded-2xl border border-[#0052ff]/40 backdrop-blur-sm
                   shadow-2xl hover:shadow-[0_0_60px_rgba(0,82,255,0.3)] transition-all duration-700
                   hover:scale-[1.02] hover:border-[#00c7ff]/50 group">
         

@@ -262,8 +262,8 @@
       rgba(5, 15, 35, 0.9) 75%,
       rgba(0, 0, 0, 0.85) 100%
     );
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid rgba(0, 199, 255, 0.15);
     border-radius: 20px;
     padding: 10px 20px;
@@ -441,8 +441,8 @@
       rgba(20, 20, 30, 0.9) 50%,
       rgba(0, 0, 0, 0.95) 100%
     );
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-left: 1px solid rgba(255, 255, 255, 0.1);
   }
 
