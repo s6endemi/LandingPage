@@ -149,7 +149,7 @@ function FormStep({
   formData: any; 
   errors: Record<string, string>; 
   loading: boolean;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent) => void;
   onClose: () => void;

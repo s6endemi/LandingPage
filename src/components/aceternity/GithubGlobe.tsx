@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 
-const World = dynamic(() => import("./ui/globe").then((m) => m.World), {
+const World = dynamic(() => import("../magicui/globe").then((m) => m.Globe), {
   ssr: false,
 });
 
@@ -421,7 +421,7 @@ export function GlobeDemo() {
         </motion.div>
         <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
         <div className="absolute w-full -bottom-20 h-72 md:h-full z-10">
-          <World data={sampleArcs} globeConfig={globeConfig} />
+          <World />
         </div>
       </div>
     </div>
