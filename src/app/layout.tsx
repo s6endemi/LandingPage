@@ -41,7 +41,7 @@ export default function RootLayout({
             strokeWidth={0.5}
             width={40}
             height={40}
-            gridSize={30}
+            numSquares={30}
             patternColor="rgba(120, 120, 130, 0.4)"
           />
         </div>
