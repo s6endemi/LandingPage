@@ -168,6 +168,7 @@ export function EnhancedHeroSection() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.3 }}
+                onViewportEnter={() => trackEvent("headline_visible", "hero")}
               >
                 <h1 className="text-4xl sm:text-5xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">
                   <FlipWords words={flipWordsList} duration={3000} className="relative" />
@@ -189,8 +190,8 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.4 }}
               >
-                Mit Athly trainierst du effektiver und smarter. Unser KI-Coach passt deinen Trainingsplan individuell an
-                deine Ziele und Fortschritte an.
+                Mit Athly trainierst du effektiver und smarter. Unser KI-Coach passt deinen Trainingsplan individuell an deine Ziele und Fortschritte an.
+
               </motion.p>
             </div>
 
@@ -201,6 +202,7 @@ export function EnhancedHeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
+                onViewportEnter={() => trackEvent("phone_mockup_visible", "hero")}
                 onClick={handlePhoneMockupInteraction}
               >
                 <Enhanced3DPhoneMockup content={<HeroMockupAnimation />} color={phoneColor} isMobile={true} />
@@ -238,6 +240,7 @@ export function EnhancedHeroSection() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.4, delay: 0.6 }}
                     className="mb-6"
+                    onViewportEnter={() => trackEvent("cta_form_visible", "hero")}
                   >
                     <div className="bg-white rounded-2xl py-7 px-5 shadow-lg border border-gray-100 relative overflow-hidden">
                       {/* Form Headline - More benefit-focused */}
@@ -373,6 +376,7 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.7 }}
                 className="flex justify-between items-center mb-4"
+                onViewportEnter={() => trackEvent("social_proof_visible", "hero")}
               >
                 {/* User participation */}
                 <div className="flex items-center" onClick={() => trackEvent("participation_badge_click", "hero")}>
@@ -439,6 +443,7 @@ export function EnhancedHeroSection() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.2 }}
+                  onViewportEnter={() => trackEvent("headline_visible", "hero")}
                 >
                   <h1 className="text-5xl lg:text-6xl xl:text-7xl font-[650] text-gray-900 leading-tight-plus tracking-tighter-plus text-shadow-sm">
                     <FlipWords words={flipWordsList} duration={3000} className="relative" />
@@ -461,8 +466,9 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                Mit Athly trainierst du effektiver und smarter. Unser KI-Coach passt deinen Trainingsplan individuell an
-                deine Ziele und Fortschritte an.
+                Mit Athly trainierst du effektiver und smarter. Unser KI-Coach passt deinen Trainingsplan individuell an deine Ziele und Fortschritte an.
+
+
               </motion.p>
 
               {/* Key benefits - Better highlight features */}
@@ -500,6 +506,7 @@ export function EnhancedHeroSection() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.6, delay: 0.7 }}
                     className="mb-8"
+                    onViewportEnter={() => trackEvent("cta_form_visible", "hero")}
                   >
                     <div className="bg-white rounded-2xl py-8 px-8 shadow-lg border border-gray-100 relative overflow-hidden max-w-xl">
                       <div className="absolute top-4 right-6">
@@ -644,6 +651,7 @@ export function EnhancedHeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="flex items-center justify-between mb-6"
+                onViewportEnter={() => trackEvent("social_proof_visible", "hero")}
               >
                 {/* User participation */}
                 <div
@@ -690,6 +698,7 @@ export function EnhancedHeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
+                onViewportEnter={() => trackEvent("phone_mockup_visible", "hero")}
                 onClick={handlePhoneMockupInteraction}
                 className="cursor-pointer hover:scale-[1.02] transition-transform duration-300"
               >

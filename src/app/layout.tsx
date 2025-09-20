@@ -1,22 +1,17 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { CookieBanner } from "@/components/footer/cookie-banner";
 
-// Montserrat mit verschiedenen Schriftstärken laden
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
   display: "swap",
-  // Wähle die benötigten Schriftstärken aus
   weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "ATHLY - Dein KI-Personal Trainer",
-  description: "Trainiere smarter mit deinem persönlichen KI-Coach, der dich rund um die Uhr begleitet.",
+  title: "Athly",
+  description: "Adaptive performance experiences.",
 };
 
 export default function RootLayout({
@@ -41,20 +36,8 @@ export default function RootLayout({
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
       </head>
-      <body className={`${montserrat.variable} font-sans antialiased min-h-screen relative`}>
-        {/* Einheitlich weißer Hintergrund */}
-        <div className="fixed inset-0 -z-20 bg-white"></div>
-
-        {/* Der gesamte Inhalt */}
-        <div className="relative z-10 min-h-screen flex flex-col">
-          {/* Header */}
-          <Header />
-
-          {/* Main Content */}
-          <main className="pt-0 md:pt-20 flex-grow">{children}</main>
-          <Footer />
-          <CookieBanner />
-        </div>
+      <body className={`${montserrat.variable} font-sans antialiased min-h-screen bg-white text-slate-900`}>
+        {children}
       </body>
     </html>
   );

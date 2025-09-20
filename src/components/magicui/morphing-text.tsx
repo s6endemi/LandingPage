@@ -123,7 +123,7 @@ const SvgFilters: React.FC = () => (
 export const MorphingText: React.FC<MorphingTextProps> = ({ texts, className }) => (
   <div
     className={cn(
-      "relative mx-auto h-16 w-full max-w-screen-md text-center font-sans text-[40pt] font-bold leading-none [filter:url(#threshold)_blur(0.6px)] md:h-24 lg:text-[6rem]",
+      "relative h-16 w-full max-w-3xl text-center font-sans text-4xl font-semibold leading-tight uppercase tracking-[0.28em] [filter:url(#threshold)_blur(0.6px)] md:h-20 md:text-5xl lg:text-6xl",
       className
     )}
   >

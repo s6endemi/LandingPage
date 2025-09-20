@@ -209,8 +209,9 @@ export function SolutionSection() {
               <source src="https://cdn.pixabay.com/video/2023/11/19/189729-886596145_small.mp4" type="video/mp4" />
             </video>
 
-            {/* Video overlay */}
+            {/* Video overlay with white gradient from left to right */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/50"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-white/70"></div>
 
             {/* Overlay content - Mobile optimized with simpler layout */}
             <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-12 max-w-2xl">
