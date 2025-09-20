@@ -1,5 +1,6 @@
 <script lang="ts">
   import "../app.css";
+  import "$lib/fix-blur.css";
   import type { AuthModal } from "$lib/types";
   import { page } from "$app/stores";
   import { invalidate } from "$app/navigation";
@@ -246,6 +247,14 @@
 <style>
   :global(body) {
     font-family: "Space Grotesk", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  :global(*) {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .drawer {
