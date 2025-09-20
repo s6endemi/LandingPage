@@ -35,11 +35,12 @@ export default function RootLayout({
       >
         {/* Premium Background mit AnimatedGridPattern */}
         <div className="fixed inset-0 bg-black -z-10">
-          <AnimatedGridPattern 
-            className="absolute inset-0 opacity-30" 
+          <AnimatedGridPattern
+            className="absolute inset-0 opacity-30"
             speed={1.5}
             strokeWidth={0.5}
-            patternSize={40}
+            width={40}
+            height={40}
             gridSize={30}
             patternColor="rgba(120, 120, 130, 0.4)"
           />
