@@ -142,7 +142,7 @@
 
   <!-- Mobile Drawer -->
   <div class="drawer-side z-50">
-    <label for="navbar-drawer" class="drawer-overlay bg-black/50 backdrop-blur-sm"></label>
+    <label for="navbar-drawer" class="drawer-overlay bg-black/50"></label>
     <div class="mobile-glass-drawer min-h-full w-80 p-6">
       <!-- Mobile Logo -->
       <div class="mb-8 flex items-center justify-center">
